@@ -1,14 +1,27 @@
+import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
+import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
+import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Stellt die konkrete Implementierung des [ChatRepository] bereit.
-/// In Phase 4 wird hier auf die echte Claude-API umgestellt.
+/// Liegt ein Gemini-API-Key (via --dart-define) vor, wird der echte Berater
+/// genutzt - andernfalls fallback auf den lokalen Mock, damit die App auch
+/// ohne Key lauffaehig bleibt. Das Nutzerprofil fliesst bei jedem Build in
+/// den System-Prompt ein, sodass Antworten personalisiert sind.
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
-  return const MockChatRepository();
+  if (!Env.hasGeminiKey) {
+    return const MockChatRepository();
+  }
+  final prefs = ref.watch(userPreferencesProvider).value;
+  return GeminiChatRepository(
+    apiKey: Env.geminiApiKey,
+    userPreferences: prefs,
+  );
 });
 
 /// Zustand der Chat-Session: alle bisherigen Nachrichten + Warte-Indikator.
