@@ -24,4 +24,5 @@ class AppRoutes {
   static const String settings = '/settings';
   static const String breederFinder = '/breeders';
   static const String breederProfile = '/breeder'; // /breeder/:id
+  static const String editProfile = '/edit-profile';
 }

@@ -7,6 +7,7 @@ import 'package:dogmatch_ai/core/widgets/loading_view.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
 import 'package:dogmatch_ai/features/home/domain/daily_tip.dart';
+import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,8 +20,12 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final breedsAsync = ref.watch(breedsProvider);
+    final prefs = ref.watch(userPreferencesProvider).value;
     final theme = Theme.of(context);
     final tip = DailyTip.forToday();
+    final greeting = prefs != null && prefs.hasName
+        ? 'Hallo, ${prefs.displayName}!'
+        : 'Finde deinen Hund';
 
     return Scaffold(
       appBar: AppBar(title: const Text('DogMatch AI')),
@@ -33,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
         data: (breeds) => ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
-            Text('Finde deinen Hund', style: theme.textTheme.headlineMedium),
+            Text(greeting, style: theme.textTheme.headlineMedium),
             const SizedBox(height: AppSpacing.xs),
             Text(
               'Entdecke beliebte Rassen, starte das Matching-Quiz oder '

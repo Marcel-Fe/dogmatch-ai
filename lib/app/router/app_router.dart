@@ -12,6 +12,7 @@ import 'package:dogmatch_ai/features/matching/presentation/match_results_screen.
 import 'package:dogmatch_ai/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:dogmatch_ai/features/onboarding/presentation/splash_screen.dart';
 import 'package:dogmatch_ai/features/premium/presentation/premium_screen.dart';
+import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
@@ -113,6 +114,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.settings,
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.editProfile,
+      builder: (context, state) => const EditProfileScreen(),
     ),
     GoRoute(
       path: AppRoutes.breederFinder,
