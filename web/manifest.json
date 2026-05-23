@@ -1,11 +1,11 @@
 {
-    "name": "dogmatch_ai",
-    "short_name": "dogmatch_ai",
+    "name": "DogMatch AI",
+    "short_name": "DogMatch AI",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#7C6BF0",
+    "theme_color": "#7C6BF0",
+    "description": "DogMatch AI - finde die perfekte Hunderasse mit KI-Beratung und Matching-Quiz.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

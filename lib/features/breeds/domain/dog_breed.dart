@@ -1,4 +1,5 @@
 import 'package:dogmatch_ai/features/breeds/domain/breed_enums.dart';
+import 'package:dogmatch_ai/features/breeds/domain/country_breed_info.dart';
 import 'package:equatable/equatable.dart';
 
 /// Eine Hunderasse mit allen Profil-Daten. Unveraenderlich (alle Felder final).
@@ -28,6 +29,7 @@ class DogBreed extends Equatable {
     required this.commonHealthIssues,
     required this.traits,
     this.imageUrl,
+    this.countryInfo = const {},
   });
 
   final String id;
@@ -54,6 +56,10 @@ class DogBreed extends Equatable {
   final List<String> traits;
   final String? imageUrl;
 
+  /// Land-spezifische Hinweise, indexiert nach [Country.code] (z. B. "DE").
+  /// Default: leere Map - dann zeigt die UI keinen Laender-Block.
+  final Map<String, CountryBreedInfo> countryInfo;
+
   /// Erzeugt eine Rasse aus einer JSON-Map (gebuendelte Daten oder Firestore).
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
@@ -78,7 +84,21 @@ class DogBreed extends Equatable {
           (json['commonHealthIssues'] as List<dynamic>).cast<String>(),
       traits: (json['traits'] as List<dynamic>).cast<String>(),
       imageUrl: json['imageUrl'] as String?,
+      countryInfo: _parseCountryInfo(json['countryInfo']),
     );
+  }
+
+  static Map<String, CountryBreedInfo> _parseCountryInfo(dynamic raw) {
+    if (raw is! Map) return const {};
+    final result = <String, CountryBreedInfo>{};
+    raw.forEach((key, value) {
+      if (key is String && value is Map) {
+        result[key] = CountryBreedInfo.fromJson(
+          value.cast<String, dynamic>(),
+        );
+      }
+    });
+    return result;
   }
 
   Map<String, dynamic> toJson() {
@@ -103,6 +123,10 @@ class DogBreed extends Equatable {
       'commonHealthIssues': commonHealthIssues,
       'traits': traits,
       'imageUrl': imageUrl,
+      'countryInfo': {
+        for (final entry in countryInfo.entries)
+          entry.key: entry.value.toJson(),
+      },
     };
   }
 

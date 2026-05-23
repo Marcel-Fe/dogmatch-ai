@@ -19,7 +19,24 @@
     "monthlyCostEur": 90,
     "commonHealthIssues": ["Hueftdysplasie", "Uebergewicht"],
     "traits": ["verspielt", "lernfreudig", "geduldig"],
-    "imageUrl": null
+    "imageUrl": null,
+    "countryInfo": {
+      "DE": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft - frei haltbar in allen Bundeslaendern.",
+        "travelNotes": "Bei Reisen ins Ausland EU-Heimtierausweis und gueltige Tollwutimpfung mitnehmen.",
+        "climateNotes": "Vertraegt deutsche Sommer gut, braucht aber im Hochsommer Schatten und frisches Wasser."
+      },
+      "CH": {
+        "listenhundStatus": "Nicht auf der Liste potenziell gefaehrlicher Rassen - haltbar ohne Sonderbewilligung.",
+        "travelNotes": "Einreise mit EU-Heimtierausweis + Mikrochip + Tollwutimpfung; ueber 12 Wochen alt.",
+        "climateNotes": "Schweizer Klima ideal; im Sommer Wandern in den Bergen moeglich, ausreichend Pausen."
+      },
+      "AT": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft - haltbar ohne Hundefuehrerschein.",
+        "travelNotes": "EU-Heimtierausweis genuegt; Maulkorb- und Leinenpflicht in oeffentlichen Verkehrsmitteln.",
+        "climateNotes": "Hitzeempfindlich in heissen Sommern - Spaziergaenge frueh oder spaet legen."
+      }
+    }
   },
   {
     "id": "border-collie",
@@ -41,7 +58,24 @@
     "monthlyCostEur": 80,
     "commonHealthIssues": ["Hueftdysplasie", "Epilepsie"],
     "traits": ["intelligent", "energiegeladen", "loyal"],
-    "imageUrl": null
+    "imageUrl": null,
+    "countryInfo": {
+      "DE": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "Bei Reisen Auslastung sicherstellen - laenger im Auto stresst den Border Collie schnell.",
+        "climateNotes": "Dichte Unterwolle: bei Hitze unbedingt schattige Pausen und keine Mittags-Aktivitaet."
+      },
+      "CH": {
+        "listenhundStatus": "Nicht auf der Liste potenziell gefaehrlicher Rassen.",
+        "travelNotes": "Bahn- und Bergbahn-Tickets fuer Hunde sind oft halber Preis - vorab pruefen.",
+        "climateNotes": "Bergklima ideal; im Mittelland-Sommer auf Hitzestress achten."
+      },
+      "AT": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "In Wien Maulkorb- und Leinenpflicht in oeffentlichen Verkehrsmitteln beachten.",
+        "climateNotes": "Hitzeempfindlich - Sommer-Spaziergaenge in Morgen-/Abendstunden legen."
+      }
+    }
   },
   {
     "id": "franzoesische-bulldogge",
@@ -63,7 +97,24 @@
     "monthlyCostEur": 70,
     "commonHealthIssues": ["Atemprobleme", "Wirbelsaeulenprobleme"],
     "traits": ["anhaenglich", "ruhig", "wohnungstauglich"],
-    "imageUrl": null
+    "imageUrl": null,
+    "countryInfo": {
+      "DE": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "Wegen verkuerzter Schnauze: Fluggesellschaften haben oft Brachycephalen-Beschraenkungen.",
+        "climateNotes": "Hitzeempfindlich (brachycephal) - im Sommer keine langen Spaziergaenge in der Mittagshitze."
+      },
+      "CH": {
+        "listenhundStatus": "Nicht auf der Liste potenziell gefaehrlicher Rassen.",
+        "travelNotes": "Bei Bergwanderungen wegen Atemproblemen lieber leichte Touren waehlen.",
+        "climateNotes": "Mittelland-Sommer koennen kritisch werden - Klimaanlage / kuehler Boden hilft."
+      },
+      "AT": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "OEBB-Hundeticket noetig; in Wien Maulkorb-/Leinenpflicht in der U-Bahn.",
+        "climateNotes": "Pannonisches Klima im Osten: Hitzeschutz wichtig, Atemnot bei >25 Grad moeglich."
+      }
+    }
   },
   {
     "id": "golden-retriever",
@@ -85,7 +136,24 @@
     "monthlyCostEur": 95,
     "commonHealthIssues": ["Hueftdysplasie", "Hautallergien"],
     "traits": ["sanftmuetig", "familienfreundlich", "lernfreudig"],
-    "imageUrl": null
+    "imageUrl": null,
+    "countryInfo": {
+      "DE": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft - haltbar in allen Bundeslaendern.",
+        "travelNotes": "EU-Heimtierausweis und Tollwutimpfung fuer Reisen ins Ausland erforderlich.",
+        "climateNotes": "Dichtes Fell: im Sommer regelmaessig buersten, Schatten und Wasser anbieten."
+      },
+      "CH": {
+        "listenhundStatus": "Nicht auf der Liste potenziell gefaehrlicher Rassen.",
+        "travelNotes": "Schweizer Berghuette: Hund vorher anmelden, viele sind hundefreundlich.",
+        "climateNotes": "Bergsommer ideal; im Mittelland auf heisse Tage Ruecksicht nehmen."
+      },
+      "AT": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "OEBB-Tarif: Hunde ab Schulterhoehe 30 cm benoetigen Ticket + Maulkorb.",
+        "climateNotes": "Hitzeempfindlich an Sommertagen - Aktivitaet in kuehlere Tageszeiten verlegen."
+      }
+    }
   },
   {
     "id": "chihuahua",
@@ -107,6 +175,23 @@
     "monthlyCostEur": 55,
     "commonHealthIssues": ["Patellaluxation", "Zahnprobleme"],
     "traits": ["mutig", "lebhaft", "wohnungstauglich"],
-    "imageUrl": null
+    "imageUrl": null,
+    "countryInfo": {
+      "DE": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "Klein genug fuer Handgepaeck in den meisten Fluggesellschaften.",
+        "climateNotes": "Kaelteempfindlich - im Winter Mantel/Pullover, kein Schnee-Bauchkontakt zu lange."
+      },
+      "CH": {
+        "listenhundStatus": "Nicht auf der Liste potenziell gefaehrlicher Rassen.",
+        "travelNotes": "In Tasche reist der Chihuahua oft ohne Hunde-Ticket in OEV.",
+        "climateNotes": "Schweizer Winter sehr kalt - Hundekleidung dringend empfohlen."
+      },
+      "AT": {
+        "listenhundStatus": "Nicht als Listenhund eingestuft.",
+        "travelNotes": "In der Tasche kostenfrei in der OEBB; sonst Hundeticket + Maulkorb noetig.",
+        "climateNotes": "Empfindlich bei Kaelte und Hitze - im Sommer Pfoten auf heissem Asphalt schuetzen."
+      }
+    }
   }
 ]
