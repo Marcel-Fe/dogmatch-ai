@@ -7,13 +7,16 @@ import 'package:dogmatch_ai/core/widgets/loading_view.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
 import 'package:dogmatch_ai/features/home/domain/daily_tip.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/hero_header.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Startseite (Tab 1). Begruessung, Tipp des Tages, Feature-Grid und
-/// Liste der verfuegbaren Rassen.
+/// Modernes Dashboard (Tab 1). Hero, Stats, personalisierte Empfehlungen,
+/// Tipp des Tages, Feature-Grid und vollstaendige Rassenliste.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -25,7 +28,10 @@ class HomeScreen extends ConsumerWidget {
     final tip = DailyTip.forToday();
     final greeting = prefs != null && prefs.hasName
         ? 'Hallo, ${prefs.displayName}!'
-        : 'Finde deinen Hund';
+        : 'Willkommen!';
+    final heroSubtitle = prefs != null && prefs.hasName
+        ? 'Schoen, dass du da bist. Lass uns deinen perfekten Hund finden.'
+        : 'Finde die Hunderasse, die wirklich zu deinem Leben passt.';
 
     return Scaffold(
       appBar: AppBar(title: const Text('DogMatch AI')),
@@ -38,19 +44,17 @@ class HomeScreen extends ConsumerWidget {
         data: (breeds) => ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
-            Text(greeting, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              'Entdecke beliebte Rassen, starte das Matching-Quiz oder '
-              'frag den KI-Berater.',
-              style: theme.textTheme.bodyMedium,
-            ),
+            HeroHeader(greeting: greeting, subtitle: heroSubtitle),
             const SizedBox(height: AppSpacing.xl),
+            const StatsRow(),
+            const SizedBox(height: AppSpacing.xl),
+            ForYouSection(allBreeds: breeds, prefs: prefs),
+            const SizedBox(height: AppSpacing.sm),
             _DailyTipCard(tip: tip),
             const SizedBox(height: AppSpacing.xl),
             const _FeatureGrid(),
             const SizedBox(height: AppSpacing.xl),
-            Text('Beliebte Rassen', style: theme.textTheme.titleLarge),
+            Text('Alle Rassen', style: theme.textTheme.titleLarge),
             const SizedBox(height: AppSpacing.md),
             for (final breed in breeds) ...[
               BreedCard(
@@ -182,9 +186,6 @@ class _FeatureItem {
   final IconData icon;
   final String label;
   final String route;
-
-  /// `true` = anderen Tab innerhalb der Bottom-Nav-Shell aktivieren
-  /// (`context.go`). `false` = Vollbild-Route pushen (`context.push`).
   final bool switchTab;
 }
 
