@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
+import 'package:dogmatch_ai/features/breeds/domain/breed_insurance.dart';
 import 'package:dogmatch_ai/features/breeds/domain/country_breed_info.dart';
 import 'package:dogmatch_ai/features/breeds/domain/dog_breed.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
@@ -53,36 +54,13 @@ class _BreedDetailContent extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
-        Row(
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              ),
-              child: Icon(
-                Icons.pets_rounded,
-                size: 36,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.lg),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(breed.name, style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Herkunft: ${breed.origin}',
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-          ],
+        _BreedHeroImage(breed: breed),
+        const SizedBox(height: AppSpacing.lg),
+        Text(breed.name, style: theme.textTheme.headlineSmall),
+        const SizedBox(height: 2),
+        Text(
+          'Herkunft: ${breed.origin}',
+          style: theme.textTheme.bodySmall,
         ),
         const SizedBox(height: AppSpacing.lg),
         Text(breed.temperament, style: theme.textTheme.titleMedium),
@@ -185,6 +163,38 @@ class _BreedDetailContent extends ConsumerWidget {
             for (final issue in breed.commonHealthIssues) _Chip(text: issue),
           ],
         ),
+        const SizedBox(height: AppSpacing.xl),
+
+        _CostSection(breed: breed),
+        const SizedBox(height: AppSpacing.xl),
+
+        if (breed.insurance != null) ...[
+          _InsuranceSection(insurance: breed.insurance!),
+          const SizedBox(height: AppSpacing.xl),
+        ],
+
+        if (breed.careTips.isNotEmpty) ...[
+          const _SectionTitle('Pflege & Halterung'),
+          const SizedBox(height: AppSpacing.sm),
+          for (final tip in breed.careTips)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.check_circle_outline_rounded,
+                    size: 18,
+                    color: theme.colorScheme.primary,
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(tip, style: theme.textTheme.bodyMedium),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -394,6 +404,274 @@ class _CountryInfoRow extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Header-Bild der Rasse - Bundle-Asset bevorzugt, sonst URL, sonst Icon.
+class _BreedHeroImage extends StatelessWidget {
+  const _BreedHeroImage({required this.breed});
+
+  final DogBreed breed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final radius = BorderRadius.circular(AppSpacing.radiusMd);
+
+    Widget fallback() => Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(alpha: 0.12),
+            borderRadius: radius,
+          ),
+          child: Icon(
+            Icons.pets_rounded,
+            size: 64,
+            color: theme.colorScheme.primary,
+          ),
+        );
+
+    Widget? imageChild;
+    if (breed.imageAsset != null && breed.imageAsset!.isNotEmpty) {
+      imageChild = Image.asset(
+        breed.imageAsset!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => fallback(),
+      );
+    } else if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
+      imageChild = Image.network(
+        breed.imageUrl!,
+        fit: BoxFit.cover,
+        loadingBuilder: (ctx, child, progress) {
+          if (progress == null) return child;
+          return Container(
+            color: theme.colorScheme.surfaceContainerHighest,
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        },
+        errorBuilder: (_, _, _) => fallback(),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: radius,
+      child: SizedBox(
+        height: 220,
+        width: double.infinity,
+        child: imageChild ?? fallback(),
+      ),
+    );
+  }
+}
+
+/// Sektion "Was kostet dieser Hund?" - Anschaffung, Futter, Tierarzt.
+class _CostSection extends StatelessWidget {
+  const _CostSection({required this.breed});
+
+  final DogBreed breed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final monthlyFood = breed.dailyFoodCostEur != null
+        ? (breed.dailyFoodCostEur! * 30).round()
+        : null;
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.euro_rounded,
+                  size: 20, color: theme.colorScheme.tertiary),
+              const SizedBox(width: AppSpacing.sm),
+              Text('Was kostet dieser Hund?',
+                  style: theme.textTheme.titleMedium),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          if (breed.acquisitionCostEurMin != null &&
+              breed.acquisitionCostEurMax != null)
+            _FactRow(
+              label: 'Anschaffung (Züchter)',
+              value:
+                  '${breed.acquisitionCostEurMin} - ${breed.acquisitionCostEurMax} EUR einmalig',
+            ),
+          if (monthlyFood != null)
+            _FactRow(
+              label: 'Futter pro Monat',
+              value:
+                  '~$monthlyFood EUR (${breed.dailyFoodCostEur!.toStringAsFixed(2)} EUR/Tag)',
+            ),
+          if (breed.vetCostPerYearEur != null)
+            _FactRow(
+              label: 'Tierarzt-Routine/Jahr',
+              value:
+                  '~${breed.vetCostPerYearEur} EUR (Impfung, Check-Up, Wurmkur)',
+            ),
+          _FactRow(
+            label: 'Laufende Kosten gesamt',
+            value: 'ca. ${breed.monthlyCostEur} EUR/Monat',
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Richtwerte - tatsächliche Kosten variieren je nach Region, Vorerkrankungen und Lebensstil.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Sektion "Versicherung" - Haftpflicht/Krankenvers./OP-Schutz Richtwerte.
+class _InsuranceSection extends StatelessWidget {
+  const _InsuranceSection({required this.insurance});
+
+  final BreedInsurance insurance;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.45),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.shield_outlined,
+                  size: 20, color: theme.colorScheme.secondary),
+              const SizedBox(width: AppSpacing.sm),
+              Text('Versicherung', style: theme.textTheme.titleMedium),
+              if (insurance.listenhundSurcharge) ...[
+                const SizedBox(width: AppSpacing.sm),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.errorContainer,
+                    borderRadius:
+                        BorderRadius.circular(AppSpacing.radiusPill),
+                  ),
+                  child: Text(
+                    'Listenhund-Aufschlag',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onErrorContainer,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _InsuranceRow(
+            title: 'Haftpflicht',
+            subtitle: 'Schaeden am Eigentum oder an anderen - in vielen DE-Bundeslaendern Pflicht.',
+            range:
+                '${insurance.liabilityMonthlyMin} - ${insurance.liabilityMonthlyMax} EUR/Monat',
+          ),
+          _InsuranceRow(
+            title: 'Kranken-Vollvers.',
+            subtitle: 'Übernimmt Routine + Behandlungen inkl. chronische Therapie.',
+            range:
+                '${insurance.healthMonthlyMin} - ${insurance.healthMonthlyMax} EUR/Monat',
+          ),
+          _InsuranceRow(
+            title: 'OP-Schutz allein',
+            subtitle: 'Deckt nur Operationen + Nachbehandlung. Günstiger als Vollvers.',
+            range:
+                '${insurance.opMonthlyMin} - ${insurance.opMonthlyMax} EUR/Monat',
+          ),
+          if (insurance.notes != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.sm),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.info_outline,
+                      size: 18, color: theme.colorScheme.secondary),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      insurance.notes!,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Richtwerte ohne Anbieter-Empfehlung. Tarife stark abhängig von Wohnort, Alter und Vorerkrankungen - immer mehrere Angebote vergleichen.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InsuranceRow extends StatelessWidget {
+  const _InsuranceRow({
+    required this.title,
+    required this.subtitle,
+    required this.range,
+  });
+
+  final String title;
+  final String subtitle;
+  final String range;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(title,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600)),
+              ),
+              Text(range,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600)),
+            ],
+          ),
+          Text(subtitle,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              )),
         ],
       ),
     );

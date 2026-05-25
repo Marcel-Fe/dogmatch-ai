@@ -1,4 +1,5 @@
 import 'package:dogmatch_ai/features/breeds/domain/breed_enums.dart';
+import 'package:dogmatch_ai/features/breeds/domain/breed_insurance.dart';
 import 'package:dogmatch_ai/features/breeds/domain/country_breed_info.dart';
 import 'package:equatable/equatable.dart';
 
@@ -29,6 +30,7 @@ class DogBreed extends Equatable {
     required this.commonHealthIssues,
     required this.traits,
     this.imageUrl,
+    this.imageAsset,
     this.countryInfo = const {},
     this.fciGroup,
     this.coatType,
@@ -38,6 +40,12 @@ class DogBreed extends Equatable {
     this.apartmentSuitable,
     this.goodWithCats,
     this.typicalTasks = const [],
+    this.insurance,
+    this.acquisitionCostEurMin,
+    this.acquisitionCostEurMax,
+    this.dailyFoodCostEur,
+    this.vetCostPerYearEur,
+    this.careTips = const [],
   });
 
   final String id;
@@ -62,7 +70,14 @@ class DogBreed extends Equatable {
   final int monthlyCostEur;
   final List<String> commonHealthIssues;
   final List<String> traits;
+
+  /// Externe Bild-URL (z. B. Wikimedia Commons). Wird benutzt, wenn
+  /// [imageAsset] leer ist - lazy geladen, braucht Internet.
   final String? imageUrl;
+
+  /// Lokaler Bundle-Asset-Pfad, z. B. `assets/images/breeds/labrador.jpg`.
+  /// Hat Vorrang vor [imageUrl] - kein Netz noetig, sofort scharf.
+  final String? imageAsset;
 
   /// Land-spezifische Hinweise, indexiert nach [Country.code] (z. B. "DE").
   /// Default: leere Map - dann zeigt die UI keinen Laender-Block.
@@ -93,6 +108,22 @@ class DogBreed extends Equatable {
   /// "Apportieren", "Begleithund").
   final List<String> typicalTasks;
 
+  /// Versicherungs-Richtwerte und Hinweise pro Monat.
+  final BreedInsurance? insurance;
+
+  /// Anschaffungskosten beim seriösen Züchter (EUR-Spanne).
+  final int? acquisitionCostEurMin;
+  final int? acquisitionCostEurMax;
+
+  /// Tagesfutter-Kosten in EUR (Hochwertiges Trocken-/Nassfutter).
+  final double? dailyFoodCostEur;
+
+  /// Tierarzt-Routine pro Jahr (Impfung, Check-Up, Wurmkur) - keine Notfall-OPs.
+  final int? vetCostPerYearEur;
+
+  /// Konkrete Pflege- und Halterungs-Tipps fuer diese Rasse.
+  final List<String> careTips;
+
   /// Erzeugt eine Rasse aus einer JSON-Map (gebuendelte Daten oder Firestore).
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
@@ -117,6 +148,7 @@ class DogBreed extends Equatable {
           (json['commonHealthIssues'] as List<dynamic>).cast<String>(),
       traits: (json['traits'] as List<dynamic>).cast<String>(),
       imageUrl: json['imageUrl'] as String?,
+      imageAsset: json['imageAsset'] as String?,
       countryInfo: _parseCountryInfo(json['countryInfo']),
       fciGroup: json['fciGroup'] as String?,
       coatType: json['coatType'] as String?,
@@ -128,6 +160,18 @@ class DogBreed extends Equatable {
       goodWithCats: json['goodWithCats'] as bool?,
       typicalTasks:
           (json['typicalTasks'] as List?)?.cast<String>() ?? const [],
+      insurance: json['insurance'] is Map
+          ? BreedInsurance.fromJson(
+              (json['insurance'] as Map).cast<String, dynamic>(),
+            )
+          : null,
+      acquisitionCostEurMin:
+          (json['acquisitionCostEurMin'] as num?)?.toInt(),
+      acquisitionCostEurMax:
+          (json['acquisitionCostEurMax'] as num?)?.toInt(),
+      dailyFoodCostEur: (json['dailyFoodCostEur'] as num?)?.toDouble(),
+      vetCostPerYearEur: (json['vetCostPerYearEur'] as num?)?.toInt(),
+      careTips: (json['careTips'] as List?)?.cast<String>() ?? const [],
     );
   }
 
@@ -166,6 +210,7 @@ class DogBreed extends Equatable {
       'commonHealthIssues': commonHealthIssues,
       'traits': traits,
       'imageUrl': imageUrl,
+      'imageAsset': imageAsset,
       'countryInfo': {
         for (final entry in countryInfo.entries)
           entry.key: entry.value.toJson(),
@@ -178,6 +223,12 @@ class DogBreed extends Equatable {
       'apartmentSuitable': apartmentSuitable,
       'goodWithCats': goodWithCats,
       'typicalTasks': typicalTasks,
+      'insurance': insurance?.toJson(),
+      'acquisitionCostEurMin': acquisitionCostEurMin,
+      'acquisitionCostEurMax': acquisitionCostEurMax,
+      'dailyFoodCostEur': dailyFoodCostEur,
+      'vetCostPerYearEur': vetCostPerYearEur,
+      'careTips': careTips,
     };
   }
 
