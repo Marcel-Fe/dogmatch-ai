@@ -3,8 +3,10 @@ import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/app_card.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/breed_filter_controller.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_search_bar.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
 import 'package:dogmatch_ai/features/home/domain/hourly_quote.dart';
@@ -96,25 +98,63 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
                 ),
-                child: Text(
-                  'Alle Rassen',
-                  style: theme.textTheme.titleLarge,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Alle Rassen',
+                        style: theme.textTheme.titleLarge,
+                      ),
+                    ),
+                    Consumer(builder: (context, ref, _) {
+                      final filtered = ref.watch(filteredBreedsProvider);
+                      return Text(
+                        '${filtered.length}/${breeds.length}',
+                        style: theme.textTheme.bodySmall,
+                      );
+                    }),
+                  ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.md),
-              for (final breed in breeds) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: BreedCard(
-                    breed: breed,
-                    onTap: () =>
-                        context.push('${AppRoutes.breedDetail}/${breed.id}'),
-                  ),
+              const SizedBox(height: AppSpacing.sm),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
                 ),
-                const SizedBox(height: AppSpacing.md),
-              ],
+                child: const BreedSearchBar(),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Consumer(builder: (context, ref, _) {
+                final filtered = ref.watch(filteredBreedsProvider);
+                if (filtered.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(AppSpacing.xl),
+                    child: Center(
+                      child: Text(
+                        'Keine Rasse passt zu deinen Filtern.',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  );
+                }
+                return Column(
+                  children: [
+                    for (final breed in filtered) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                        ),
+                        child: BreedCard(
+                          breed: breed,
+                          onTap: () => context
+                              .push('${AppRoutes.breedDetail}/${breed.id}'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                    ],
+                  ],
+                );
+              }),
             ],
           ],
         ),

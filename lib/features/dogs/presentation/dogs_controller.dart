@@ -1,10 +1,18 @@
+import 'package:dogmatch_ai/features/auth/presentation/auth_controller.dart';
+import 'package:dogmatch_ai/features/dogs/data/firestore_dog_repository.dart';
 import 'package:dogmatch_ai/features/dogs/data/local_dog_repository.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Liefert Firestore-Repo wenn ein User eingeloggt ist, sonst lokal.
+/// Bei Auth-Wechsel rebuildet Riverpod den Provider automatisch.
 final dogRepositoryProvider = Provider<DogRepository>((ref) {
+  final user = ref.watch(authStateProvider).value;
+  if (user != null) {
+    return FirestoreDogRepository(userId: user.id);
+  }
   return const LocalDogRepository();
 });
 
