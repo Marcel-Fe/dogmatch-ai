@@ -2,11 +2,15 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/constants/app_constants.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/assistant/data/tts_service.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_bubble.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_input_bar.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/suggested_prompts.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/typing_indicator.dart';
+import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
+import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,9 +26,12 @@ class AssistantScreen extends ConsumerStatefulWidget {
 
 class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _scrollController = ScrollController();
+  final _tts = const TtsService();
+  String? _lastSpokenMessageId;
 
   @override
   void dispose() {
+    _tts.stop();
     _scrollController.dispose();
     super.dispose();
   }
@@ -48,6 +55,8 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(chatControllerProvider);
+    final prefs = ref.watch(userPreferencesProvider).value;
+    final ttsEnabled = prefs?.ttsEnabled ?? true;
     final theme = Theme.of(context);
 
     final limitReached =
@@ -56,15 +65,44 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     // Nach jedem Rebuild ans Ende scrollen, sobald Nachrichten dazukommen.
     if (state.messages.isNotEmpty) _scrollToBottom();
 
+    // Sprich die letzte Assistant-Nachricht aus, wenn aktiviert + neu.
+    if (ttsEnabled && _tts.isAvailable && state.messages.isNotEmpty) {
+      final last = state.messages.last;
+      if (last.role == ChatRole.assistant && last.id != _lastSpokenMessageId) {
+        _lastSpokenMessageId = last.id;
+        _tts.speak(last.content);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('KI-Berater'),
         actions: [
+          if (_tts.isAvailable)
+            IconButton(
+              tooltip: ttsEnabled
+                  ? 'Sprachausgabe ausschalten'
+                  : 'Sprachausgabe einschalten',
+              icon: Icon(
+                ttsEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+              ),
+              onPressed: () {
+                final current = prefs ?? const UserPreferences();
+                ref
+                    .read(userPreferencesProvider.notifier)
+                    .save(current.copyWith(ttsEnabled: !ttsEnabled));
+                if (ttsEnabled) _tts.stop();
+              },
+            ),
           if (state.messages.isNotEmpty)
             IconButton(
               tooltip: 'Neuer Chat',
               icon: const Icon(Icons.refresh_rounded),
-              onPressed: ref.read(chatControllerProvider.notifier).clear,
+              onPressed: () {
+                _tts.stop();
+                _lastSpokenMessageId = null;
+                ref.read(chatControllerProvider.notifier).clear();
+              },
             ),
         ],
       ),

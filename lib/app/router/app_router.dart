@@ -4,7 +4,12 @@ import 'package:dogmatch_ai/features/auth/presentation/login_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_finder_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_profile_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_detail_screen.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/add_edit_dog_screen.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/manage_dogs_screen.dart';
 import 'package:dogmatch_ai/features/favorites/presentation/favorites_screen.dart';
+import 'package:dogmatch_ai/features/documents/presentation/documents_screen.dart';
+import 'package:dogmatch_ai/features/health/presentation/add_health_event_screen.dart';
+import 'package:dogmatch_ai/features/health/presentation/health_calendar_screen.dart';
 import 'package:dogmatch_ai/features/home/presentation/home_screen.dart';
 import 'package:dogmatch_ai/features/knowledge/presentation/article_screen.dart';
 import 'package:dogmatch_ai/features/knowledge/presentation/knowledge_screen.dart';
@@ -118,6 +123,31 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.editProfile,
       builder: (context, state) => const EditProfileScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.manageDogs,
+      builder: (context, state) => const ManageDogsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.addDog,
+      builder: (context, state) => const AddEditDogScreen(),
+    ),
+    GoRoute(
+      path: '${AppRoutes.editDog}/:id',
+      builder: (context, state) =>
+          AddEditDogScreen(dogId: state.pathParameters['id']),
+    ),
+    GoRoute(
+      path: AppRoutes.healthCalendar,
+      builder: (context, state) => const HealthCalendarScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.addHealthEvent,
+      builder: (context, state) => const AddHealthEventScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.documents,
+      builder: (context, state) => const DocumentsScreen(),
     ),
     GoRoute(
       path: AppRoutes.breederFinder,

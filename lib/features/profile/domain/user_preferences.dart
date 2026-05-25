@@ -10,6 +10,11 @@ class UserPreferences extends Equatable {
     this.country = Country.germany,
     this.preferredSize,
     this.preferredActivity,
+    this.ttsEnabled = true,
+    this.showUpcomingOnHome = true,
+    this.showForYouOnHome = true,
+    this.showFeatureGridOnHome = true,
+    this.showAllBreedsOnHome = true,
   });
 
   /// Anzeigename - wird in der Begruessung auf Home verwendet.
@@ -25,6 +30,16 @@ class UserPreferences extends Equatable {
   /// Bevorzugtes Aktivitaetsniveau.
   final ActivityLevel? preferredActivity;
 
+  /// Sprachausgabe des KI-Beraters (Web Speech API).
+  final bool ttsEnabled;
+
+  /// Welche Dashboard-Sektionen aktiv sind. Nutzer kann das in
+  /// Einstellungen steuern.
+  final bool showUpcomingOnHome;
+  final bool showForYouOnHome;
+  final bool showFeatureGridOnHome;
+  final bool showAllBreedsOnHome;
+
   bool get hasName => displayName != null && displayName!.trim().isNotEmpty;
 
   UserPreferences copyWith({
@@ -32,6 +47,11 @@ class UserPreferences extends Equatable {
     Country? country,
     DogSize? preferredSize,
     ActivityLevel? preferredActivity,
+    bool? ttsEnabled,
+    bool? showUpcomingOnHome,
+    bool? showForYouOnHome,
+    bool? showFeatureGridOnHome,
+    bool? showAllBreedsOnHome,
     bool clearPreferredSize = false,
     bool clearPreferredActivity = false,
   }) {
@@ -43,6 +63,12 @@ class UserPreferences extends Equatable {
       preferredActivity: clearPreferredActivity
           ? null
           : (preferredActivity ?? this.preferredActivity),
+      ttsEnabled: ttsEnabled ?? this.ttsEnabled,
+      showUpcomingOnHome: showUpcomingOnHome ?? this.showUpcomingOnHome,
+      showForYouOnHome: showForYouOnHome ?? this.showForYouOnHome,
+      showFeatureGridOnHome:
+          showFeatureGridOnHome ?? this.showFeatureGridOnHome,
+      showAllBreedsOnHome: showAllBreedsOnHome ?? this.showAllBreedsOnHome,
     );
   }
 
@@ -57,6 +83,12 @@ class UserPreferences extends Equatable {
       preferredActivity: activityName == null
           ? null
           : ActivityLevel.values.byName(activityName),
+      ttsEnabled: (json['ttsEnabled'] as bool?) ?? true,
+      showUpcomingOnHome: (json['showUpcomingOnHome'] as bool?) ?? true,
+      showForYouOnHome: (json['showForYouOnHome'] as bool?) ?? true,
+      showFeatureGridOnHome:
+          (json['showFeatureGridOnHome'] as bool?) ?? true,
+      showAllBreedsOnHome: (json['showAllBreedsOnHome'] as bool?) ?? true,
     );
   }
 
@@ -66,10 +98,24 @@ class UserPreferences extends Equatable {
       'country': country.code,
       'preferredSize': preferredSize?.name,
       'preferredActivity': preferredActivity?.name,
+      'ttsEnabled': ttsEnabled,
+      'showUpcomingOnHome': showUpcomingOnHome,
+      'showForYouOnHome': showForYouOnHome,
+      'showFeatureGridOnHome': showFeatureGridOnHome,
+      'showAllBreedsOnHome': showAllBreedsOnHome,
     };
   }
 
   @override
-  List<Object?> get props =>
-      [displayName, country, preferredSize, preferredActivity];
+  List<Object?> get props => [
+        displayName,
+        country,
+        preferredSize,
+        preferredActivity,
+        ttsEnabled,
+        showUpcomingOnHome,
+        showForYouOnHome,
+        showFeatureGridOnHome,
+        showAllBreedsOnHome,
+      ];
 }

@@ -6,6 +6,8 @@ import 'package:dogmatch_ai/core/widgets/error_view.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
+import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
 import 'package:dogmatch_ai/features/home/domain/daily_tip.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/hero_header.dart';
@@ -24,14 +26,30 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final breedsAsync = ref.watch(breedsProvider);
     final prefs = ref.watch(userPreferencesProvider).value;
+    final dogsState = ref.watch(dogsProvider).value;
+    final activeDog = dogsState?.activeDog;
     final theme = Theme.of(context);
     final tip = DailyTip.forToday();
-    final greeting = prefs != null && prefs.hasName
-        ? 'Hallo, ${prefs.displayName}!'
-        : 'Willkommen!';
-    final heroSubtitle = prefs != null && prefs.hasName
-        ? 'Schoen, dass du da bist. Lass uns deinen perfekten Hund finden.'
-        : 'Finde die Hunderasse, die wirklich zu deinem Leben passt.';
+
+    final hasName = prefs != null && prefs.hasName;
+    String greeting;
+    String heroSubtitle;
+    if (activeDog != null) {
+      greeting = hasName
+          ? 'Hi ${prefs.displayName}, hallo ${activeDog.name}!'
+          : 'Hallo ${activeDog.name}!';
+      heroSubtitle = activeDog.breed != null
+          ? '${activeDog.breed} · alles fuer deinen Hund an einem Ort.'
+          : 'Alles fuer deinen Hund an einem Ort.';
+    } else if (hasName) {
+      greeting = 'Hallo, ${prefs.displayName}!';
+      heroSubtitle =
+          'Schoen, dass du da bist. Lass uns deinen perfekten Hund finden.';
+    } else {
+      greeting = 'Willkommen!';
+      heroSubtitle =
+          'Finde die Hunderasse, die wirklich zu deinem Leben passt.';
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('DogMatch AI')),
@@ -44,25 +62,41 @@ class HomeScreen extends ConsumerWidget {
         data: (breeds) => ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
-            HeroHeader(greeting: greeting, subtitle: heroSubtitle),
-            const SizedBox(height: AppSpacing.xl),
+            HeroHeader(
+              greeting: greeting,
+              subtitle: heroSubtitle,
+              dogPhotoBase64: activeDog?.photoBase64,
+              dogName: activeDog?.name,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            if (activeDog != null &&
+                (prefs?.showUpcomingOnHome ?? true)) ...[
+              const UpcomingEventsCard(),
+              const SizedBox(height: AppSpacing.lg),
+            ],
             const StatsRow(),
             const SizedBox(height: AppSpacing.xl),
-            ForYouSection(allBreeds: breeds, prefs: prefs),
-            const SizedBox(height: AppSpacing.sm),
+            if (prefs?.showForYouOnHome ?? true) ...[
+              ForYouSection(allBreeds: breeds, prefs: prefs),
+              const SizedBox(height: AppSpacing.sm),
+            ],
             _DailyTipCard(tip: tip),
             const SizedBox(height: AppSpacing.xl),
-            const _FeatureGrid(),
-            const SizedBox(height: AppSpacing.xl),
-            Text('Alle Rassen', style: theme.textTheme.titleLarge),
-            const SizedBox(height: AppSpacing.md),
-            for (final breed in breeds) ...[
-              BreedCard(
-                breed: breed,
-                onTap: () =>
-                    context.push('${AppRoutes.breedDetail}/${breed.id}'),
-              ),
+            if (prefs?.showFeatureGridOnHome ?? true) ...[
+              const _FeatureGrid(),
+              const SizedBox(height: AppSpacing.xl),
+            ],
+            if (prefs?.showAllBreedsOnHome ?? true) ...[
+              Text('Alle Rassen', style: theme.textTheme.titleLarge),
               const SizedBox(height: AppSpacing.md),
+              for (final breed in breeds) ...[
+                BreedCard(
+                  breed: breed,
+                  onTap: () =>
+                      context.push('${AppRoutes.breedDetail}/${breed.id}'),
+                ),
+                const SizedBox(height: AppSpacing.md),
+              ],
             ],
           ],
         ),
@@ -128,10 +162,22 @@ class _FeatureGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     const items = [
       _FeatureItem(
-        icon: Icons.quiz_rounded,
-        label: 'Quiz starten',
-        route: AppRoutes.quiz,
-        switchTab: true,
+        icon: Icons.pets_rounded,
+        label: 'Mein Hund',
+        route: AppRoutes.manageDogs,
+        switchTab: false,
+      ),
+      _FeatureItem(
+        icon: Icons.calendar_month_rounded,
+        label: 'Kalender',
+        route: AppRoutes.healthCalendar,
+        switchTab: false,
+      ),
+      _FeatureItem(
+        icon: Icons.folder_open_rounded,
+        label: 'Dokumente',
+        route: AppRoutes.documents,
+        switchTab: false,
       ),
       _FeatureItem(
         icon: Icons.smart_toy_rounded,
@@ -140,36 +186,35 @@ class _FeatureGrid extends StatelessWidget {
         switchTab: true,
       ),
       _FeatureItem(
+        icon: Icons.quiz_rounded,
+        label: 'Quiz starten',
+        route: AppRoutes.quiz,
+        switchTab: true,
+      ),
+      _FeatureItem(
         icon: Icons.favorite_rounded,
         label: 'Favoriten',
         route: AppRoutes.favorites,
         switchTab: true,
       ),
-      _FeatureItem(
-        icon: Icons.workspace_premium_outlined,
-        label: 'Premium',
-        route: AppRoutes.premium,
-        switchTab: false,
-      ),
     ];
 
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(child: _FeatureCard(item: items[0])),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(child: _FeatureCard(item: items[1])),
-          ],
-        ),
-        const SizedBox(height: AppSpacing.md),
-        Row(
-          children: [
-            Expanded(child: _FeatureCard(item: items[2])),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(child: _FeatureCard(item: items[3])),
-          ],
-        ),
+        for (int i = 0; i < items.length; i += 2) ...[
+          Row(
+            children: [
+              Expanded(child: _FeatureCard(item: items[i])),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: i + 1 < items.length
+                    ? _FeatureCard(item: items[i + 1])
+                    : const SizedBox(),
+              ),
+            ],
+          ),
+          if (i + 2 < items.length) const SizedBox(height: AppSpacing.md),
+        ],
       ],
     );
   }

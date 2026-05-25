@@ -9,6 +9,8 @@ class ScaffoldWithNav extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  static const int _assistantTabIndex = 2;
+
   void _onDestinationSelected(int index) {
     navigationShell.goBranch(
       index,
@@ -19,8 +21,17 @@ class ScaffoldWithNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOnAssistant =
+        navigationShell.currentIndex == _assistantTabIndex;
     return Scaffold(
       body: navigationShell,
+      floatingActionButton: isOnAssistant
+          ? null
+          : FloatingActionButton(
+              tooltip: 'KI-Berater fragen',
+              onPressed: () => _onDestinationSelected(_assistantTabIndex),
+              child: const Icon(Icons.smart_toy_rounded),
+            ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: _onDestinationSelected,

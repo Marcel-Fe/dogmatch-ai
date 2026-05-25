@@ -25,4 +25,14 @@ class AppRoutes {
   static const String breederFinder = '/breeders';
   static const String breederProfile = '/breeder'; // /breeder/:id
   static const String editProfile = '/edit-profile';
+
+  // Hunde-Verwaltung
+  static const String manageDogs = '/dogs';
+  static const String addDog = '/dogs/add';
+  static const String editDog = '/dogs/edit'; // /dogs/edit/:id
+
+  // Gesundheitskalender + Dokumente
+  static const String healthCalendar = '/health';
+  static const String addHealthEvent = '/health/add';
+  static const String documents = '/documents';
 }
