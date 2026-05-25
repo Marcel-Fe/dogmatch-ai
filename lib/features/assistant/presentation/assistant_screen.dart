@@ -4,6 +4,7 @@ import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/assistant/data/tts_service.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_bubble.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_input_bar.dart';
@@ -57,6 +58,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     final state = ref.watch(chatControllerProvider);
     final prefs = ref.watch(userPreferencesProvider).value;
     final ttsEnabled = prefs?.ttsEnabled ?? true;
+    final mode = ref.watch(chatModeProvider);
     final theme = Theme.of(context);
 
     final limitReached =
@@ -76,7 +78,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('KI-Berater'),
+        title: Text(mode == ChatMode.trainer ? 'Hundetrainer' : 'KI-Berater'),
         actions: [
           if (_tts.isAvailable)
             IconButton(
@@ -109,9 +111,19 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            _ModeSwitcher(
+              current: mode,
+              onChanged: (next) {
+                if (next == mode) return;
+                ref.read(chatModeProvider.notifier).setMode(next);
+                _tts.stop();
+                _lastSpokenMessageId = null;
+                ref.read(chatControllerProvider.notifier).clear();
+              },
+            ),
             Expanded(
               child: state.messages.isEmpty
-                  ? _EmptyState(onPromptSelected: _send)
+                  ? _EmptyState(mode: mode, onPromptSelected: _send)
                   : ListView.builder(
                       controller: _scrollController,
                       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -141,13 +153,15 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.onPromptSelected});
+  const _EmptyState({required this.mode, required this.onPromptSelected});
 
+  final ChatMode mode;
   final void Function(String) onPromptSelected;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isTrainer = mode == ChatMode.trainer;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -155,20 +169,34 @@ class _EmptyState extends StatelessWidget {
         children: [
           const SizedBox(height: AppSpacing.md),
           Text(
-            'Hi! Ich bin dein KI-Hundeberater.',
+            isTrainer
+                ? 'Hi! Ich bin dein Hundetrainer.'
+                : 'Hi! Ich bin dein KI-Hundeberater.',
             style: theme.textTheme.titleLarge,
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Frag mich etwas - oder waehle einen Vorschlag:',
+            isTrainer
+                ? 'Erzaehl mir vom Verhalten oder waehle eine Trainings-Frage:'
+                : 'Frag mich etwas - oder waehle einen Vorschlag:',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.lg),
-          SuggestedPrompts(onSelect: onPromptSelected),
+          SuggestedPrompts(
+            onSelect: onPromptSelected,
+            prompts: isTrainer ? _trainerPrompts : null,
+          ),
         ],
       ),
     );
   }
+
+  static const _trainerPrompts = <String>[
+    'Wie bringe ich meinem Hund "Sitz" bei?',
+    'Mein Hund zieht an der Leine - was tun?',
+    'Welpe beisst beim Spielen - wie reagieren?',
+    'Mein Hund bellt fremde Hunde an - Trainingsplan?',
+  ];
 }
 
 class _LimitBanner extends StatelessWidget {
@@ -205,6 +233,65 @@ class _LimitBanner extends StatelessWidget {
             child: const Text('Premium'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Segmentierter Umschalter zwischen Berater- und Trainer-Modus.
+class _ModeSwitcher extends StatelessWidget {
+  const _ModeSwitcher({required this.current, required this.onChanged});
+
+  final ChatMode current;
+  final ValueChanged<ChatMode> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.sm,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+        ),
+        child: Row(
+          children: [
+            for (final m in ChatMode.values)
+              Expanded(child: _modeButton(theme, m)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _modeButton(ThemeData theme, ChatMode m) {
+    final selected = m == current;
+    return GestureDetector(
+      onTap: () => onChanged(m),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: selected ? theme.colorScheme.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          m.label,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: selected
+                ? theme.colorScheme.onPrimary
+                : theme.colorScheme.onSurface,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
     );
   }

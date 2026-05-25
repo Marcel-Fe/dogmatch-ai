@@ -30,6 +30,14 @@ class DogBreed extends Equatable {
     required this.traits,
     this.imageUrl,
     this.countryInfo = const {},
+    this.fciGroup,
+    this.coatType,
+    this.idealOwner,
+    this.dailyExerciseHours,
+    this.noiseLevel,
+    this.apartmentSuitable,
+    this.goodWithCats,
+    this.typicalTasks = const [],
   });
 
   final String id;
@@ -60,6 +68,31 @@ class DogBreed extends Equatable {
   /// Default: leere Map - dann zeigt die UI keinen Laender-Block.
   final Map<String, CountryBreedInfo> countryInfo;
 
+  /// FCI-Gruppe (1-10) als Klartext, z. B. "Gruppe 1 - Huetehunde".
+  final String? fciGroup;
+
+  /// Felltyp, z. B. "Kurzhaar", "Doppeltes Stockhaar", "Lockig".
+  final String? coatType;
+
+  /// Empfohlener Halter-Typ, z. B. "Aktive Familien", "Erstbesitzer".
+  final String? idealOwner;
+
+  /// Empfohlene taegliche Aktivitaet in Stunden.
+  final double? dailyExerciseHours;
+
+  /// Bell-Neigung 1 (leise) - 5 (laut).
+  final int? noiseLevel;
+
+  /// Eignung fuer Wohnungshaltung.
+  final bool? apartmentSuitable;
+
+  /// Vertraegt sich gut mit Katzen.
+  final bool? goodWithCats;
+
+  /// Typische historische / heute uebliche Aufgaben (z. B. "Hueten",
+  /// "Apportieren", "Begleithund").
+  final List<String> typicalTasks;
+
   /// Erzeugt eine Rasse aus einer JSON-Map (gebuendelte Daten oder Firestore).
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
@@ -85,6 +118,16 @@ class DogBreed extends Equatable {
       traits: (json['traits'] as List<dynamic>).cast<String>(),
       imageUrl: json['imageUrl'] as String?,
       countryInfo: _parseCountryInfo(json['countryInfo']),
+      fciGroup: json['fciGroup'] as String?,
+      coatType: json['coatType'] as String?,
+      idealOwner: json['idealOwner'] as String?,
+      dailyExerciseHours:
+          (json['dailyExerciseHours'] as num?)?.toDouble(),
+      noiseLevel: (json['noiseLevel'] as num?)?.toInt(),
+      apartmentSuitable: json['apartmentSuitable'] as bool?,
+      goodWithCats: json['goodWithCats'] as bool?,
+      typicalTasks:
+          (json['typicalTasks'] as List?)?.cast<String>() ?? const [],
     );
   }
 
@@ -127,6 +170,14 @@ class DogBreed extends Equatable {
         for (final entry in countryInfo.entries)
           entry.key: entry.value.toJson(),
       },
+      'fciGroup': fciGroup,
+      'coatType': coatType,
+      'idealOwner': idealOwner,
+      'dailyExerciseHours': dailyExerciseHours,
+      'noiseLevel': noiseLevel,
+      'apartmentSuitable': apartmentSuitable,
+      'goodWithCats': goodWithCats,
+      'typicalTasks': typicalTasks,
     };
   }
 

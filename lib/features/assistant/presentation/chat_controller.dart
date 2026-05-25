@@ -3,24 +3,40 @@ import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Aktiver Modus des Chats (Berater vs. Trainer). UI setzt das per
+/// Umschalter; der RepositoryProvider liest es, um den System-Prompt zu
+/// bauen.
+class ChatModeNotifier extends Notifier<ChatMode> {
+  @override
+  ChatMode build() => ChatMode.advisor;
+
+  void setMode(ChatMode mode) => state = mode;
+}
+
+final chatModeProvider =
+    NotifierProvider<ChatModeNotifier, ChatMode>(ChatModeNotifier.new);
+
 /// Stellt die konkrete Implementierung des [ChatRepository] bereit.
 /// Liegt ein Gemini-API-Key (via --dart-define) vor, wird der echte Berater
 /// genutzt - andernfalls fallback auf den lokalen Mock, damit die App auch
-/// ohne Key lauffaehig bleibt. Das Nutzerprofil fliesst bei jedem Build in
-/// den System-Prompt ein, sodass Antworten personalisiert sind.
+/// ohne Key lauffaehig bleibt. Das Nutzerprofil + Mode fliessen bei jedem
+/// Build in den System-Prompt ein.
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   if (!Env.hasGeminiKey) {
     return const MockChatRepository();
   }
   final prefs = ref.watch(userPreferencesProvider).value;
+  final mode = ref.watch(chatModeProvider);
   return GeminiChatRepository(
     apiKey: Env.geminiApiKey,
     userPreferences: prefs,
+    mode: mode,
   );
 });
 

@@ -1,5 +1,4 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
-import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/app_card.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
@@ -8,9 +7,10 @@ import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
-import 'package:dogmatch_ai/features/home/domain/daily_tip.dart';
+import 'package:dogmatch_ai/features/home/domain/hourly_quote.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
-import 'package:dogmatch_ai/features/home/presentation/widgets/hero_header.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/quick_actions.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
@@ -29,27 +29,8 @@ class HomeScreen extends ConsumerWidget {
     final dogsState = ref.watch(dogsProvider).value;
     final activeDog = dogsState?.activeDog;
     final theme = Theme.of(context);
-    final tip = DailyTip.forToday();
-
-    final hasName = prefs != null && prefs.hasName;
-    String greeting;
-    String heroSubtitle;
-    if (activeDog != null) {
-      greeting = hasName
-          ? 'Hi ${prefs.displayName}, hallo ${activeDog.name}!'
-          : 'Hallo ${activeDog.name}!';
-      heroSubtitle = activeDog.breed != null
-          ? '${activeDog.breed} · alles fuer deinen Hund an einem Ort.'
-          : 'Alles fuer deinen Hund an einem Ort.';
-    } else if (hasName) {
-      greeting = 'Hallo, ${prefs.displayName}!';
-      heroSubtitle =
-          'Schoen, dass du da bist. Lass uns deinen perfekten Hund finden.';
-    } else {
-      greeting = 'Willkommen!';
-      heroSubtitle =
-          'Finde die Hunderasse, die wirklich zu deinem Leben passt.';
-    }
+    final quote = HourlyQuote.forNow();
+    final greetingName = prefs != null && prefs.hasName ? prefs.displayName : null;
 
     return Scaffold(
       appBar: AppBar(title: const Text('DogMatch AI')),
@@ -60,96 +41,83 @@ class HomeScreen extends ConsumerWidget {
           onRetry: () => ref.invalidate(breedsProvider),
         ),
         data: (breeds) => ListView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: EdgeInsets.zero,
           children: [
-            HeroHeader(
-              greeting: greeting,
-              subtitle: heroSubtitle,
-              dogPhotoBase64: activeDog?.photoBase64,
-              dogName: activeDog?.name,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.lg,
+              ),
+              child: DogHeroCard(
+                dog: activeDog,
+                quote: quote,
+                greetingName: greetingName,
+              ),
             ),
+            QuickActions(),
             const SizedBox(height: AppSpacing.lg),
             if (activeDog != null &&
                 (prefs?.showUpcomingOnHome ?? true)) ...[
-              const UpcomingEventsCard(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                child: const UpcomingEventsCard(),
+              ),
               const SizedBox(height: AppSpacing.lg),
             ],
-            const StatsRow(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: const StatsRow(),
+            ),
             const SizedBox(height: AppSpacing.xl),
             if (prefs?.showForYouOnHome ?? true) ...[
-              ForYouSection(allBreeds: breeds, prefs: prefs),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                child: ForYouSection(allBreeds: breeds, prefs: prefs),
+              ),
               const SizedBox(height: AppSpacing.sm),
             ],
-            _DailyTipCard(tip: tip),
-            const SizedBox(height: AppSpacing.xl),
             if (prefs?.showFeatureGridOnHome ?? true) ...[
-              const _FeatureGrid(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                child: const _FeatureGrid(),
+              ),
               const SizedBox(height: AppSpacing.xl),
             ],
             if (prefs?.showAllBreedsOnHome ?? true) ...[
-              Text('Alle Rassen', style: theme.textTheme.titleLarge),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                child: Text(
+                  'Alle Rassen',
+                  style: theme.textTheme.titleLarge,
+                ),
+              ),
               const SizedBox(height: AppSpacing.md),
               for (final breed in breeds) ...[
-                BreedCard(
-                  breed: breed,
-                  onTap: () =>
-                      context.push('${AppRoutes.breedDetail}/${breed.id}'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
+                  child: BreedCard(
+                    breed: breed,
+                    onTap: () =>
+                        context.push('${AppRoutes.breedDetail}/${breed.id}'),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
               ],
             ],
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DailyTipCard extends StatelessWidget {
-  const _DailyTipCard({required this.tip});
-
-  final String tip;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.lightbulb_outline_rounded,
-            color: AppColors.primaryDark,
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'TIPP DES TAGES',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: AppColors.primaryDark,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  tip,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.primaryDark,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

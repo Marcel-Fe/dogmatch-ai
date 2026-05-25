@@ -107,7 +107,46 @@ class _BreedDetailContent extends ConsumerWidget {
           label: 'Kosten',
           value: 'ca. ${breed.monthlyCostEur} EUR/Monat',
         ),
+        if (breed.dailyExerciseHours != null)
+          _FactRow(
+            label: 'Bewegung pro Tag',
+            value: '${breed.dailyExerciseHours} h',
+          ),
+        if (breed.coatType != null)
+          _FactRow(label: 'Fell', value: breed.coatType!),
+        if (breed.fciGroup != null)
+          _FactRow(label: 'FCI-Gruppe', value: breed.fciGroup!),
+        if (breed.idealOwner != null)
+          _FactRow(label: 'Idealer Halter', value: breed.idealOwner!),
+        if (breed.apartmentSuitable != null)
+          _FactRow(
+            label: 'Wohnungstauglich',
+            value: breed.apartmentSuitable! ? 'Ja' : 'Eingeschraenkt',
+          ),
+        if (breed.goodWithCats != null)
+          _FactRow(
+            label: 'Mit Katzen',
+            value: breed.goodWithCats! ? 'Vertraegt sich' : 'Eher schwierig',
+          ),
+        if (breed.noiseLevel != null)
+          _FactRow(
+            label: 'Bell-Neigung',
+            value: '${breed.noiseLevel}/5',
+          ),
         const SizedBox(height: AppSpacing.xl),
+
+        if (breed.typicalTasks.isNotEmpty) ...[
+          const _SectionTitle('Typische Aufgaben'),
+          const SizedBox(height: AppSpacing.sm),
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              for (final t in breed.typicalTasks) _Chip(text: t),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xl),
+        ],
 
         _CountryInfoSection(
           countryInfo: breed.countryInfo,
