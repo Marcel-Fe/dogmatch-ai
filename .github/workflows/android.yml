@@ -1,0 +1,78 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/**'
+      - 'android/**'
+      - 'assets/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+    inputs:
+      gemini_proxy_url:
+        description: 'GEMINI_PROXY_URL fuer Multimodal-Chat (optional, leer = Mock)'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    name: Build APK (Linux, Java 17, Flutter 3.44.0)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.0'
+          channel: stable
+          cache: true
+
+      - name: Dependencies (pub get)
+        run: flutter pub get
+
+      - name: Static Analyze
+        run: flutter analyze
+
+      - name: Tests
+        run: flutter test
+
+      - name: Build APK release
+        env:
+          GEMINI_PROXY_URL: ${{ github.event.inputs.gemini_proxy_url }}
+        run: |
+          if [ -n "$GEMINI_PROXY_URL" ]; then
+            flutter build apk --release \
+              --dart-define="GEMINI_PROXY_URL=$GEMINI_PROXY_URL"
+          else
+            flutter build apk --release
+          fi
+
+      - name: APK-Audit (kein Gemini-Key im APK)
+        run: |
+          if unzip -p build/app/outputs/flutter-apk/app-release.apk \
+              | strings | grep -E 'AIzaSyB[A-Za-z0-9_-]{30}' ; then
+            echo "::error::Gemini-API-Key im APK gefunden - Build abgebrochen"
+            exit 1
+          fi
+          echo "OK - kein Gemini-Key im APK"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: dogmatch-android-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+          if-no-files-found: error
