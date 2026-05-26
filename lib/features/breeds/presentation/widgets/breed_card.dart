@@ -18,15 +18,7 @@ class BreedCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-            ),
-            child: Icon(Icons.pets_rounded, color: theme.colorScheme.primary),
-          ),
+          BreedThumbnail(breed: breed, size: 72),
           const SizedBox(width: AppSpacing.lg),
           Expanded(
             child: Column(
@@ -54,6 +46,72 @@ class BreedCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Wiederverwendbares Vorschaubild einer Rasse. Bevorzugt [DogBreed.imageAsset]
+/// (Bundle), faellt auf [DogBreed.imageUrl] (Netz) zurueck und zeigt im
+/// Fehlerfall ein Icon-Placeholder mit Markenfarbe.
+class BreedThumbnail extends StatelessWidget {
+  const BreedThumbnail({
+    super.key,
+    required this.breed,
+    this.size = 64,
+    this.borderRadius,
+  });
+
+  final DogBreed breed;
+  final double size;
+  final BorderRadius? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final radius = borderRadius ?? BorderRadius.circular(AppSpacing.radiusMd);
+
+    Widget fallback() => Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(alpha: 0.12),
+            borderRadius: radius,
+          ),
+          child: Icon(
+            Icons.pets_rounded,
+            color: theme.colorScheme.primary,
+            size: size * 0.45,
+          ),
+        );
+
+    Widget? child;
+    if (breed.imageAsset != null && breed.imageAsset!.isNotEmpty) {
+      child = Image.asset(
+        breed.imageAsset!,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => fallback(),
+      );
+    } else if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
+      child = Image.network(
+        breed.imageUrl!,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        loadingBuilder: (ctx, c, p) {
+          if (p == null) return c;
+          return Container(
+            width: size,
+            height: size,
+            color: theme.colorScheme.surfaceContainerHighest,
+          );
+        },
+        errorBuilder: (_, _, _) => fallback(),
+      );
+    }
+
+    if (child == null) return fallback();
+    return ClipRRect(borderRadius: radius, child: child);
   }
 }
 

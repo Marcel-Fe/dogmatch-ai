@@ -12,6 +12,7 @@ import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events
 import 'package:dogmatch_ai/features/home/domain/hourly_quote.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_actions.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
@@ -74,6 +75,8 @@ class HomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: const StatsRow(),
             ),
+            const SizedBox(height: AppSpacing.xl),
+            PopularBreedsRow(allBreeds: breeds),
             const SizedBox(height: AppSpacing.xl),
             if (prefs?.showForYouOnHome ?? true) ...[
               Padding(
