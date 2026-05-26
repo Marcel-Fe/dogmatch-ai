@@ -11,11 +11,16 @@ class MockChatRepository implements ChatRepository {
   static const _thinkingDelay = Duration(milliseconds: 700);
 
   @override
-  Future<Result<ChatMessage>> reply(List<ChatMessage> history) async {
+  Future<Result<ChatMessage>> reply(
+    List<ChatMessage> history, {
+    String? imageDataUrl,
+  }) async {
     await Future<void>.delayed(_thinkingDelay);
 
     final lastText = history.last.content.toLowerCase();
-    final answer = _answerFor(lastText);
+    final answer = imageDataUrl != null
+        ? 'Im Demo-Modus kann ich noch keine Bilder analysieren - dafuer brauchst du den Live-Modus mit KI-Anbindung. Aber zu deiner Frage: ${_answerFor(lastText)}'
+        : _answerFor(lastText);
 
     return Success(
       ChatMessage(

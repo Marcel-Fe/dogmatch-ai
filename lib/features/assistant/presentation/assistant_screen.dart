@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dogmatch_ai/app/router/app_routes.dart';
+import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/constants/app_constants.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
@@ -10,8 +13,10 @@ import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_bubble.
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_input_bar.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/suggested_prompts.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/typing_indicator.dart';
+import 'package:dogmatch_ai/features/dogs/data/photo_picker.dart' as picker;
 import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -30,11 +35,32 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _tts = const TtsService();
   String? _lastSpokenMessageId;
 
+  /// Bild als data-URL, das mit der naechsten Nachricht versendet wird.
+  /// Nur sichtbar im Remote-Modus (Cloudflare-Proxy aktiv).
+  String? _pendingImageDataUrl;
+
   @override
   void dispose() {
     _tts.stop();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final url = await picker.pickImageAsDataUrl();
+      if (!mounted) return;
+      if (url != null) setState(() => _pendingImageDataUrl = url);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$e')),
+      );
+    }
+  }
+
+  void _clearPendingImage() {
+    setState(() => _pendingImageDataUrl = null);
   }
 
   void _scrollToBottom() {
@@ -49,7 +75,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   }
 
   void _send(String text) {
-    ref.read(chatControllerProvider.notifier).sendMessage(text);
+    final image = _pendingImageDataUrl;
+    ref
+        .read(chatControllerProvider.notifier)
+        .sendMessage(text, imageDataUrl: image);
+    if (image != null) _clearPendingImage();
     _scrollToBottom();
   }
 
@@ -138,9 +168,16 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                     ),
             ),
             if (limitReached) _LimitBanner(theme: theme),
+            if (_pendingImageDataUrl != null)
+              _PendingImagePreview(
+                dataUrl: _pendingImageDataUrl!,
+                onRemove: _clearPendingImage,
+              ),
             ChatInputBar(
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
+              onPickImage: Env.hasGeminiProxy ? _pickImage : null,
+              hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'
                   : 'Frag den KI-Berater ...',
@@ -292,6 +329,63 @@ class _ModeSwitcher extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Vorschau eines angehaengten Bildes vor dem Versand (Multimodal-Chat).
+class _PendingImagePreview extends StatelessWidget {
+  const _PendingImagePreview({required this.dataUrl, required this.onRemove});
+
+  final String dataUrl;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    Uint8List? bytes;
+    try {
+      final idx = dataUrl.indexOf(',');
+      final b64 = idx >= 0 ? dataUrl.substring(idx + 1) : dataUrl;
+      bytes = base64Decode(b64);
+    } catch (_) {
+      bytes = null;
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+            child: SizedBox(
+              width: 48,
+              height: 48,
+              child: bytes != null
+                  ? Image.memory(bytes, fit: BoxFit.cover)
+                  : Container(
+                      color: theme.colorScheme.surface,
+                      child: const Icon(Icons.image_outlined),
+                    ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              'Bild angehaengt - wird mit deiner naechsten Nachricht analysiert.',
+              style: theme.textTheme.bodySmall,
+            ),
+          ),
+          IconButton(
+            tooltip: 'Bild entfernen',
+            icon: const Icon(Icons.close_rounded),
+            onPressed: onRemove,
+          ),
+        ],
       ),
     );
   }

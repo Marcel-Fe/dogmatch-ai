@@ -2,16 +2,28 @@ import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/assistant/data/stt_service.dart';
 import 'package:flutter/material.dart';
 
-/// Eingabeleiste fuer den Chat: Textfeld + Mikrofon + Senden.
+/// Eingabeleiste fuer den Chat: Textfeld + Mikrofon + Senden + optional
+/// Bild-Anhang.
 class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     super.key,
     required this.onSend,
+    this.onPickImage,
+    this.hasPendingImage = false,
     this.isEnabled = true,
     this.hintText = 'Frag den KI-Berater ...',
   });
 
   final void Function(String text) onSend;
+
+  /// Wird gerufen, wenn der Plus-Button gedrueckt wird (Bild auswaehlen).
+  /// Wenn null, wird der Plus-Button nicht angezeigt.
+  final VoidCallback? onPickImage;
+
+  /// True, wenn aktuell ein Bild zum Versand ausgewaehlt ist - Plus-Button
+  /// wird hervorgehoben.
+  final bool hasPendingImage;
+
   final bool isEnabled;
   final String hintText;
 
@@ -88,6 +100,23 @@ class _ChatInputBarState extends State<ChatInputBar> {
       ),
       child: Row(
         children: [
+          if (widget.onPickImage != null) ...[
+            IconButton(
+              tooltip: widget.hasPendingImage
+                  ? 'Bild angehaengt - erneut tippen fuer Wechsel'
+                  : 'Bild anhaengen (zum Analysieren)',
+              onPressed: widget.isEnabled ? widget.onPickImage : null,
+              icon: Icon(
+                widget.hasPendingImage
+                    ? Icons.image_rounded
+                    : Icons.add_photo_alternate_outlined,
+                color: widget.hasPendingImage
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+          ],
           Expanded(
             child: TextField(
               controller: _controller,

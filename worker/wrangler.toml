@@ -1,0 +1,15 @@
+name = "dogmatch-gemini-proxy"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+
+# Standard-Stadt-Routing: Cloudflare entscheidet die Edge-Lokation.
+
+[vars]
+# Erlaubte Origin (CORS). Auf "*" lassen oder konkret setzen:
+ALLOWED_ORIGIN = "https://marcel-fe.github.io"
+
+# Das Geheimnis fuer den Gemini-Key wird NICHT hier hinterlegt!
+# Aus dem worker-Verzeichnis ausfuehren:
+#   npx wrangler secret put GEMINI_KEY
+# Dann den Key eingeben - er liegt verschluesselt bei Cloudflare und
+# wird zur Laufzeit als env.GEMINI_KEY bereitgestellt.

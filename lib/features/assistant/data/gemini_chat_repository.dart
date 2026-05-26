@@ -32,7 +32,12 @@ class GeminiChatRepository implements ChatRepository {
   final ChatMode mode;
 
   @override
-  Future<Result<ChatMessage>> reply(List<ChatMessage> history) async {
+  Future<Result<ChatMessage>> reply(
+    List<ChatMessage> history, {
+    String? imageDataUrl,
+  }) async {
+    // Multimodal nur ueber den Proxy (RemoteGeminiChatRepository) - hier
+    // ignoriert. Sonst muesste der Key serverlos eingebunden werden.
     if (history.isEmpty) {
       return const FailureResult(
         UnexpectedFailure('Keine Nachricht zum Beantworten.'),

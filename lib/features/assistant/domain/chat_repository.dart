@@ -7,5 +7,10 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 abstract interface class ChatRepository {
   /// Erzeugt eine Antwort des Assistenten auf den bisherigen Verlauf.
   /// Die letzte Nachricht in [history] ist die aktuelle User-Frage.
-  Future<Result<ChatMessage>> reply(List<ChatMessage> history);
+  /// Optional kann ein Bild als Data-URL angehaengt werden - nur das
+  /// [RemoteGeminiChatRepository] wertet das aktuell aus (Multimodal).
+  Future<Result<ChatMessage>> reply(
+    List<ChatMessage> history, {
+    String? imageDataUrl,
+  });
 }

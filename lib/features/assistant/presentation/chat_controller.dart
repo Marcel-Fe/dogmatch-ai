@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
+import 'package:dogmatch_ai/features/assistant/data/remote_gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
@@ -23,21 +24,30 @@ final chatModeProvider =
     NotifierProvider<ChatModeNotifier, ChatMode>(ChatModeNotifier.new);
 
 /// Stellt die konkrete Implementierung des [ChatRepository] bereit.
-/// Liegt ein Gemini-API-Key (via --dart-define) vor, wird der echte Berater
-/// genutzt - andernfalls fallback auf den lokalen Mock, damit die App auch
-/// ohne Key lauffaehig bleibt. Das Nutzerprofil + Mode fliessen bei jedem
-/// Build in den System-Prompt ein.
+/// Reihenfolge:
+/// 1. `GEMINI_PROXY_URL` gesetzt (Cloudflare Worker) -> RemoteGemini.
+///    Bevorzugt, weil der Gemini-Key serverseitig bleibt.
+/// 2. Sonst `GEMINI_API_KEY` gesetzt (nur lokales Testen, NIE in Live-Build)
+///    -> GeminiChatRepository direkt.
+/// 3. Sonst MockChatRepository (App laeuft offline).
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
-  if (!Env.hasGeminiKey) {
-    return const MockChatRepository();
-  }
   final prefs = ref.watch(userPreferencesProvider).value;
   final mode = ref.watch(chatModeProvider);
-  return GeminiChatRepository(
-    apiKey: Env.geminiApiKey,
-    userPreferences: prefs,
-    mode: mode,
-  );
+  if (Env.hasGeminiProxy) {
+    return RemoteGeminiChatRepository(
+      proxyUrl: Env.geminiProxyUrl,
+      userPreferences: prefs,
+      mode: mode,
+    );
+  }
+  if (Env.hasGeminiKey) {
+    return GeminiChatRepository(
+      apiKey: Env.geminiApiKey,
+      userPreferences: prefs,
+      mode: mode,
+    );
+  }
+  return const MockChatRepository();
 });
 
 /// Zustand der Chat-Session: alle bisherigen Nachrichten + Warte-Indikator.
@@ -68,14 +78,14 @@ class ChatController extends Notifier<ChatState> {
   @override
   ChatState build() => const ChatState();
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, {String? imageDataUrl}) async {
     final trimmed = text.trim();
-    if (trimmed.isEmpty || state.isWaiting) return;
+    if ((trimmed.isEmpty && imageDataUrl == null) || state.isWaiting) return;
 
     final userMessage = ChatMessage(
       id: 'u-${DateTime.now().microsecondsSinceEpoch}',
       role: ChatRole.user,
-      content: trimmed,
+      content: trimmed.isEmpty ? '[Bild]' : trimmed,
       timestamp: DateTime.now(),
     );
 
@@ -84,7 +94,9 @@ class ChatController extends Notifier<ChatState> {
       isWaiting: true,
     );
 
-    final result = await ref.read(chatRepositoryProvider).reply(state.messages);
+    final result = await ref
+        .read(chatRepositoryProvider)
+        .reply(state.messages, imageDataUrl: imageDataUrl);
 
     switch (result) {
       case Success(:final value):

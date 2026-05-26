@@ -19,4 +19,15 @@ class Env {
   /// Wahr, wenn ein Gemini-Key gesetzt ist und der echte Berater aktiv sein
   /// soll. Sonst Fallback auf den Mock-Berater.
   static bool get hasGeminiKey => geminiApiKey.isNotEmpty;
+
+  /// URL eines Gemini-Proxy (z. B. Cloudflare Worker), der den API-Key
+  /// serverseitig haelt. Wird ueber `--dart-define=GEMINI_PROXY_URL=...` an
+  /// den Build uebergeben. Bevorzugt gegenueber direktem [geminiApiKey] -
+  /// so kommt der Key nie ins Web-Bundle.
+  static const String geminiProxyUrl = String.fromEnvironment(
+    'GEMINI_PROXY_URL',
+    defaultValue: '',
+  );
+
+  static bool get hasGeminiProxy => geminiProxyUrl.isNotEmpty;
 }
