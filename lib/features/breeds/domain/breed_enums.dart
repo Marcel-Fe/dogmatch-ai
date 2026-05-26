@@ -3,6 +3,7 @@
 
 /// Groessenklasse einer Rasse.
 enum DogSize {
+  toy('Sehr klein'),
   small('Klein'),
   medium('Mittel'),
   large('Gross'),

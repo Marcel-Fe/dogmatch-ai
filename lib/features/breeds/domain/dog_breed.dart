@@ -130,10 +130,10 @@ class DogBreed extends Equatable {
       id: json['id'] as String,
       name: json['name'] as String,
       origin: json['origin'] as String,
-      size: DogSize.values.byName(json['size'] as String),
+      size: _parseSize(json['size'] as String),
       temperament: json['temperament'] as String,
       description: json['description'] as String,
-      energyLevel: ActivityLevel.values.byName(json['energyLevel'] as String),
+      energyLevel: _parseEnergy(json['energyLevel'] as String),
       grooming: json['grooming'] as int,
       shedding: json['shedding'] as int,
       childFriendliness: json['childFriendliness'] as int,
@@ -173,6 +173,34 @@ class DogBreed extends Equatable {
       vetCostPerYearEur: (json['vetCostPerYearEur'] as num?)?.toInt(),
       careTips: (json['careTips'] as List?)?.cast<String>() ?? const [],
     );
+  }
+
+  /// Robustes Parsing von Size-Werten - akzeptiert Enum-Namen sowie ein
+  /// paar Synonyme aus aelteren Daten.
+  static DogSize _parseSize(String raw) {
+    final v = raw.toLowerCase();
+    for (final s in DogSize.values) {
+      if (s.name == v) return s;
+    }
+    return DogSize.medium;
+  }
+
+  /// Robustes Parsing von ActivityLevel - akzeptiert Synonyme wie
+  /// "medium" (-> moderate), "very_high"/"very-high" (-> veryHigh).
+  static ActivityLevel _parseEnergy(String raw) {
+    final v = raw.toLowerCase().replaceAll('-', '').replaceAll('_', '');
+    for (final a in ActivityLevel.values) {
+      if (a.name.toLowerCase() == v) return a;
+    }
+    switch (v) {
+      case 'medium':
+      case 'mid':
+        return ActivityLevel.moderate;
+      case 'veryhigh':
+      case 'extreme':
+        return ActivityLevel.veryHigh;
+    }
+    return ActivityLevel.moderate;
   }
 
   static Map<String, CountryBreedInfo> _parseCountryInfo(dynamic raw) {
