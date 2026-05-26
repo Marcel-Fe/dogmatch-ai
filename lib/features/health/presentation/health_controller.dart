@@ -1,9 +1,17 @@
+import 'package:dogmatch_ai/features/auth/presentation/auth_controller.dart';
+import 'package:dogmatch_ai/features/health/data/firestore_health_repository.dart';
 import 'package:dogmatch_ai/features/health/data/local_health_repository.dart';
 import 'package:dogmatch_ai/features/health/domain/health_event.dart';
 import 'package:dogmatch_ai/features/health/domain/health_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Liefert Firestore-Repo wenn ein User eingeloggt ist, sonst lokal.
+/// Bei Auth-Wechsel rebuildet Riverpod den Provider automatisch.
 final healthRepositoryProvider = Provider<HealthRepository>((ref) {
+  final user = ref.watch(authStateProvider).value;
+  if (user != null) {
+    return FirestoreHealthRepository(userId: user.id);
+  }
   return const LocalHealthRepository();
 });
 

@@ -132,6 +132,9 @@ class DocumentsScreen extends ConsumerWidget {
   }
 }
 
+bool _isRemoteUrl(String url) =>
+    url.startsWith('http://') || url.startsWith('https://');
+
 class _DocumentImageView extends StatelessWidget {
   const _DocumentImageView({required this.doc});
 
@@ -139,6 +142,20 @@ class _DocumentImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (_isRemoteUrl(doc.dataUrl)) {
+      return InteractiveViewer(
+        child: Image.network(
+          doc.dataUrl,
+          fit: BoxFit.contain,
+          errorBuilder: (_, _, _) => const Center(
+            child: Text(
+              'Bild kann nicht geladen werden.',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      );
+    }
     final base64Part =
         doc.dataUrl.contains(',') ? doc.dataUrl.split(',').last : doc.dataUrl;
     Uint8List bytes;
