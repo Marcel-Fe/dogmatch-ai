@@ -83,30 +83,39 @@ class BreedThumbnail extends StatelessWidget {
           ),
         );
 
+    // BoxFit.contain damit der Hund auch im Thumbnail komplett sichtbar
+    // bleibt - die Hintergrundfarbe fuellt eventuelle Aussparungen.
+    final bg = theme.colorScheme.primary.withValues(alpha: 0.08);
     Widget? child;
     if (breed.imageAsset != null && breed.imageAsset!.isNotEmpty) {
-      child = Image.asset(
-        breed.imageAsset!,
+      child = Container(
         width: size,
         height: size,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => fallback(),
+        color: bg,
+        child: Image.asset(
+          breed.imageAsset!,
+          fit: BoxFit.contain,
+          errorBuilder: (_, _, _) => fallback(),
+        ),
       );
     } else if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
-      child = Image.network(
-        breed.imageUrl!,
+      child = Container(
         width: size,
         height: size,
-        fit: BoxFit.cover,
-        loadingBuilder: (ctx, c, p) {
-          if (p == null) return c;
-          return Container(
-            width: size,
-            height: size,
-            color: theme.colorScheme.surfaceContainerHighest,
-          );
-        },
-        errorBuilder: (_, _, _) => fallback(),
+        color: bg,
+        child: Image.network(
+          breed.imageUrl!,
+          fit: BoxFit.contain,
+          loadingBuilder: (ctx, c, p) {
+            if (p == null) return c;
+            return Container(
+              width: size,
+              height: size,
+              color: theme.colorScheme.surfaceContainerHighest,
+            );
+          },
+          errorBuilder: (_, _, _) => fallback(),
+        ),
       );
     }
 

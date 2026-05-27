@@ -11,19 +11,24 @@ import 'package:go_router/go_router.dart';
 /// darunter Hundename, optional Rasse/Alter, und ein stuendlich
 /// wechselnder Wissens-/Beziehungs-Spruch.
 ///
-/// Ohne Hund: ein einladendes Onboarding-Layout mit gleichem Footprint,
-/// damit das Dashboard nicht "leer" wirkt.
+/// Bild-Quellen-Reihenfolge: eigenes Foto -> Rassen-Bild -> Pfoten-Fallback.
+/// So sieht der Nutzer immer "seinen" Hund, nicht nur Pfoten.
 class DogHeroCard extends StatelessWidget {
   const DogHeroCard({
     super.key,
     required this.dog,
     required this.quote,
     this.greetingName,
+    this.breedImageUrl,
   });
 
   final Dog? dog;
   final String quote;
   final String? greetingName;
+
+  /// Optional: Bild der zugewiesenen Rasse. Wird gezeigt, wenn der Hund
+  /// kein eigenes Foto hat.
+  final String? breedImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,10 @@ class DogHeroCard extends StatelessWidget {
       children: [
         AspectRatio(
           aspectRatio: 16 / 11,
-          child: _DogPhotoOrFallback(dog: dog!),
+          child: _DogPhotoOrFallback(
+            dog: dog!,
+            breedImageUrl: breedImageUrl,
+          ),
         ),
         Positioned.fill(
           child: Container(
@@ -170,25 +178,44 @@ class DogHeroCard extends StatelessWidget {
 }
 
 class _DogPhotoOrFallback extends StatelessWidget {
-  const _DogPhotoOrFallback({required this.dog});
+  const _DogPhotoOrFallback({required this.dog, this.breedImageUrl});
 
   final Dog dog;
+  final String? breedImageUrl;
 
   @override
   Widget build(BuildContext context) {
+    // 1) Eigenes Foto - in BoxFit.contain damit der Hund komplett
+    //    sichtbar bleibt (kein Kopf-Abschnitt).
     final raw = dog.photoBase64;
     if (raw != null && raw.isNotEmpty) {
       try {
         final base64Part = raw.contains(',') ? raw.split(',').last : raw;
-        return Image.memory(
-          base64Decode(base64Part),
-          fit: BoxFit.cover,
-          gaplessPlayback: true,
+        return Container(
+          color: AppColors.primary.withValues(alpha: 0.12),
+          child: Image.memory(
+            base64Decode(base64Part),
+            fit: BoxFit.contain,
+            gaplessPlayback: true,
+          ),
         );
       } catch (_) {
-        // faellt durch zum Fallback
+        // faellt durch zum naechsten Fallback
       }
     }
+    // 2) Rassen-Bild (sekundaerer Fallback) - so steht statt Pfoten
+    //    immer ein konkreter Hund auf dem Dashboard.
+    if (breedImageUrl != null && breedImageUrl!.isNotEmpty) {
+      return Container(
+        color: AppColors.primary.withValues(alpha: 0.12),
+        child: Image.network(
+          breedImageUrl!,
+          fit: BoxFit.contain,
+          errorBuilder: (_, _, _) => _photoFallback(),
+        ),
+      );
+    }
+    // 3) Letzter Notfall: Pfoten-Gradient.
     return _photoFallback();
   }
 

@@ -130,10 +130,15 @@ class _PopularItem extends StatelessWidget {
         );
 
     if (breed.imageUrl == null || breed.imageUrl!.isEmpty) return fallback();
-    return Image.network(
-      breed.imageUrl!,
-      fit: BoxFit.cover,
-      errorBuilder: (_, _, _) => fallback(),
+    // BoxFit.contain damit auch bei runden Avataren kein Hundekopf
+    // weggeschnitten wird; Hintergrundfarbe fuellt den restlichen Kreis.
+    return Container(
+      color: theme.colorScheme.primary.withValues(alpha: 0.08),
+      child: Image.network(
+        breed.imageUrl!,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => fallback(),
+      ),
     );
   }
 }

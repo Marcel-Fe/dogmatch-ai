@@ -438,13 +438,13 @@ class _BreedHeroImage extends StatelessWidget {
     if (breed.imageAsset != null && breed.imageAsset!.isNotEmpty) {
       imageChild = Image.asset(
         breed.imageAsset!,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         errorBuilder: (_, _, _) => fallback(),
       );
     } else if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
       imageChild = Image.network(
         breed.imageUrl!,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         loadingBuilder: (ctx, child, progress) {
           if (progress == null) return child;
           return Container(
@@ -456,11 +456,14 @@ class _BreedHeroImage extends StatelessWidget {
       );
     }
 
+    // Hintergrund-Container damit BoxFit.contain keinen weissen Rand zeigt -
+    // der Hund bleibt vollstaendig sichtbar (Kopf + Pfoten).
     return ClipRRect(
       borderRadius: radius,
-      child: SizedBox(
-        height: 220,
+      child: Container(
+        height: 260,
         width: double.infinity,
+        color: theme.colorScheme.primary.withValues(alpha: 0.06),
         child: imageChild ?? fallback(),
       ),
     );

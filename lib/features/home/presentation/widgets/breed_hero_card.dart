@@ -117,22 +117,32 @@ class _ImageLayer extends StatelessWidget {
           ),
         );
 
+    // BoxFit.contain damit der Hund komplett sichtbar bleibt (kein Anschnitt).
+    // Hintergrund-Container nimmt die Aussparung optisch auf.
+    final bg = theme.colorScheme.primary.withValues(alpha: 0.12);
+
     if (breed.imageAsset != null && breed.imageAsset!.isNotEmpty) {
-      return Image.asset(
-        breed.imageAsset!,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => fallback(),
+      return Container(
+        color: bg,
+        child: Image.asset(
+          breed.imageAsset!,
+          fit: BoxFit.contain,
+          errorBuilder: (_, _, _) => fallback(),
+        ),
       );
     }
     if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
-      return Image.network(
-        breed.imageUrl!,
-        fit: BoxFit.cover,
-        loadingBuilder: (ctx, c, p) {
-          if (p == null) return c;
-          return Container(color: theme.colorScheme.surfaceContainerHighest);
-        },
-        errorBuilder: (_, _, _) => fallback(),
+      return Container(
+        color: bg,
+        child: Image.network(
+          breed.imageUrl!,
+          fit: BoxFit.contain,
+          loadingBuilder: (ctx, c, p) {
+            if (p == null) return c;
+            return Container(color: theme.colorScheme.surfaceContainerHighest);
+          },
+          errorBuilder: (_, _, _) => fallback(),
+        ),
       );
     }
     return fallback();

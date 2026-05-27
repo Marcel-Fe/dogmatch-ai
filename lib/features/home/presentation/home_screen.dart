@@ -43,22 +43,38 @@ class HomeScreen extends ConsumerWidget {
           message: 'Rassen konnten nicht geladen werden.',
           onRetry: () => ref.invalidate(breedsProvider),
         ),
-        data: (breeds) => ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.lg,
-                AppSpacing.lg,
+        data: (breeds) {
+          // Bild der Hund-Rasse als Fallback, wenn der eigene Hund kein
+          // Foto hat - so erscheint auf dem Dashboard nie nur ein
+          // Pfoten-Icon, sondern ein echter Hund.
+          String? breedImageUrl;
+          final breedName = activeDog?.breed?.trim().toLowerCase();
+          if (breedName != null && breedName.isNotEmpty) {
+            for (final b in breeds) {
+              if (b.name.toLowerCase() == breedName ||
+                  b.id.toLowerCase() == breedName) {
+                breedImageUrl = b.imageUrl;
+                break;
+              }
+            }
+          }
+          return ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.md,
+                  AppSpacing.lg,
+                  AppSpacing.lg,
+                ),
+                child: DogHeroCard(
+                  dog: activeDog,
+                  quote: quote,
+                  greetingName: greetingName,
+                  breedImageUrl: breedImageUrl,
+                ),
               ),
-              child: DogHeroCard(
-                dog: activeDog,
-                quote: quote,
-                greetingName: greetingName,
-              ),
-            ),
             QuickActions(),
             const SizedBox(height: AppSpacing.lg),
             if (activeDog != null &&
@@ -160,7 +176,8 @@ class HomeScreen extends ConsumerWidget {
               }),
             ],
           ],
-        ),
+        );
+        },
       ),
     );
   }
@@ -200,6 +217,18 @@ class _FeatureGrid extends StatelessWidget {
         icon: Icons.school_rounded,
         label: 'Training',
         route: AppRoutes.training,
+        switchTab: false,
+      ),
+      _FeatureItem(
+        icon: Icons.health_and_safety_rounded,
+        label: 'Symptom-Check',
+        route: AppRoutes.symptomCheck,
+        switchTab: false,
+      ),
+      _FeatureItem(
+        icon: Icons.verified_user_rounded,
+        label: 'Zuechter',
+        route: AppRoutes.breederFinder,
         switchTab: false,
       ),
       _FeatureItem(
