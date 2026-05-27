@@ -1,0 +1,207 @@
+[
+  {
+    "id": "sit",
+    "title": "Sitz",
+    "description": "Das wichtigste Grundkommando. In 5 Schritten zum sicheren Sitz auf Signal.",
+    "difficulty": "beginner",
+    "estimatedDays": 5,
+    "isPremium": false,
+    "icon": "school",
+    "steps": [
+      {
+        "id": "sit-1",
+        "order": 1,
+        "title": "Leckerli ueber die Nase fuehren",
+        "description": "Halt ein kleines Leckerli direkt vor die Nase. Fuehre es langsam ueber den Kopf nach hinten - der Hund senkt automatisch das Hinterteil.",
+        "tip": "Belohne den Moment, in dem das Hinterteil den Boden beruehrt - nicht erst danach."
+      },
+      {
+        "id": "sit-2",
+        "order": 2,
+        "title": "Markerwort einfuehren",
+        "description": "Sag im selben Moment 'Sitz', wenn er sich setzt. So koppelt er das Wort an die Bewegung.",
+        "tip": "Immer dasselbe Wort, klare Stimme - kein Singsang."
+      },
+      {
+        "id": "sit-3",
+        "order": 3,
+        "title": "Leckerli ausschleichen",
+        "description": "Mache die Handbewegung erst noch mit, aber ohne Leckerli in der Hand. Belohnung kommt erst nach dem Sitzen aus der anderen Hand.",
+        "tip": "Wenn er nicht reagiert: noch 2-3 Tage mit Leckerli ueben."
+      },
+      {
+        "id": "sit-4",
+        "order": 4,
+        "title": "Sitzdauer aufbauen",
+        "description": "Lass ihn 5, dann 10, dann 20 Sekunden im Sitz. Erst danach das Aufloese-Wort ('Okay') und Belohnung.",
+        "tip": "Geh nicht zu schnell hoch. Wenn er aufsteht: Schritt zurueck."
+      },
+      {
+        "id": "sit-5",
+        "order": 5,
+        "title": "Ablenkung einbauen",
+        "description": "Uebe das Sitz an verschiedenen Orten und mit kleinen Ablenkungen (Stimme, Spielzeug).",
+        "tip": "Erfolg bei 80% in einer Umgebung -> naechste Stufe."
+      }
+    ]
+  },
+  {
+    "id": "down",
+    "title": "Platz",
+    "description": "Aus dem Sitz ins Liegen. Wichtige Basis fuer 'Bleib' und Entspannungsuebungen.",
+    "difficulty": "beginner",
+    "estimatedDays": 7,
+    "isPremium": true,
+    "icon": "self_improvement",
+    "steps": [
+      {
+        "id": "down-1",
+        "order": 1,
+        "title": "Aus dem Sitz heraus",
+        "description": "Hund sitzt. Fuehre das Leckerli von seiner Nase langsam zum Boden zwischen die Vorderpfoten.",
+        "tip": "Geduldig: manche Hunde brauchen 1-2 Minuten, bis sie sich legen."
+      },
+      {
+        "id": "down-2",
+        "order": 2,
+        "title": "Komplett ablegen markieren",
+        "description": "Belohne erst, wenn beide Ellbogen den Boden beruehren - nicht im 'halben Liegen'.",
+        "tip": "Sag 'Platz', wenn er sich ablegt."
+      },
+      {
+        "id": "down-3",
+        "order": 3,
+        "title": "Handzeichen aufbauen",
+        "description": "Flache Hand nach unten zum Boden zeigen - dann erst das Wort. Beides koppeln.",
+        "tip": "Ohne Leckerli die Geste ueben, mit Leckerli aus anderer Hand belohnen."
+      },
+      {
+        "id": "down-4",
+        "order": 4,
+        "title": "Liegedauer aufbauen",
+        "description": "5, 15, 30 Sekunden liegen lassen. Aufloese-Wort 'Okay'.",
+        "tip": "Bei Aufstehen: ruhig zurueck in Position, kein Schimpfen."
+      },
+      {
+        "id": "down-5",
+        "order": 5,
+        "title": "Distanz aufbauen",
+        "description": "Du machst einen Schritt zur Seite, dann zwei, dann hinter ihn - er bleibt liegen.",
+        "tip": "Komme immer zu IHM zurueck, ruf ihn nicht zu dir."
+      },
+      {
+        "id": "down-6",
+        "order": 6,
+        "title": "Platz in Alltagssituationen",
+        "description": "Uebe das Platz beim Essen, am Hauseingang, im Park.",
+        "tip": "Belohne lange Liegezeiten - nicht nur kurze Reaktionen."
+      }
+    ]
+  },
+  {
+    "id": "heel",
+    "title": "Bei Fuss",
+    "description": "Lockere Leinenfuehrung. Der Hund laeuft entspannt neben dir - ohne Ziehen.",
+    "difficulty": "intermediate",
+    "estimatedDays": 14,
+    "isPremium": true,
+    "icon": "directions_walk",
+    "steps": [
+      {
+        "id": "heel-1",
+        "order": 1,
+        "title": "Position belohnen",
+        "description": "Steh still. Sobald der Hund neben deinem linken Bein steht, kommt das Leckerli auf Knoehe.",
+        "tip": "Wiederhole 20-30 Mal. Er soll begreifen: dort ist es lohnend."
+      },
+      {
+        "id": "heel-2",
+        "order": 2,
+        "title": "Ein Schritt - Belohnung",
+        "description": "Ein Schritt vor, sofort Belohnung wenn er mitkommt. Steigern auf 2, 3, 5 Schritte.",
+        "tip": "Locker-durchhaengende Leine. Bei Zug: stehen bleiben, nicht ziehen."
+      },
+      {
+        "id": "heel-3",
+        "order": 3,
+        "title": "Richtungswechsel",
+        "description": "Aus dem Gehen heraus: scharfer Richtungswechsel. Er muss reagieren und an deiner Seite bleiben.",
+        "tip": "Erst rechts (er muss nachziehen), dann links (er muss bremsen)."
+      },
+      {
+        "id": "heel-4",
+        "order": 4,
+        "title": "Tempo variieren",
+        "description": "Langsam, schnell, stehen. Er passt sein Tempo an deins an.",
+        "tip": "Bei abruptem Stopp: Hund stoppt mit. Belohnen."
+      },
+      {
+        "id": "heel-5",
+        "order": 5,
+        "title": "Erste Ablenkung",
+        "description": "Gehe in ruhiger Umgebung mit leichter Ablenkung (Spaziergaenger in 20m Entfernung).",
+        "tip": "Belohnungsrate hochhalten - alle paar Sekunden."
+      },
+      {
+        "id": "heel-6",
+        "order": 6,
+        "title": "Echter Spaziergang",
+        "description": "Realer Spaziergang mit Geruechen und Reizen. Belohnung alle 30-60 Sekunden.",
+        "tip": "Auf Dauer reduziert sich die Belohnungsrate, aber nie auf Null."
+      }
+    ]
+  },
+  {
+    "id": "recall",
+    "title": "Rueckruf",
+    "description": "Der wichtigste Befehl ueberhaupt. Sicheres Kommen auf Pfiff oder Wort - auch bei Ablenkung.",
+    "difficulty": "advanced",
+    "estimatedDays": 21,
+    "isPremium": true,
+    "icon": "campaign",
+    "steps": [
+      {
+        "id": "recall-1",
+        "order": 1,
+        "title": "Rueckruf-Wort aufladen",
+        "description": "Waehle ein neues Wort (z.B. 'Hier' oder einen Pfiff). Sag es, dann sofort sehr gutes Leckerli. 20x pro Tag, eine Woche lang.",
+        "tip": "Niemals das Wort fuer etwas Schlechtes nutzen (Baden, Nagelschneiden)."
+      },
+      {
+        "id": "recall-2",
+        "order": 2,
+        "title": "Kurze Distanz",
+        "description": "Wenn er gerade nicht abgelenkt ist: Rueckruf, dann Jackpot (3-5 kleine Leckerli hintereinander).",
+        "tip": "Jackpot = riesiger Wert. Er soll denken: 'Wenn ich komme, ist Party'."
+      },
+      {
+        "id": "recall-3",
+        "order": 3,
+        "title": "Schleppleine",
+        "description": "10-15m Schleppleine. Rufe ihn aus verschiedenen Distanzen. Wenn er nicht kommt: ranfuehren, niemals zerren.",
+        "tip": "Schleppleine bleibt locker, sie ist Notfall-Sicherung."
+      },
+      {
+        "id": "recall-4",
+        "order": 4,
+        "title": "Mit Ablenkung",
+        "description": "Anderer Hund/Geruch in der Naehe - rufe ihn weg davon. Jackpot bei Erfolg.",
+        "tip": "Nicht rufen, wenn du sicher bist, dass er nicht kommt - das verbrennt das Signal."
+      },
+      {
+        "id": "recall-5",
+        "order": 5,
+        "title": "Mitten im Spiel",
+        "description": "Er spielt mit anderem Hund - du rufst ab, lobst, lass ihn dann zurueck zum Spiel.",
+        "tip": "Wenn das Spiel weitergehen darf, lernt er: Kommen heisst nicht Spiel-Ende."
+      },
+      {
+        "id": "recall-6",
+        "order": 6,
+        "title": "Freilauf in sicherem Gebiet",
+        "description": "Ohne Schleppleine, eingezaeunte Wiese oder ruhiger Wald. Mehrere Rueckrufe pro Lauf - mit Jackpot.",
+        "tip": "Bevor er Eigeninitiative zur Rueckkehr zeigt: ruf ihn ab. Belohne."
+      }
+    ]
+  }
+]
