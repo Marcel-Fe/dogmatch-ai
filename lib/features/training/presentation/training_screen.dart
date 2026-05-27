@@ -35,6 +35,8 @@ class TrainingScreen extends ConsumerWidget {
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: AppSpacing.lg),
+              _HelpBox(theme: theme),
+              const SizedBox(height: AppSpacing.lg),
               for (final plan in plans)
                 _PlanTile(
                   plan: plan,
@@ -227,6 +229,100 @@ class _Chip extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(color: color),
+      ),
+    );
+  }
+}
+
+class _HelpBox extends StatelessWidget {
+  const _HelpBox({required this.theme});
+
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.25),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.lightbulb_outline_rounded,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                'So funktioniert es',
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _HelpItem(
+            theme: theme,
+            text: 'Waehle einen Plan, der zu deinem Hund passt - '
+                'Anfaenger zuerst, danach Fortgeschritten/Profi.',
+          ),
+          _HelpItem(
+            theme: theme,
+            text: 'Tippe einen Schritt an, um ihn als erledigt zu '
+                'markieren - der Fortschrittsbalken passt sich an.',
+          ),
+          _HelpItem(
+            theme: theme,
+            text: 'Ueb jeden Schritt 2-3 Tage in kurzen 5-Minuten-Einheiten, '
+                'mehrfach am Tag, bevor du zum naechsten gehst.',
+          ),
+          _HelpItem(
+            theme: theme,
+            text: 'Belohne sofort (innerhalb 1 Sekunde) - kleine '
+                'Leckerli oder Lob, je nach Hund.',
+          ),
+          _HelpItem(
+            theme: theme,
+            text: 'Bei Frust oder Ueberforderung: einen Schritt '
+                'zurueck und nochmal festigen.',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HelpItem extends StatelessWidget {
+  const _HelpItem({required this.theme, required this.text});
+
+  final ThemeData theme;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.xs),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.check_circle_outline_rounded,
+            size: 16,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(text, style: theme.textTheme.bodySmall),
+          ),
+        ],
       ),
     );
   }
