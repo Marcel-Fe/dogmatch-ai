@@ -39,4 +39,7 @@ class AppRoutes {
   // Training
   static const String training = '/training';
   static const String trainingDetail = '/training'; // /training/:id
+
+  // Symptom-Check
+  static const String symptomCheck = '/symptom-check';
 }
