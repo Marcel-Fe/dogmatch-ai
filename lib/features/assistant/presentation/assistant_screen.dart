@@ -60,6 +60,25 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     }
   }
 
+  /// Auch ohne deployten Worker sichtbar - dann mit Hinweis statt
+  /// schweigsam ausgeblendet, damit der Nutzer den Plan kennt.
+  Future<void> _pickImageOrExplain() async {
+    if (!Env.hasGeminiProxy) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Bild-Erkennung ist aktiv sobald der KI-Proxy deployt ist. '
+            'Siehe worker/README.md fuer den 5-Minuten-Setup.',
+          ),
+          duration: Duration(seconds: 5),
+        ),
+      );
+      return;
+    }
+    await _pickImage();
+  }
+
   void _clearPendingImage() {
     setState(() => _pendingImageDataUrl = null);
   }
@@ -178,7 +197,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
             ChatInputBar(
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
-              onPickImage: Env.hasGeminiProxy ? _pickImage : null,
+              onPickImage: _pickImageOrExplain,
               hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'
@@ -221,6 +240,33 @@ class _EmptyState extends StatelessWidget {
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.lg),
+          if (!isTrainer)
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              margin: const EdgeInsets.only(bottom: AppSpacing.md),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                border: Border.all(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.25),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.mic_rounded, color: theme.colorScheme.primary),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe oder aufs '
+                      'Foto-Symbol, um ein Bild deines Hundes zur Erkennung '
+                      'hochzuladen.',
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           SuggestedPrompts(
             onSelect: onPromptSelected,
             prompts: isTrainer ? _trainerPrompts : null,
