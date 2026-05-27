@@ -21,6 +21,8 @@ import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.da
 import 'package:dogmatch_ai/features/profile/presentation/profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
+import 'package:dogmatch_ai/features/training/presentation/training_detail_screen.dart';
+import 'package:dogmatch_ai/features/training/presentation/training_screen.dart';
 import 'package:dogmatch_ai/shared/navigation/scaffold_with_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -148,6 +150,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.documents,
       builder: (context, state) => const DocumentsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.training,
+      builder: (context, state) => const TrainingScreen(),
+    ),
+    GoRoute(
+      path: '${AppRoutes.training}/:id',
+      builder: (context, state) =>
+          TrainingDetailScreen(planId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: AppRoutes.breederFinder,

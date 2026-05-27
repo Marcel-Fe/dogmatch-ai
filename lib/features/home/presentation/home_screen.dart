@@ -197,6 +197,12 @@ class _FeatureGrid extends StatelessWidget {
         switchTab: true,
       ),
       _FeatureItem(
+        icon: Icons.school_rounded,
+        label: 'Training',
+        route: AppRoutes.training,
+        switchTab: false,
+      ),
+      _FeatureItem(
         icon: Icons.quiz_rounded,
         label: 'Quiz starten',
         route: AppRoutes.quiz,

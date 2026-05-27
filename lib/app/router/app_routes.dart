@@ -35,4 +35,8 @@ class AppRoutes {
   static const String healthCalendar = '/health';
   static const String addHealthEvent = '/health/add';
   static const String documents = '/documents';
+
+  // Training
+  static const String training = '/training';
+  static const String trainingDetail = '/training'; // /training/:id
 }

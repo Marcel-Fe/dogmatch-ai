@@ -1,0 +1,248 @@
+import 'package:dogmatch_ai/app/router/app_routes.dart';
+import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/premium/presentation/premium_controller.dart';
+import 'package:dogmatch_ai/features/training/domain/training_plan.dart';
+import 'package:dogmatch_ai/features/training/domain/training_progress.dart';
+import 'package:dogmatch_ai/features/training/presentation/training_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+/// Liste aller Trainingsplaene mit Fortschritts-Anzeige.
+class TrainingScreen extends ConsumerWidget {
+  const TrainingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final plansAsync = ref.watch(trainingPlansProvider);
+    final progressAsync = ref.watch(trainingProgressProvider);
+    final isPremium = ref.watch(isPremiumProvider);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Training')),
+      body: plansAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Fehler: $e')),
+        data: (plans) {
+          final progress = progressAsync.value ?? const {};
+          return ListView(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            children: [
+              Text(
+                'Strukturierte Trainingsplaene fuer dich und deinen Hund. '
+                'Hak einzelne Schritte ab und behalte den Ueberblick.',
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              for (final plan in plans)
+                _PlanTile(
+                  plan: plan,
+                  progress: progress[plan.id],
+                  isPremium: isPremium,
+                  theme: theme,
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _PlanTile extends StatelessWidget {
+  const _PlanTile({
+    required this.plan,
+    required this.progress,
+    required this.isPremium,
+    required this.theme,
+  });
+
+  final TrainingPlan plan;
+  final TrainingProgress? progress;
+  final bool isPremium;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    final locked = plan.isPremium && !isPremium;
+    final completedCount = progress?.completedCount ?? 0;
+    final totalSteps = plan.steps.length;
+    final pct = totalSteps == 0 ? 0.0 : completedCount / totalSteps;
+    final isDone = completedCount == totalSteps && totalSteps > 0;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        onTap: () {
+          if (locked) {
+            _showLocked(context);
+            return;
+          }
+          context.push('${AppRoutes.training}/${plan.id}');
+        },
+        child: Container(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest
+                .withValues(alpha: 0.4),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+            border: Border.all(
+              color: isDone
+                  ? Colors.green.withValues(alpha: 0.5)
+                  : theme.colorScheme.outline.withValues(alpha: 0.2),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                ),
+                child: Icon(
+                  _iconFor(plan.icon),
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            plan.title,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ),
+                        if (locked)
+                          Icon(
+                            Icons.lock_outline_rounded,
+                            size: 18,
+                            color: Colors.amber.shade700,
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      plan.description,
+                      style: theme.textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Row(
+                      children: [
+                        _Chip(
+                          label: plan.difficulty.label,
+                          theme: theme,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _Chip(
+                          label: '${plan.estimatedDays} Tage',
+                          theme: theme,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _Chip(
+                          label: '$completedCount/$totalSteps',
+                          theme: theme,
+                          highlight: isDone,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.radiusPill),
+                      child: LinearProgressIndicator(
+                        value: pct,
+                        minHeight: 6,
+                        backgroundColor: theme.colorScheme.surfaceContainer,
+                        valueColor: AlwaysStoppedAnimation(
+                          isDone ? Colors.green : theme.colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showLocked(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Premium-Trainingsplan'),
+        content: const Text(
+          'Dieser Trainingsplan ist Premium-Mitgliedern vorbehalten.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Spaeter'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              context.push(AppRoutes.premium);
+            },
+            child: const Text('Mehr erfahren'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Chip extends StatelessWidget {
+  const _Chip({required this.label, required this.theme, this.highlight = false});
+
+  final String label;
+  final ThemeData theme;
+  final bool highlight;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = highlight ? Colors.green : theme.colorScheme.onSurfaceVariant;
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: 2,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelSmall?.copyWith(color: color),
+      ),
+    );
+  }
+}
+
+IconData _iconFor(String key) {
+  switch (key) {
+    case 'school':
+      return Icons.school_rounded;
+    case 'self_improvement':
+      return Icons.self_improvement_rounded;
+    case 'directions_walk':
+      return Icons.directions_walk_rounded;
+    case 'campaign':
+      return Icons.campaign_rounded;
+    default:
+      return Icons.pets_rounded;
+  }
+}
