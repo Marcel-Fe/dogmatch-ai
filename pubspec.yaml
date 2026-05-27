@@ -73,6 +73,7 @@ flutter:
   assets:
     - assets/data/breeds.json
     - assets/data/training_plans.json
+    - assets/data/breeders.json
 
   # --- Backend-Phase (noch nicht aktiv) ---------------------------------
   # Firebase wird erst angebunden, wenn der Offline-Kern steht. Dann hier
