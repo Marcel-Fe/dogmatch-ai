@@ -60,11 +60,18 @@ Diese URL kopieren - sie wird beim Flutter-Build mit
 
 ### 6. Worker testen
 
+Direkt mit curl:
 ```powershell
 curl -X POST "https://<deine-worker-url>" `
      -H "Content-Type: application/json" `
      -d '{"messages":[{"role":"user","text":"Sag Hallo auf Deutsch"}]}'
 ```
+
+Oder bequemer mit dem bereitgestellten Python-Skript (im Projekt-Root):
+```powershell
+python tools/verify_worker.py https://<deine-worker-url>
+```
+Es prueft Status-Code + nicht-leere Antwort und gibt "OK" oder "LEER" zurueck.
 
 Antwort sollte etwa so aussehen:
 ```json
