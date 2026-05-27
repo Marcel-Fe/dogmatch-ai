@@ -51,7 +51,7 @@
     "description": "Aus dem Sitz ins Liegen. Wichtige Basis fuer 'Bleib' und Entspannungsuebungen.",
     "difficulty": "beginner",
     "estimatedDays": 7,
-    "isPremium": true,
+    "isPremium": false,
     "icon": "self_improvement",
     "steps": [
       {
@@ -104,7 +104,7 @@
     "description": "Lockere Leinenfuehrung. Der Hund laeuft entspannt neben dir - ohne Ziehen.",
     "difficulty": "intermediate",
     "estimatedDays": 14,
-    "isPremium": true,
+    "isPremium": false,
     "icon": "directions_walk",
     "steps": [
       {
@@ -157,7 +157,7 @@
     "description": "Der wichtigste Befehl ueberhaupt. Sicheres Kommen auf Pfiff oder Wort - auch bei Ablenkung.",
     "difficulty": "advanced",
     "estimatedDays": 21,
-    "isPremium": true,
+    "isPremium": false,
     "icon": "campaign",
     "steps": [
       {
