@@ -14,6 +14,7 @@ import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_input_b
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/suggested_prompts.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/typing_indicator.dart';
 import 'package:dogmatch_ai/features/dogs/data/photo_picker.dart' as picker;
+import 'package:dogmatch_ai/features/premium/presentation/premium_controller.dart';
 import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -91,7 +92,8 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     final mode = ref.watch(chatModeProvider);
     final theme = Theme.of(context);
 
-    final limitReached =
+    final isPremium = ref.watch(isPremiumProvider);
+    final limitReached = !isPremium &&
         state.userMessageCount >= AppConstants.freeAiMessageLimit;
 
     // Nach jedem Rebuild ans Ende scrollen, sobald Nachrichten dazukommen.
