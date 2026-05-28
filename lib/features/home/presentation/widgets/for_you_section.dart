@@ -31,7 +31,7 @@ class ForYouSection extends StatelessWidget {
       if (filtered.isNotEmpty) pool = filtered;
     }
     if (pool.isEmpty) pool = List<DogBreed>.from(allBreeds);
-    return pool.take(4).toList();
+    return pool.take(8).toList();
   }
 
   @override

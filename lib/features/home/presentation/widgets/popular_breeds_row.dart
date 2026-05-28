@@ -6,11 +6,22 @@ import 'package:go_router/go_router.dart';
 
 /// Horizontal scrollbare Reihe mit runden Bild-Avataren der beliebtesten
 /// Rassen - Instagram-Story-Stil als visueller Anker oben am Dashboard.
+///
+/// Wenn `activeBreedName` gesetzt ist und in der Rassen-Liste auftaucht,
+/// wird die aktive Rasse als erstes Element eingefuegt - so sieht der
+/// Nutzer "seinen" Hund immer prominent.
 class PopularBreedsRow extends StatelessWidget {
-  const PopularBreedsRow({super.key, required this.allBreeds});
+  const PopularBreedsRow({
+    super.key,
+    required this.allBreeds,
+    this.activeBreedName,
+  });
 
   final List<DogBreed> allBreeds;
+  final String? activeBreedName;
 
+  /// Kuratierte Top-Liste. Bewusst breit gestreut: Familienhunde,
+  /// Wachhunde, kleine + grosse Rassen, Mischlinge.
   static const _popularIds = [
     'labrador-retriever',
     'golden-retriever',
@@ -27,14 +38,48 @@ class PopularBreedsRow extends StatelessWidget {
     'siberian-husky',
     'boston-terrier',
     'shih-tzu',
+    'neufundlaender',
+    'bernhardiner',
+    'berner-sennenhund',
+    'akita',
+    'cane-corso',
+    'rottweiler',
+    'doberman',
+    'pudel',
+    'yorkshire-terrier',
+    'jack-russell-terrier',
+    'malinois',
+    'rhodesian-ridgeback',
+    'leonberger',
+    'havaneser',
+    'shiba-inu',
   ];
 
   List<DogBreed> _picks() {
     final byId = {for (final b in allBreeds) b.id: b};
     final list = <DogBreed>[];
+    final added = <String>{};
+
+    // Aktive Rasse zuerst, falls vorhanden (case-insensitive Match auf
+    // name oder id).
+    final active = activeBreedName?.trim().toLowerCase();
+    if (active != null && active.isNotEmpty) {
+      for (final b in allBreeds) {
+        if (b.name.toLowerCase() == active || b.id.toLowerCase() == active) {
+          list.add(b);
+          added.add(b.id);
+          break;
+        }
+      }
+    }
+
     for (final id in _popularIds) {
+      if (added.contains(id)) continue;
       final b = byId[id];
-      if (b != null) list.add(b);
+      if (b != null) {
+        list.add(b);
+        added.add(id);
+      }
     }
     return list;
   }

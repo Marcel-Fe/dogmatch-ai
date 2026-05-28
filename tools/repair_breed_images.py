@@ -19,6 +19,11 @@ PLACEHOLDER_MARKER = "Golde33443"
 
 # id -> Liste alternativer Wikipedia-Lemmas (DE). Es wird das erste mit Bild genommen.
 LEMMAS = {
+    "neufundlaender": [
+        "Neufundländer (Hunderasse)",
+        "Neufundländer (Hund)",
+        "Neufundländer",
+    ],
     "pyrenaeen-schaeferhund": [
         "Berger des Pyrénées",
         "Pyrenäen-Schäferhund",
@@ -90,7 +95,13 @@ def main() -> int:
         data = json.load(f)
 
     by_id = {b["id"]: b for b in data}
-    targets = [bid for bid in LEMMAS if bid in by_id and PLACEHOLDER_MARKER in by_id[bid].get("imageUrl", "")]
+    targets = []
+    for bid in LEMMAS:
+        if bid not in by_id:
+            continue
+        url = by_id[bid].get("imageUrl", "") or ""
+        if PLACEHOLDER_MARKER in url or url.strip() == "":
+            targets.append(bid)
     print(f"Bilder zum Reparieren: {len(targets)}")
 
     fixed = 0
