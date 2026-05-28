@@ -17,13 +17,11 @@ class DogHeroCard extends StatelessWidget {
   const DogHeroCard({
     super.key,
     required this.dog,
-    required this.quote,
     this.greetingName,
     this.breedImageUrl,
   });
 
   final Dog? dog;
-  final String quote;
   final String? greetingName;
 
   /// Optional: Bild der zugewiesenen Rasse. Wird gezeigt, wenn der Hund
@@ -106,8 +104,6 @@ class DogHeroCard extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.85),
                 ),
               ),
-              const SizedBox(height: AppSpacing.md),
-              _QuoteRow(quote: quote, color: Colors.white),
             ],
           ),
         ),
@@ -157,8 +153,6 @@ class DogHeroCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.85),
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          _QuoteRow(quote: quote, color: Colors.white),
         ],
       ),
     );
@@ -239,42 +233,3 @@ class _DogPhotoOrFallback extends StatelessWidget {
   }
 }
 
-class _QuoteRow extends StatelessWidget {
-  const _QuoteRow({required this.quote, required this.color});
-
-  final String quote;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-        border: Border.all(color: color.withValues(alpha: 0.25)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.auto_awesome_rounded, color: color, size: 18),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              quote,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w500,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

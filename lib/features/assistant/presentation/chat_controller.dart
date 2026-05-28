@@ -26,6 +26,29 @@ class ChatModeNotifier extends Notifier<ChatMode> {
 final chatModeProvider =
     NotifierProvider<ChatModeNotifier, ChatMode>(ChatModeNotifier.new);
 
+/// "Vorgemerkte" Eingabe fuer den Chat, die ein anderer Screen
+/// (Verhalten-Check, Symptom-Check) gesetzt hat. Der AssistantScreen
+/// liest sie beim Mount aus, schaltet den Modus und sendet die Frage
+/// automatisch. Danach wird sie auf null gesetzt.
+class AssistantHandoff {
+  const AssistantHandoff({required this.prompt, required this.mode});
+  final String prompt;
+  final ChatMode mode;
+}
+
+class AssistantHandoffNotifier extends Notifier<AssistantHandoff?> {
+  @override
+  AssistantHandoff? build() => null;
+
+  void queue(AssistantHandoff handoff) => state = handoff;
+  void consume() => state = null;
+}
+
+final assistantHandoffProvider =
+    NotifierProvider<AssistantHandoffNotifier, AssistantHandoff?>(
+  AssistantHandoffNotifier.new,
+);
+
 /// Stellt die konkrete Implementierung des [ChatRepository] bereit.
 /// Reihenfolge:
 /// 1. `GEMINI_PROXY_URL` gesetzt (Cloudflare Worker) -> RemoteGemini.

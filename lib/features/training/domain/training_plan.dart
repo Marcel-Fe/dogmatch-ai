@@ -75,6 +75,7 @@ class TrainingStep extends Equatable {
     required this.title,
     required this.description,
     this.tip,
+    this.videoSearch,
   });
 
   final String id;
@@ -83,6 +84,19 @@ class TrainingStep extends Equatable {
   final String description;
   final String? tip;
 
+  /// Optionaler YouTube-Such-Begriff fuer den Schritt. Im UI wird daraus
+  /// ein `https://www.youtube.com/results?search_query=...` Link, der im
+  /// neuen Tab oeffnet. Wir nutzen Suche statt fester Video-IDs, weil
+  /// hardcoded IDs schnell tot sind.
+  final String? videoSearch;
+
+  /// URL zur YouTube-Suche, oder null wenn kein Suchbegriff gesetzt ist.
+  String? get videoSearchUrl {
+    final q = videoSearch?.trim();
+    if (q == null || q.isEmpty) return null;
+    return 'https://www.youtube.com/results?search_query=${Uri.encodeQueryComponent(q)}';
+  }
+
   factory TrainingStep.fromJson(Map<String, dynamic> json) {
     return TrainingStep(
       id: json['id'] as String,
@@ -90,9 +104,11 @@ class TrainingStep extends Equatable {
       title: json['title'] as String,
       description: json['description'] as String? ?? '',
       tip: json['tip'] as String?,
+      videoSearch: json['videoSearch'] as String?,
     );
   }
 
   @override
-  List<Object?> get props => [id, order, title, description, tip];
+  List<Object?> get props =>
+      [id, order, title, description, tip, videoSearch];
 }

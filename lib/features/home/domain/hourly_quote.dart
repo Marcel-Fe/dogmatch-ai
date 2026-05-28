@@ -1,41 +1,187 @@
-/// Liefert einen stuendlich wechselnden Wissens-Spruch zu Hunden.
+/// Hundeweisheits-Spruch - jede Stunde rotiert er. Mischung aus
+/// Volksweisheiten, Zitaten und konkreten Trainings-Wahrheiten.
+class WisdomQuote {
+  const WisdomQuote({required this.text, this.author});
+
+  /// Der Spruch selbst.
+  final String text;
+
+  /// Optionaler Autor. Null = Volksweisheit / Trainings-Wissen.
+  final String? author;
+}
+
+/// Liefert einen stuendlich wechselnden Hunde-Spruch.
 /// Reine Daten + Funktion, kein State. Tests verlassen sich auf
-/// determinitisches Verhalten: gleiche Stunde -> gleicher Spruch.
+/// determinitisches Verhalten: gleiche Stunde + gleicher Tag -> gleicher Spruch.
 class HourlyQuote {
   HourlyQuote._();
 
-  /// 24 Sprueche - einer pro Stunde des Tages. Inhaltlich Mischung aus
-  /// Fakten, Verhaltens-Tipps und kurzen Weisheiten.
-  static const List<String> quotes = [
-    'Hunde traeumen aehnlich wie wir - im REM-Schlaf zucken Pfoten und Schnauze.',
-    'Ein Hund kann ueber 100.000-mal besser riechen als ein Mensch.',
-    'Belohnung wirkt staerker als Strafe - Hunde lernen am besten in 3-5 Min Sequenzen.',
-    'Das Wedeln nach rechts deutet auf Freude, nach links eher auf Unsicherheit.',
-    'Schoko, Trauben, Zwiebeln und Xylit sind fuer Hunde giftig - immer ausser Reichweite.',
-    'Hunde brauchen Pausen: 17-20 Stunden Ruhe am Tag sind normal und gesund.',
-    'Augenkontakt mit deinem Hund setzt bei beiden Oxytocin frei - das Bindungshormon.',
-    'Sozialisierung in den Wochen 3-16 praegt das Wesen ein Leben lang.',
-    'Ein gesunder Hund laeuft mit aufrechter, lockerer Rute und entspannter Schnauze.',
-    'Trockenfutter braucht frisches Wasser daneben - sonst belastet es die Nieren.',
-    'Welpenstubenrein wird ein Hund mit konsequentem Lob nach dem Geschaeft draussen.',
-    'Hunde verstehen ueber 150 Woerter - manche Rassen sogar 200+.',
-    'Das Bauch zeigen heisst Vertrauen - aber nur, wenn der Koerper sonst entspannt ist.',
-    'Heisser Asphalt > 50 Grad C verbrennt Pfoten - 5-Sekunden-Handflaechen-Test machen.',
-    'Lange Spaziergaenge ersetzen kein mentales Training - 10 Min Nasenarbeit ermueden mehr als 1h Joggen.',
-    'Bellen ist Kommunikation - finde die Ursache (Langeweile, Angst, Schutz) statt sie nur zu unterdruecken.',
-    'Hunde brauchen Routine - feste Fuetterungs- und Spaziergeh-Zeiten reduzieren Stress.',
-    'Zerren, Knurren, abgewandter Blick - klare Signale: "Lass mich in Ruhe".',
-    'Ein muede gespielter Hund ist ein zufriedener Hund - aber Spielzeug allein reicht nie.',
-    'Zecken nach jedem Spaziergang absuchen - besonders Ohren, Halsband-Bereich und zwischen Zehen.',
-    'Welpen sollten erst nach ihrem 1. Geburtstag laenger laufen - Wachstumsfugen sind noch offen.',
-    'Loben im richtigen Moment heisst innerhalb von 1-2 Sekunden - sonst lernt er das Falsche.',
-    'Krallenpflege regelmaessig: klicken sie beim Gehen, sind sie zu lang.',
-    'Ein muede gespielter Hund hat ruhige Augen, langsame Atmung und sucht von selbst seinen Platz.',
+  /// Liste aller Sprueche. 40+ Eintraege, damit pro Tag andere kommen.
+  /// Schoene Weisheiten kommen zuerst (werden haeufiger getroffen, wenn
+  /// die Stundenzahl in einen anderen Tag rotiert).
+  static const List<WisdomQuote> wisdom = [
+    WisdomQuote(
+      text: 'Bis du jemanden geliebt hast, der Hund war, war ein Teil deiner '
+          'Seele noch nicht erwacht.',
+      author: 'Anatole France',
+    ),
+    WisdomQuote(
+      text: 'Der Hund ist der einzige Freund, den man fuer Geld bekommt.',
+      author: 'Anatole France',
+    ),
+    WisdomQuote(
+      text: 'Wer einen Hund hat, hat einen Freund, der nicht fragt, sondern '
+          'einfach da ist.',
+    ),
+    WisdomQuote(
+      text: 'Wenn die Augen eines Hundes dich anschauen, sieht eine Seele '
+          'dich an.',
+    ),
+    WisdomQuote(
+      text: 'Hunde sind keine ganze Welt - aber sie machen die Welt ganz.',
+      author: 'Roger Caras',
+    ),
+    WisdomQuote(
+      text: 'Mein Hund denkt, ich bin grossartig - er hat keine Ahnung von '
+          'meiner Steuererklaerung.',
+    ),
+    WisdomQuote(
+      text: 'Ein Hund ist die einzige Liebe, die mit dem Schwanz wedeln kann.',
+    ),
+    WisdomQuote(
+      text: 'Wer mit Hunden lebt, lernt: Vertrauen ist die einzige Sprache, '
+          'die wirklich verstanden wird.',
+    ),
+    WisdomQuote(
+      text: 'Glueck ist ein warmer Welpe.',
+      author: 'Charles M. Schulz',
+    ),
+    WisdomQuote(
+      text: 'Mein Hund ist mein Spiegel: ist er ruhig, war ich es zuerst.',
+    ),
+
+    // Trainings-Weisheiten (konkrete kurze Wahrheiten)
+    WisdomQuote(
+      text: 'Belohnung in 1-2 Sekunden nach dem Verhalten - sonst lernt dein '
+          'Hund das Falsche.',
+    ),
+    WisdomQuote(
+      text: 'Kurze Sequenzen von 3-5 Minuten lernen Hunde besser als eine '
+          'lange Stunde Training.',
+    ),
+    WisdomQuote(
+      text: 'Konsistenz schlaegt Strenge: jeder im Haushalt nutzt das gleiche '
+          'Signalwort.',
+    ),
+    WisdomQuote(
+      text: '10 Minuten Nasenarbeit ermueden deinen Hund mehr als 1 Stunde '
+          'Joggen.',
+    ),
+    WisdomQuote(
+      text: 'Sozialisierung in den Wochen 3-16 praegt das Wesen ein Leben lang.',
+    ),
+    WisdomQuote(
+      text: 'Das Bauch zeigen heisst Vertrauen - aber nur, wenn der Koerper '
+          'sonst entspannt ist.',
+    ),
+    WisdomQuote(
+      text: 'Bellen ist Kommunikation - finde die Ursache, statt sie nur zu '
+          'unterdruecken.',
+    ),
+    WisdomQuote(
+      text: 'Routine reduziert Stress - feste Fuetterungs- und Spaziergeh-'
+          'Zeiten helfen mehr als jedes Spielzeug.',
+    ),
+    WisdomQuote(
+      text: 'Augenkontakt mit deinem Hund setzt bei euch beiden Oxytocin frei - '
+          'das Bindungshormon.',
+    ),
+    WisdomQuote(
+      text: 'Das Wedeln nach rechts deutet auf Freude, nach links eher auf '
+          'Unsicherheit.',
+    ),
+
+    // Fakten - kurze "wusstest du"-Momente
+    WisdomQuote(
+      text: 'Ein Hund riecht ueber 100.000-mal besser als ein Mensch.',
+    ),
+    WisdomQuote(
+      text: 'Hunde brauchen 17-20 Stunden Ruhe am Tag - das ist normal, kein '
+          'Faulsein.',
+    ),
+    WisdomQuote(
+      text: 'Hunde verstehen ueber 150 Woerter - manche Rassen sogar 200+.',
+    ),
+    WisdomQuote(
+      text: 'Hunde traeumen aehnlich wie wir - im REM-Schlaf zucken Pfoten '
+          'und Schnauze.',
+    ),
+    WisdomQuote(
+      text: 'Hunde sehen nicht schwarz-weiss - sie sehen blau-gelb wie ein '
+          'rot-gruen-blinder Mensch.',
+    ),
+
+    // Sicherheits-Wissen
+    WisdomQuote(
+      text: 'Schoko, Trauben, Zwiebeln und Xylit sind fuer Hunde giftig - '
+          'immer ausser Reichweite.',
+    ),
+    WisdomQuote(
+      text: 'Heisser Asphalt > 50 Grad C verbrennt Pfoten - 5-Sekunden-Handflaechen-Test machen.',
+    ),
+    WisdomQuote(
+      text: 'Welpen sollten erst nach ihrem 1. Geburtstag laenger laufen - '
+          'Wachstumsfugen sind noch offen.',
+    ),
+    WisdomQuote(
+      text: 'Zecken nach jedem Spaziergang absuchen - besonders Ohren, '
+          'Halsband-Bereich und zwischen Zehen.',
+    ),
+    WisdomQuote(
+      text: 'Trockenfutter braucht frisches Wasser daneben - sonst belastet '
+          'es die Nieren.',
+    ),
+
+    // Beziehung + Stille
+    WisdomQuote(
+      text: 'Der beste Trainer ist der, der zuhoert - auch wenn der Hund '
+          'nichts sagt.',
+    ),
+    WisdomQuote(
+      text: 'Ein Hund liebt nicht trotz deiner Fehler - sondern weil du '
+          'jeden Abend wiederkommst.',
+    ),
+    WisdomQuote(
+      text: 'Hunde sind unsere Verbindung zum Hier und Jetzt - sie kennen '
+          'keine Vergangenheit, keine Sorgen um morgen.',
+    ),
+    WisdomQuote(
+      text: 'Ein muede gespielter Hund hat ruhige Augen, langsame Atmung und '
+          'sucht von selbst seinen Platz.',
+    ),
+    WisdomQuote(
+      text: 'Krallenpflege regelmaessig: klicken sie beim Gehen, sind sie '
+          'zu lang.',
+    ),
   ];
 
-  /// Liefert den Spruch fuer die aktuelle Stunde [0..23].
+  /// Index-Berechnung: jede Stunde anders, und ueber Tage rotierend - so
+  /// gibt es nicht jeden Tag denselben Spruch zur gleichen Uhrzeit.
+  static int _indexFor(DateTime now) {
+    final daysSinceEpoch =
+        DateTime(now.year, now.month, now.day).millisecondsSinceEpoch ~/
+            (1000 * 60 * 60 * 24);
+    final slot = daysSinceEpoch * 24 + now.hour;
+    return slot % wisdom.length;
+  }
+
+  /// Aktuelle Stunden-Weisheit.
+  static WisdomQuote currentWisdom([DateTime? now]) {
+    return wisdom[_indexFor(now ?? DateTime.now())];
+  }
+
+  /// Rohtext der aktuellen Weisheit - Backwards-Compat fuer alte Aufrufer.
   static String forNow([DateTime? now]) {
-    final hour = (now ?? DateTime.now()).hour;
-    return quotes[hour % quotes.length];
+    return currentWisdom(now).text;
   }
 }

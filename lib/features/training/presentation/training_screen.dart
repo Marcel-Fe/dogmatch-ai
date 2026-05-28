@@ -35,8 +35,15 @@ class TrainingScreen extends ConsumerWidget {
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: AppSpacing.lg),
+              Text('Schnelle Trainings-Tipps',
+                  style: theme.textTheme.titleMedium),
+              const SizedBox(height: AppSpacing.sm),
+              const _QuickTipsRow(),
+              const SizedBox(height: AppSpacing.lg),
               _HelpBox(theme: theme),
               const SizedBox(height: AppSpacing.lg),
+              Text('Alle Plaene', style: theme.textTheme.titleMedium),
+              const SizedBox(height: AppSpacing.sm),
               for (final plan in plans)
                 _PlanTile(
                   plan: plan,
@@ -234,6 +241,148 @@ class _Chip extends StatelessWidget {
   }
 }
 
+/// Horizontale Karten-Reihe mit Schnell-Tipps. Lebt direkt im Code, weil
+/// es weder Persistenz noch i18n braucht. Jede Karte ist eine kleine
+/// Trainings-Wahrheit, die der Nutzer in 10 Sekunden lesen kann.
+class _QuickTipsRow extends StatelessWidget {
+  const _QuickTipsRow();
+
+  static const _tips = <_QuickTip>[
+    _QuickTip(
+      icon: Icons.timer_outlined,
+      title: 'Kurze Einheiten',
+      body: '3-5 Minuten am Stueck, mehrmals taeglich. '
+          'Lange Sessions ermueden und frustrieren.',
+    ),
+    _QuickTip(
+      icon: Icons.flash_on_rounded,
+      title: '1-2 Sekunden-Fenster',
+      body: 'Belohne sofort - sonst lernt der Hund das Falsche.',
+    ),
+    _QuickTip(
+      icon: Icons.workspace_premium_outlined,
+      title: 'Jackpot bei Top-Leistung',
+      body: '3-5 kleine Leckerli hintereinander - der Hund denkt: "Wow".',
+    ),
+    _QuickTip(
+      icon: Icons.psychology_outlined,
+      title: 'Konsistenz schlaegt Strenge',
+      body: 'Alle im Haushalt: gleiches Signalwort, gleicher Ton.',
+    ),
+    _QuickTip(
+      icon: Icons.celebration_outlined,
+      title: 'Mit Erfolg aufhoeren',
+      body: 'Beende das Training mit einer gelungenen Uebung - '
+          'so bleibt die Motivation hoch.',
+    ),
+    _QuickTip(
+      icon: Icons.do_not_touch_outlined,
+      title: 'Niemals strafen',
+      body: 'Strafe erzeugt Angst, nicht Lernen. Verhalten umlenken, '
+          'Alternative anbieten, Alternative belohnen.',
+    ),
+    _QuickTip(
+      icon: Icons.directions_run_rounded,
+      title: 'Erst Auspowern, dann Lernen',
+      body: 'Ein ueberdrehter Hund kann nicht denken - kurzer Spaziergang '
+          'oder Nasenspiel vor der Trainingseinheit.',
+    ),
+    _QuickTip(
+      icon: Icons.location_on_outlined,
+      title: 'Generalisieren ueben',
+      body: 'Kommandos in 5 verschiedenen Raeumen / Orten ueben - '
+          'sonst funktioniert "Sitz" nur in der Kueche.',
+    ),
+    _QuickTip(
+      icon: Icons.volume_down_outlined,
+      title: 'Leise sprechen',
+      body: 'Hunde reagieren auf Klang. Ruhige Stimme = Aufmerksamkeit, '
+          'laute Stimme = Stress.',
+    ),
+    _QuickTip(
+      icon: Icons.psychology_alt_outlined,
+      title: 'Frust = Pause',
+      body: 'Wenn DU genervt bist: aufhoeren. Hunde spueren das sofort - '
+          'die naechste Einheit wird besser.',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 160,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _tips.length,
+        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
+        itemBuilder: (context, i) => _QuickTipCard(tip: _tips[i]),
+      ),
+    );
+  }
+}
+
+class _QuickTip {
+  const _QuickTip({
+    required this.icon,
+    required this.title,
+    required this.body,
+  });
+  final IconData icon;
+  final String title;
+  final String body;
+}
+
+class _QuickTipCard extends StatelessWidget {
+  const _QuickTipCard({required this.tip});
+  final _QuickTip tip;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: 220,
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest
+            .withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.18),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+            ),
+            child: Icon(tip.icon, color: theme.colorScheme.primary, size: 20),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            tip.title,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              tip.body,
+              style: theme.textTheme.bodySmall,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _HelpBox extends StatelessWidget {
   const _HelpBox({required this.theme});
 
@@ -338,6 +487,14 @@ IconData _iconFor(String key) {
       return Icons.directions_walk_rounded;
     case 'campaign':
       return Icons.campaign_rounded;
+    case 'back_hand':
+      return Icons.back_hand_rounded;
+    case 'pause_circle':
+      return Icons.pause_circle_rounded;
+    case 'trending_flat':
+      return Icons.trending_flat_rounded;
+    case 'bed':
+      return Icons.bed_rounded;
     default:
       return Icons.pets_rounded;
   }

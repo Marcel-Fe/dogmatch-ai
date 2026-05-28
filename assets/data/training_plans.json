@@ -13,35 +13,40 @@
         "order": 1,
         "title": "Leckerli ueber die Nase fuehren",
         "description": "Halt ein kleines Leckerli direkt vor die Nase. Fuehre es langsam ueber den Kopf nach hinten - der Hund senkt automatisch das Hinterteil.",
-        "tip": "Belohne den Moment, in dem das Hinterteil den Boden beruehrt - nicht erst danach."
+        "tip": "Belohne den Moment, in dem das Hinterteil den Boden beruehrt - nicht erst danach.",
+        "videoSearch": "Hund Sitz beibringen Welpe Anfaenger"
       },
       {
         "id": "sit-2",
         "order": 2,
         "title": "Markerwort einfuehren",
         "description": "Sag im selben Moment 'Sitz', wenn er sich setzt. So koppelt er das Wort an die Bewegung.",
-        "tip": "Immer dasselbe Wort, klare Stimme - kein Singsang."
+        "tip": "Immer dasselbe Wort, klare Stimme - kein Singsang.",
+        "videoSearch": "Markerwort Hund Clickertraining Sitz"
       },
       {
         "id": "sit-3",
         "order": 3,
         "title": "Leckerli ausschleichen",
         "description": "Mache die Handbewegung erst noch mit, aber ohne Leckerli in der Hand. Belohnung kommt erst nach dem Sitzen aus der anderen Hand.",
-        "tip": "Wenn er nicht reagiert: noch 2-3 Tage mit Leckerli ueben."
+        "tip": "Wenn er nicht reagiert: noch 2-3 Tage mit Leckerli ueben.",
+        "videoSearch": "Hund Leckerli ausschleichen Sitz"
       },
       {
         "id": "sit-4",
         "order": 4,
         "title": "Sitzdauer aufbauen",
         "description": "Lass ihn 5, dann 10, dann 20 Sekunden im Sitz. Erst danach das Aufloese-Wort ('Okay') und Belohnung.",
-        "tip": "Geh nicht zu schnell hoch. Wenn er aufsteht: Schritt zurueck."
+        "tip": "Geh nicht zu schnell hoch. Wenn er aufsteht: Schritt zurueck.",
+        "videoSearch": "Hund Sitz Dauer aufbauen Auflösewort"
       },
       {
         "id": "sit-5",
         "order": 5,
         "title": "Ablenkung einbauen",
         "description": "Uebe das Sitz an verschiedenen Orten und mit kleinen Ablenkungen (Stimme, Spielzeug).",
-        "tip": "Erfolg bei 80% in einer Umgebung -> naechste Stufe."
+        "tip": "Erfolg bei 80% in einer Umgebung -> naechste Stufe.",
+        "videoSearch": "Hund Sitz mit Ablenkung üben"
       }
     ]
   },
@@ -59,42 +64,48 @@
         "order": 1,
         "title": "Aus dem Sitz heraus",
         "description": "Hund sitzt. Fuehre das Leckerli von seiner Nase langsam zum Boden zwischen die Vorderpfoten.",
-        "tip": "Geduldig: manche Hunde brauchen 1-2 Minuten, bis sie sich legen."
+        "tip": "Geduldig: manche Hunde brauchen 1-2 Minuten, bis sie sich legen.",
+        "videoSearch": "Hund Platz beibringen Schritt für Schritt"
       },
       {
         "id": "down-2",
         "order": 2,
         "title": "Komplett ablegen markieren",
         "description": "Belohne erst, wenn beide Ellbogen den Boden beruehren - nicht im 'halben Liegen'.",
-        "tip": "Sag 'Platz', wenn er sich ablegt."
+        "tip": "Sag 'Platz', wenn er sich ablegt.",
+        "videoSearch": "Hund Platz Ellenbogen ablegen markieren"
       },
       {
         "id": "down-3",
         "order": 3,
         "title": "Handzeichen aufbauen",
         "description": "Flache Hand nach unten zum Boden zeigen - dann erst das Wort. Beides koppeln.",
-        "tip": "Ohne Leckerli die Geste ueben, mit Leckerli aus anderer Hand belohnen."
+        "tip": "Ohne Leckerli die Geste ueben, mit Leckerli aus anderer Hand belohnen.",
+        "videoSearch": "Hund Handzeichen Sichtzeichen Platz"
       },
       {
         "id": "down-4",
         "order": 4,
         "title": "Liegedauer aufbauen",
         "description": "5, 15, 30 Sekunden liegen lassen. Aufloese-Wort 'Okay'.",
-        "tip": "Bei Aufstehen: ruhig zurueck in Position, kein Schimpfen."
+        "tip": "Bei Aufstehen: ruhig zurueck in Position, kein Schimpfen.",
+        "videoSearch": "Hund Platz Dauer liegen bleiben"
       },
       {
         "id": "down-5",
         "order": 5,
         "title": "Distanz aufbauen",
         "description": "Du machst einen Schritt zur Seite, dann zwei, dann hinter ihn - er bleibt liegen.",
-        "tip": "Komme immer zu IHM zurueck, ruf ihn nicht zu dir."
+        "tip": "Komme immer zu IHM zurueck, ruf ihn nicht zu dir.",
+        "videoSearch": "Hund Distanz Platz weggehen üben"
       },
       {
         "id": "down-6",
         "order": 6,
         "title": "Platz in Alltagssituationen",
         "description": "Uebe das Platz beim Essen, am Hauseingang, im Park.",
-        "tip": "Belohne lange Liegezeiten - nicht nur kurze Reaktionen."
+        "tip": "Belohne lange Liegezeiten - nicht nur kurze Reaktionen.",
+        "videoSearch": "Hund Decke Platz Restaurant Café"
       }
     ]
   },
@@ -112,42 +123,48 @@
         "order": 1,
         "title": "Position belohnen",
         "description": "Steh still. Sobald der Hund neben deinem linken Bein steht, kommt das Leckerli auf Knoehe.",
-        "tip": "Wiederhole 20-30 Mal. Er soll begreifen: dort ist es lohnend."
+        "tip": "Wiederhole 20-30 Mal. Er soll begreifen: dort ist es lohnend.",
+        "videoSearch": "Hund bei Fuß Position lernen"
       },
       {
         "id": "heel-2",
         "order": 2,
         "title": "Ein Schritt - Belohnung",
         "description": "Ein Schritt vor, sofort Belohnung wenn er mitkommt. Steigern auf 2, 3, 5 Schritte.",
-        "tip": "Locker-durchhaengende Leine. Bei Zug: stehen bleiben, nicht ziehen."
+        "tip": "Locker-durchhaengende Leine. Bei Zug: stehen bleiben, nicht ziehen.",
+        "videoSearch": "Locker an der Leine Hund Schritte aufbauen"
       },
       {
         "id": "heel-3",
         "order": 3,
         "title": "Richtungswechsel",
         "description": "Aus dem Gehen heraus: scharfer Richtungswechsel. Er muss reagieren und an deiner Seite bleiben.",
-        "tip": "Erst rechts (er muss nachziehen), dann links (er muss bremsen)."
+        "tip": "Erst rechts (er muss nachziehen), dann links (er muss bremsen).",
+        "videoSearch": "Hund Leinenführung Richtungswechsel üben"
       },
       {
         "id": "heel-4",
         "order": 4,
         "title": "Tempo variieren",
         "description": "Langsam, schnell, stehen. Er passt sein Tempo an deins an.",
-        "tip": "Bei abruptem Stopp: Hund stoppt mit. Belohnen."
+        "tip": "Bei abruptem Stopp: Hund stoppt mit. Belohnen.",
+        "videoSearch": "Hund Tempowechsel an der Leine Training"
       },
       {
         "id": "heel-5",
         "order": 5,
         "title": "Erste Ablenkung",
         "description": "Gehe in ruhiger Umgebung mit leichter Ablenkung (Spaziergaenger in 20m Entfernung).",
-        "tip": "Belohnungsrate hochhalten - alle paar Sekunden."
+        "tip": "Belohnungsrate hochhalten - alle paar Sekunden.",
+        "videoSearch": "Hund Leinenführung mit Ablenkung"
       },
       {
         "id": "heel-6",
         "order": 6,
         "title": "Echter Spaziergang",
         "description": "Realer Spaziergang mit Geruechen und Reizen. Belohnung alle 30-60 Sekunden.",
-        "tip": "Auf Dauer reduziert sich die Belohnungsrate, aber nie auf Null."
+        "tip": "Auf Dauer reduziert sich die Belohnungsrate, aber nie auf Null.",
+        "videoSearch": "entspannter Spaziergang Hund ohne Ziehen"
       }
     ]
   },
@@ -165,42 +182,276 @@
         "order": 1,
         "title": "Rueckruf-Wort aufladen",
         "description": "Waehle ein neues Wort (z.B. 'Hier' oder einen Pfiff). Sag es, dann sofort sehr gutes Leckerli. 20x pro Tag, eine Woche lang.",
-        "tip": "Niemals das Wort fuer etwas Schlechtes nutzen (Baden, Nagelschneiden)."
+        "tip": "Niemals das Wort fuer etwas Schlechtes nutzen (Baden, Nagelschneiden).",
+        "videoSearch": "Rückruf Hund konditionieren aufladen"
       },
       {
         "id": "recall-2",
         "order": 2,
         "title": "Kurze Distanz",
         "description": "Wenn er gerade nicht abgelenkt ist: Rueckruf, dann Jackpot (3-5 kleine Leckerli hintereinander).",
-        "tip": "Jackpot = riesiger Wert. Er soll denken: 'Wenn ich komme, ist Party'."
+        "tip": "Jackpot = riesiger Wert. Er soll denken: 'Wenn ich komme, ist Party'.",
+        "videoSearch": "Hund Rückruf Jackpot Belohnung"
       },
       {
         "id": "recall-3",
         "order": 3,
         "title": "Schleppleine",
         "description": "10-15m Schleppleine. Rufe ihn aus verschiedenen Distanzen. Wenn er nicht kommt: ranfuehren, niemals zerren.",
-        "tip": "Schleppleine bleibt locker, sie ist Notfall-Sicherung."
+        "tip": "Schleppleine bleibt locker, sie ist Notfall-Sicherung.",
+        "videoSearch": "Schleppleine Hund Training Rückruf"
       },
       {
         "id": "recall-4",
         "order": 4,
         "title": "Mit Ablenkung",
         "description": "Anderer Hund/Geruch in der Naehe - rufe ihn weg davon. Jackpot bei Erfolg.",
-        "tip": "Nicht rufen, wenn du sicher bist, dass er nicht kommt - das verbrennt das Signal."
+        "tip": "Nicht rufen, wenn du sicher bist, dass er nicht kommt - das verbrennt das Signal.",
+        "videoSearch": "Hund Rückruf bei Ablenkung üben"
       },
       {
         "id": "recall-5",
         "order": 5,
         "title": "Mitten im Spiel",
         "description": "Er spielt mit anderem Hund - du rufst ab, lobst, lass ihn dann zurueck zum Spiel.",
-        "tip": "Wenn das Spiel weitergehen darf, lernt er: Kommen heisst nicht Spiel-Ende."
+        "tip": "Wenn das Spiel weitergehen darf, lernt er: Kommen heisst nicht Spiel-Ende.",
+        "videoSearch": "Hund vom Spiel abrufen Rückruf"
       },
       {
         "id": "recall-6",
         "order": 6,
         "title": "Freilauf in sicherem Gebiet",
         "description": "Ohne Schleppleine, eingezaeunte Wiese oder ruhiger Wald. Mehrere Rueckrufe pro Lauf - mit Jackpot.",
-        "tip": "Bevor er Eigeninitiative zur Rueckkehr zeigt: ruf ihn ab. Belohne."
+        "tip": "Bevor er Eigeninitiative zur Rueckkehr zeigt: ruf ihn ab. Belohne.",
+        "videoSearch": "Hund Freilauf Rückruf sicher"
+      }
+    ]
+  },
+  {
+    "id": "leave-it",
+    "title": "Aus / Lass es",
+    "description": "Der Hund laesst etwas los oder ignoriert es auf Signal. Sicherheits-Befehl Nummer 1.",
+    "difficulty": "beginner",
+    "estimatedDays": 7,
+    "isPremium": false,
+    "icon": "back_hand",
+    "steps": [
+      {
+        "id": "leave-1",
+        "order": 1,
+        "title": "Leckerli in geschlossener Hand",
+        "description": "Halte ein Leckerli in der geschlossenen Faust direkt vor seine Nase. Warte, bis er aufhoert zu schnueffeln/lecken.",
+        "tip": "Im Moment des Aufgebens: 'Aus' sagen, andere Hand belohnt mit anderem Leckerli.",
+        "videoSearch": "Hund Aus beibringen geschlossene Hand"
+      },
+      {
+        "id": "leave-2",
+        "order": 2,
+        "title": "Leckerli auf offener Hand",
+        "description": "Lege das Leckerli auf die offene Handflaeche. Wenn er schnappen will, schliesse die Hand. Belohne, wenn er abwartet.",
+        "tip": "Geduld - er wird probieren. Erst belohnen, wenn er kurz wegguckt.",
+        "videoSearch": "Hund Aus Impulskontrolle offene Hand"
+      },
+      {
+        "id": "leave-3",
+        "order": 3,
+        "title": "Auf dem Boden",
+        "description": "Lege das Leckerli auf den Boden, halte die Hand darueber. 'Aus' - er soll es ignorieren.",
+        "tip": "Decke das Leckerli zur Not mit dem Fuss ab.",
+        "videoSearch": "Hund Aus Leckerli auf Boden"
+      },
+      {
+        "id": "leave-4",
+        "order": 4,
+        "title": "Im Spaziergang",
+        "description": "Beim Spazieren auf Essensreste auf dem Boden: 'Aus', weggehen, anderes Leckerli von dir.",
+        "tip": "Wenn er nicht reagiert: zurueck zu Schritt 3 fuer 2-3 Tage.",
+        "videoSearch": "Hund Spaziergang Aus Müll ignorieren"
+      },
+      {
+        "id": "leave-5",
+        "order": 5,
+        "title": "Bei Reizen aus Tieren",
+        "description": "Andere Hunde, Katzen, Voegel: 'Aus' kombiniert mit Aufmerksamkeit zu dir und Belohnung.",
+        "tip": "Wichtig: nicht erst rufen, wenn er schon fixiert - frueh ansprechen.",
+        "videoSearch": "Hund Aus Katze Wild Reiz ignorieren"
+      }
+    ]
+  },
+  {
+    "id": "stay",
+    "title": "Bleib",
+    "description": "Der Hund bleibt in der eingenommenen Position, bis das Aufloese-Wort kommt - egal was passiert.",
+    "difficulty": "intermediate",
+    "estimatedDays": 10,
+    "isPremium": false,
+    "icon": "pause_circle",
+    "steps": [
+      {
+        "id": "stay-1",
+        "order": 1,
+        "title": "Position halten",
+        "description": "Hund sitzt oder liegt. Du sagst 'Bleib' + Handzeichen (flache Hand). Nach 2 Sekunden: Aufloesewort, Belohnung.",
+        "tip": "Komm immer zu IHM zurueck, ruf ihn nicht zu dir - das macht Bleib kaputt.",
+        "videoSearch": "Hund Bleib lernen Anfänger"
+      },
+      {
+        "id": "stay-2",
+        "order": 2,
+        "title": "Dauer aufbauen",
+        "description": "2, 5, 10, 30 Sekunden. Steigere langsam. Wenn er aufsteht: ruhig zurueck in Position, kuerzere Zeit.",
+        "tip": "Lieber 80% Erfolg auf 10 Sekunden als 20% auf 30.",
+        "videoSearch": "Hund Bleib Dauer steigern"
+      },
+      {
+        "id": "stay-3",
+        "order": 3,
+        "title": "Distanz aufbauen",
+        "description": "Ein Schritt zurueck, sofort zurueck, belohnen. Dann zwei Schritte. Dann 5 Schritte.",
+        "tip": "Distanz und Dauer NIE gleichzeitig steigern - immer nur eines.",
+        "videoSearch": "Hund Bleib Distanz aufbauen"
+      },
+      {
+        "id": "stay-4",
+        "order": 4,
+        "title": "Ablenkung dazu",
+        "description": "Leichte Geraeusche, Spielzeug auf den Boden werfen, im Kreis um ihn gehen. Er bleibt.",
+        "tip": "Ablenkung steigern + Distanz/Dauer reduzieren - dann wieder kombinieren.",
+        "videoSearch": "Hund Bleib mit Ablenkung üben"
+      },
+      {
+        "id": "stay-5",
+        "order": 5,
+        "title": "Aus dem Sichtfeld",
+        "description": "Du verschwindest hinter einer Ecke fuer 2 Sekunden, kommst zurueck. Belohnen.",
+        "tip": "Zuerst nur 2 Sekunden, dann langsam steigern. Nicht in die Augen schauen - das uebt Selbstvertrauen.",
+        "videoSearch": "Hund Bleib aus Sichtfeld verschwinden"
+      },
+      {
+        "id": "stay-6",
+        "order": 6,
+        "title": "Im Alltag verankern",
+        "description": "An der Haustuer, vor der Futterstelle, bei Besuch. 'Bleib' wird zum Alltagstool.",
+        "tip": "Aufloesung ist immer ein klares Wort ('Okay', 'Lauf') - nie nur Schweigen.",
+        "videoSearch": "Hund Bleib Alltag Türschwelle"
+      }
+    ]
+  },
+  {
+    "id": "no-pull",
+    "title": "Locker-Leine ohne Ziehen",
+    "description": "Sanfter Weg, wie dein Hund von alleine merkt: Ziehen bringt nichts, locker laufen lohnt sich.",
+    "difficulty": "intermediate",
+    "estimatedDays": 14,
+    "isPremium": false,
+    "icon": "trending_flat",
+    "steps": [
+      {
+        "id": "nopull-1",
+        "order": 1,
+        "title": "Baum-Methode",
+        "description": "Sobald die Leine straff wird: stehst du wie ein Baum. Erst wenn die Leine wieder locker ist, gehst du weiter.",
+        "tip": "Niemals selbst ziehen. Geduld - die ersten 1-2 Spaziergaenge dauern doppelt so lang.",
+        "videoSearch": "Hund Baummethode Leine ziehen aufhören"
+      },
+      {
+        "id": "nopull-2",
+        "order": 2,
+        "title": "Richtungswechsel",
+        "description": "Zieht er, gehst du wortlos in die Gegenrichtung. Sobald er nachkommt, lobst du.",
+        "tip": "Ueberraschungsmoment ist wichtig - nicht ankuendigen.",
+        "videoSearch": "Hund Richtungswechsel an der Leine Stop ziehen"
+      },
+      {
+        "id": "nopull-3",
+        "order": 3,
+        "title": "Locker-Zone belohnen",
+        "description": "Solange die Leine durchhaengt: alle 5-10 Schritte ein kleines Leckerli auf Hueftnoehe.",
+        "tip": "Belohnungsrate hoch zu Beginn - er muss verstehen, was du willst.",
+        "videoSearch": "Hund lockere Leine belohnen"
+      },
+      {
+        "id": "nopull-4",
+        "order": 4,
+        "title": "Geruchs-Pausen einbauen",
+        "description": "Auf Signal ('Schnueffel') darf er an interessanten Stellen ausgiebig riechen. Belohnung danach.",
+        "tip": "Nasenarbeit ist Lohn - er muss nicht ziehen, um zu schnueffeln.",
+        "videoSearch": "Hund schnüffeln dürfen Spaziergang"
+      },
+      {
+        "id": "nopull-5",
+        "order": 5,
+        "title": "Begegnungen ueben",
+        "description": "Andere Hunde oder Menschen in Sicht? Auf der gegenueberliegenden Strassenseite passieren, ruhig sprechen, belohnen.",
+        "tip": "Wenn er trotzdem zieht: Distanz vergroessern, bevor du Naehe ueberreizt.",
+        "videoSearch": "Hund Begegnung anderer Hund Leine ruhig"
+      },
+      {
+        "id": "nopull-6",
+        "order": 6,
+        "title": "Spaziergang als Team",
+        "description": "Du bestimmst Tempo + Richtung, er entspannt. Die Leine ist immer durchhaengend - Routine fuer Wochen.",
+        "tip": "Manche Tage sind besser als andere - Konsistenz schlaegt Perfektion.",
+        "videoSearch": "entspannter Spaziergang Hund Team"
+      }
+    ]
+  },
+  {
+    "id": "crate",
+    "title": "Box / Entspannungsplatz",
+    "description": "Der Hund liebt seine Box / Decke als Rueckzugsort. Wichtige Basis fuer Tierarzt, Reisen, Stress-Pausen.",
+    "difficulty": "beginner",
+    "estimatedDays": 14,
+    "isPremium": false,
+    "icon": "bed",
+    "steps": [
+      {
+        "id": "crate-1",
+        "order": 1,
+        "title": "Box positiv aufladen",
+        "description": "Box / Decke offen hinstellen. Leckerli und Spielzeug rein - er erkundet aus eigenem Antrieb, keine Pflicht.",
+        "tip": "Niemals einsperren in den ersten 3-5 Tagen.",
+        "videoSearch": "Hundebox positiv aufbauen Welpe"
+      },
+      {
+        "id": "crate-2",
+        "order": 2,
+        "title": "Signalwort einfuehren",
+        "description": "Wenn er reingeht: 'Box' oder 'Platz' sagen, Leckerli rein, Lob.",
+        "tip": "Eines der haeufigsten Worte wird das - waehle gut.",
+        "videoSearch": "Hund Signalwort Box Decke Training"
+      },
+      {
+        "id": "crate-3",
+        "order": 3,
+        "title": "Tuer kurz schliessen",
+        "description": "Nur Sekunden zu, sofort wieder auf, belohnen. Steigern auf 30s, 1min, 5min.",
+        "tip": "Tueren-Probe nur bei ruhigen Hund. Bei Jammern: zurueck zur kuerzeren Zeit.",
+        "videoSearch": "Hundebox Tür schließen Training"
+      },
+      {
+        "id": "crate-4",
+        "order": 4,
+        "title": "Kauknochen / Kong dazu",
+        "description": "Lange Beschaeftigung in der Box: gefuellter Kong, Kauknochen. Er verbindet Box mit etwas Tollem.",
+        "tip": "Kong nur in der Box - das macht den Ort einzigartig.",
+        "videoSearch": "Kong Hundebox Beschäftigung füllen"
+      },
+      {
+        "id": "crate-5",
+        "order": 5,
+        "title": "Du gehst kurz weg",
+        "description": "Tuer zu, du verlaesst den Raum. 1, 5, 10 Minuten - undramatisch zurueckkommen.",
+        "tip": "Niemals zur Strafe in die Box - das zerstoert Wochen Arbeit.",
+        "videoSearch": "Hund allein bleiben Box Training"
+      },
+      {
+        "id": "crate-6",
+        "order": 6,
+        "title": "Box als Rueckzugsort",
+        "description": "Tuer auf, er sucht die Box von alleine bei Stress (Besuch, Gewitter). Akzeptiere das.",
+        "tip": "Niemand stoert ihn in der Box - das ist seine Burg.",
+        "videoSearch": "Hund Rückzugsort Box Sicherheit"
       }
     ]
   }

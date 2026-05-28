@@ -41,6 +41,24 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   String? _pendingImageDataUrl;
 
   @override
+  void initState() {
+    super.initState();
+    // Falls ein anderer Screen (Verhalten-Check etc.) eine Frage vorgemerkt
+    // hat: Modus setzen, neuen Chat starten, Frage versenden, Handoff leeren.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final handoff = ref.read(assistantHandoffProvider);
+      if (handoff == null) return;
+      ref.read(chatModeProvider.notifier).setMode(handoff.mode);
+      ref.read(chatControllerProvider.notifier).clear();
+      ref
+          .read(chatControllerProvider.notifier)
+          .sendMessage(handoff.prompt);
+      ref.read(assistantHandoffProvider.notifier).consume();
+    });
+  }
+
+  @override
   void dispose() {
     _tts.stop();
     _scrollController.dispose();

@@ -9,7 +9,6 @@ import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_search_ba
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
-import 'package:dogmatch_ai/features/home/domain/hourly_quote.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_switcher_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
@@ -17,6 +16,7 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/my_dog_section.da
 import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/wisdom_quote_card.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +34,6 @@ class HomeScreen extends ConsumerWidget {
     final dogsState = ref.watch(dogsProvider).value;
     final activeDog = dogsState?.activeDog;
     final theme = Theme.of(context);
-    final quote = HourlyQuote.forNow();
     final greetingName = prefs != null && prefs.hasName ? prefs.displayName : null;
 
     return Scaffold(
@@ -83,13 +82,21 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 child: DogHeroCard(
                   dog: activeDog,
-                  quote: quote,
                   greetingName: greetingName,
                   breedImageUrl: breedImageUrl,
                 ),
               ),
 
-              // 3) Schnellaktionen
+              // 3) Hunde-Weisheit der Stunde (rotiert jede Stunde)
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                ),
+                child: WisdomQuoteCard(),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // 4) Schnellaktionen
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,

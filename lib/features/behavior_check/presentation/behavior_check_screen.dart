@@ -1,22 +1,26 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
+import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/behavior_check/data/behavior_catalog.dart';
 import 'package:dogmatch_ai/features/behavior_check/data/behavior_engine.dart';
 import 'package:dogmatch_ai/features/behavior_check/domain/behavior.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// Verhaltens-Check. Nutzer waehlt auffaellige Verhaltensweisen, App
 /// liefert Einschaetzung + Trainings-Empfehlung mit Verlinkung auf
 /// vorhandene Trainings-Plaene.
-class BehaviorCheckScreen extends StatefulWidget {
+class BehaviorCheckScreen extends ConsumerStatefulWidget {
   const BehaviorCheckScreen({super.key});
 
   @override
-  State<BehaviorCheckScreen> createState() => _BehaviorCheckScreenState();
+  ConsumerState<BehaviorCheckScreen> createState() =>
+      _BehaviorCheckScreenState();
 }
 
-class _BehaviorCheckScreenState extends State<BehaviorCheckScreen> {
+class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
   final Set<String> _selected = {};
   bool _analyzed = false;
 
@@ -36,6 +40,40 @@ class _BehaviorCheckScreenState extends State<BehaviorCheckScreen> {
       _selected.clear();
       _analyzed = false;
     });
+  }
+
+  /// Baut einen deutschen Prompt aus den gewaehlten Verhaltensweisen +
+  /// Top-Empfehlung und schickt den User zum KI-Trainer-Tab, der die
+  /// Frage automatisch absendet.
+  void _askAiTrainer(List<BehaviorAssessment> results) {
+    final labels = <String>[];
+    for (final b in BehaviorCatalog.all) {
+      if (_selected.contains(b.id)) labels.add(b.label);
+    }
+    final topRecommendation =
+        results.isNotEmpty ? results.first.recommendation : null;
+
+    final prompt = StringBuffer()
+      ..writeln('Mein Hund zeigt folgende Verhaltensweisen:')
+      ..writeln('- ${labels.join('\n- ')}')
+      ..writeln();
+    if (topRecommendation != null) {
+      prompt
+        ..writeln('Erste App-Einschaetzung: $topRecommendation')
+        ..writeln();
+    }
+    prompt.write(
+      'Wie kann ich konkret damit umgehen? Bitte gib mir 4-7 nummerierte '
+      'Schritte mit positiver Bestaerkung.',
+    );
+
+    ref.read(assistantHandoffProvider.notifier).queue(
+          AssistantHandoff(
+            prompt: prompt.toString(),
+            mode: ChatMode.trainer,
+          ),
+        );
+    context.go(AppRoutes.assistant);
   }
 
   @override
@@ -105,6 +143,11 @@ class _BehaviorCheckScreenState extends State<BehaviorCheckScreen> {
             const SizedBox(height: AppSpacing.md),
             for (final a in results)
               _AssessmentTile(assessment: a, theme: theme),
+            const SizedBox(height: AppSpacing.lg),
+            _AskAiCard(
+              onAskAi: () => _askAiTrainer(results),
+              theme: theme,
+            ),
           ],
           const SizedBox(height: AppSpacing.xxl),
         ],
@@ -186,6 +229,75 @@ class _CategoryBlock extends StatelessWidget {
                 checkmarkColor: theme.colorScheme.primary,
               );
             }).toList(growable: false),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Karte am Ende der Auswertung: "Hol dir eine persoenliche Trainer-Antwort
+/// von der KI". Schickt die gewaehlten Verhalten + erste Empfehlung an den
+/// Assistant-Tab.
+class _AskAiCard extends StatelessWidget {
+  const _AskAiCard({required this.onAskAi, required this.theme});
+
+  final VoidCallback onAskAi;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.primary.withValues(alpha: 0.10),
+            theme.colorScheme.primary.withValues(alpha: 0.04),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.smart_toy_rounded,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  'Persoenliche Trainer-Antwort von der KI',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Die KI bekommt deine Auswahl als Kontext und schlaegt dir '
+            'konkrete Trainings-Schritte vor.',
+            style: theme.textTheme.bodySmall,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          FilledButton.icon(
+            onPressed: onAskAi,
+            icon: const Icon(Icons.psychology_rounded),
+            label: const Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
+              child: Text('Mit KI-Trainer besprechen'),
+            ),
           ),
         ],
       ),

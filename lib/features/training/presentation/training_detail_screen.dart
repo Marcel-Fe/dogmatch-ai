@@ -1,4 +1,5 @@
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/core/utils/external_link.dart';
 import 'package:dogmatch_ai/features/training/domain/training_plan.dart';
 import 'package:dogmatch_ai/features/training/domain/training_progress.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_controller.dart';
@@ -209,6 +210,28 @@ class _StepTile extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                    ],
+                    if (step.videoSearchUrl != null) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      OutlinedButton.icon(
+                        onPressed: () =>
+                            openExternalLink(step.videoSearchUrl!),
+                        icon: const Icon(
+                          Icons.play_circle_outline_rounded,
+                          size: 18,
+                        ),
+                        label: const Text('Video-Tipps auf YouTube'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.red.shade700,
+                          side: BorderSide(
+                            color: Colors.red.withValues(alpha: 0.5),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.xs,
+                          ),
                         ),
                       ),
                     ],
