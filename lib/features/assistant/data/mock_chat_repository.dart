@@ -11,6 +11,9 @@ class MockChatRepository implements ChatRepository {
   static const _thinkingDelay = Duration(milliseconds: 700);
 
   @override
+  bool get supportsVision => false;
+
+  @override
   Future<Result<ChatMessage>> reply(
     List<ChatMessage> history, {
     String? imageDataUrl,

@@ -29,6 +29,9 @@ class RemoteGeminiChatRepository implements ChatRepository {
   final http.Client _client;
 
   @override
+  bool get supportsVision => true;
+
+  @override
   Future<Result<ChatMessage>> reply(
     List<ChatMessage> history, {
     String? imageDataUrl,

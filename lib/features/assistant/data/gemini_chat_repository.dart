@@ -32,6 +32,9 @@ class GeminiChatRepository implements ChatRepository {
   final ChatMode mode;
 
   @override
+  bool get supportsVision => false;
+
+  @override
   Future<Result<ChatMessage>> reply(
     List<ChatMessage> history, {
     String? imageDataUrl,

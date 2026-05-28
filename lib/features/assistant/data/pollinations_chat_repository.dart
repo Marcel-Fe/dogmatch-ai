@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
@@ -26,12 +24,14 @@ class PollinationsChatRepository implements ChatRepository {
   }) : _client = client ?? http.Client();
 
   static const String _getBase = 'https://text.pollinations.ai';
-  static const String _postEndpoint = 'https://text.pollinations.ai/openai';
 
   final UserPreferences? userPreferences;
   final ChatMode mode;
   final String model;
   final http.Client _client;
+
+  @override
+  bool get supportsVision => false;
 
   @override
   Future<Result<ChatMessage>> reply(
@@ -46,9 +46,16 @@ class PollinationsChatRepository implements ChatRepository {
 
     final systemPrompt = _buildSystemPrompt(userPreferences, mode);
 
-    // Mit Bild -> POST (Vision). Ohne Bild -> GET (kein CORS-preflight).
+    // Bild-Analyse ist im anonymen Pollinations-Tier nicht moeglich (nur
+    // `openai-fast` ohne Vision). Wir liefern eine klare Meldung statt
+    // einen 400-Fehler vom Server zu produzieren.
     if (imageDataUrl != null && imageDataUrl.isNotEmpty) {
-      return _replyWithImage(history, systemPrompt, imageDataUrl);
+      return const FailureResult(
+        UnexpectedFailure(
+          'Bild-Analyse ist im kostenlosen Modus nicht verfuegbar. '
+          'Beschreibe den Hund bitte in Worten - der Berater hilft dir gerne weiter.',
+        ),
+      );
     }
     return _replyTextOnly(history, systemPrompt);
   }
@@ -106,106 +113,6 @@ class PollinationsChatRepository implements ChatRepository {
 
     final text = res.body.trim();
     if (text.isEmpty) {
-      return const FailureResult(
-        NetworkFailure('Der Berater hat keine Antwort geliefert.'),
-      );
-    }
-
-    return Success(
-      ChatMessage(
-        id: 'a-${DateTime.now().microsecondsSinceEpoch}',
-        role: ChatRole.assistant,
-        content: text,
-        timestamp: DateTime.now(),
-      ),
-    );
-  }
-
-  Future<Result<ChatMessage>> _replyWithImage(
-    List<ChatMessage> history,
-    String systemPrompt,
-    String imageDataUrl,
-  ) async {
-    final messages = <Map<String, dynamic>>[
-      {'role': 'system', 'content': systemPrompt},
-    ];
-
-    for (var i = 0; i < history.length; i++) {
-      final msg = history[i];
-      final role = switch (msg.role) {
-        ChatRole.user => 'user',
-        ChatRole.assistant => 'assistant',
-      };
-      final isLast = i == history.length - 1;
-      if (isLast && msg.role == ChatRole.user) {
-        messages.add({
-          'role': role,
-          'content': <Map<String, dynamic>>[
-            {'type': 'text', 'text': msg.content},
-            {
-              'type': 'image_url',
-              'image_url': {'url': imageDataUrl},
-            },
-          ],
-        });
-      } else {
-        messages.add({'role': role, 'content': msg.content});
-      }
-    }
-
-    final body = jsonEncode({
-      'model': model,
-      'messages': messages,
-      'referrer': 'dogmatch-ai',
-    });
-
-    http.Response res;
-    try {
-      res = await _client
-          .post(
-            Uri.parse(_postEndpoint),
-            headers: const {'Content-Type': 'application/json'},
-            body: body,
-          )
-          .timeout(const Duration(seconds: 60));
-    } catch (e) {
-      return FailureResult(
-        NetworkFailure('Netzwerkfehler bei Bild-Upload: $e'),
-      );
-    }
-
-    if (res.statusCode < 200 || res.statusCode >= 300) {
-      return FailureResult(NetworkFailure('KI-Fehler: HTTP ${res.statusCode}'));
-    }
-
-    String? text;
-    try {
-      final data = jsonDecode(res.body);
-      if (data is Map<String, dynamic>) {
-        final choices = data['choices'] as List?;
-        if (choices != null && choices.isNotEmpty) {
-          final first = choices.first as Map<String, dynamic>;
-          final message = first['message'] as Map<String, dynamic>?;
-          final raw = message?['content'];
-          if (raw is String) {
-            text = raw.trim();
-          } else if (raw is List) {
-            final parts = raw
-                .whereType<Map<String, dynamic>>()
-                .map((p) => p['text'] as String? ?? '')
-                .join();
-            text = parts.trim();
-          }
-        }
-        text ??= (data['text'] as String?)?.trim();
-      } else if (data is String) {
-        text = data.trim();
-      }
-    } catch (_) {
-      text = res.body.trim();
-    }
-
-    if (text == null || text.isEmpty) {
       return const FailureResult(
         NetworkFailure('Der Berater hat keine Antwort geliefert.'),
       );

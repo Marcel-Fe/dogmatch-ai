@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dogmatch_ai/app/router/app_routes.dart';
+import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/constants/app_constants.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
@@ -91,8 +92,13 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     final mode = ref.watch(chatModeProvider);
     final theme = Theme.of(context);
 
+    final supportsVision = ref.watch(supportsVisionProvider);
     final isPremium = ref.watch(isPremiumProvider);
-    final limitReached = !isPremium &&
+    // Free-Limit nur im reinen Mock-Modus relevant. Sobald ein echter
+    // KI-Pfad (Pollinations / Gemini / Worker) aktiv ist, ist die App
+    // ohnehin kostenfrei und das Limit waere kuenstlich.
+    final limitReached = Env.isMockMode &&
+        !isPremium &&
         state.userMessageCount >= AppConstants.freeAiMessageLimit;
 
     // Nach jedem Rebuild ans Ende scrollen, sobald Nachrichten dazukommen.
@@ -154,7 +160,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
             ),
             Expanded(
               child: state.messages.isEmpty
-                  ? _EmptyState(mode: mode, onPromptSelected: _send)
+                  ? _EmptyState(
+                      mode: mode,
+                      onPromptSelected: _send,
+                      supportsVision: supportsVision,
+                    )
                   : ListView.builder(
                       controller: _scrollController,
                       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -169,6 +179,16 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                     ),
             ),
             if (limitReached) _LimitBanner(theme: theme),
+            if (state.lastFailure != null && !state.isWaiting)
+              _RetryBanner(
+                message: state.lastFailure!.friendlyMessage,
+                onRetry: () => ref
+                    .read(chatControllerProvider.notifier)
+                    .retryLast(),
+                onDismiss: () => ref
+                    .read(chatControllerProvider.notifier)
+                    .dismissFailure(),
+              ),
             if (_pendingImageDataUrl != null)
               _PendingImagePreview(
                 dataUrl: _pendingImageDataUrl!,
@@ -177,7 +197,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
             ChatInputBar(
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
-              onPickImage: _pickImage,
+              onPickImage: supportsVision ? _pickImage : null,
               hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'
@@ -191,10 +211,15 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.mode, required this.onPromptSelected});
+  const _EmptyState({
+    required this.mode,
+    required this.onPromptSelected,
+    required this.supportsVision,
+  });
 
   final ChatMode mode;
   final void Function(String) onPromptSelected;
+  final bool supportsVision;
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +263,13 @@ class _EmptyState extends StatelessWidget {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe oder aufs '
-                      'Foto-Symbol, um ein Bild deines Hundes zur Erkennung '
-                      'hochzuladen.',
+                      supportsVision
+                          ? 'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe oder '
+                              'aufs Foto-Symbol, um ein Bild deines Hundes '
+                              'zur Erkennung hochzuladen.'
+                          : 'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe. '
+                              'Beschreibe deinen Hund einfach in Worten - der '
+                              'Berater hilft dir gerne weiter.',
                       style: theme.textTheme.bodySmall,
                     ),
                   ),
@@ -296,6 +325,67 @@ class _LimitBanner extends StatelessWidget {
           TextButton(
             onPressed: () => context.push(AppRoutes.premium),
             child: const Text('Premium'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Banner mit "Erneut versuchen" und Schliessen-Knopf. Wird nach jedem
+/// fehlgeschlagenen KI-Aufruf eingeblendet.
+class _RetryBanner extends StatelessWidget {
+  const _RetryBanner({
+    required this.message,
+    required this.onRetry,
+    required this.onDismiss,
+  });
+
+  final String message;
+  final VoidCallback onRetry;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      color: theme.colorScheme.errorContainer,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.wifi_off_rounded,
+            size: 18,
+            color: theme.colorScheme.onErrorContainer,
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              message,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onErrorContainer,
+              ),
+            ),
+          ),
+          TextButton.icon(
+            onPressed: onRetry,
+            icon: const Icon(Icons.refresh_rounded, size: 18),
+            label: const Text('Erneut versuchen'),
+            style: TextButton.styleFrom(
+              foregroundColor: theme.colorScheme.onErrorContainer,
+            ),
+          ),
+          IconButton(
+            tooltip: 'Schliessen',
+            icon: Icon(
+              Icons.close_rounded,
+              color: theme.colorScheme.onErrorContainer,
+              size: 20,
+            ),
+            onPressed: onDismiss,
           ),
         ],
       ),

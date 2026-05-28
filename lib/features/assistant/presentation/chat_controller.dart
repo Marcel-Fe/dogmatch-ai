@@ -1,4 +1,5 @@
 import 'package:dogmatch_ai/core/config/env.dart';
+import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
@@ -9,6 +10,7 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Aktiver Modus des Chats (Berater vs. Trainer). UI setzt das per
@@ -31,6 +33,12 @@ final chatModeProvider =
 /// 2. Sonst `GEMINI_API_KEY` gesetzt (nur lokales Testen).
 /// 3. Sonst Pollinations.ai (kostenlos, ohne Key, Default in Live).
 /// 4. Sonst MockChatRepository (Offline-Notfall).
+/// True, wenn das aktive Backend Bilder analysieren kann. UI nutzt das, um
+/// den Foto-Button auszublenden, wenn keine echte Vision verfuegbar ist.
+final supportsVisionProvider = Provider<bool>((ref) {
+  return ref.watch(chatRepositoryProvider).supportsVision;
+});
+
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   final prefs = ref.watch(userPreferencesProvider).value;
   final mode = ref.watch(chatModeProvider);
@@ -57,26 +65,63 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   return const MockChatRepository();
 });
 
+/// Letzter fehlgeschlagener Versuch - dient dem Retry-Banner.
+class FailedAttempt extends Equatable {
+  const FailedAttempt({
+    required this.text,
+    required this.friendlyMessage,
+    required this.technicalDetail,
+    this.imageDataUrl,
+  });
+
+  final String text;
+  final String? imageDataUrl;
+
+  /// Kurze, freundliche Erklaerung fuer den Nutzer (Deutsch, keine Stacktraces).
+  final String friendlyMessage;
+
+  /// Roher Fehlertext - landet in der Browser-Konsole, nicht im UI.
+  final String technicalDetail;
+
+  @override
+  List<Object?> get props =>
+      [text, imageDataUrl, friendlyMessage, technicalDetail];
+}
+
 /// Zustand der Chat-Session: alle bisherigen Nachrichten + Warte-Indikator.
 class ChatState extends Equatable {
-  const ChatState({this.messages = const [], this.isWaiting = false});
+  const ChatState({
+    this.messages = const [],
+    this.isWaiting = false,
+    this.lastFailure,
+  });
 
   final List<ChatMessage> messages;
   final bool isWaiting;
+
+  /// Wenn gesetzt, kann der Nutzer den letzten Versuch wiederholen.
+  /// Wird zurueckgesetzt, sobald ein neuer Versuch startet.
+  final FailedAttempt? lastFailure;
 
   /// Anzahl gesendeter Nutzer-Nachrichten (fuer das Free-Limit).
   int get userMessageCount =>
       messages.where((m) => m.role == ChatRole.user).length;
 
-  ChatState copyWith({List<ChatMessage>? messages, bool? isWaiting}) {
+  ChatState copyWith({
+    List<ChatMessage>? messages,
+    bool? isWaiting,
+    FailedAttempt? lastFailure,
+    bool clearFailure = false,
+  }) {
     return ChatState(
       messages: messages ?? this.messages,
       isWaiting: isWaiting ?? this.isWaiting,
+      lastFailure: clearFailure ? null : (lastFailure ?? this.lastFailure),
     );
   }
 
   @override
-  List<Object?> get props => [messages, isWaiting];
+  List<Object?> get props => [messages, isWaiting, lastFailure];
 }
 
 /// Steuert den Chat: schickt Nachrichten an das Repository und haengt
@@ -99,6 +144,7 @@ class ChatController extends Notifier<ChatState> {
     state = state.copyWith(
       messages: [...state.messages, userMessage],
       isWaiting: true,
+      clearFailure: true,
     );
 
     final result = await ref
@@ -110,27 +156,94 @@ class ChatController extends Notifier<ChatState> {
         state = state.copyWith(
           messages: [...state.messages, value],
           isWaiting: false,
+          clearFailure: true,
         );
       case FailureResult(:final failure):
+        final friendly = _humanize(failure);
+        // Roher Fehler nur in der Browser-Konsole, nicht im UI.
+        if (kDebugMode || kIsWeb) {
+          // ignore: avoid_print
+          print('[KI-Fehler] ${failure.runtimeType}: ${failure.message}');
+        }
         state = state.copyWith(
           messages: [
             ...state.messages,
             ChatMessage(
               id: 'e-${DateTime.now().microsecondsSinceEpoch}',
               role: ChatRole.assistant,
-              content: 'Entschuldigung, da ist etwas schiefgelaufen: '
-                  '${failure.message}',
+              content: friendly,
               timestamp: DateTime.now(),
             ),
           ],
           isWaiting: false,
+          lastFailure: FailedAttempt(
+            text: trimmed,
+            imageDataUrl: imageDataUrl,
+            friendlyMessage: friendly,
+            technicalDetail: failure.message,
+          ),
         );
     }
+  }
+
+  /// Wiederholt den letzten fehlgeschlagenen Versuch. Entfernt vorher die
+  /// alte User-Nachricht + Fehler-Bubble aus dem Verlauf, damit der Chat
+  /// sauber bleibt.
+  Future<void> retryLast() async {
+    final attempt = state.lastFailure;
+    if (attempt == null || state.isWaiting) return;
+
+    // Letzte zwei Eintraege entfernen (User-Frage + Fehler-Antwort).
+    var msgs = state.messages;
+    if (msgs.isNotEmpty && msgs.last.role == ChatRole.assistant) {
+      msgs = msgs.sublist(0, msgs.length - 1);
+    }
+    if (msgs.isNotEmpty && msgs.last.role == ChatRole.user) {
+      msgs = msgs.sublist(0, msgs.length - 1);
+    }
+    state = state.copyWith(messages: msgs, clearFailure: true);
+    await sendMessage(attempt.text, imageDataUrl: attempt.imageDataUrl);
+  }
+
+  void dismissFailure() {
+    if (state.lastFailure == null) return;
+    state = state.copyWith(clearFailure: true);
   }
 
   void clear() {
     state = const ChatState();
   }
+}
+
+/// Mappt einen [Failure] auf einen kurzen, freundlichen Deutsch-Text.
+/// Stacktraces und Library-Praefixe sind hier nicht erwuenscht.
+String _humanize(Failure failure) {
+  final raw = failure.message.toLowerCase();
+  if (failure is NetworkFailure) {
+    if (raw.contains('failed to fetch') ||
+        raw.contains('clientexception') ||
+        raw.contains('xmlhttprequest')) {
+      return 'Der KI-Berater ist gerade nicht erreichbar. '
+          'Pruefe deine Internet-Verbindung und versuche es erneut.';
+    }
+    if (raw.contains('timeout') || raw.contains('timed out')) {
+      return 'Die Antwort hat zu lange gedauert. Versuche es bitte erneut.';
+    }
+    if (raw.contains('http 4')) {
+      return 'Der KI-Berater hat die Anfrage abgelehnt. '
+          'Bitte formuliere die Frage anders oder versuche es spaeter.';
+    }
+    if (raw.contains('http 5')) {
+      return 'Der KI-Berater ist gerade ueberlastet. '
+          'Bitte versuche es in einer Minute erneut.';
+    }
+    return 'Verbindung zum KI-Berater fehlgeschlagen. '
+        'Bitte versuche es erneut.';
+  }
+  if (failure is CacheFailure) {
+    return 'Lokale Daten konnten nicht geladen werden. App neu starten hilft meist.';
+  }
+  return 'Da ist etwas schiefgelaufen. Bitte erneut versuchen.';
 }
 
 final chatControllerProvider =

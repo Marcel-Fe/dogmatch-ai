@@ -37,13 +37,25 @@
 </head>
 <body>
   <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
+    Service-Worker-Auto-Update: bei jedem Page-Load auf neue Version pruefen
+    und sofort aktivieren. Vermeidet, dass Nutzer Strg+Shift+R brauchen,
+    nachdem ein neuer Build deployt wurde.
   -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(function (registration) {
+        try { registration.update(); } catch (e) { /* ignorieren */ }
+      }).catch(function () { /* SW noch nicht registriert - ok */ });
+
+      var reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (reloaded) return;
+        reloaded = true;
+        window.location.reload();
+      });
+    }
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

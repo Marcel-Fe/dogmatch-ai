@@ -40,4 +40,11 @@ class Env {
   );
   static bool get hasPollinations =>
       _disablePollinations.toLowerCase() != 'true';
+
+  /// True, wenn KEIN echter KI-Pfad verfuegbar ist - dann laeuft die App im
+  /// reinen Offline-Mock-Modus. Nur in diesem Fall macht das Free-Limit
+  /// Sinn, weil die echten Backends (Pollinations, Gemini, Worker) selbst
+  /// kostenlos bzw. proxied sind.
+  static bool get isMockMode =>
+      !hasGeminiProxy && !hasGeminiKey && !hasPollinations;
 }

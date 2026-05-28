@@ -7,10 +7,15 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 abstract interface class ChatRepository {
   /// Erzeugt eine Antwort des Assistenten auf den bisherigen Verlauf.
   /// Die letzte Nachricht in [history] ist die aktuelle User-Frage.
-  /// Optional kann ein Bild als Data-URL angehaengt werden - nur das
-  /// [RemoteGeminiChatRepository] wertet das aktuell aus (Multimodal).
+  /// Optional kann ein Bild als Data-URL angehaengt werden - nur Backends
+  /// mit `supportsVision == true` werten das aus.
   Future<Result<ChatMessage>> reply(
     List<ChatMessage> history, {
     String? imageDataUrl,
   });
+
+  /// True, wenn dieses Backend Bilder analysieren kann (Multimodal).
+  /// Wird im UI genutzt, um den Foto-Button auszublenden, wenn das aktive
+  /// Backend keine Vision unterstuetzt.
+  bool get supportsVision;
 }
