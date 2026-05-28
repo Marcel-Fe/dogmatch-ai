@@ -42,4 +42,7 @@ class AppRoutes {
 
   // Symptom-Check
   static const String symptomCheck = '/symptom-check';
+
+  // Verhalten-Check
+  static const String behaviorCheck = '/behavior-check';
 }
