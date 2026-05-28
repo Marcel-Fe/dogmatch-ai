@@ -20,6 +20,7 @@ import 'package:dogmatch_ai/features/premium/presentation/premium_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
+import 'package:dogmatch_ai/features/behavior_check/presentation/behavior_check_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
 import 'package:dogmatch_ai/features/symptom_check/presentation/symptom_check_screen.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_detail_screen.dart';
@@ -155,6 +156,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.symptomCheck,
       builder: (context, state) => const SymptomCheckScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.behaviorCheck,
+      builder: (context, state) => const BehaviorCheckScreen(),
     ),
     GoRoute(
       path: AppRoutes.training,
