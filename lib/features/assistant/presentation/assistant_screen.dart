@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dogmatch_ai/app/router/app_routes.dart';
-import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/constants/app_constants.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
@@ -58,25 +57,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         SnackBar(content: Text('$e')),
       );
     }
-  }
-
-  /// Auch ohne deployten Worker sichtbar - dann mit Hinweis statt
-  /// schweigsam ausgeblendet, damit der Nutzer den Plan kennt.
-  Future<void> _pickImageOrExplain() async {
-    if (!Env.hasGeminiProxy) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Bild-Erkennung ist aktiv sobald der KI-Proxy deployt ist. '
-            'Siehe worker/README.md fuer den 5-Minuten-Setup.',
-          ),
-          duration: Duration(seconds: 5),
-        ),
-      );
-      return;
-    }
-    await _pickImage();
   }
 
   void _clearPendingImage() {
@@ -197,7 +177,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
             ChatInputBar(
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
-              onPickImage: _pickImageOrExplain,
+              onPickImage: _pickImage,
               hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'

@@ -30,4 +30,14 @@ class Env {
   );
 
   static bool get hasGeminiProxy => geminiProxyUrl.isNotEmpty;
+
+  /// Aktiviert das Pollinations.ai-Backend (kostenfrei, ohne Key).
+  /// Standard: an. Kann per `--dart-define=DISABLE_POLLINATIONS=true`
+  /// abgeschaltet werden, falls der Anbieter ausfaellt.
+  static const String _disablePollinations = String.fromEnvironment(
+    'DISABLE_POLLINATIONS',
+    defaultValue: 'false',
+  );
+  static bool get hasPollinations =>
+      _disablePollinations.toLowerCase() != 'true';
 }

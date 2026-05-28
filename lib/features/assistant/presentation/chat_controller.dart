@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
+import 'package:dogmatch_ai/features/assistant/data/pollinations_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/remote_gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
@@ -27,9 +28,9 @@ final chatModeProvider =
 /// Reihenfolge:
 /// 1. `GEMINI_PROXY_URL` gesetzt (Cloudflare Worker) -> RemoteGemini.
 ///    Bevorzugt, weil der Gemini-Key serverseitig bleibt.
-/// 2. Sonst `GEMINI_API_KEY` gesetzt (nur lokales Testen, NIE in Live-Build)
-///    -> GeminiChatRepository direkt.
-/// 3. Sonst MockChatRepository (App laeuft offline).
+/// 2. Sonst `GEMINI_API_KEY` gesetzt (nur lokales Testen).
+/// 3. Sonst Pollinations.ai (kostenlos, ohne Key, Default in Live).
+/// 4. Sonst MockChatRepository (Offline-Notfall).
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   final prefs = ref.watch(userPreferencesProvider).value;
   final mode = ref.watch(chatModeProvider);
@@ -43,6 +44,12 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   if (Env.hasGeminiKey) {
     return GeminiChatRepository(
       apiKey: Env.geminiApiKey,
+      userPreferences: prefs,
+      mode: mode,
+    );
+  }
+  if (Env.hasPollinations) {
+    return PollinationsChatRepository(
       userPreferences: prefs,
       mode: mode,
     );
