@@ -88,7 +88,11 @@ class SettingsScreen extends ConsumerWidget {
           _SectionTitle('Dashboard anpassen'),
           SwitchListTile(
             secondary: const Icon(Icons.event_available_outlined),
-            title: const Text('Bevorstehende Termine'),
+            title: const Text('Termine als Erinnerung im Dashboard'),
+            subtitle: const Text(
+              'Zeigt deine naechsten Gesundheits-Termine offline oben '
+              'auf der Startseite an.',
+            ),
             value: prefs.showUpcomingOnHome,
             onChanged: (v) =>
                 prefsNotifier.save(prefs.copyWith(showUpcomingOnHome: v)),
