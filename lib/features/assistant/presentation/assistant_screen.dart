@@ -8,7 +8,9 @@ import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/assistant/data/tts_service.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_conversation.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
+import 'package:dogmatch_ai/features/assistant/presentation/conversations_controller.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_bubble.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/chat_input_bar.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/widgets/suggested_prompts.dart';
@@ -102,6 +104,19 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     _scrollToBottom();
   }
 
+  Future<void> _openChatHistory(BuildContext context) async {
+    _tts.stop();
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const _ChatHistorySheet(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(chatControllerProvider);
@@ -135,6 +150,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
       appBar: AppBar(
         title: Text(mode == ChatMode.trainer ? 'Hundetrainer' : 'KI-Berater'),
         actions: [
+          IconButton(
+            tooltip: 'Meine Chats',
+            icon: const Icon(Icons.chat_bubble_outline_rounded),
+            onPressed: () => _openChatHistory(context),
+          ),
           if (_tts.isAvailable)
             IconButton(
               tooltip: ttsEnabled
@@ -154,7 +174,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
           if (state.messages.isNotEmpty)
             IconButton(
               tooltip: 'Neuer Chat',
-              icon: const Icon(Icons.refresh_rounded),
+              icon: const Icon(Icons.add_comment_rounded),
               onPressed: () {
                 _tts.stop();
                 _lastSpokenMessageId = null;
@@ -522,6 +542,197 @@ class _PendingImagePreview extends StatelessWidget {
             onPressed: onRemove,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// BottomSheet mit der Liste aller gespeicherten Chats.
+/// Liegt zentral in der Datei, weil sie eng mit dem AssistantScreen
+/// gekoppelt ist (selber Lebenszyklus, gleiche Provider).
+class _ChatHistorySheet extends ConsumerWidget {
+  const _ChatHistorySheet();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final convsAsync = ref.watch(conversationsListProvider);
+    final activeId = ref.watch(activeConversationIdProvider);
+
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            margin: const EdgeInsets.only(top: 12, bottom: 8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.outline.withValues(alpha: 0.4),
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.xs,
+              AppSpacing.md,
+              AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.chat_bubble_outline_rounded,
+                    color: theme.colorScheme.primary),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    'Meine Chats',
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+            ),
+            child: FilledButton.icon(
+              icon: const Icon(Icons.add_rounded),
+              label: const Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                child: Text('Neuer Chat'),
+              ),
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(44),
+              ),
+              onPressed: () {
+                ref.read(chatControllerProvider.notifier).newChat();
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Flexible(
+            child: convsAsync.when(
+              loading: () =>
+                  const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Text('Chats konnten nicht geladen werden: $e'),
+              ),
+              data: (convs) {
+                if (convs.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    child: Text(
+                      'Noch keine gespeicherten Chats. Stell deine erste '
+                      'Frage - sie wird automatisch gespeichert.',
+                      style: theme.textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: convs.length,
+                  itemBuilder: (_, i) {
+                    final c = convs[i];
+                    return _ChatHistoryTile(
+                      conversation: c,
+                      isActive: c.id == activeId,
+                      onTap: () {
+                        ref
+                            .read(chatControllerProvider.notifier)
+                            .selectConversation(c.id);
+                        Navigator.of(context).pop();
+                      },
+                      onDelete: () => ref
+                          .read(chatControllerProvider.notifier)
+                          .deleteConversation(c.id),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
+      ),
+    );
+  }
+}
+
+class _ChatHistoryTile extends StatelessWidget {
+  const _ChatHistoryTile({
+    required this.conversation,
+    required this.isActive,
+    required this.onTap,
+    required this.onDelete,
+  });
+
+  final ChatConversation conversation;
+  final bool isActive;
+  final VoidCallback onTap;
+  final VoidCallback onDelete;
+
+  String _formatDate(DateTime when) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final d = DateTime(when.year, when.month, when.day);
+    final diff = today.difference(d).inDays;
+    if (diff == 0) return 'Heute';
+    if (diff == 1) return 'Gestern';
+    if (diff < 7) return 'Vor $diff Tagen';
+    return '${d.day.toString().padLeft(2, '0')}.'
+        '${d.month.toString().padLeft(2, '0')}.${d.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Dismissible(
+      key: ValueKey('conv-${conversation.id}'),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.red.shade400,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: AppSpacing.lg),
+        child: const Icon(Icons.delete_rounded, color: Colors.white),
+      ),
+      onDismissed: (_) => onDelete(),
+      child: ListTile(
+        leading: Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(alpha: 0.12),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            conversation.mode == ChatMode.trainer
+                ? Icons.school_rounded
+                : Icons.smart_toy_rounded,
+            color: theme.colorScheme.primary,
+            size: 20,
+          ),
+        ),
+        title: Text(
+          conversation.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          '${conversation.mode == ChatMode.trainer ? "Trainer" : "Berater"} · '
+          '${_formatDate(conversation.updatedAt)} · '
+          '${conversation.messages.length} Nachrichten',
+          style: theme.textTheme.labelSmall,
+        ),
+        trailing: isActive
+            ? Icon(Icons.radio_button_checked_rounded,
+                color: theme.colorScheme.primary, size: 18)
+            : const Icon(Icons.chevron_right_rounded, size: 18),
+        onTap: onTap,
       ),
     );
   }

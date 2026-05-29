@@ -8,6 +8,7 @@ import 'package:dogmatch_ai/features/assistant/data/remote_gemini_chat_repositor
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
+import 'package:dogmatch_ai/features/assistant/presentation/conversations_controller.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -147,11 +148,22 @@ class ChatState extends Equatable {
   List<Object?> get props => [messages, isWaiting, lastFailure];
 }
 
-/// Steuert den Chat: schickt Nachrichten an das Repository und haengt
-/// die Antwort an den Verlauf an.
+/// Steuert den Chat: schickt Nachrichten an das Repository, haengt
+/// die Antwort an den Verlauf an und persistiert die aktive Konversation
+/// nach jeder Aenderung.
 class ChatController extends Notifier<ChatState> {
   @override
-  ChatState build() => const ChatState();
+  ChatState build() {
+    // Beim Start: wenn eine aktive Konversation ausgewaehlt ist, laden.
+    final activeId = ref.read(activeConversationIdProvider);
+    if (activeId != null) {
+      final convs = ref.read(conversationsListProvider).value ?? const [];
+      for (final c in convs) {
+        if (c.id == activeId) return ChatState(messages: c.messages);
+      }
+    }
+    return const ChatState();
+  }
 
   Future<void> sendMessage(String text, {String? imageDataUrl}) async {
     final trimmed = text.trim();
@@ -183,7 +195,6 @@ class ChatController extends Notifier<ChatState> {
         );
       case FailureResult(:final failure):
         final friendly = _humanize(failure);
-        // Roher Fehler nur in der Browser-Konsole, nicht im UI.
         if (kDebugMode || kIsWeb) {
           // ignore: avoid_print
           print('[KI-Fehler] ${failure.runtimeType}: ${failure.message}');
@@ -207,16 +218,31 @@ class ChatController extends Notifier<ChatState> {
           ),
         );
     }
+
+    // Aktive Konversation persistieren (Auto-Save nach jeder Nachricht).
+    await _persistActive();
   }
 
-  /// Wiederholt den letzten fehlgeschlagenen Versuch. Entfernt vorher die
-  /// alte User-Nachricht + Fehler-Bubble aus dem Verlauf, damit der Chat
-  /// sauber bleibt.
+  /// Speichert den aktuellen Chat in der lokalen Konversations-Liste.
+  /// Erzeugt eine neue Konversation, wenn noch keine aktive ID gesetzt
+  /// war.
+  Future<void> _persistActive() async {
+    final mode = ref.read(chatModeProvider);
+    var activeId = ref.read(activeConversationIdProvider);
+    if (activeId == null) {
+      activeId = 'c-${DateTime.now().microsecondsSinceEpoch}';
+      ref.read(activeConversationIdProvider.notifier).set(activeId);
+    }
+    await ref
+        .read(conversationsListProvider.notifier)
+        .updateMessages(activeId, state.messages, mode);
+  }
+
+  /// Wiederholt den letzten fehlgeschlagenen Versuch.
   Future<void> retryLast() async {
     final attempt = state.lastFailure;
     if (attempt == null || state.isWaiting) return;
 
-    // Letzte zwei Eintraege entfernen (User-Frage + Fehler-Antwort).
     var msgs = state.messages;
     if (msgs.isNotEmpty && msgs.last.role == ChatRole.assistant) {
       msgs = msgs.sublist(0, msgs.length - 1);
@@ -233,9 +259,38 @@ class ChatController extends Notifier<ChatState> {
     state = state.copyWith(clearFailure: true);
   }
 
-  void clear() {
+  /// Starte einen neuen, leeren Chat. Behaelt die alte Konversation in der
+  /// gespeicherten Liste - die ist ueber das Chat-Menue weiter erreichbar.
+  void newChat() {
+    ref.read(activeConversationIdProvider.notifier).set(null);
     state = const ChatState();
   }
+
+  /// Aktiviert eine gespeicherte Konversation. Modus + Nachrichten werden
+  /// uebernommen.
+  Future<void> selectConversation(String id) async {
+    final convs = ref.read(conversationsListProvider).value ?? const [];
+    for (final c in convs) {
+      if (c.id == id) {
+        ref.read(activeConversationIdProvider.notifier).set(id);
+        ref.read(chatModeProvider.notifier).setMode(c.mode);
+        state = ChatState(messages: c.messages);
+        return;
+      }
+    }
+  }
+
+  /// Loescht eine gespeicherte Konversation. Wenn es die aktive war,
+  /// startet ein neuer leerer Chat.
+  Future<void> deleteConversation(String id) async {
+    await ref.read(conversationsListProvider.notifier).deleteChat(id);
+    if (ref.read(activeConversationIdProvider) == id) {
+      newChat();
+    }
+  }
+
+  /// Veralteter Alias - intern wie newChat.
+  void clear() => newChat();
 }
 
 /// Mappt einen [Failure] auf einen kurzen, freundlichen Deutsch-Text.
