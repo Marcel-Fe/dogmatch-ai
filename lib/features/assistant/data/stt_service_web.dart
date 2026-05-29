@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
 import 'package:web/web.dart' as web;
 
@@ -14,10 +15,6 @@ external JSFunction? get _webkitSpeechRecognitionCtor;
 
 @JS('SpeechRecognition')
 external JSFunction? get _speechRecognitionCtor;
-
-extension on JSFunction {
-  external JSObject newInstance();
-}
 
 extension type _Recognition._(JSObject _) implements JSObject {
   external set lang(String v);
@@ -89,7 +86,11 @@ class SttService {
       );
     }
 
-    final rec = _Recognition._(ctor.newInstance())
+    // ctor ist ein JS-Konstruktor (Klasse). `callAsConstructor` ruft `new`
+    // auf - das alte `newInstance()` war ein nicht-existierender API-Name
+    // und loeste daher NoSuchMethodError im Browser aus.
+    final instance = ctor.callAsConstructor<JSObject>();
+    final rec = _Recognition._(instance)
       ..lang = lang
       ..continuous = false
       ..interimResults = false

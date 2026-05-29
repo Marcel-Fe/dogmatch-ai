@@ -1,3 +1,4 @@
+import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
@@ -145,7 +146,9 @@ class GeminiChatRepository implements ChatRepository {
 
     final profile = <String>[];
     if (prefs.hasName) profile.add('Name: ${prefs.displayName}');
-    profile.add('Land: ${prefs.country.label}');
+    if (prefs.country != Country.other) {
+      profile.add('Land: ${prefs.country.label}');
+    }
     if (prefs.preferredSize != null) {
       profile.add('Wunschgroesse: ${prefs.preferredSize!.label}');
     }
