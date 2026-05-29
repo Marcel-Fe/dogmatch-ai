@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:js_interop';
 
+import 'package:web/web.dart' as web;
+
 /// Web-Sprach-Eingabe via SpeechRecognition (Chromium-Browser). Stoppt
 /// nach einer einzelnen Aussage und liefert das transkribierte Ergebnis.
 ///
@@ -54,6 +56,23 @@ class SttService {
     try {
       return _speechRecognitionCtor != null ||
           _webkitSpeechRecognitionCtor != null;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// True, wenn die App im iOS Safari laeuft - dort gibt es keine
+  /// Web-Speech-API. Wird vom UI genutzt, um eine klarere Meldung zu
+  /// zeigen ("Apple unterstuetzt das nicht") statt nur "Chrome nutzen".
+  bool get isIosSafari {
+    try {
+      final ua = (web.window.navigator.userAgent).toLowerCase();
+      final isIos = ua.contains('iphone') ||
+          ua.contains('ipad') ||
+          ua.contains('ipod');
+      final isSafari = ua.contains('safari') && !ua.contains('crios') &&
+          !ua.contains('fxios') && !ua.contains('edgios');
+      return isIos && isSafari;
     } catch (_) {
       return false;
     }

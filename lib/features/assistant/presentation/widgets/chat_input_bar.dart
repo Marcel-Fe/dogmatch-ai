@@ -50,13 +50,13 @@ class _ChatInputBarState extends State<ChatInputBar> {
       return;
     }
     if (!_stt.isAvailable) {
+      final msg = _stt.isIosSafari
+          ? 'Apple unterstuetzt Sprach-Eingabe im iPhone-Safari nicht. '
+              'Bitte tippe deine Frage - die KI-Antwort funktioniert trotzdem.'
+          : 'Sprach-Eingabe ist in diesem Browser nicht unterstuetzt '
+              '(Chrome / Edge nutzen).';
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Sprach-Eingabe ist in diesem Browser nicht unterstuetzt '
-            '(Chrome/Edge nutzen).',
-          ),
-        ),
+        SnackBar(content: Text(msg), duration: const Duration(seconds: 4)),
       );
       return;
     }

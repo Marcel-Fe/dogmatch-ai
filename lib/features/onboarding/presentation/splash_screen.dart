@@ -6,8 +6,14 @@ import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-/// Startbildschirm. Zeigt kurz das App-Logo und leitet dann zum Onboarding.
+/// Persistenter Flag - true sobald der Nutzer das Onboarding abgeschlossen
+/// hat. Wird im SplashScreen gelesen + im OnboardingScreen gesetzt.
+const String kOnboardingDoneKey = 'onboarding_done';
+
+/// Startbildschirm. Zeigt kurz das App-Logo und springt dann zum Onboarding
+/// oder direkt zum Home, je nachdem ob der Nutzer schon mal hier war.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -19,9 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(AppConstants.splashDuration, () {
-      if (mounted) context.go(AppRoutes.onboarding);
-    });
+    _goNext();
+  }
+
+  Future<void> _goNext() async {
+    // Splash mind. so kurz, dass das Logo erkennbar ist.
+    final stopwatch = Stopwatch()..start();
+    final prefs = await SharedPreferences.getInstance();
+    final done = prefs.getBool(kOnboardingDoneKey) ?? false;
+    final remaining =
+        AppConstants.splashDuration - stopwatch.elapsed;
+    if (remaining > Duration.zero) {
+      await Future<void>.delayed(remaining);
+    }
+    if (!mounted) return;
+    context.go(done ? AppRoutes.home : AppRoutes.onboarding);
   }
 
   @override

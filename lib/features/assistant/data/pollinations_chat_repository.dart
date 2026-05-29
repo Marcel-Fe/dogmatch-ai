@@ -64,10 +64,20 @@ class PollinationsChatRepository implements ChatRepository {
     List<ChatMessage> history,
     String systemPrompt,
   ) async {
+    // Fehler-Bubbles (id-Praefix 'e-') haben Inhalt wie "Verbindung
+    // fehlgeschlagen ..." - die gehoeren NICHT in den Prompt, sonst
+    // antwortet die KI auf die App-Fehlermeldung.
+    final clean =
+        history.where((m) => !m.id.startsWith('e-')).toList(growable: false);
+    if (clean.isEmpty) {
+      return const FailureResult(
+        UnexpectedFailure('Keine Nachricht zum Beantworten.'),
+      );
+    }
     // Letzte 6 Messages reichen - mehr ueberschreitet GET-URL-Limit.
-    final relevant = history.length > 6
-        ? history.sublist(history.length - 6)
-        : history;
+    final relevant = clean.length > 6
+        ? clean.sublist(clean.length - 6)
+        : clean;
 
     // Conversation als laufender Text fuer den GET-Endpoint. System wird
     // separat als Query-Parameter uebergeben.
