@@ -97,9 +97,15 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 
   void _send(String text) {
     final image = _pendingImageDataUrl;
+    final supportsVision = ref.read(supportsVisionProvider);
+    // Wenn das aktive Backend keine echte Vision hat (z. B. Pollinations),
+    // schicken wir das Bild NICHT mit - die KI wuerde es sonst ignorieren
+    // oder Fehler werfen. Das Foto bleibt fuer den Nutzer als Erinnerung,
+    // er beschreibt es in Worten.
+    final effectiveImage = supportsVision ? image : null;
     ref
         .read(chatControllerProvider.notifier)
-        .sendMessage(text, imageDataUrl: image);
+        .sendMessage(text, imageDataUrl: effectiveImage);
     if (image != null) _clearPendingImage();
     _scrollToBottom();
   }
@@ -231,11 +237,12 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
               _PendingImagePreview(
                 dataUrl: _pendingImageDataUrl!,
                 onRemove: _clearPendingImage,
+                supportsVision: supportsVision,
               ),
             ChatInputBar(
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
-              onPickImage: supportsVision ? _pickImage : null,
+              onPickImage: _pickImage,
               hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'
@@ -490,12 +497,20 @@ class _ModeSwitcher extends StatelessWidget {
   }
 }
 
-/// Vorschau eines angehaengten Bildes vor dem Versand (Multimodal-Chat).
+/// Vorschau eines angehaengten Bildes vor dem Versand.
+/// Wenn das aktive Backend Vision unterstuetzt, wird das Bild echt analysiert.
+/// Wenn nicht, sieht der Nutzer eine ehrliche Notiz: er soll das Foto in
+/// Worten beschreiben - die KI antwortet dann darauf.
 class _PendingImagePreview extends StatelessWidget {
-  const _PendingImagePreview({required this.dataUrl, required this.onRemove});
+  const _PendingImagePreview({
+    required this.dataUrl,
+    required this.onRemove,
+    required this.supportsVision,
+  });
 
   final String dataUrl;
   final VoidCallback onRemove;
+  final bool supportsVision;
 
   @override
   Widget build(BuildContext context) {
@@ -508,12 +523,19 @@ class _PendingImagePreview extends StatelessWidget {
     } catch (_) {
       bytes = null;
     }
+    final hintText = supportsVision
+        ? 'Bild angehaengt - wird mit deiner naechsten Nachricht analysiert.'
+        : 'Foto-Notiz angehaengt. Die KI sieht es nicht direkt - bitte '
+            'beschreibe in 1-2 Saetzen, was zu sehen ist. Die KI gibt dir '
+            'dann Ursachen + Loesungsvorschlaege.';
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.xs,
       ),
-      color: theme.colorScheme.surfaceContainerHighest,
+      color: supportsVision
+          ? theme.colorScheme.surfaceContainerHighest
+          : Colors.orange.withValues(alpha: 0.12),
       child: Row(
         children: [
           ClipRRect(
@@ -532,7 +554,7 @@ class _PendingImagePreview extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              'Bild angehaengt - wird mit deiner naechsten Nachricht analysiert.',
+              hintText,
               style: theme.textTheme.bodySmall,
             ),
           ),
@@ -728,12 +750,53 @@ class _ChatHistoryTile extends StatelessWidget {
           '${conversation.messages.length} Nachrichten',
           style: theme.textTheme.labelSmall,
         ),
-        trailing: isActive
-            ? Icon(Icons.radio_button_checked_rounded,
-                color: theme.colorScheme.primary, size: 18)
-            : const Icon(Icons.chevron_right_rounded, size: 18),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isActive)
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Icon(
+                  Icons.radio_button_checked_rounded,
+                  color: theme.colorScheme.primary,
+                  size: 18,
+                ),
+              ),
+            IconButton(
+              tooltip: 'Chat loeschen',
+              icon: const Icon(Icons.delete_outline_rounded, size: 20),
+              onPressed: () => _confirmDelete(context),
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
         onTap: onTap,
       ),
     );
+  }
+
+  Future<void> _confirmDelete(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Chat loeschen?'),
+        content: Text(
+          'Der Chat "${conversation.title}" wird unwiderruflich aus '
+          'deinem Geraet entfernt.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Loeschen'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) onDelete();
   }
 }
