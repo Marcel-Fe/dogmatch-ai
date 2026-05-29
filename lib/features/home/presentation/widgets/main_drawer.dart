@@ -110,6 +110,11 @@ class MainDrawer extends StatelessWidget {
       color: Color(0xFFBA68C8),
       items: [
         _DrawerItem(
+          icon: Icons.pets_rounded,
+          label: 'Alle Rassen durchstoebern',
+          route: AppRoutes.breedList,
+        ),
+        _DrawerItem(
           icon: Icons.verified_user_rounded,
           label: 'Zuechter finden',
           route: AppRoutes.breederFinder,

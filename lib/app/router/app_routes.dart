@@ -16,6 +16,7 @@ class AppRoutes {
   static const String profile = '/profile';
 
   // Vollbild-Detailseiten
+  static const String breedList = '/breeds-all';
   static const String breedDetail = '/breed'; // /breed/:id
   static const String matchResults = '/matches';
   static const String knowledge = '/knowledge';

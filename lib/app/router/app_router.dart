@@ -4,6 +4,7 @@ import 'package:dogmatch_ai/features/auth/presentation/login_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_finder_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_profile_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_detail_screen.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/breed_list_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/add_edit_dog_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/manage_dogs_screen.dart';
 import 'package:dogmatch_ai/features/favorites/presentation/favorites_screen.dart';
@@ -103,6 +104,10 @@ final appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: AppRoutes.breedList,
+      builder: (context, state) => const BreedListScreen(),
     ),
     GoRoute(
       path: '${AppRoutes.breedDetail}/:id',
