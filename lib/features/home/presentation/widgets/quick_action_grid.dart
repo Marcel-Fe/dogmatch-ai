@@ -84,38 +84,76 @@ class _Tile extends StatelessWidget {
   final _QuickActionItem item;
   final ThemeData theme;
 
+  Color get _light => Color.lerp(item.color, Colors.white, 0.55)!;
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: item.color.withValues(alpha: 0.12),
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-        onTap: () => context.push(item.route),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: item.color,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(item.icon, color: Colors.white, size: 22),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                item.label,
-                style: theme.textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              _light.withValues(alpha: 0.55),
+              item.color.withValues(alpha: 0.22),
             ],
+          ),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+          border: Border.all(color: item.color.withValues(alpha: 0.35)),
+          boxShadow: [
+            BoxShadow(
+              color: item.color.withValues(alpha: 0.18),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+          onTap: () => context.push(item.route),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        item.color,
+                        Color.lerp(item.color, Colors.black, 0.18)!,
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: item.color.withValues(alpha: 0.35),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Icon(item.icon, color: Colors.white, size: 22),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  item.label,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Color.lerp(item.color, Colors.black, 0.55),
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ),
       ),

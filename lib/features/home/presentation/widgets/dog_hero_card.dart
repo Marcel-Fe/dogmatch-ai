@@ -4,6 +4,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
+import 'package:dogmatch_ai/features/home/domain/time_of_day_greeting.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -78,17 +79,23 @@ class DogHeroCard extends StatelessWidget {
         Positioned(
           left: AppSpacing.lg,
           right: AppSpacing.lg,
+          top: AppSpacing.md,
+          child: _TimeBadge(greeting: TimeOfDayGreeting.forNow()),
+        ),
+        Positioned(
+          left: AppSpacing.lg,
+          right: AppSpacing.lg,
           bottom: AppSpacing.lg,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (greetingName != null && greetingName!.isNotEmpty)
-                Text(
-                  'Hallo $greetingName',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.85),
-                  ),
+              Text(
+                _personalGreeting(),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
               Text(
                 dog!.name,
                 style: theme.textTheme.headlineMedium?.copyWith(
@@ -112,6 +119,7 @@ class DogHeroCard extends StatelessWidget {
   }
 
   Widget _withoutDog(BuildContext context, ThemeData theme) {
+    final greet = TimeOfDayGreeting.forNow();
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -124,13 +132,15 @@ class DogHeroCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _TimeBadge(greeting: greet),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             children: [
               Expanded(
                 child: Text(
                   greetingName != null && greetingName!.isNotEmpty
-                      ? 'Hallo $greetingName!'
-                      : 'Willkommen!',
+                      ? '${greet.salutation}, $greetingName!'
+                      : '${greet.salutation}!',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
@@ -158,6 +168,13 @@ class DogHeroCard extends StatelessWidget {
     );
   }
 
+  String _personalGreeting() {
+    final greet = TimeOfDayGreeting.forNow();
+    final name = greetingName;
+    if (name == null || name.isEmpty) return '${greet.salutation}!';
+    return '${greet.salutation}, $name';
+  }
+
   String _subtitleFor(Dog dog) {
     final parts = <String>[];
     if (dog.breed != null) parts.add(dog.breed!);
@@ -168,6 +185,48 @@ class DogHeroCard extends StatelessWidget {
       parts.add('${dog.weightKg!.toStringAsFixed(1)} kg');
     }
     return parts.isEmpty ? 'Dein Hund' : parts.join(' · ');
+  }
+}
+
+/// Kleines Glas-Etikett oben im Hero, das die Tageszeit + Emoji zeigt.
+/// Sehr dezent (geringer Alpha) - dient nur als visueller Anker.
+class _TimeBadge extends StatelessWidget {
+  const _TimeBadge({required this.greeting});
+
+  final TimeOfDayGreeting greeting;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: 4,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.22),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(greeting.icon, color: Colors.white, size: 14),
+            const SizedBox(width: 4),
+            Text(
+              greeting.salutation,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

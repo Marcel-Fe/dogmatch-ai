@@ -16,6 +16,7 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/my_dog_section.da
 import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/today_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/wisdom_quote_card.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,18 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
 
-              // 3) Hunde-Weisheit der Stunde (rotiert jede Stunde)
+              // 3) Heute fuer <Hund> - personalisiertes Tagesbriefing
+              if (activeDog != null) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
+                  child: TodayCard(dog: activeDog),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+              ],
+
+              // 4) Hunde-Weisheit der Stunde (rotiert jede Stunde)
               const Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
@@ -96,7 +108,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // 4) Schnellaktionen
+              // 5) Schnellaktionen
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
