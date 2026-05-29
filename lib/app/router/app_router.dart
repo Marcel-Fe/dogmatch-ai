@@ -23,6 +23,8 @@ import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
 import 'package:dogmatch_ai/features/behavior_check/presentation/behavior_check_screen.dart';
 import 'package:dogmatch_ai/features/checklists/presentation/checklist_detail_screen.dart';
 import 'package:dogmatch_ai/features/checklists/presentation/checklists_screen.dart';
+import 'package:dogmatch_ai/features/legal/presentation/legal_doc_screen.dart';
+import 'package:dogmatch_ai/features/legal/presentation/legal_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
 import 'package:dogmatch_ai/features/tips/presentation/tips_screen.dart';
 import 'package:dogmatch_ai/features/vacation/presentation/vacation_screen.dart';
@@ -190,6 +192,30 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.vacation,
       builder: (context, state) => const VacationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.legal,
+      builder: (context, state) => const LegalScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.imprint,
+      builder: (context, state) =>
+          const LegalDocScreen(doc: LegalDoc.imprint),
+    ),
+    GoRoute(
+      path: AppRoutes.privacy,
+      builder: (context, state) =>
+          const LegalDocScreen(doc: LegalDoc.privacy),
+    ),
+    GoRoute(
+      path: AppRoutes.terms,
+      builder: (context, state) =>
+          const LegalDocScreen(doc: LegalDoc.terms),
+    ),
+    GoRoute(
+      path: AppRoutes.disclaimer,
+      builder: (context, state) =>
+          const LegalDocScreen(doc: LegalDoc.disclaimer),
     ),
     GoRoute(
       path: AppRoutes.breederFinder,

@@ -55,4 +55,11 @@ class AppRoutes {
 
   // Urlaub
   static const String vacation = '/vacation';
+
+  // Rechtliches
+  static const String legal = '/legal';
+  static const String imprint = '/legal/imprint';
+  static const String privacy = '/legal/privacy';
+  static const String terms = '/legal/terms';
+  static const String disclaimer = '/legal/disclaimer';
 }
