@@ -1,7 +1,9 @@
 {
     "name": "DogMatch AI",
     "short_name": "DogMatch AI",
-    "start_url": ".",
+    "id": "/dogmatch-ai/",
+    "start_url": "/dogmatch-ai/",
+    "scope": "/dogmatch-ai/",
     "display": "standalone",
     "background_color": "#7C6BF0",
     "theme_color": "#7C6BF0",
