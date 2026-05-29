@@ -1,7 +1,10 @@
+import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
+import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/breeds/domain/breed_insurance.dart';
 import 'package:dogmatch_ai/features/breeds/domain/country_breed_info.dart';
 import 'package:dogmatch_ai/features/breeds/domain/dog_breed.dart';
@@ -11,6 +14,7 @@ import 'package:dogmatch_ai/features/favorites/presentation/widgets/favorite_but
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Rassenprofil. Laedt die Rasse ueber [breedByIdProvider] und stellt
 /// Steckbrief, Bewertungen, Eigenschaften und Gesundheitsthemen dar.
@@ -195,8 +199,47 @@ class _BreedDetailContent extends ConsumerWidget {
               ),
             ),
         ],
+
+        const SizedBox(height: AppSpacing.xl),
+        const _SectionTitle('Mehr erfahren'),
+        const SizedBox(height: AppSpacing.sm),
+        FilledButton.icon(
+          onPressed: () => _askAiAboutBreed(context, ref, breed),
+          icon: const Icon(Icons.auto_awesome_rounded),
+          label: const Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Text('Mehr ueber diese Rasse erfahren (KI)'),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Text(
+          'Der KI-Berater schreibt dir eine ausfuehrliche Beschreibung zu '
+          'Geschichte, Charakter, Erziehung und Gesundheit. Die Texte werden '
+          'von einer KI erstellt - als Orientierung gedacht, kein Ersatz fuer '
+          'Zuechter- oder Tierarzt-Beratung.',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
       ],
     );
+  }
+
+  /// Merkt eine ausfuehrliche Rassen-Frage fuer den KI-Berater vor und
+  /// wechselt dorthin - der Assistant sendet sie automatisch.
+  void _askAiAboutBreed(BuildContext context, WidgetRef ref, DogBreed breed) {
+    final prompt =
+        'Erzaehl mir ausfuehrlich ueber die Hunderasse ${breed.name} '
+        '(Herkunft: ${breed.origin}). Bitte gehe ein auf: Geschichte und '
+        'urspruenglicher Zweck, typischer Charakter und Temperament, '
+        'Erziehung und Trainings-Tipps, gesundheitliche Besonderheiten und '
+        'worauf ich achten muss, sowie fuer wen diese Rasse geeignet ist und '
+        'fuer wen eher nicht. Schreibe es gut verstaendlich fuer einen '
+        'Anfaenger.';
+    ref.read(assistantHandoffProvider.notifier).queue(
+          AssistantHandoff(prompt: prompt, mode: ChatMode.advisor),
+        );
+    context.go(AppRoutes.assistant);
   }
 
   String _fmtKg(double v) =>
