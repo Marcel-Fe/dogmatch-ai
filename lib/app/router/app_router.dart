@@ -21,7 +21,11 @@ import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.da
 import 'package:dogmatch_ai/features/profile/presentation/profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
 import 'package:dogmatch_ai/features/behavior_check/presentation/behavior_check_screen.dart';
+import 'package:dogmatch_ai/features/checklists/presentation/checklist_detail_screen.dart';
+import 'package:dogmatch_ai/features/checklists/presentation/checklists_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
+import 'package:dogmatch_ai/features/tips/presentation/tips_screen.dart';
+import 'package:dogmatch_ai/features/vacation/presentation/vacation_screen.dart';
 import 'package:dogmatch_ai/features/symptom_check/presentation/symptom_check_screen.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_detail_screen.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_screen.dart';
@@ -169,6 +173,23 @@ final appRouter = GoRouter(
       path: '${AppRoutes.training}/:id',
       builder: (context, state) =>
           TrainingDetailScreen(planId: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: AppRoutes.tips,
+      builder: (context, state) => const TipsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.checklists,
+      builder: (context, state) => const ChecklistsScreen(),
+    ),
+    GoRoute(
+      path: '${AppRoutes.checklists}/:id',
+      builder: (context, state) =>
+          ChecklistDetailScreen(id: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: AppRoutes.vacation,
+      builder: (context, state) => const VacationScreen(),
     ),
     GoRoute(
       path: AppRoutes.breederFinder,

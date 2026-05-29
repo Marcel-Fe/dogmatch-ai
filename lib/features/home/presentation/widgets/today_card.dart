@@ -1,6 +1,8 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/breeds/domain/breed_matcher.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/health/presentation/health_controller.dart';
 import 'package:dogmatch_ai/features/home/domain/time_of_day_greeting.dart';
@@ -45,6 +47,15 @@ class TodayCard extends ConsumerWidget {
 
     final tipText = _tipFor(greet.dayPart, dog);
     final tipIcon = _tipIconFor(greet.dayPart);
+
+    // Rassen-Tipp (nur wenn Rasse erkannt) - nimmt den ersten careTip,
+    // damit der Hund "auf den eigenen Hund zugeschnitten" wirkt.
+    final breedsAsync = ref.watch(breedsProvider);
+    final matchedBreed =
+        matchBreed(dog.breed, breedsAsync.value ?? const []);
+    final breedTip = matchedBreed != null && matchedBreed.careTips.isNotEmpty
+        ? matchedBreed.careTips.first
+        : null;
 
     return Container(
       decoration: BoxDecoration(
@@ -99,6 +110,14 @@ class TodayCard extends ConsumerWidget {
             text: tipText,
             color: Colors.white,
           ),
+          if (breedTip != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            _Row(
+              icon: Icons.pets_rounded,
+              text: '${matchedBreed!.name}-Tipp: $breedTip',
+              color: Colors.white,
+            ),
+          ],
           if (upcoming != null) ...[
             const SizedBox(height: AppSpacing.sm),
             _Row(

@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
+import 'package:dogmatch_ai/features/breeds/domain/breed_matcher.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_filter_controller.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
@@ -12,6 +13,7 @@ import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_switcher_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/main_drawer.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/my_dog_section.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
@@ -38,6 +40,7 @@ class HomeScreen extends ConsumerWidget {
     final greetingName = prefs != null && prefs.hasName ? prefs.displayName : null;
 
     return Scaffold(
+      drawer: const MainDrawer(),
       appBar: AppBar(title: const Text('DogMatch AI')),
       body: breedsAsync.when(
         loading: () => const LoadingView(message: 'Rassen werden geladen ...'),
@@ -47,19 +50,9 @@ class HomeScreen extends ConsumerWidget {
         ),
         data: (breeds) {
           // Bild der Hund-Rasse als Fallback, wenn der eigene Hund kein
-          // Foto hat - so erscheint auf dem Dashboard nie nur ein
-          // Pfoten-Icon, sondern ein echter Hund.
-          String? breedImageUrl;
-          final breedName = activeDog?.breed?.trim().toLowerCase();
-          if (breedName != null && breedName.isNotEmpty) {
-            for (final b in breeds) {
-              if (b.name.toLowerCase() == breedName ||
-                  b.id.toLowerCase() == breedName) {
-                breedImageUrl = b.imageUrl;
-                break;
-              }
-            }
-          }
+          // Foto hat - matchBreed toleriert Umlaute (Neufundländer ↔ Neufundlaender).
+          final matched = matchBreed(activeDog?.breed, breeds);
+          final String? breedImageUrl = matched?.imageUrl;
           final allDogs = dogsState?.dogs ?? const <Dog>[];
           final showMyDog = activeDog != null;
 

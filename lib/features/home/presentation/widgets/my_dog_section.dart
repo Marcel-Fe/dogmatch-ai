@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/breeders/data/asset_breeder_repository.dart';
 import 'package:dogmatch_ai/features/breeders/domain/breeder.dart';
+import 'package:dogmatch_ai/features/breeds/domain/breed_matcher.dart';
 import 'package:dogmatch_ai/features/breeds/domain/dog_breed.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/training/domain/training_plan.dart';
@@ -28,16 +29,7 @@ class MyDogSection extends ConsumerWidget {
   final Dog dog;
   final List<DogBreed> allBreeds;
 
-  DogBreed? _resolveBreed() {
-    final raw = dog.breed?.trim().toLowerCase();
-    if (raw == null || raw.isEmpty) return null;
-    for (final b in allBreeds) {
-      if (b.name.toLowerCase() == raw || b.id.toLowerCase() == raw) {
-        return b;
-      }
-    }
-    return null;
-  }
+  DogBreed? _resolveBreed() => matchBreed(dog.breed, allBreeds);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

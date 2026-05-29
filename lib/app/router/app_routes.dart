@@ -45,4 +45,14 @@ class AppRoutes {
 
   // Verhalten-Check
   static const String behaviorCheck = '/behavior-check';
+
+  // Wissen / Tipps
+  static const String tips = '/tips';
+
+  // Checklisten
+  static const String checklists = '/checklists';
+  static const String checklistDetail = '/checklists'; // /checklists/:id
+
+  // Urlaub
+  static const String vacation = '/vacation';
 }
