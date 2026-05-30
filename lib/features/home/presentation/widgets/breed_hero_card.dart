@@ -137,6 +137,8 @@ class _ImageLayer extends StatelessWidget {
         child: Image.network(
           breed.imageUrl!,
           fit: BoxFit.contain,
+          // Grosses Bild fuer das Handy auf vernuenftige Breite begrenzen.
+          cacheWidth: 1000,
           loadingBuilder: (ctx, c, p) {
             if (p == null) return c;
             return Container(color: theme.colorScheme.surfaceContainerHighest);

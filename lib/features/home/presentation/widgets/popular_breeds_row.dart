@@ -182,6 +182,9 @@ class _PopularItem extends StatelessWidget {
       child: Image.network(
         breed.imageUrl!,
         fit: BoxFit.contain,
+        // Kleiner Avatar - nur in Anzeigegroesse dekodieren (spart Speicher
+        // und Ruckeln auf dem Handy). 200px deckt auch hohe Pixeldichte ab.
+        cacheWidth: 200,
         errorBuilder: (_, _, _) => fallback(),
       ),
     );

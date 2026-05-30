@@ -488,6 +488,8 @@ class _BreedHeroImage extends StatelessWidget {
       imageChild = Image.network(
         breed.imageUrl!,
         fit: BoxFit.contain,
+        // Auf dem Handy nur in vernuenftiger Breite dekodieren.
+        cacheWidth: 1000,
         loadingBuilder: (ctx, child, progress) {
           if (progress == null) return child;
           return Container(

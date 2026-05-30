@@ -99,6 +99,11 @@ class BreedThumbnail extends StatelessWidget {
         ),
       );
     } else if (breed.imageUrl != null && breed.imageUrl!.isNotEmpty) {
+      // Bild nur in Anzeigegroesse dekodieren (statt voller Wikimedia-
+      // Aufloesung) - spart auf dem Handy enorm Speicher und verhindert
+      // Ruckeln beim Scrollen durch viele Rassen.
+      final cacheW =
+          (size * MediaQuery.devicePixelRatioOf(context)).round();
       child = Container(
         width: size,
         height: size,
@@ -106,6 +111,7 @@ class BreedThumbnail extends StatelessWidget {
         child: Image.network(
           breed.imageUrl!,
           fit: BoxFit.contain,
+          cacheWidth: cacheW,
           loadingBuilder: (ctx, c, p) {
             if (p == null) return c;
             return Container(
