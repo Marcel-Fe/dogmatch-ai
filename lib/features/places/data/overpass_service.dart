@@ -13,6 +13,33 @@ class OverpassService {
 
   static const _endpoint = 'https://overpass-api.de/api/interpreter';
 
+  /// Sucht Orte und erweitert den Radius automatisch, bis Treffer kommen.
+  /// So funktioniert die Suche auch auf dem Land, wo der naechste Tierarzt
+  /// weiter weg sein kann. Liefert die Treffer und den genutzten Radius (km).
+  Future<({List<Place> places, int radiusKm})> searchNearby({
+    required PlaceCategory category,
+    required double latitude,
+    required double longitude,
+  }) async {
+    // Tieraerzte koennen auf dem Land weit weg sein -> weit eskalieren.
+    // Kotbeutel-Spender sind nur lokal sinnvoll -> kleiner Maximalradius.
+    final radii = category == PlaceCategory.vet
+        ? const [12000, 30000, 60000]
+        : const [12000, 30000];
+    for (final r in radii) {
+      final result = await search(
+        category: category,
+        latitude: latitude,
+        longitude: longitude,
+        radiusMeters: r,
+      );
+      if (result.isNotEmpty || r == radii.last) {
+        return (places: result, radiusKm: r ~/ 1000);
+      }
+    }
+    return (places: const <Place>[], radiusKm: radii.last ~/ 1000);
+  }
+
   /// Sucht Orte einer Kategorie im Umkreis [radiusMeters] um die Position.
   /// Ergebnis ist nach Entfernung sortiert.
   Future<List<Place>> search({

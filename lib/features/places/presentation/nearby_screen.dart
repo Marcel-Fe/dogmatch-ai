@@ -22,6 +22,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
   bool _loading = false;
   String? _error;
   List<Place>? _places;
+  int _radiusKm = 0;
   GeoPosition? _position;
 
   Future<void> _findHere() async {
@@ -49,13 +50,14 @@ class _NearbyScreenState extends State<NearbyScreen> {
       _error = null;
     });
     try {
-      final result = await _overpass.search(
+      final result = await _overpass.searchNearby(
         category: _category,
         latitude: pos.latitude,
         longitude: pos.longitude,
       );
       setState(() {
-        _places = result;
+        _places = result.places;
+        _radiusKm = result.radiusKm;
         _loading = false;
       });
     } catch (_) {
@@ -125,22 +127,28 @@ class _NearbyScreenState extends State<NearbyScreen> {
                 theme: theme,
                 icon: Icons.search_off_rounded,
                 text: _category == PlaceCategory.vet
-                    ? 'In deiner Naehe sind keine Tieraerzte in OpenStreetMap '
-                        'eingetragen. Das heisst nicht, dass es keine gibt - '
-                        'die freien Daten sind oft unvollstaendig.'
-                    : 'Keine Kotbeutel-Spender in OpenStreetMap gefunden. '
-                        'Diese sind nur selten erfasst.',
+                    ? 'Auch im Umkreis von $_radiusKm km sind keine Tieraerzte '
+                        'in OpenStreetMap eingetragen. Das heisst nicht, dass es '
+                        'keine gibt - die freien Daten sind manchmal '
+                        'unvollstaendig. Eine normale Suchmaschine hilft hier '
+                        'weiter.'
+                    : 'Keine Kotbeutel-Spender im Umkreis von $_radiusKm km '
+                        'gefunden. Diese sind nur selten in OpenStreetMap '
+                        'erfasst.',
                 onRetry: _findHere,
               )
             else ...[
               Text(
-                '${_places!.length} Treffer in der Naehe',
+                _places!.length > 40
+                    ? 'Naechste 40 von ${_places!.length} im Umkreis von '
+                        '$_radiusKm km'
+                    : '${_places!.length} Treffer im Umkreis von $_radiusKm km',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
-              for (final p in _places!)
+              for (final p in _places!.take(40))
                 _PlaceCard(place: p, theme: theme, onOpen: _geo.openExternal),
             ],
           ],
