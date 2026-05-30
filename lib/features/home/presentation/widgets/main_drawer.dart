@@ -17,6 +17,11 @@ class MainDrawer extends StatelessWidget {
       color: AppColors.primary,
       items: [
         _DrawerItem(
+          icon: Icons.folder_shared_rounded,
+          label: 'Hunde-Akte',
+          route: AppRoutes.dogRecord,
+        ),
+        _DrawerItem(
           icon: Icons.pets_rounded,
           label: 'Hunde verwalten',
           route: AppRoutes.manageDogs,
@@ -52,6 +57,11 @@ class MainDrawer extends StatelessWidget {
           icon: Icons.medical_services_rounded,
           label: 'Symptom-Check',
           route: AppRoutes.symptomCheck,
+        ),
+        _DrawerItem(
+          icon: Icons.near_me_rounded,
+          label: 'Tieraerzte in der Naehe',
+          route: AppRoutes.nearby,
         ),
       ],
     ),
@@ -113,6 +123,11 @@ class MainDrawer extends StatelessWidget {
           icon: Icons.pets_rounded,
           label: 'Alle Rassen durchstoebern',
           route: AppRoutes.breedList,
+        ),
+        _DrawerItem(
+          icon: Icons.merge_type_rounded,
+          label: 'Mischling-Wesensrechner',
+          route: AppRoutes.mixBreed,
         ),
         _DrawerItem(
           icon: Icons.verified_user_rounded,

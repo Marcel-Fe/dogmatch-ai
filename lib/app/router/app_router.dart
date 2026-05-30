@@ -5,7 +5,9 @@ import 'package:dogmatch_ai/features/breeders/presentation/breeder_finder_screen
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_profile_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_detail_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_list_screen.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/mix_breed_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/add_edit_dog_screen.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/dog_record_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/manage_dogs_screen.dart';
 import 'package:dogmatch_ai/features/favorites/presentation/favorites_screen.dart';
 import 'package:dogmatch_ai/features/documents/presentation/documents_screen.dart';
@@ -16,6 +18,7 @@ import 'package:dogmatch_ai/features/knowledge/presentation/article_screen.dart'
 import 'package:dogmatch_ai/features/knowledge/presentation/knowledge_screen.dart';
 import 'package:dogmatch_ai/features/matching/presentation/match_results_screen.dart';
 import 'package:dogmatch_ai/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:dogmatch_ai/features/places/presentation/nearby_screen.dart';
 import 'package:dogmatch_ai/features/onboarding/presentation/splash_screen.dart';
 import 'package:dogmatch_ai/features/premium/presentation/premium_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.dart';
@@ -110,6 +113,10 @@ final appRouter = GoRouter(
       builder: (context, state) => const BreedListScreen(),
     ),
     GoRoute(
+      path: AppRoutes.mixBreed,
+      builder: (context, state) => const MixBreedScreen(),
+    ),
+    GoRoute(
       path: '${AppRoutes.breedDetail}/:id',
       builder: (context, state) =>
           BreedDetailScreen(breedId: state.pathParameters['id']!),
@@ -140,6 +147,10 @@ final appRouter = GoRouter(
       builder: (context, state) => const EditProfileScreen(),
     ),
     GoRoute(
+      path: AppRoutes.dogRecord,
+      builder: (context, state) => const DogRecordScreen(),
+    ),
+    GoRoute(
       path: AppRoutes.manageDogs,
       builder: (context, state) => const ManageDogsScreen(),
     ),
@@ -167,6 +178,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.symptomCheck,
       builder: (context, state) => const SymptomCheckScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nearby,
+      builder: (context, state) => const NearbyScreen(),
     ),
     GoRoute(
       path: AppRoutes.behaviorCheck,

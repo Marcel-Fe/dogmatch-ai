@@ -17,6 +17,7 @@ class AppRoutes {
 
   // Vollbild-Detailseiten
   static const String breedList = '/breeds-all';
+  static const String mixBreed = '/mix-breed';
   static const String breedDetail = '/breed'; // /breed/:id
   static const String matchResults = '/matches';
   static const String knowledge = '/knowledge';
@@ -28,6 +29,7 @@ class AppRoutes {
   static const String editProfile = '/edit-profile';
 
   // Hunde-Verwaltung
+  static const String dogRecord = '/dog-record';
   static const String manageDogs = '/dogs';
   static const String addDog = '/dogs/add';
   static const String editDog = '/dogs/edit'; // /dogs/edit/:id
@@ -43,6 +45,9 @@ class AppRoutes {
 
   // Symptom-Check
   static const String symptomCheck = '/symptom-check';
+
+  // Umgebung (Tieraerzte, Kliniken, Kotbeutel in der Naehe)
+  static const String nearby = '/nearby';
 
   // Verhalten-Check
   static const String behaviorCheck = '/behavior-check';
