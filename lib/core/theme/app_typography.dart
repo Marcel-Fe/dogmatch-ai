@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-/// Erzeugt das Text-Theme. Schrift: Plus Jakarta Sans - modern, gut lesbar.
+/// Erzeugt das Text-Theme. Schrift: Plus Jakarta Sans - lokal gebundelt
+/// (kein Laufzeit-Download), modern und gut lesbar.
 class AppTypography {
   AppTypography._();
+
+  /// Name der in der pubspec.yaml deklarierten, gebundelten Schrift.
+  static const String fontFamily = 'PlusJakartaSans';
 
   /// Baut ein [TextTheme] mit [primary] als Haupt-Textfarbe und [secondary]
   /// fuer untergeordneten Text (z.B. Beschreibungen).
   static TextTheme textTheme(Color primary, Color secondary) {
-    final base = GoogleFonts.plusJakartaSansTextTheme()
-        .apply(bodyColor: primary, displayColor: primary);
+    final base = Typography.material2021().englishLike.apply(
+          fontFamily: fontFamily,
+          bodyColor: primary,
+          displayColor: primary,
+        );
 
     return base.copyWith(
       displayLarge: base.displayLarge?.copyWith(fontWeight: FontWeight.w700),

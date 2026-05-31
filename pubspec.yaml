@@ -75,6 +75,13 @@ flutter:
     - assets/data/training_plans.json
     - assets/data/breeders.json
 
+  # Schrift lokal gebundelt (Variable Font) - kein Laufzeit-Download von
+  # Google mehr, das beschleunigt den App-Start spuerbar auf dem Handy.
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans.ttf
+
   # --- Backend-Phase (noch nicht aktiv) ---------------------------------
   # Firebase wird erst angebunden, wenn der Offline-Kern steht. Dann hier
   # ergaenzen und `Env.useFirebase` auf true setzen:
