@@ -169,5 +169,221 @@ class TravelRules {
       transitNote:
           'Anmeldung bei DEFRA vor Reise. Fliegen oft nur als Fracht moeglich.',
     ),
+    TravelRule(
+      country: 'Belgien',
+      flag: '🇧🇪',
+      muzzleRule:
+          'Kein generelles Gebot. In oeffentlichen Verkehrsmitteln regional empfohlen.',
+      leashRule: 'Leinenpflicht in Staedten + Parks, regional verschieden.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis + Chip Pflicht.',
+      listenhundRule:
+          'Rasselisten je Region (Flandern/Wallonien/Bruessel) - vorab pruefen.',
+    ),
+    TravelRule(
+      country: 'Irland',
+      flag: '🇮🇪',
+      muzzleRule:
+          'Mehrere "restricted breeds" MUESSEN in der Oeffentlichkeit Maulkorb + Leine tragen (z.B. Rottweiler, Dobermann, Bullterrier).',
+      leashRule: 'Leinenpflicht fuer gelistete Rassen, sonst regional.',
+      rabiesRule:
+          'Tollwut-Impfung mind. 21 Tage alt + Bandwurm-Behandlung 1-5 Tage vor Einreise.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          '11 "restricted breeds" mit Maulkorb-/Leinen- und Fuehrer-Auflagen (ab 16 Jahren).',
+      transitNote:
+          'Bei Anreise oft ueber Grossbritannien - dortige Regeln zusaetzlich beachten.',
+    ),
+    TravelRule(
+      country: 'Luxemburg',
+      flag: '🇱🇺',
+      muzzleRule: 'Maulkorb-Pflicht fuer gelistete Hunde in der Oeffentlichkeit.',
+      leashRule: 'Leinenpflicht in Staedten + oeffentlichen Verkehrsmitteln.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          'Gelistete Rassen brauchen Genehmigung, Haftpflicht und Wesenstest.',
+    ),
+    TravelRule(
+      country: 'Portugal',
+      flag: '🇵🇹',
+      muzzleRule:
+          'Gefaehrlich eingestufte Rassen MUESSEN Maulkorb + Leine tragen.',
+      leashRule: 'Leinenpflicht in Staedten, am Strand oft Verbot in der Saison.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          '7 gelistete Rassen mit Pflichtversicherung, Maulkorb und Registrierung.',
+      specialNote:
+          'Viele Straende verbieten Hunde von Juni - September.',
+    ),
+    TravelRule(
+      country: 'Finnland',
+      flag: '🇫🇮',
+      muzzleRule: 'Kein generelles Gebot.',
+      leashRule:
+          'Leinenpflicht 1. Maerz - 19. August (Brutzeit), in Staedten ganzjaehrig.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule: 'Keine generelle Rasseliste.',
+    ),
+    TravelRule(
+      country: 'Island',
+      flag: '🇮🇸',
+      muzzleRule: 'Kein generelles Gebot - aber Hundehaltung stark reguliert.',
+      leashRule: 'Leinenpflicht in fast allen Gemeinden.',
+      rabiesRule:
+          'Island ist tollwutfrei und hat SEHR strenge Einfuhrregeln: lange Vorlauf-Tests + Quarantaene.',
+      passportRule:
+          'Einfuhrgenehmigung + Quarantaene Pflicht - Monate Vorlauf einplanen.',
+      listenhundRule:
+          'Mehrere Rassen sind von der Einfuhr ausgeschlossen.',
+      specialNote:
+          'Tourismus mit eigenem Hund ist praktisch nicht moeglich - nur dauerhafte Einfuhr mit Quarantaene.',
+    ),
+    TravelRule(
+      country: 'Tschechien',
+      flag: '🇨🇿',
+      muzzleRule:
+          'Maulkorb in oeffentlichen Verkehrsmitteln oft Pflicht, regional auch in Staedten.',
+      leashRule: 'Leinenpflicht in Staedten + Parks.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule: 'Keine landesweite Rasseliste - kommunale Regeln moeglich.',
+    ),
+    TravelRule(
+      country: 'Ungarn',
+      flag: '🇭🇺',
+      muzzleRule: 'Maulkorb in oeffentlichen Verkehrsmitteln Pflicht.',
+      leashRule: 'Leinenpflicht in Staedten + oeffentlichen Verkehrsmitteln.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          'Keine generelle Verbotsliste, aber strenge Halter-Pflichten fuer auffaellige Hunde.',
+    ),
+    TravelRule(
+      country: 'Polen',
+      flag: '🇵🇱',
+      muzzleRule:
+          'Maulkorb in oeffentlichen Verkehrsmitteln und fuer gelistete Rassen Pflicht.',
+      leashRule: 'Leinenpflicht in Staedten + Parks.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          '11 Rassen brauchen eine Haltegenehmigung der Gemeinde.',
+    ),
+    TravelRule(
+      country: 'Slowakei',
+      flag: '🇸🇰',
+      muzzleRule:
+          'Maulkorb in oeffentlichen Verkehrsmitteln meist Pflicht.',
+      leashRule: 'Leinenpflicht in Staedten + Parks.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule: 'Keine landesweite Rasseliste - kommunale Regeln moeglich.',
+    ),
+    TravelRule(
+      country: 'Slowenien',
+      flag: '🇸🇮',
+      muzzleRule:
+          'Maulkorb in oeffentlichen Verkehrsmitteln oft verlangt.',
+      leashRule: 'Leinenpflicht in Staedten + Naturschutzgebieten.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          'Gelistete Rassen brauchen Wesenstest und besondere Halter-Auflagen.',
+    ),
+    TravelRule(
+      country: 'Kroatien',
+      flag: '🇭🇷',
+      muzzleRule:
+          'Maulkorb fuer gefaehrlich eingestufte Hunde, in OePNV oft generell.',
+      leashRule: 'Leinenpflicht in Staedten, am Strand teils Verbot in der Saison.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule:
+          'Listenhunde (u.a. Pitbull-Typ) mit Maulkorb-, Leinen- und Versicherungspflicht.',
+      specialNote:
+          'Viele Adria-Straende verbieten Hunde - es gibt aber ausgewiesene Hundestraende.',
+    ),
+    TravelRule(
+      country: 'Griechenland',
+      flag: '🇬🇷',
+      muzzleRule: 'Kein generelles Gebot - fuer auffaellige Hunde verlangt.',
+      leashRule: 'Leinenpflicht in Staedten. Streunerhunde sind verbreitet.',
+      rabiesRule: 'EU-Standard: Tollwut-Impfung mind. 21 Tage alt.',
+      passportRule: 'EU-Heimtierausweis Pflicht.',
+      listenhundRule: 'Keine generelle Rasseliste.',
+      specialNote:
+          'Hohe Sommerhitze - Reisen mit Hund eher im Fruehjahr/Herbst planen.',
+    ),
+    TravelRule(
+      country: 'Australien',
+      flag: '🇦🇺',
+      muzzleRule:
+          'Maulkorb-Auflagen je Bundesstaat fuer "restricted breeds".',
+      leashRule: 'Leinenpflicht in Staedten + Naturschutzgebieten.',
+      rabiesRule:
+          'Sehr strenge Einfuhr: Import-Permit, Tests und mehrwoechige Quarantaene Pflicht.',
+      passportRule:
+          'EU-Heimtierausweis reicht NICHT - offizielles Import-Permit + Gesundheitszeugnis noetig.',
+      listenhundRule:
+          'Mehrere Rassen sind von der Einfuhr ganz ausgeschlossen.',
+      specialNote:
+          'Urlaubsreise mit eigenem Hund ist kaum praktikabel - monatelanger Vorlauf.',
+    ),
+    TravelRule(
+      country: 'Brasilien',
+      flag: '🇧🇷',
+      muzzleRule: 'Maulkorb-Auflagen je Stadt fuer grosse/auffaellige Hunde.',
+      leashRule: 'Leinenpflicht in Staedten + Parks.',
+      rabiesRule:
+          'Tollwut-Impfung Pflicht + internationales Gesundheitszeugnis (CVI).',
+      passportRule:
+          'EU-Heimtierausweis reicht nicht - Veterinaerzeugnis + Vorab-Genehmigung (VIGIAGRO) noetig.',
+      listenhundRule: 'Keine landesweite Verbotsliste - kommunale Regeln moeglich.',
+    ),
+    TravelRule(
+      country: 'Kanada',
+      flag: '🇨🇦',
+      muzzleRule:
+          'Maulkorb-Auflagen je Provinz/Stadt (z.B. Ontario fuer Pitbull-Typ).',
+      leashRule: 'Leinenpflicht in Staedten + Parks.',
+      rabiesRule:
+          'Tollwut-Impfnachweis Pflicht (ab 3 Monate). Aus tollwutfreien Laendern Zusatznachweise.',
+      passportRule:
+          'EU-Heimtierausweis reicht nicht - aktueller Tollwut-Nachweis + Gesundheitszeugnis.',
+      listenhundRule:
+          'Ontario verbietet Pitbull-Typen; Regeln stark provinz-/stadtabhaengig.',
+    ),
+    TravelRule(
+      country: 'Neuseeland',
+      flag: '🇳🇿',
+      muzzleRule: 'Maulkorb-Auflagen fuer gelistete Hunde in der Oeffentlichkeit.',
+      leashRule: 'Leinenpflicht in Staedten + Naturschutzgebieten.',
+      rabiesRule:
+          'Sehr strenge Einfuhr: Import-Permit, Tests und Quarantaene noetig.',
+      passportRule:
+          'EU-Heimtierausweis reicht nicht - offizielles Import-Permit Pflicht.',
+      listenhundRule:
+          'Mehrere Rassen sind von der Einfuhr ausgeschlossen.',
+      specialNote:
+          'Urlaubsreise mit eigenem Hund kaum praktikabel - langer Vorlauf.',
+    ),
+    TravelRule(
+      country: 'Vereinigte Staaten',
+      flag: '🇺🇸',
+      muzzleRule:
+          'Maulkorb-/Rasse-Auflagen je Bundesstaat und Stadt sehr unterschiedlich.',
+      leashRule: 'Leinenpflicht in Staedten + den meisten Parks.',
+      rabiesRule:
+          'Tollwut-Impfnachweis Pflicht. Einreiseregeln der CDC je Herkunftsland beachten.',
+      passportRule:
+          'EU-Heimtierausweis reicht nicht - Tollwut-Zeugnis + ggf. CDC-Formular.',
+      listenhundRule:
+          'Breed-Specific-Legislation je Stadt/County - manche verbieten Pitbull-Typen.',
+      transitNote:
+          'Fluglinien haben eigene strenge Vorgaben fuer Hunde in Kabine/Fracht.',
+    ),
   ];
 }
