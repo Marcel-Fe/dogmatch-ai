@@ -40,10 +40,22 @@ class QuickActionGrid extends StatelessWidget {
       route: AppRoutes.healthCalendar,
     ),
     _QuickActionItem(
-      icon: Icons.verified_user_rounded,
-      label: 'Zuechter',
+      icon: Icons.near_me_rounded,
+      label: 'In der Naehe',
+      color: Color(0xFF4DB6AC),
+      route: AppRoutes.nearby,
+    ),
+    _QuickActionItem(
+      icon: Icons.pets_rounded,
+      label: 'Alle Rassen',
       color: Color(0xFFBA68C8),
-      route: AppRoutes.breederFinder,
+      route: AppRoutes.breedList,
+    ),
+    _QuickActionItem(
+      icon: Icons.cookie_rounded,
+      label: 'Leckerli',
+      color: Color(0xFFFFB74D),
+      route: AppRoutes.treats,
     ),
   ];
 
