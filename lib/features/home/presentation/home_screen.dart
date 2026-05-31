@@ -19,11 +19,17 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_ro
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/today_card.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/welcome_dialog.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/wisdom_quote_card.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+/// Einmal pro App-Start: das Begruessungs-Popup wurde schon gezeigt.
+/// Modul-Ebene, damit es Tab-Wechsel ueberlebt, aber beim echten
+/// App-Neustart (Reload) zurueckgesetzt wird.
+bool _welcomeShown = false;
 
 /// Modernes Dashboard (Tab 1). Hero, Stats, personalisierte Empfehlungen,
 /// Tipp des Tages, Feature-Grid und vollstaendige Rassenliste.
@@ -55,6 +61,20 @@ class HomeScreen extends ConsumerWidget {
           final String? breedImageUrl = matched?.imageUrl;
           final allDogs = dogsState?.dogs ?? const <Dog>[];
           final showMyDog = activeDog != null;
+
+          // Begruessungs-Popup einmal pro App-Start nach dem ersten Frame.
+          if (!_welcomeShown) {
+            _welcomeShown = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) {
+                showWelcomeDialog(
+                  context,
+                  dog: activeDog,
+                  userName: greetingName,
+                );
+              }
+            });
+          }
 
           return ListView(
             padding: EdgeInsets.zero,
