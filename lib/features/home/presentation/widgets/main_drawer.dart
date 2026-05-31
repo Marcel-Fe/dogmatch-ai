@@ -2,13 +2,25 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/utils/share_app.dart';
+import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Haupt-Navigation als Drawer. Oberkategorien als ExpansionTile, jedes
-/// mit eigenem Hunde-Icon. Footer am Ende: App teilen + Rechtliches.
-class MainDrawer extends StatelessWidget {
+/// Haupt-Navigation als Drawer. Oberkategorien sind aufklappbare Gruppen mit
+/// eigenem Hunde-Icon. Das Auf-/Zuklappen laeuft ueber InkWell + setState +
+/// AnimatedSize - schnell und zuverlaessig auch auf dem Handy (das alte
+/// ExpansionTile reagierte unter der schweren Web-Engine oft nicht auf Tippen).
+class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key});
+
+  @override
+  ConsumerState<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends ConsumerState<MainDrawer> {
+  // Erste Gruppe ist anfangs offen - so ist sofort Inhalt sichtbar.
+  final Set<String> _open = {'Mein Hund'};
 
   static const _sections = <_DrawerSection>[
     _DrawerSection(
@@ -175,112 +187,140 @@ class MainDrawer extends StatelessWidget {
     ),
   ];
 
+  void _toggle(String title) {
+    setState(() {
+      if (!_open.remove(title)) _open.add(title);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final prefs = ref.watch(userPreferencesProvider).value;
+    final name = prefs != null && prefs.hasName ? prefs.displayName : null;
+
     return Drawer(
       child: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            // Header mit Pfoten-Logo + Untertitel
-            Container(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.lg,
-                AppSpacing.lg,
-                AppSpacing.lg,
-              ),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppColors.primary, AppColors.primaryDark],
-                ),
-              ),
-              child: Row(
+            _DrawerHeader(theme: theme, name: name),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.22),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.4),
+                  for (final s in _sections)
+                    _Section(
+                      section: s,
+                      expanded: _open.contains(s.title),
+                      onToggle: () => _toggle(s.title),
+                    ),
+                  const Divider(height: AppSpacing.xl, indent: AppSpacing.lg, endIndent: AppSpacing.lg),
+                  _FooterTile(
+                    icon: Icons.share_rounded,
+                    label: 'App teilen',
+                    onTap: () async {
+                      final ok = await shareApp(
+                        title: 'DogMatch AI',
+                        text: 'Mein taeglicher Hunde-Begleiter:',
+                        url: 'https://marcel-fe.github.io/dogmatch-ai/',
+                      );
+                      if (!context.mounted) return;
+                      if (ok) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Link in die Zwischenablage kopiert / geteilt'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  _FooterTile(
+                    icon: Icons.gavel_rounded,
+                    label: 'Rechtliches & Impressum',
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.push(AppRoutes.legal);
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Text(
+                      '© DogMatch AI · v1.0',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    child: const Icon(Icons.pets_rounded,
-                        color: Colors.white, size: 28),
                   ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'DogMatch AI',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          'Dein taeglicher Hunde-Begleiter',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.85),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const SizedBox(height: AppSpacing.lg),
                 ],
               ),
             ),
-            // Sections als ExpansionTile
-            for (final s in _sections) _SectionExpansion(section: s),
-            const Divider(),
-            // Footer-Knoepfe
-            _FooterTile(
-              icon: Icons.share_rounded,
-              label: 'App teilen',
-              onTap: () async {
-                final ok = await shareApp(
-                  title: 'DogMatch AI',
-                  text: 'Mein taeglicher Hunde-Begleiter:',
-                  url: 'https://marcel-fe.github.io/dogmatch-ai/',
-                );
-                if (!context.mounted) return;
-                if (ok) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Link in die Zwischenablage kopiert / geteilt'),
-                    ),
-                  );
-                }
-              },
-            ),
-            _FooterTile(
-              icon: Icons.gavel_rounded,
-              label: 'Rechtliches & Impressum',
-              onTap: () {
-                Navigator.of(context).pop();
-                context.push(AppRoutes.legal);
-              },
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: Text(
-                '© DogMatch AI · v1.0',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({required this.theme, required this.name});
+
+  final ThemeData theme;
+  final String? name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primary, AppColors.primaryDark],
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.22),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
+            ),
+            child: const Icon(Icons.pets_rounded, color: Colors.white, size: 28),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'DogMatch AI',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  name != null
+                      ? 'Schoen, dass du da bist, $name!'
+                      : 'Dein taeglicher Hunde-Begleiter',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.9),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -310,37 +350,83 @@ class _DrawerItem {
   final String route;
 }
 
-class _SectionExpansion extends StatelessWidget {
-  const _SectionExpansion({required this.section});
+/// Aufklappbare Gruppe. Tipp auf die Kopfzeile klappt zuverlaessig auf/zu.
+class _Section extends StatelessWidget {
+  const _Section({
+    required this.section,
+    required this.expanded,
+    required this.onToggle,
+  });
+
   final _DrawerSection section;
+  final bool expanded;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Theme(
-      data: theme.copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        leading: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: section.color.withValues(alpha: 0.15),
-            shape: BoxShape.circle,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: onToggle,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.md,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: section.color.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(section.icon, color: section.color, size: 20),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    section.title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                AnimatedRotation(
+                  turns: expanded ? 0.5 : 0.0,
+                  duration: const Duration(milliseconds: 180),
+                  child: Icon(
+                    Icons.expand_more_rounded,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Icon(section.icon, color: section.color, size: 20),
         ),
-        title: Text(
-          section.title,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          alignment: Alignment.topCenter,
+          child: expanded
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.lg,
+                    bottom: AppSpacing.sm,
+                  ),
+                  child: Column(
+                    children: [
+                      for (final item in section.items)
+                        _ItemTile(item: item, color: section.color),
+                    ],
+                  ),
+                )
+              : const SizedBox(width: double.infinity),
         ),
-        childrenPadding: const EdgeInsets.only(left: AppSpacing.md),
-        children: [
-          for (final item in section.items)
-            _ItemTile(item: item, color: section.color),
-        ],
-      ),
+      ],
     );
   }
 }
@@ -354,6 +440,7 @@ class _ItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
+      visualDensity: VisualDensity.compact,
       leading: Icon(item.icon, color: color, size: 20),
       title: Text(item.label),
       onTap: () {
