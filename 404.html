@@ -34,8 +34,59 @@
 
   <title>DogMatch AI</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Sofort sichtbarer Start-Bildschirm, damit der Nutzer nicht auf einen
+       weissen Screen schaut, waehrend Flutter laedt. Wird entfernt, sobald
+       die App ihren ersten Frame zeichnet. -->
+  <style>
+    #app-splash {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #7C6BF0, #5A48C0);
+      transition: opacity .35s ease; font-family: sans-serif;
+    }
+    #app-splash.hide { opacity: 0; pointer-events: none; }
+    #app-splash .logo {
+      color: #fff; font-size: 1.5rem; font-weight: 800;
+      letter-spacing: .5px; margin-bottom: 1.25rem;
+    }
+    #app-splash .paw { font-size: 2.5rem; margin-bottom: .5rem; }
+    #app-splash .spinner {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.35);
+      border-top-color: #fff; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
+  <div id="app-splash">
+    <div class="paw">🐾</div>
+    <div class="logo">DogMatch AI</div>
+    <div class="spinner"></div>
+  </div>
+  <script>
+    // Splash ausblenden, sobald Flutter sein View-Element einhaengt.
+    (function () {
+      var splash = document.getElementById('app-splash');
+      if (!splash) return;
+      function hide() {
+        splash.classList.add('hide');
+        setTimeout(function () { splash.remove(); }, 400);
+      }
+      var obs = new MutationObserver(function () {
+        if (document.querySelector('flutter-view, flt-glass-pane')) {
+          obs.disconnect();
+          // kurze Verzoegerung, damit der erste Frame wirklich gezeichnet ist
+          setTimeout(hide, 200);
+        }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+      // Sicherheits-Fallback: nach 12s in jedem Fall ausblenden.
+      setTimeout(hide, 12000);
+    })();
+  </script>
   <!--
     Service-Worker-Auto-Update: bei jedem Page-Load auf neue Version pruefen
     und sofort aktivieren. Vermeidet, dass Nutzer Strg+Shift+R brauchen,
