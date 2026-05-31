@@ -6,6 +6,8 @@ import 'package:dogmatch_ai/features/breeders/presentation/breeder_profile_scree
 import 'package:dogmatch_ai/features/breeds/presentation/breed_detail_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_list_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/mix_breed_screen.dart';
+import 'package:dogmatch_ai/features/clubs/clubs_screen.dart';
+import 'package:dogmatch_ai/features/treats/presentation/treats_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/add_edit_dog_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dog_record_screen.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/manage_dogs_screen.dart';
@@ -199,6 +201,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.tips,
       builder: (context, state) => const TipsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.treats,
+      builder: (context, state) => const TreatsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.clubs,
+      builder: (context, state) => const ClubsScreen(),
     ),
     GoRoute(
       path: AppRoutes.checklists,

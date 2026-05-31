@@ -98,6 +98,16 @@ class MainDrawer extends StatelessWidget {
           route: AppRoutes.tips,
         ),
         _DrawerItem(
+          icon: Icons.cookie_rounded,
+          label: 'Leckerli-Rezepte',
+          route: AppRoutes.treats,
+        ),
+        _DrawerItem(
+          icon: Icons.groups_rounded,
+          label: 'Hundevereine',
+          route: AppRoutes.clubs,
+        ),
+        _DrawerItem(
           icon: Icons.checklist_rounded,
           label: 'Checklisten',
           route: AppRoutes.checklists,

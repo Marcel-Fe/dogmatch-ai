@@ -54,6 +54,8 @@ class AppRoutes {
 
   // Wissen / Tipps
   static const String tips = '/tips';
+  static const String treats = '/treats';
+  static const String clubs = '/clubs';
 
   // Checklisten
   static const String checklists = '/checklists';
