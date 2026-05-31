@@ -70,6 +70,11 @@ class _BreedDetailContent extends ConsumerWidget {
         Text(breed.temperament, style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         Text(breed.description, style: theme.textTheme.bodyMedium),
+        const SizedBox(height: AppSpacing.lg),
+
+        const _SectionTitle('Das macht diese Rasse aus'),
+        const SizedBox(height: AppSpacing.sm),
+        Text(_profileSummary(breed), style: theme.textTheme.bodyMedium),
         const SizedBox(height: AppSpacing.xl),
 
         const _SectionTitle('Auf einen Blick'),
@@ -240,6 +245,66 @@ class _BreedDetailContent extends ConsumerWidget {
           AssistantHandoff(prompt: prompt, mode: ChatMode.advisor),
         );
     context.go(AppRoutes.assistant);
+  }
+
+  /// Baut aus den strukturierten Rassedaten einen verstaendlichen Fliesstext.
+  /// So bekommt der Nutzer "mehr Infos", ohne dass fuer alle ~300 Rassen
+  /// lange Texte von Hand geschrieben werden muessten.
+  String _profileSummary(DogBreed breed) {
+    String lvl(int v) => switch (v) {
+          <= 1 => 'sehr gering',
+          2 => 'gering',
+          3 => 'mittel',
+          4 => 'hoch',
+          _ => 'sehr hoch',
+        };
+
+    final buf = StringBuffer()
+      ..write(
+        'Der ${breed.name} zaehlt zur Groessenklasse "${breed.size.label}" '
+        'und hat ein Energielevel von "${breed.energyLevel.label}". Seine '
+        'Lebenserwartung liegt bei rund ${breed.lifeExpectancyYears} Jahren. ',
+      );
+
+    if (breed.beginnerFriendliness >= 4) {
+      buf.write('Er gilt als gut fuer Anfaenger geeignet. ');
+    } else if (breed.beginnerFriendliness == 3) {
+      buf.write('Mit etwas Hunde-Erfahrung ist er gut zu fuehren. ');
+    } else {
+      buf.write('Er gehoert eher in erfahrene Haende. ');
+    }
+
+    if (breed.childFriendliness >= 4) {
+      buf.write('Im Umgang mit Kindern ist er meist unkompliziert. ');
+    } else if (breed.childFriendliness <= 2) {
+      buf.write('Der Kontakt mit kleinen Kindern sollte gut begleitet werden. ');
+    }
+
+    final hrs = breed.dailyExerciseHours;
+    buf.write(
+      'Sein Bewegungsbedarf ist ${lvl(breed.exerciseNeed)}'
+      '${hrs != null ? ' (etwa $hrs Stunden taeglich)' : ''}. '
+      'Der Pflegeaufwand ist ${lvl(breed.grooming)}, der Fellverlust '
+      '${lvl(breed.shedding)}. ',
+    );
+
+    if (breed.apartmentSuitable == true) {
+      buf.write('Bei genug Auslastung passt er auch in eine Wohnung. ');
+    } else if (breed.apartmentSuitable == false) {
+      buf.write('Fuer eine kleine Wohnung ist er nur bedingt geeignet. ');
+    }
+
+    if (breed.noiseLevel != null && breed.noiseLevel! >= 4) {
+      buf.write('Er neigt dazu, viel zu bellen. ');
+    } else if (breed.noiseLevel != null && breed.noiseLevel! <= 2) {
+      buf.write('Er ist eher ruhig und bellt wenig. ');
+    }
+
+    if (breed.idealOwner != null && breed.idealOwner!.trim().isNotEmpty) {
+      buf.write('Besonders gut passt er zu: ${breed.idealOwner!.trim()}.');
+    }
+
+    return buf.toString().trim();
   }
 
   String _fmtKg(double v) =>
