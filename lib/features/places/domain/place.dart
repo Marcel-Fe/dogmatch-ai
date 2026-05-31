@@ -1,15 +1,34 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 /// Art eines gefundenen Ortes in der Umgebung.
 enum PlaceCategory {
-  vet('Tieraerzte & Kliniken', 'amenity', 'veterinary'),
-  poopBag('Kotbeutel-Spender', 'vending', 'excrement_bags');
+  vet('Tieraerzte', 'amenity', 'veterinary', Icons.local_hospital_rounded,
+      'Tierarztpraxis'),
+  dogPark('Hundewiesen', 'leisure', 'dog_park', Icons.park_rounded,
+      'Hundewiese / Hundeauslauf'),
+  petShop('Tierhandlung', 'shop', 'pet', Icons.storefront_rounded,
+      'Tierhandlung'),
+  shelter('Tierheime', 'amenity', 'animal_shelter', Icons.pets_rounded,
+      'Tierheim'),
+  poopBag('Kotbeutel', 'vending', 'excrement_bags',
+      Icons.delete_outline_rounded, 'Kotbeutel-Spender');
 
-  const PlaceCategory(this.label, this.osmKey, this.osmValue);
+  const PlaceCategory(
+    this.label,
+    this.osmKey,
+    this.osmValue,
+    this.icon,
+    this.fallbackName,
+  );
 
   final String label;
   final String osmKey;
   final String osmValue;
+  final IconData icon;
+
+  /// Anzeigename, wenn ein Ort in OSM keinen Namen hat.
+  final String fallbackName;
 }
 
 /// Ein Ort aus OpenStreetMap (Tierarzt, Klinik, Kotbeutel-Spender).

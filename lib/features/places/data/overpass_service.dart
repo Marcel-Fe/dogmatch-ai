@@ -21,11 +21,16 @@ class OverpassService {
     required double latitude,
     required double longitude,
   }) async {
-    // Tieraerzte koennen auf dem Land weit weg sein -> weit eskalieren.
-    // Kotbeutel-Spender sind nur lokal sinnvoll -> kleiner Maximalradius.
-    final radii = category == PlaceCategory.vet
-        ? const [12000, 30000, 60000]
-        : const [12000, 30000];
+    // Je nach Kategorie unterschiedlich weit eskalieren: Tieraerzte koennen
+    // auf dem Land weit weg sein, Kotbeutel-Spender sind nur lokal sinnvoll.
+    final radii = switch (category) {
+      PlaceCategory.vet => const [12000, 30000, 60000],
+      PlaceCategory.shelter => const [15000, 40000, 80000],
+      PlaceCategory.dogPark ||
+      PlaceCategory.petShop =>
+        const [8000, 20000, 40000],
+      PlaceCategory.poopBag => const [10000, 25000],
+    };
     for (final r in radii) {
       final result = await search(
         category: category,
@@ -87,11 +92,7 @@ class OverpassService {
       places.add(
         Place(
           id: '${raw['type']}/${raw['id']}',
-          name: name == null || name.isEmpty
-              ? (category == PlaceCategory.vet
-                  ? 'Tierarztpraxis'
-                  : 'Kotbeutel-Spender')
-              : name,
+          name: name == null || name.isEmpty ? category.fallbackName : name,
           category: category,
           latitude: lat,
           longitude: lon,

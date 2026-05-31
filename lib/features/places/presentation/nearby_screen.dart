@@ -86,21 +86,36 @@ class _NearbyScreenState extends State<NearbyScreen> {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
-          SegmentedButton<PlaceCategory>(
-            segments: const [
-              ButtonSegment(
-                value: PlaceCategory.vet,
-                label: Text('Tieraerzte'),
-                icon: Icon(Icons.local_hospital_rounded),
-              ),
-              ButtonSegment(
-                value: PlaceCategory.poopBag,
-                label: Text('Kotbeutel'),
-                icon: Icon(Icons.delete_outline_rounded),
-              ),
-            ],
-            selected: {_category},
-            onSelectionChanged: (s) => _switchCategory(s.first),
+          SizedBox(
+            height: 40,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              children: [
+                for (final c in PlaceCategory.values)
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpacing.sm),
+                    child: ChoiceChip(
+                      avatar: Icon(
+                        c.icon,
+                        size: 18,
+                        color: _category == c
+                            ? theme.colorScheme.onPrimary
+                            : theme.colorScheme.primary,
+                      ),
+                      label: Text(c.label),
+                      selected: _category == c,
+                      selectedColor: theme.colorScheme.primary,
+                      labelStyle: TextStyle(
+                        color: _category == c
+                            ? theme.colorScheme.onPrimary
+                            : null,
+                      ),
+                      onSelected: (_) => _switchCategory(c),
+                    ),
+                  ),
+              ],
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
 
@@ -126,15 +141,11 @@ class _NearbyScreenState extends State<NearbyScreen> {
               _MessageCard(
                 theme: theme,
                 icon: Icons.search_off_rounded,
-                text: _category == PlaceCategory.vet
-                    ? 'Auch im Umkreis von $_radiusKm km sind keine Tieraerzte '
-                        'in OpenStreetMap eingetragen. Das heisst nicht, dass es '
-                        'keine gibt - die freien Daten sind manchmal '
-                        'unvollstaendig. Eine normale Suchmaschine hilft hier '
-                        'weiter.'
-                    : 'Keine Kotbeutel-Spender im Umkreis von $_radiusKm km '
-                        'gefunden. Diese sind nur selten in OpenStreetMap '
-                        'erfasst.',
+                text: 'Im Umkreis von $_radiusKm km wurden keine '
+                    '${_category.label} in OpenStreetMap gefunden. Das heisst '
+                    'nicht, dass es keine gibt - die freien Karten-Daten sind '
+                    'manchmal unvollstaendig. Eine normale Suchmaschine hilft '
+                    'dann weiter.',
                 onRetry: _findHere,
               )
             else ...[
