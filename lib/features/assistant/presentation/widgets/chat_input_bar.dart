@@ -132,6 +132,20 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   horizontal: AppSpacing.lg,
                   vertical: 12,
                 ),
+                // Mikrofon liegt INNEN im Textfeld - so kann es nicht mehr
+                // mit dem Senden-Button verwechselt werden.
+                suffixIcon: IconButton(
+                  tooltip: micActive ? 'Aufnahme stoppen' : 'Sprach-Eingabe',
+                  onPressed: widget.isEnabled ? _toggleMic : null,
+                  icon: Icon(
+                    micActive
+                        ? Icons.stop_circle_outlined
+                        : Icons.mic_rounded,
+                    color: micActive
+                        ? Colors.redAccent
+                        : theme.colorScheme.primary,
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
                   borderSide: BorderSide.none,
@@ -147,16 +161,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          IconButton(
-            tooltip: micActive ? 'Aufnahme stoppen' : 'Sprach-Eingabe',
-            onPressed: widget.isEnabled ? _toggleMic : null,
-            icon: Icon(
-              micActive ? Icons.stop_circle_outlined : Icons.mic_rounded,
-              color: micActive ? Colors.redAccent : theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.xs),
+          // Klarer Abstand zwischen Eingabefeld und Senden-Knopf.
+          const SizedBox(width: AppSpacing.sm),
           FilledButton(
             onPressed: widget.isEnabled && !_listening ? _send : null,
             style: FilledButton.styleFrom(

@@ -153,13 +153,17 @@ class PollinationsChatRepository implements ChatRepository {
           ..writeln()
           ..writeln('Regeln:')
           ..writeln('- Antworte auf Deutsch, kurz und konkret (3-6 Saetze).')
-          ..writeln('- Empfehle bei Bedarf maximal 2-3 Rassen mit Begruendung.')
-          ..writeln('- Bei medizinischen Themen verweise auf einen Tierarzt.')
-          ..writeln('- Keine Phrasen wie "Als KI..." - bleib im Berater-Ton.')
+          ..writeln('- Komm sofort zur Sache, ohne Einleitungsfloskeln.')
           ..writeln(
-            '- Wenn ein Bild beigefuegt ist, beschreibe was du siehst und '
-            'gib eine konkrete Einschaetzung dazu.',
-          );
+            '- Sei praezise: konkrete Rassennamen, Zahlen und Beispiele '
+            'statt allgemeiner Aussagen.',
+          )
+          ..writeln('- Empfehle bei Bedarf maximal 2-3 Rassen mit Begruendung.')
+          ..writeln(
+            '- Wenn du etwas nicht sicher weisst, sag das kurz, statt zu raten.',
+          )
+          ..writeln('- Bei medizinischen Themen verweise auf einen Tierarzt.')
+          ..writeln('- Keine Phrasen wie "Als KI..." - bleib im Berater-Ton.');
       case ChatMode.trainer:
         buf
           ..writeln(
@@ -170,16 +174,13 @@ class PollinationsChatRepository implements ChatRepository {
           ..writeln()
           ..writeln('Regeln:')
           ..writeln('- Antworte auf Deutsch, freundlich und sehr konkret.')
+          ..writeln('- Komm sofort zur Sache, ohne Einleitungsfloskeln.')
           ..writeln(
             '- Liefere Schritt-fuer-Schritt-Anleitungen, nummeriert (4-7 Schritte).',
           )
           ..writeln(
             '- Setze auf positive Bestaerkung (Marker/Klick + Belohnung). '
             'Aversive Methoden lehnst du ab und erklaerst kurz, warum.',
-          )
-          ..writeln(
-            '- Wenn ein Bild beigefuegt ist (Hund, Koerpersprache, '
-            'Situation), analysiere es und gib eine konkrete Empfehlung.',
           )
           ..writeln(
             '- Bei medizinischen Symptomen: verweise auf Tierarzt + '
