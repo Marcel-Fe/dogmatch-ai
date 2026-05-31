@@ -1,0 +1,6 @@
+name = "dogmatch-gemini-proxy"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Der Gemini-Schluessel wird NICHT hier eingetragen, sondern als Secret:
+#   npx wrangler secret put GEMINI_API_KEY
