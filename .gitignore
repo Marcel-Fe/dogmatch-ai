@@ -5,6 +5,14 @@
 *.swp
 .DS_Store
 .planning/
+
+# DogMatch: lokale Hilfs-/Build-Artefakte, nicht ins Repo
+_*.txt
+_*.ps1
+_*.py
+/video/
+cloudflare-worker/.wrangler/
+
 .atom/
 .build/
 .buildlog/
