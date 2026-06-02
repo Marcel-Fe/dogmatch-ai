@@ -1,4 +1,5 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
+import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -68,7 +69,7 @@ class QuickActionGrid extends StatelessWidget {
       crossAxisCount: 3,
       mainAxisSpacing: AppSpacing.md,
       crossAxisSpacing: AppSpacing.md,
-      childAspectRatio: 1.0,
+      childAspectRatio: 0.92,
       children: [
         for (final it in _items) _Tile(item: it, theme: theme),
       ],
@@ -96,69 +97,73 @@ class _Tile extends StatelessWidget {
   final _QuickActionItem item;
   final ThemeData theme;
 
-  Color get _light => Color.lerp(item.color, Colors.white, 0.55)!;
-
   @override
   Widget build(BuildContext context) {
+    final isDark = theme.brightness == Brightness.dark;
+    // Ruhige, helle Karte - die Farbe lebt nur im kleinen Akzent-Badge,
+    // nicht mehr als grosser Farbkasten. Das wirkt modern und aufgeraeumt.
+    final cardColor = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.lightBorder;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
+
     return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      color: cardColor,
+      borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+      clipBehavior: Clip.antiAlias,
       child: Ink(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              _light.withValues(alpha: 0.55),
-              item.color.withValues(alpha: 0.22),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-          border: Border.all(color: item.color.withValues(alpha: 0.35)),
+          color: cardColor,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+          border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
-              color: item.color.withValues(alpha: 0.18),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              color: Colors.black.withValues(alpha: isDark ? 0.30 : 0.06),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           onTap: () => context.push(item.route),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.sm),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Abgerundetes Quadrat (squircle) statt Kreis - kraeftige
+                // Farbe als sanfter Verlauf, mit weichem farbigem Schimmer.
                 Container(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
                         item.color,
-                        Color.lerp(item.color, Colors.black, 0.18)!,
+                        Color.lerp(item.color, Colors.black, 0.22)!,
                       ],
                     ),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                     boxShadow: [
                       BoxShadow(
-                        color: item.color.withValues(alpha: 0.35),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
+                        color: item.color.withValues(alpha: 0.40),
+                        blurRadius: 12,
+                        offset: const Offset(0, 5),
                       ),
                     ],
                   ),
-                  child: Icon(item.icon, color: Colors.white, size: 22),
+                  child: Icon(item.icon, color: Colors.white, size: 26),
                 ),
-                const SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   item.label,
                   style: theme.textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Color.lerp(item.color, Colors.black, 0.55),
+                    fontWeight: FontWeight.w600,
+                    color: textColor,
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 2,
