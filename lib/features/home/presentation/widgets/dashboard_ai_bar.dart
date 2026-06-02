@@ -40,7 +40,11 @@ class _DashboardAiBarState extends ConsumerState<DashboardAiBar> {
     // Frage vormerken und zum KI-Berater springen - dort wird sie
     // automatisch abgeschickt (gleicher Mechanismus wie Verhalten-Check).
     ref.read(assistantHandoffProvider.notifier).queue(
-          AssistantHandoff(prompt: text, mode: ChatMode.advisor),
+          AssistantHandoff(
+            prompt: text,
+            mode: ChatMode.advisor,
+            origin: AppRoutes.home,
+          ),
         );
     _controller.clear();
     context.go(AppRoutes.assistant);
@@ -65,7 +69,16 @@ class _DashboardAiBarState extends ConsumerState<DashboardAiBar> {
     }
     setState(() => _listening = true);
     try {
-      final text = await _stt.listenOnce();
+      final text = await _stt.listenOnce(
+        // Live mitschreiben, damit man beim Sprechen sofort Text sieht.
+        onPartial: (partial) {
+          if (!mounted) return;
+          _controller.text = partial;
+          _controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: partial.length),
+          );
+        },
+      );
       if (!mounted) return;
       if (text != null && text.trim().isNotEmpty) {
         // Direkt absenden - "sprechen -> KI antwortet".

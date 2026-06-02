@@ -32,9 +32,18 @@ final chatModeProvider =
 /// liest sie beim Mount aus, schaltet den Modus und sendet die Frage
 /// automatisch. Danach wird sie auf null gesetzt.
 class AssistantHandoff {
-  const AssistantHandoff({required this.prompt, required this.mode});
+  const AssistantHandoff({
+    required this.prompt,
+    required this.mode,
+    this.origin,
+  });
   final String prompt;
   final ChatMode mode;
+
+  /// Route, von der aus der Handoff ausgeloest wurde (z. B. Rasse-Detail).
+  /// Der AssistantScreen zeigt damit einen Zurueck-Pfeil dorthin. Null,
+  /// wenn der Assistant direkt ueber die Tab-Leiste geoeffnet wurde.
+  final String? origin;
 }
 
 class AssistantHandoffNotifier extends Notifier<AssistantHandoff?> {

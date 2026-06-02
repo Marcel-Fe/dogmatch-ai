@@ -127,6 +127,7 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
           AssistantHandoff(
             prompt: prompt.toString(),
             mode: ChatMode.trainer,
+            origin: AppRoutes.behaviorCheck,
           ),
         );
     context.go(AppRoutes.assistant);

@@ -124,7 +124,11 @@ class _SymptomCheckScreenState extends ConsumerState<SymptomCheckScreen> {
       );
 
     ref.read(assistantHandoffProvider.notifier).queue(
-          AssistantHandoff(prompt: prompt.toString(), mode: ChatMode.advisor),
+          AssistantHandoff(
+            prompt: prompt.toString(),
+            mode: ChatMode.advisor,
+            origin: AppRoutes.symptomCheck,
+          ),
         );
     context.go(AppRoutes.assistant);
   }

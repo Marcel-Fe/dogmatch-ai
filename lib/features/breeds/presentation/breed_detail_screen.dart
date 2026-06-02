@@ -242,7 +242,11 @@ class _BreedDetailContent extends ConsumerWidget {
         'fuer wen eher nicht. Schreibe es gut verstaendlich fuer einen '
         'Anfaenger.';
     ref.read(assistantHandoffProvider.notifier).queue(
-          AssistantHandoff(prompt: prompt, mode: ChatMode.advisor),
+          AssistantHandoff(
+            prompt: prompt,
+            mode: ChatMode.advisor,
+            origin: '${AppRoutes.breedDetail}/${breed.id}',
+          ),
         );
     context.go(AppRoutes.assistant);
   }

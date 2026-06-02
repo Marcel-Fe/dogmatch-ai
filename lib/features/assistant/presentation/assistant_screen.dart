@@ -38,6 +38,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _tts = const TtsService();
   String? _lastSpokenMessageId;
 
+  /// Route, von der aus per Handoff hierher gewechselt wurde. Ist sie
+  /// gesetzt, zeigt der AppBar einen Zurueck-Pfeil dorthin. Bei direktem
+  /// Tab-Wechsel ueber die untere Leiste bleibt sie null (kein Pfeil).
+  String? _handoffOrigin;
+
   /// Bild als data-URL, das mit der naechsten Nachricht versendet wird.
   /// Nur sichtbar im Remote-Modus (Cloudflare-Proxy aktiv).
   String? _pendingImageDataUrl;
@@ -51,6 +56,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
       if (!mounted) return;
       final handoff = ref.read(assistantHandoffProvider);
       if (handoff == null) return;
+      setState(() => _handoffOrigin = handoff.origin);
       ref.read(chatModeProvider.notifier).setMode(handoff.mode);
       ref.read(chatControllerProvider.notifier).clear();
       ref
@@ -154,6 +160,13 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: _handoffOrigin != null
+            ? IconButton(
+                tooltip: 'Zurueck',
+                icon: const Icon(Icons.arrow_back_rounded),
+                onPressed: () => context.go(_handoffOrigin!),
+              )
+            : null,
         title: Text(mode == ChatMode.trainer ? 'Hundetrainer' : 'KI-Berater'),
         actions: [
           IconButton(

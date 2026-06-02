@@ -63,7 +63,11 @@ class _MixBreedScreenState extends ConsumerState<MixBreedScreen> {
         'erklaere, dass bei Mischlingen die Eigenschaften stark variieren '
         'koennen, und gib mir praktische Tipps fuer den Alltag.';
     ref.read(assistantHandoffProvider.notifier).queue(
-          AssistantHandoff(prompt: prompt, mode: ChatMode.advisor),
+          AssistantHandoff(
+            prompt: prompt,
+            mode: ChatMode.advisor,
+            origin: AppRoutes.mixBreed,
+          ),
         );
     context.go(AppRoutes.assistant);
   }
