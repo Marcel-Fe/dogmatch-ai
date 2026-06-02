@@ -1,5 +1,6 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/assistant/data/stt_service.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/behavior_check/data/behavior_catalog.dart';
@@ -22,7 +23,17 @@ class BehaviorCheckScreen extends ConsumerStatefulWidget {
 
 class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
   final Set<String> _selected = {};
+  final _noteController = TextEditingController();
+  final _stt = SttService();
+  bool _listening = false;
   bool _analyzed = false;
+
+  @override
+  void dispose() {
+    _stt.stop();
+    _noteController.dispose();
+    super.dispose();
+  }
 
   void _toggle(String id) {
     setState(() {
@@ -38,8 +49,47 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
   void _reset() {
     setState(() {
       _selected.clear();
+      _noteController.clear();
       _analyzed = false;
     });
+  }
+
+  /// Diktat fuer das Freitext-Feld (gleiche Web-Speech-API wie im Chat).
+  Future<void> _toggleMic() async {
+    if (_listening) {
+      _stt.stop();
+      setState(() => _listening = false);
+      return;
+    }
+    if (!_stt.isAvailable) {
+      final msg = _stt.isIosSafari
+          ? 'Apple unterstuetzt Sprach-Eingabe im iPhone-Safari nicht. '
+              'Bitte tippe deine Beobachtung.'
+          : 'Sprach-Eingabe ist in diesem Browser nicht unterstuetzt '
+              '(Chrome / Edge nutzen).';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg), duration: const Duration(seconds: 4)),
+      );
+      return;
+    }
+    setState(() => _listening = true);
+    try {
+      final text = await _stt.listenOnce();
+      if (!mounted) return;
+      if (text != null && text.trim().isNotEmpty) {
+        final existing = _noteController.text.trim();
+        _noteController.text =
+            existing.isEmpty ? text.trim() : '$existing ${text.trim()}';
+        _noteController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _noteController.text.length),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+    } finally {
+      if (mounted) setState(() => _listening = false);
+    }
   }
 
   /// Baut einen deutschen Prompt aus den gewaehlten Verhaltensweisen +
@@ -57,6 +107,12 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
       ..writeln('Mein Hund zeigt folgende Verhaltensweisen:')
       ..writeln('- ${labels.join('\n- ')}')
       ..writeln();
+    final note = _noteController.text.trim();
+    if (note.isNotEmpty) {
+      prompt
+        ..writeln('Meine eigene Beschreibung dazu: $note')
+        ..writeln();
+    }
     if (topRecommendation != null) {
       prompt
         ..writeln('Erste App-Einschaetzung: $topRecommendation')
@@ -122,27 +178,70 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
               onToggle: _toggle,
               theme: theme,
             ),
-          const SizedBox(height: AppSpacing.lg),
-          FilledButton.icon(
-            onPressed: _selected.isEmpty
-                ? null
-                : () => setState(() => _analyzed = true),
-            icon: const Icon(Icons.psychology_alt_rounded),
-            label: Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-              child: Text(
-                _selected.isEmpty
-                    ? 'Bitte mindestens 1 Punkt waehlen'
-                    : 'Auswertung starten (${_selected.length} Punkt${_selected.length == 1 ? '' : 'e'})',
+          const SizedBox(height: AppSpacing.md),
+
+          // Freitext: eigenes Verhalten beschreiben (tippen oder diktieren).
+          Text(
+            'Eigene Beobachtung (optional)',
+            style: theme.textTheme.titleSmall,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          TextField(
+            controller: _noteController,
+            minLines: 2,
+            maxLines: 4,
+            enabled: !_listening,
+            decoration: InputDecoration(
+              hintText: _listening
+                  ? 'Hoere zu ...'
+                  : 'Beschreibe das Verhalten in eigenen Worten - '
+                      'z.B. wann und wie oft es auftritt.',
+              filled: true,
+              alignLabelWithHint: true,
+              suffixIcon: IconButton(
+                tooltip: _listening ? 'Aufnahme stoppen' : 'Diktieren',
+                onPressed: _toggleMic,
+                icon: Icon(
+                  _listening ? Icons.stop_circle_outlined : Icons.mic_rounded,
+                  color: _listening ? Colors.redAccent : theme.colorScheme.primary,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
               ),
             ),
           ),
+          const SizedBox(height: AppSpacing.lg),
+          Builder(builder: (context) {
+            final hasInput =
+                _selected.isNotEmpty || _noteController.text.trim().isNotEmpty;
+            return FilledButton.icon(
+              onPressed:
+                  hasInput ? () => setState(() => _analyzed = true) : null,
+              icon: const Icon(Icons.psychology_alt_rounded),
+              label: Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                child: Text(
+                  hasInput
+                      ? 'Auswertung starten'
+                      : 'Punkt waehlen oder Beobachtung schreiben',
+                ),
+              ),
+            );
+          }),
           if (_analyzed) ...[
             const SizedBox(height: AppSpacing.xl),
-            Text('Einschaetzung', style: theme.textTheme.titleLarge),
-            const SizedBox(height: AppSpacing.md),
-            for (final a in results)
-              _AssessmentTile(assessment: a, theme: theme),
+            if (results.isNotEmpty) ...[
+              Text('Einschaetzung', style: theme.textTheme.titleLarge),
+              const SizedBox(height: AppSpacing.md),
+              for (final a in results)
+                _AssessmentTile(assessment: a, theme: theme),
+            ] else
+              Text(
+                'Deine Beschreibung ist notiert. Lass sie dir vom KI-Trainer '
+                'persoenlich auswerten:',
+                style: theme.textTheme.bodyMedium,
+              ),
             const SizedBox(height: AppSpacing.lg),
             _AskAiCard(
               onAskAi: () => _askAiTrainer(results),

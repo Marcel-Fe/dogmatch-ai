@@ -10,6 +10,7 @@ import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_search_ba
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/dashboard_ai_bar.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_switcher_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
@@ -88,7 +89,18 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.sm),
             ],
 
-            // 2) Hero
+            // 2) Prominente KI-Leiste: sofort fragen (wie ChatGPT)
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                0,
+              ),
+              child: DashboardAiBar(),
+            ),
+
+            // 3) Hero
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.lg,
