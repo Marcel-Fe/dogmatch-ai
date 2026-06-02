@@ -3,6 +3,37 @@ import 'package:dogmatch_ai/features/forms/data/form_catalog.dart';
 import 'package:dogmatch_ai/features/places/data/geo_service.dart';
 import 'package:flutter/material.dart';
 
+// Schritt-fuer-Schritt-Ausfuellhilfen, je nach Formular-Typ. Werden anhand
+// des Titels zugeordnet, damit der Katalog (32 Eintraege) unveraendert bleibt.
+const _steuerSteps = <String>[
+  'Deine Stadt/Gemeinde auf dem Portal suchen (oder "Hundesteuer + Wohnort" googeln).',
+  'Formular "Hundesteuer-Anmeldung" oeffnen (online ausfuellbar oder als PDF).',
+  'Deine Daten + Hundedaten eintragen: Rasse, Wurftag, Geschlecht, Chip-Nummer.',
+  'Anschaffungs-/Zuzugsdatum angeben - ab da wird die Steuer faellig.',
+  'Absenden bzw. unterschrieben einreichen. Du bekommst Bescheid + Hundemarke.',
+];
+const _sachkundeSteps = <String>[
+  'Pruefen, ob in deinem Bundesland/fuer deinen Hund die Sachkunde Pflicht ist.',
+  'Theorie-Termin bei einer anerkannten Stelle (Tierarzt/Hundeschule) buchen.',
+  'Theorie bestehen, danach den Praxisteil mit deinem Hund absolvieren.',
+  'Bescheinigung erhalten und bei der zustaendigen Behoerde einreichen.',
+];
+const _listeSteps = <String>[
+  'Pruefen, ob deine Rasse im Bundesland als Listenhund gilt.',
+  'Nachweise sammeln: Fuehrungszeugnis, Sachkunde, Wesenstest, Haftpflicht.',
+  'Antrag auf Erlaubnis beim Ordnungsamt/der zustaendigen Behoerde stellen.',
+  'Nach Pruefung Erlaubnis erhalten - oft mit Auflagen (z. B. Leine/Maulkorb).',
+];
+
+List<String> _formSteps(String title) {
+  final t = title.toLowerCase();
+  if (t.contains('steuer')) return _steuerSteps;
+  if (t.contains('sachkunde') || t.contains('fuehrerschein')) {
+    return _sachkundeSteps;
+  }
+  return _listeSteps;
+}
+
 /// Antraege & Formulare rund um den Hund, nach Bundesland (#23).
 /// Zeigt Hundesteuer-Anmeldung, Sachkunde/Hundefuehrerschein und
 /// Listenhund-Erlaubnis mit Ausfuellhilfe + Link zum offiziellen Portal.
@@ -108,6 +139,7 @@ class _FormCardState extends State<_FormCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final f = widget.form;
+    final steps = _formSteps(f.title);
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Container(
@@ -164,6 +196,39 @@ class _FormCardState extends State<_FormCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('So fuellst du es aus:',
+                        style: theme.textTheme.titleSmall),
+                    const SizedBox(height: AppSpacing.xs),
+                    for (var s = 0; s < steps.length; s++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 22,
+                              height: 22,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(top: 1),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.primary
+                                    .withValues(alpha: 0.15),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text('${s + 1}',
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: theme.colorScheme.primary,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            Expanded(
+                                child: Text(steps[s],
+                                    style: theme.textTheme.bodySmall)),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(height: AppSpacing.sm),
                     Text('Das solltest du bereithalten:',
                         style: theme.textTheme.titleSmall),
                     const SizedBox(height: AppSpacing.xs),
@@ -191,15 +256,27 @@ class _FormCardState extends State<_FormCard> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: AppSpacing.md),
-                    FilledButton.icon(
-                      onPressed: widget.onOpen,
-                      icon: const Icon(Icons.open_in_new_rounded, size: 18),
-                      label: const Text('Zum offiziellen Portal'),
-                    ),
                   ],
                 ),
               ),
+            // Direkter Zugriff aufs Formular - immer sichtbar, nicht erst
+            // nach dem Aufklappen.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                0,
+                AppSpacing.lg,
+                AppSpacing.lg,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: widget.onOpen,
+                  icon: const Icon(Icons.open_in_new_rounded, size: 18),
+                  label: const Text('Formular oeffnen'),
+                ),
+              ),
+            ),
           ],
         ),
       ),
