@@ -15,14 +15,14 @@ F=c[8]
 B=a.updateHolder(c[4],B)
 D=c[9]
 B.v4.prototype={
-A(d){var x,w=null,v=A.q(d),u=C.b.iX(F.lP,new B.ahp(this),new B.ahq()),t=u.c,s=A.cK(w,w,A.n(t,w,w,w,w,w,w,w)),r=v.ax.b,q=r.X(0.12),p=A.av(999),o=v.ok,n=o.ax
-r=n==null?w:n.dq(r,C.ae)
+A(d){var x,w=null,v=A.q(d),u=C.b.iX(F.lQ,new B.ahp(this),new B.ahq()),t=u.c,s=A.cK(w,w,A.n(t,w,w,w,w,w,w,w)),r=v.ax.b,q=r.X(0.12),p=A.av(999),o=v.ok,n=o.ax
+r=n==null?w:n.dq(r,C.ag)
 p=A.aj(w,A.n(t+" \xb7 "+u.r+" Min",w,w,w,r,w,w,w),C.j,w,w,new A.aw(q,w,w,p,w,w,C.v),w,w,w,C.cZ,w,w,w)
 q=A.n(u.b,w,w,w,o.f,w,w,w)
 o=o.y
 t=o==null?w:o.aGm(C.h3)
 r=y.e
-t=A.b([p,C.I,q,C.u,A.n(u.d,w,w,w,t,w,w,w),C.w5],r)
+t=A.b([p,C.I,q,C.u,A.n(u.d,w,w,w,t,w,w,w),C.w7],r)
 for(q=this.aBq(u.e),p=q.length,x=0;x<q.length;q.length===p||(0,A.K)(q),++x)C.b.K(t,A.b([this.azi(v,q[x]),C.I],r))
 return A.cz(s,w,A.dH(t,C.F,w,C.M,!1),w,w,w)},
 aBq(d){var x=C.c.uo(d,A.cN("\\n\\s*\\n",!0,!1))
@@ -39,7 +39,7 @@ B.ahp.prototype={
 $1(d){return d.a===this.a.c},
 $S:z+0}
 B.ahq.prototype={
-$0(){return D.QA},
+$0(){return D.QC},
 $S:z+1}
 B.ahn.prototype={
 $1(d){return C.c.bc(d)},
@@ -57,5 +57,5 @@ x(B.v4,A.P)
 w(A.l3,[B.ahp,B.ahn,B.aho,B.ahm])
 x(B.ahq,A.rb)})()
 A.aem(b.typeUniverse,JSON.parse('{"v4":{"P":[],"c":[]}}'))
-var y={h:A.a0("B<i>"),e:A.a0("B<c>")};(function constants(){D.QA=new E.dY("unknown","Artikel nicht gefunden","Unbekannt","","Dieser Artikel existiert nicht (mehr).",3)})()};
-(a=>{a["ijwmRsgOt+NhlvegUCsMmHGmpQ0="]=a.current})($__dart_deferred_initializers__);
+var y={h:A.a0("B<i>"),e:A.a0("B<c>")};(function constants(){D.QC=new E.dY("unknown","Artikel nicht gefunden","Unbekannt","","Dieser Artikel existiert nicht (mehr).",3)})()};
+(a=>{a["HHpCv6eBmgG6/XzRJ55wHcLYxR8="]=a.current})($__dart_deferred_initializers__);
