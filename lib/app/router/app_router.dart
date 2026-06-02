@@ -17,8 +17,10 @@ import 'package:dogmatch_ai/features/documents/presentation/documents_screen.dar
 import 'package:dogmatch_ai/features/health/presentation/add_health_event_screen.dart';
 import 'package:dogmatch_ai/features/health/presentation/health_calendar_screen.dart';
 import 'package:dogmatch_ai/features/home/presentation/home_screen.dart';
-import 'package:dogmatch_ai/features/knowledge/presentation/article_screen.dart';
-import 'package:dogmatch_ai/features/knowledge/presentation/knowledge_screen.dart';
+import 'package:dogmatch_ai/features/knowledge/presentation/article_screen.dart'
+    deferred as article_screen;
+import 'package:dogmatch_ai/features/knowledge/presentation/knowledge_screen.dart'
+    deferred as knowledge_screen;
 import 'package:dogmatch_ai/features/matching/presentation/match_results_screen.dart';
 import 'package:dogmatch_ai/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:dogmatch_ai/features/places/presentation/nearby_screen.dart';
@@ -33,11 +35,14 @@ import 'package:dogmatch_ai/features/checklists/presentation/checklists_screen.d
 import 'package:dogmatch_ai/features/legal/presentation/legal_doc_screen.dart';
 import 'package:dogmatch_ai/features/legal/presentation/legal_screen.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_screen.dart';
-import 'package:dogmatch_ai/features/tips/presentation/tips_screen.dart';
-import 'package:dogmatch_ai/features/vacation/presentation/vacation_screen.dart';
+import 'package:dogmatch_ai/features/tips/presentation/tips_screen.dart'
+    deferred as tips_screen;
+import 'package:dogmatch_ai/features/vacation/presentation/vacation_screen.dart'
+    deferred as vacation_screen;
 import 'package:dogmatch_ai/features/symptom_check/presentation/symptom_check_screen.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_detail_screen.dart';
 import 'package:dogmatch_ai/features/training/presentation/training_screen.dart';
+import 'package:dogmatch_ai/core/widgets/deferred_screen.dart';
 import 'package:dogmatch_ai/shared/navigation/scaffold_with_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -130,12 +135,18 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.knowledge,
-      builder: (context, state) => const KnowledgeScreen(),
+      builder: (context, state) => DeferredScreen(
+        load: knowledge_screen.loadLibrary,
+        builder: (_) => knowledge_screen.KnowledgeScreen(),
+      ),
     ),
     GoRoute(
       path: '${AppRoutes.article}/:id',
-      builder: (context, state) =>
-          ArticleScreen(articleId: state.pathParameters['id']!),
+      builder: (context, state) => DeferredScreen(
+        load: article_screen.loadLibrary,
+        builder: (_) =>
+            article_screen.ArticleScreen(articleId: state.pathParameters['id']!),
+      ),
     ),
     GoRoute(
       path: AppRoutes.premium,
@@ -201,7 +212,10 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.tips,
-      builder: (context, state) => const TipsScreen(),
+      builder: (context, state) => DeferredScreen(
+        load: tips_screen.loadLibrary,
+        builder: (_) => tips_screen.TipsScreen(),
+      ),
     ),
     GoRoute(
       path: AppRoutes.treats,
@@ -222,7 +236,10 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.vacation,
-      builder: (context, state) => const VacationScreen(),
+      builder: (context, state) => DeferredScreen(
+        load: vacation_screen.loadLibrary,
+        builder: (_) => vacation_screen.VacationScreen(),
+      ),
     ),
     GoRoute(
       path: AppRoutes.forms,
