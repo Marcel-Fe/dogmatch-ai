@@ -83,8 +83,15 @@ class SttService {
   /// wenn der Nutzer kurz ueberlegt. Stoppt erst, wenn der Nutzer aktiv
   /// [stop] ruft - dann liefert der Future den gesamten gesprochenen Text.
   ///
+  /// [onPartial] (optional) wird waehrend des Sprechens laufend mit dem
+  /// bisher erkannten Text gerufen - so kann das UI live mitschreiben statt
+  /// erst am Ende zu "springen".
+  ///
   /// Wirft StateError, wenn die Web-Speech-API nicht verfuegbar ist.
-  Future<String?> listenOnce({String lang = 'de-DE'}) async {
+  Future<String?> listenOnce({
+    String lang = 'de-DE',
+    void Function(String partial)? onPartial,
+  }) async {
     final ctor = _speechRecognitionCtor ?? _webkitSpeechRecognitionCtor;
     if (ctor == null) {
       throw StateError(
@@ -116,14 +123,23 @@ class SttService {
     rec.onresult = ((JSObject ev) {
       try {
         final list = _ResultEvent._(ev).results;
-        // Wir akkumulieren NUR Final-Ergebnisse - die interim-Texte
-        // erscheinen bei jedem onresult-Aufruf erneut, koennten sich
-        // also doppeln.
+        // Final-Ergebnisse sammeln wir dauerhaft (das ist das echte
+        // Resultat). Interim-Ergebnisse (noch nicht final) zeigen wir nur
+        // live an, damit der Nutzer beim Sprechen sofort Text sieht.
         finalBuffer.clear();
+        final interim = StringBuffer();
         for (var i = 0; i < list.length; i++) {
           final item = list.item(i);
-          if (item.length == 0 || !item.isFinal) continue;
-          finalBuffer.write(item.item(0).transcript);
+          if (item.length == 0) continue;
+          final transcript = item.item(0).transcript;
+          if (item.isFinal) {
+            finalBuffer.write(transcript);
+          } else {
+            interim.write(transcript);
+          }
+        }
+        if (onPartial != null) {
+          onPartial('${finalBuffer.toString()}${interim.toString()}'.trim());
         }
       } catch (_) {
         // Einzelnes onresult-Event hat ein anderes Format - ignorieren,

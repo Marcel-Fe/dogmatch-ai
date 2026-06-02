@@ -62,7 +62,17 @@ class _ChatInputBarState extends State<ChatInputBar> {
     }
     setState(() => _listening = true);
     try {
-      final text = await _stt.listenOnce();
+      final text = await _stt.listenOnce(
+        // Waehrend des Sprechens den erkannten Text live anzeigen, damit
+        // es nicht "haengt", bis man stoppt.
+        onPartial: (partial) {
+          if (!mounted) return;
+          _controller.text = partial;
+          _controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: partial.length),
+          );
+        },
+      );
       if (!mounted) return;
       if (text != null && text.isNotEmpty) {
         _controller.text = text;
