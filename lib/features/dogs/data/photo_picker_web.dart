@@ -6,7 +6,15 @@ import 'package:web/web.dart' as web;
 /// Web-Implementierung: oeffnet einen versteckten HTML-File-Input,
 /// liest die ausgewaehlte Datei via FileReader als data-URL und liefert
 /// den Base64-Inhalt zurueck. Kein Plugin, kein Windows-Devmode noetig.
-Future<String?> pickImageAsDataUrl({int maxBytes = 2 * 1024 * 1024}) async {
+///
+/// Wichtig: Das Bild wird IMMER ueber [_downscaleDataUrl] verkleinert
+/// (max. Kante [maxEdge] px, JPEG). Das behebt den Android-Bug, bei dem
+/// grosse Handy-Fotos nicht im Profil gespeichert werden konnten, und
+/// haelt die Base64-Groesse fuer lokale Speicherung + KI-Analyse klein.
+Future<String?> pickImageAsDataUrl({
+  int maxBytes = 2 * 1024 * 1024,
+  int maxEdge = 1024,
+}) async {
   final input = (web.document.createElement('input') as web.HTMLInputElement)
     ..type = 'file'
     ..accept = 'image/*';
@@ -19,20 +27,23 @@ Future<String?> pickImageAsDataUrl({int maxBytes = 2 * 1024 * 1024}) async {
       return;
     }
     final file = files.item(0)!;
-    if (file.size > maxBytes) {
-      completer.completeError(
-        'Bild ist zu gross (max ${maxBytes ~/ 1024} KB).',
-      );
-      return;
-    }
     final reader = web.FileReader();
     reader.onload = ((web.Event _) {
       final result = reader.result;
-      if (result == null) {
+      final rawDataUrl = result?.dartify() as String?;
+      if (rawDataUrl == null) {
         completer.complete(null);
-      } else {
-        completer.complete(result.dartify() as String?);
+        return;
       }
+      // Grosse Fotos automatisch herunterskalieren statt abzulehnen.
+      _downscaleDataUrl(rawDataUrl, maxEdge).then((scaled) {
+        completer.complete(scaled ?? rawDataUrl);
+      }).catchError((_) {
+        // Falls das Skalieren scheitert (z.B. exotisches Format): Original
+        // nur dann nehmen, wenn es das Limit nicht sprengt.
+        completer.complete(file.size <= maxBytes ? rawDataUrl : null);
+        return null;
+      });
     }).toJS;
     reader.onerror = ((web.Event _) {
       completer.completeError('Datei konnte nicht gelesen werden.');
@@ -41,6 +52,49 @@ Future<String?> pickImageAsDataUrl({int maxBytes = 2 * 1024 * 1024}) async {
   }).toJS;
 
   input.click();
+  return completer.future;
+}
+
+/// Laedt eine data-URL in ein Image, zeichnet es proportional verkleinert
+/// (laengste Kante = [maxEdge]) auf ein Canvas und gibt eine JPEG-data-URL
+/// zurueck. Liefert null, wenn das Bild nicht geladen werden kann.
+Future<String?> _downscaleDataUrl(String dataUrl, int maxEdge) {
+  final completer = Completer<String?>();
+  final img = web.HTMLImageElement();
+
+  img.onload = ((web.Event _) {
+    final w = img.naturalWidth;
+    final h = img.naturalHeight;
+    if (w == 0 || h == 0) {
+      completer.complete(null);
+      return;
+    }
+    // Schon klein genug -> Original behalten (kein Qualitaetsverlust).
+    if (w <= maxEdge && h <= maxEdge) {
+      completer.complete(dataUrl);
+      return;
+    }
+    final scale = w > h ? maxEdge / w : maxEdge / h;
+    final tw = (w * scale).round();
+    final th = (h * scale).round();
+
+    final canvas = (web.document.createElement('canvas') as web.HTMLCanvasElement)
+      ..width = tw
+      ..height = th;
+    final ctx = canvas.getContext('2d') as web.CanvasRenderingContext2D?;
+    if (ctx == null) {
+      completer.complete(null);
+      return;
+    }
+    ctx.drawImage(img, 0, 0, tw.toDouble(), th.toDouble());
+    completer.complete(canvas.toDataURL('image/jpeg', 0.82.toJS));
+  }).toJS;
+
+  img.onerror = ((web.Event _) {
+    completer.complete(null);
+  }).toJS;
+
+  img.src = dataUrl;
   return completer.future;
 }
 

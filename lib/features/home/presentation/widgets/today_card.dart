@@ -4,6 +4,7 @@ import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/breeds/domain/breed_matcher.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/widgets/dog_avatar.dart';
 import 'package:dogmatch_ai/features/health/presentation/health_controller.dart';
 import 'package:dogmatch_ai/features/home/domain/time_of_day_greeting.dart';
 import 'package:flutter/material.dart';
@@ -87,24 +88,49 @@ class TodayCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(greet.icon, color: Colors.white, size: 18),
-              const SizedBox(width: AppSpacing.sm),
+              // Foto des Hundes (Pfote als Fallback) macht die Karte
+              // persoenlich - "heute fuer DEINEN Hund".
+              DogAvatar(
+                photoBase64: dog.photoBase64,
+                size: 44,
+                borderColor: Colors.white.withValues(alpha: 0.85),
+                borderWidth: 2,
+              ),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
-                child: Text(
-                  'Heute fuer ${dog.name}',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(greet.icon, color: Colors.white, size: 16),
+                        const SizedBox(width: 6),
+                        Text(
+                          greet.salutation,
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Heute fuer ${dog.name}',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Text(
                 greet.emoji,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 24),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.lg),
           _Row(
             icon: tipIcon,
             text: tipText,

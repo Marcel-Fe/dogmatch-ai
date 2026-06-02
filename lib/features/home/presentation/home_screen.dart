@@ -76,174 +76,181 @@ class HomeScreen extends ConsumerWidget {
             });
           }
 
-          return ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              // 1) Hund-Wechsler (nur wenn mind. 1 Hund da)
-              if (allDogs.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.md),
-                DogSwitcherRow(dogs: allDogs, activeDog: activeDog),
-                const SizedBox(height: AppSpacing.sm),
-              ],
+          // Dashboard-Sektionen als Liste von Bausteinen sammeln und ueber
+          // eine lazy SliverList rendern - so baut Flutter nur die sichtbaren
+          // Bereiche, was das Scrollen/Oeffnen auf dem iPhone spuerbar
+          // beschleunigt (frueher wurde alles auf einmal aufgebaut).
+          final sections = <Widget>[
+            // 1) Hund-Wechsler (nur wenn mind. 1 Hund da)
+            if (allDogs.isNotEmpty) ...[
+              const SizedBox(height: AppSpacing.md),
+              DogSwitcherRow(dogs: allDogs, activeDog: activeDog),
+              const SizedBox(height: AppSpacing.sm),
+            ],
 
-              // 2) Hero
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.lg,
-                  AppSpacing.md,
-                  AppSpacing.lg,
-                  AppSpacing.lg,
-                ),
-                child: DogHeroCard(
-                  dog: activeDog,
-                  greetingName: greetingName,
-                  breedImageUrl: breedImageUrl,
-                ),
+            // 2) Hero
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.lg,
               ),
+              child: DogHeroCard(
+                dog: activeDog,
+                greetingName: greetingName,
+                breedImageUrl: breedImageUrl,
+              ),
+            ),
 
-              // 3) Heute fuer <Hund> - personalisiertes Tagesbriefing
-              if (activeDog != null) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: TodayCard(dog: activeDog),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-              ],
-
-              // 4) Hunde-Weisheit der Stunde (rotiert jede Stunde)
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                ),
-                child: WisdomQuoteCard(),
+            // 3) Heute fuer <Hund> - personalisiertes Tagesbriefing
+            if (activeDog != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: TodayCard(dog: activeDog),
               ),
               const SizedBox(height: AppSpacing.lg),
+            ],
 
-              // 5) Schnellaktionen
+            // 4) Hunde-Weisheit der Stunde (rotiert jede Stunde)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: WisdomQuoteCard(),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+
+            // 5) Schnellaktionen
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: QuickActionGrid(),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+
+            // 6) Termine (kompakt) - nur wenn aktiver Hund da
+            if (showMyDog && (prefs?.showUpcomingOnHome ?? true)) ...[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: UpcomingEventsCard(),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+            ],
+
+            // 7) MyDogSection - der zentrale Punkt der Familien-App
+            if (showMyDog) ...[
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                ),
-                child: const QuickActionGrid(),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: MyDogSection(dog: activeDog, allBreeds: breeds),
               ),
               const SizedBox(height: AppSpacing.xl),
+            ],
 
-              // 4) Termine (kompakt) - nur wenn aktiver Hund da
-              if (showMyDog && (prefs?.showUpcomingOnHome ?? true)) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: const UpcomingEventsCard(),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-              ],
+            // 8) Beliebte Rassen (Inspiration)
+            PopularBreedsRow(
+              allBreeds: breeds,
+              activeBreedName: activeDog?.breed,
+            ),
+            const SizedBox(height: AppSpacing.xl),
 
-              // 5) MyDogSection - der zentrale Punkt der Familien-App
-              if (showMyDog) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: MyDogSection(dog: activeDog, allBreeds: breeds),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-              ],
-
-              // 6) Beliebte Rassen (Inspiration)
-              PopularBreedsRow(
-                allBreeds: breeds,
-                activeBreedName: activeDog?.breed,
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // 7) Fuer dich (personalisiert)
-              if (prefs?.showForYouOnHome ?? true) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: ForYouSection(allBreeds: breeds, prefs: prefs),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-              ],
-
-              // 8) Statistik-Zeile
+            // 9) Fuer dich (personalisiert)
+            if (prefs?.showForYouOnHome ?? true) ...[
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: const StatsRow(),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: ForYouSection(allBreeds: breeds, prefs: prefs),
               ),
               const SizedBox(height: AppSpacing.xl),
+            ],
 
-              // 9) Entdecken: BreedSearchBar + alle Rassen (am Ende)
-              if (prefs?.showAllBreedsOnHome ?? true) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Entdecken: Alle Rassen',
-                          style: theme.textTheme.titleLarge,
-                        ),
+            // 10) Statistik-Zeile
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: StatsRow(),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+
+            // 11) Entdecken: Suchleiste + VORSCHAU (max 8) statt aller ~360
+            // Rassen - die volle Liste lebt auf dem eigenen Rassen-Screen.
+            if (prefs?.showAllBreedsOnHome ?? true) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Entdecken: Rassen',
+                        style: theme.textTheme.titleLarge,
                       ),
-                      Consumer(builder: (context, ref, _) {
-                        final filtered =
-                            ref.watch(filteredBreedsProvider);
-                        return Text(
-                          '${filtered.length}/${breeds.length}',
-                          style: theme.textTheme.bodySmall,
-                        );
-                      }),
-                    ],
-                  ),
+                    ),
+                    TextButton(
+                      onPressed: () => context.push(AppRoutes.breedList),
+                      child: const Text('Alle anzeigen'),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppSpacing.sm),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: const BreedSearchBar(),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Consumer(builder: (context, ref, _) {
-                  final filtered = ref.watch(filteredBreedsProvider);
-                  if (filtered.isEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.all(AppSpacing.xl),
-                      child: Center(
-                        child: Text(
-                          'Keine Rasse passt zu deinen Filtern.',
-                          style: theme.textTheme.bodyMedium,
-                        ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: BreedSearchBar(),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Consumer(builder: (context, ref, _) {
+                final filtered = ref.watch(filteredBreedsProvider);
+                if (filtered.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(AppSpacing.xl),
+                    child: Center(
+                      child: Text(
+                        'Keine Rasse passt zu deinen Filtern.',
+                        style: theme.textTheme.bodyMedium,
                       ),
-                    );
-                  }
-                  return Column(
-                    children: [
-                      for (final breed in filtered) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg,
-                          ),
-                          child: BreedCard(
-                            breed: breed,
-                            onTap: () => context.push(
-                                '${AppRoutes.breedDetail}/${breed.id}'),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                      ],
-                    ],
+                    ),
                   );
-                }),
-              ],
-              const SizedBox(height: AppSpacing.xxl),
+                }
+                final preview = filtered.take(8).toList(growable: false);
+                return Column(
+                  children: [
+                    for (final breed in preview) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                        ),
+                        child: BreedCard(
+                          breed: breed,
+                          onTap: () => context.push(
+                              '${AppRoutes.breedDetail}/${breed.id}'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                    ],
+                    if (filtered.length > preview.length)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                        ),
+                        child: OutlinedButton.icon(
+                          onPressed: () =>
+                              context.push(AppRoutes.breedList),
+                          icon: const Icon(Icons.grid_view_rounded),
+                          label: Text(
+                            'Alle ${filtered.length} Rassen ansehen',
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }),
+            ],
+            const SizedBox(height: AppSpacing.xxl),
+          ];
+
+          return CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => sections[index],
+                  childCount: sections.length,
+                ),
+              ),
             ],
           );
         },

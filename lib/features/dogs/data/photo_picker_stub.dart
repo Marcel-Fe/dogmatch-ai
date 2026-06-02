@@ -1,6 +1,9 @@
 /// Stub fuer nicht-Web-Plattformen. Wird in Phase 5 (Mobile/Android) durch
 /// eine native image_picker-Implementierung ersetzt.
-Future<String?> pickImageAsDataUrl({int maxBytes = 2 * 1024 * 1024}) async {
+Future<String?> pickImageAsDataUrl({
+  int maxBytes = 2 * 1024 * 1024,
+  int maxEdge = 1024,
+}) async {
   throw UnsupportedError(
     'Foto-Auswahl ist auf dieser Plattform noch nicht unterstuetzt.',
   );

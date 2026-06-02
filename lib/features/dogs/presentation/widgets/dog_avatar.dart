@@ -42,13 +42,17 @@ class DogAvatar extends StatelessWidget {
           : null,
     );
 
+    // Foto nur in Anzeigegroesse dekodieren (x3 fuer hohe Pixeldichte) -
+    // sonst haelt das iPhone das Vollbild im Speicher und ruckelt.
+    final cacheW = (size * 3).round();
+
     return Container(
       width: size,
       height: size,
       decoration: decoration,
       clipBehavior: Clip.antiAlias,
       child: bytes != null
-          ? Image.memory(bytes, fit: BoxFit.cover)
+          ? Image.memory(bytes, fit: BoxFit.cover, cacheWidth: cacheW)
           : Icon(
               Icons.pets_rounded,
               size: size * 0.55,

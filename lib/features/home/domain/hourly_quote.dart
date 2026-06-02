@@ -26,10 +26,6 @@ class HourlyQuote {
       author: 'Anatole France',
     ),
     WisdomQuote(
-      text: 'Der Hund ist der einzige Freund, den man fuer Geld bekommt.',
-      author: 'Anatole France',
-    ),
-    WisdomQuote(
       text: 'Wer einen Hund hat, hat einen Freund, der nicht fragt, sondern '
           'einfach da ist.',
     ),
@@ -42,11 +38,37 @@ class HourlyQuote {
       author: 'Roger Caras',
     ),
     WisdomQuote(
-      text: 'Mein Hund denkt, ich bin grossartig - er hat keine Ahnung von '
-          'meiner Steuererklaerung.',
+      text: 'Ein Hund ist die einzige Liebe, die mit dem Schwanz wedeln kann.',
     ),
     WisdomQuote(
-      text: 'Ein Hund ist die einzige Liebe, die mit dem Schwanz wedeln kann.',
+      text: 'Ein Hund braucht keine grossen Worte - ein ruhiges Herz neben '
+          'ihm genuegt.',
+    ),
+    WisdomQuote(
+      text: 'Der treueste Blick der Welt kommt auf vier Pfoten.',
+    ),
+    WisdomQuote(
+      text: 'Manche Engel haben Fell statt Fluegel.',
+    ),
+    WisdomQuote(
+      text: 'Ein Zuhause ohne Hund ist nur ein Haus.',
+    ),
+    WisdomQuote(
+      text: 'Hunde hinterlassen Pfotenabdruecke auf unseren Herzen.',
+    ),
+    WisdomQuote(
+      text: 'Wer einem Hund in die Augen schaut, vergisst fuer einen Moment '
+          'alle Sorgen.',
+    ),
+    WisdomQuote(
+      text: 'Die beste Therapie hat eine kalte Nase und einen warmen Bauch.',
+    ),
+    WisdomQuote(
+      text: 'Ein Hund liebt dich an deinen schlechten Tagen genauso wie an '
+          'deinen guten.',
+    ),
+    WisdomQuote(
+      text: 'Gassi gehen ist die schoenste Art, den Kopf frei zu bekommen.',
     ),
     WisdomQuote(
       text: 'Wer mit Hunden lebt, lernt: Vertrauen ist die einzige Sprache, '

@@ -15,6 +15,7 @@ class UserPreferences extends Equatable {
     this.showForYouOnHome = true,
     this.showFeatureGridOnHome = true,
     this.showAllBreedsOnHome = true,
+    this.seniorMode = false,
   });
 
   /// Anzeigename - wird in der Begruessung auf Home verwendet.
@@ -40,6 +41,9 @@ class UserPreferences extends Equatable {
   final bool showFeatureGridOnHome;
   final bool showAllBreedsOnHome;
 
+  /// Senioren-Modus: groessere Schrift + hoehere Kontraste in der ganzen App.
+  final bool seniorMode;
+
   bool get hasName => displayName != null && displayName!.trim().isNotEmpty;
 
   UserPreferences copyWith({
@@ -52,6 +56,7 @@ class UserPreferences extends Equatable {
     bool? showForYouOnHome,
     bool? showFeatureGridOnHome,
     bool? showAllBreedsOnHome,
+    bool? seniorMode,
     bool clearPreferredSize = false,
     bool clearPreferredActivity = false,
   }) {
@@ -69,6 +74,7 @@ class UserPreferences extends Equatable {
       showFeatureGridOnHome:
           showFeatureGridOnHome ?? this.showFeatureGridOnHome,
       showAllBreedsOnHome: showAllBreedsOnHome ?? this.showAllBreedsOnHome,
+      seniorMode: seniorMode ?? this.seniorMode,
     );
   }
 
@@ -89,6 +95,7 @@ class UserPreferences extends Equatable {
       showFeatureGridOnHome:
           (json['showFeatureGridOnHome'] as bool?) ?? true,
       showAllBreedsOnHome: (json['showAllBreedsOnHome'] as bool?) ?? true,
+      seniorMode: (json['seniorMode'] as bool?) ?? false,
     );
   }
 
@@ -103,6 +110,7 @@ class UserPreferences extends Equatable {
       'showForYouOnHome': showForYouOnHome,
       'showFeatureGridOnHome': showFeatureGridOnHome,
       'showAllBreedsOnHome': showAllBreedsOnHome,
+      'seniorMode': seniorMode,
     };
   }
 
@@ -117,5 +125,6 @@ class UserPreferences extends Equatable {
         showForYouOnHome,
         showFeatureGridOnHome,
         showAllBreedsOnHome,
+        seniorMode,
       ];
 }

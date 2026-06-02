@@ -120,6 +120,16 @@ class SettingsScreen extends ConsumerWidget {
           ),
 
           _SectionTitle('Darstellung'),
+          SwitchListTile(
+            secondary: const Icon(Icons.elderly_outlined),
+            title: const Text('Senioren-Modus'),
+            subtitle: const Text(
+              'Groessere Schrift in der ganzen App - angenehmer zu lesen.',
+            ),
+            value: prefs.seniorMode,
+            onChanged: (v) =>
+                prefsNotifier.save(prefs.copyWith(seniorMode: v)),
+          ),
           _ModeTile(
             label: 'System',
             icon: Icons.brightness_auto_outlined,
