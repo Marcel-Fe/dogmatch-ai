@@ -30,27 +30,34 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Column(
-            children: [
-              const Expanded(
-                child: FeaturePlaceholder(
-                  icon: Icons.auto_awesome_rounded,
-                  title: 'Willkommen',
-                  description:
-                      'In drei Schritten zur passenden Hunderasse: Quiz '
-                      'ausfuellen, Match erhalten, KI-Beratung nutzen.',
+      // Sicherheitsnetz: Ein Tipp IRGENDWO auf dem Screen fuehrt weiter - so
+      // bleibt niemand haengen, falls das Knopf-Trefferfeld mal nicht reagiert.
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _finish(context),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Column(
+              children: [
+                const Expanded(
+                  child: FeaturePlaceholder(
+                    icon: Icons.auto_awesome_rounded,
+                    title: 'Willkommen',
+                    description:
+                        'In drei Schritten zur passenden Hunderasse: Quiz '
+                        'ausfuellen, Match erhalten, KI-Beratung nutzen.\n\n'
+                        'Tippe auf "Los geht\'s" (oder irgendwo auf den Screen).',
+                  ),
                 ),
-              ),
-              AppButton(
-                label: "Los geht's",
-                icon: Icons.arrow_forward_rounded,
-                onPressed: () => _finish(context),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-            ],
+                AppButton(
+                  label: "Los geht's",
+                  icon: Icons.arrow_forward_rounded,
+                  onPressed: () => _finish(context),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+              ],
+            ),
           ),
         ),
       ),
