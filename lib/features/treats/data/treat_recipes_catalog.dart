@@ -26,6 +26,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'In einer Dose ca. 1 Woche, eingefroren laenger.',
       tip: 'Fuer kleine Hunde die Taler besonders duenn ausrollen.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Oatmeal-Cookie.jpg/960px-Oatmeal-Cookie.jpg',
     ),
     TreatRecipe(
       id: 't2',
@@ -81,6 +83,8 @@ class TreatRecipesCatalog {
         '18-20 Minuten backen, auskuehlen lassen.',
       ],
       storage: 'In einer Dose ca. 1 Woche.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Grated_carrot_2.jpg/960px-Grated_carrot_2.jpg',
     ),
 
     // ---- Ohne Backen ----
@@ -101,6 +105,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Kuehlschrank 2-3 Tage.',
       tip: 'Petersilie hilft sogar gegen Mundgeruch.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Berry_quark_and_coffee_at_restaurant_Sapusca.jpg/960px-Berry_quark_and_coffee_at_restaurant_Sapusca.jpg',
     ),
     TreatRecipe(
       id: 't6',
@@ -117,6 +123,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Kuehlschrank ca. 4 Tage.',
       tip: 'WICHTIG: Erdnussbutter MUSS xylitfrei sein - Xylit ist giftig.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Three_lb_peanut_butter_jar.jpg/960px-Three_lb_peanut_butter_jar.jpg',
     ),
 
     // ---- Gefroren ----
@@ -136,6 +144,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Gefrierfach mehrere Wochen.',
       tip: 'Nur kleine Portionen geben - kalt und langsam schlecken lassen.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Berry_Frozen_Yogurt_%284723048814%29.jpg/960px-Berry_Frozen_Yogurt_%284723048814%29.jpg',
     ),
     TreatRecipe(
       id: 't8',
@@ -151,6 +161,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Gefrierfach mehrere Wochen.',
       tip: 'Niemals Fertigbruehe mit Salz/Zwiebel verwenden.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/c/c3/Ice_cube_tray.jpg',
     ),
     TreatRecipe(
       id: 't9',
@@ -168,6 +180,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Einzeln eingefroren mehrere Wochen.',
       tip: 'Haelt aufgeregte Hunde lange und ruhig beschaeftigt.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dog_with_rawhide_chew_toy.jpg/960px-Dog_with_rawhide_chew_toy.jpg',
     ),
 
     // ---- Trainings-Snack ----

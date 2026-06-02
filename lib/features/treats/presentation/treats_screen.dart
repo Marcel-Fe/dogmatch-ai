@@ -97,7 +97,12 @@ class _RecipeCard extends StatelessWidget {
       child: Material(
         color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-        child: Theme(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _banner(),
+            Theme(
           data: theme.copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             shape: const Border(),
@@ -136,7 +141,53 @@ class _RecipeCard extends StatelessWidget {
                 _infoRow(theme, Icons.lightbulb_outline_rounded, recipe.tip!),
             ],
           ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  /// Foto-Banner oben auf der Rezeptkarte. Faellt auf das Kategorie-Icon
+  /// zurueck, falls das Bild (Wikimedia) mal nicht laedt. cacheWidth haelt
+  /// den Speicher klein - wichtig fuer fluessiges Scrollen auf dem iPhone.
+  Widget _banner() {
+    return SizedBox(
+      height: 120,
+      width: double.infinity,
+      child: Image.network(
+        recipe.imageUrl ?? recipe.category.imageUrl,
+        fit: BoxFit.cover,
+        cacheWidth: 600,
+        gaplessPlayback: true,
+        loadingBuilder: (context, child, progress) =>
+            progress == null ? child : _bannerFallback(spinner: true),
+        errorBuilder: (_, _, _) => _bannerFallback(),
+      ),
+    );
+  }
+
+  Widget _bannerFallback({bool spinner = false}) {
+    final color = recipe.category.color;
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            color.withValues(alpha: 0.35),
+            color.withValues(alpha: 0.15),
+          ],
+        ),
+      ),
+      child: Center(
+        child: spinner
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Icon(recipe.category.icon, color: color, size: 40),
       ),
     );
   }
