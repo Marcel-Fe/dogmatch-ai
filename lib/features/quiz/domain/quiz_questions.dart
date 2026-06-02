@@ -48,4 +48,46 @@ const List<QuizQuestion> kQuizQuestions = [
       QuizOption(id: 'any', label: 'Egal'),
     ],
   ),
+  QuizQuestion(
+    id: 'grooming_pref',
+    question: 'Wie viel Fellpflege ist fuer dich ok?',
+    options: [
+      QuizOption(id: 'low', label: 'Wenig - moeglichst pflegeleicht'),
+      QuizOption(id: 'medium', label: 'Etwas Buersten ist ok'),
+      QuizOption(id: 'high', label: 'Auch aufwendige Pflege ist kein Problem'),
+    ],
+  ),
+  QuizQuestion(
+    id: 'shedding_pref',
+    question: 'Wie wichtig ist dir wenig Haaren?',
+    options: [
+      QuizOption(id: 'low_shedding', label: 'Wichtig - moeglichst wenig Haare'),
+      QuizOption(id: 'dont_care', label: 'Egal - Haare gehoeren dazu'),
+    ],
+  ),
+  QuizQuestion(
+    id: 'noise_pref',
+    question: 'Wie ruhig sollte dein Hund sein?',
+    options: [
+      QuizOption(id: 'quiet', label: 'Eher ruhig - bellt wenig'),
+      QuizOption(id: 'watchdog', label: 'Wachsam - darf anschlagen'),
+      QuizOption(id: 'any_noise', label: 'Egal'),
+    ],
+  ),
+  QuizQuestion(
+    id: 'cats',
+    question: 'Leben Katzen oder andere Kleintiere bei dir?',
+    options: [
+      QuizOption(id: 'yes', label: 'Ja'),
+      QuizOption(id: 'no', label: 'Nein'),
+    ],
+  ),
+  QuizQuestion(
+    id: 'alone_time',
+    question: 'Wie lange muss dein Hund alleine bleiben?',
+    options: [
+      QuizOption(id: 'rarely', label: 'Selten - ich bin meist da'),
+      QuizOption(id: 'few_hours', label: 'Ein paar Stunden taeglich'),
+    ],
+  ),
 ];

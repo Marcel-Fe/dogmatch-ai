@@ -1,6 +1,7 @@
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/treats/data/treat_recipes_catalog.dart';
 import 'package:dogmatch_ai/features/treats/domain/treat_recipe.dart';
+import 'package:dogmatch_ai/features/treats/presentation/widgets/portion_calculator.dart';
 import 'package:flutter/material.dart';
 
 /// Leckerli-Rezepte zum Selbermachen. Kategorie-Filter oben, Rezepte als
@@ -49,6 +50,10 @@ class _TreatsScreenState extends State<TreatsScreen> {
               ],
             ),
           ),
+          const SizedBox(height: AppSpacing.md),
+
+          // Portionsrechner (#7)
+          const PortionCalculator(),
           const SizedBox(height: AppSpacing.md),
 
           // Kategorie-Filter

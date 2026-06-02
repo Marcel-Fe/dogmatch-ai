@@ -111,6 +111,74 @@ class MatchingEngine {
       score -= 10;
     }
 
+    // Fellpflege-Bereitschaft
+    final grooming = answers.answers['grooming_pref']?.firstOrNull;
+    if (grooming == 'low') {
+      if (breed.grooming <= 2) {
+        score += 12;
+        reasons.add('Pflegeleicht');
+      }
+      if (breed.grooming >= 4) {
+        score -= 15;
+        cons.add('Braucht regelmaessige, aufwendige Fellpflege');
+      }
+    } else if (grooming == 'high' && breed.grooming >= 4) {
+      score += 8;
+      reasons.add('Aufwendige Pflege passt zu dir');
+    }
+
+    // Haaren
+    final shedding = answers.answers['shedding_pref']?.firstOrNull;
+    if (shedding == 'low_shedding') {
+      if (breed.shedding <= 2) {
+        score += 12;
+        reasons.add('Haart wenig');
+      }
+      if (breed.shedding >= 4) {
+        score -= 15;
+        cons.add('Haart stark - nichts fuer Haar-Empfindliche');
+      }
+    }
+
+    // Bell-Neigung / Wachsamkeit (noiseLevel ist optional)
+    final noise = answers.answers['noise_pref']?.firstOrNull;
+    final nl = breed.noiseLevel;
+    if (noise == 'quiet' && nl != null) {
+      if (nl <= 2) {
+        score += 10;
+        reasons.add('Eher leise');
+      }
+      if (nl >= 4) {
+        score -= 12;
+        cons.add('Neigt zum Bellen');
+      }
+    } else if (noise == 'watchdog' && nl != null && nl >= 4) {
+      score += 8;
+      reasons.add('Wachsam - schlaegt zuverlaessig an');
+    }
+
+    // Katzen / Kleintiere
+    final cats = answers.answers['cats']?.firstOrNull;
+    if (cats == 'yes' && breed.goodWithCats != null) {
+      if (breed.goodWithCats == true) {
+        score += 12;
+        reasons.add('Vertraegt sich gut mit Katzen');
+      } else {
+        score -= 15;
+        cons.add('Hoher Jagdtrieb - mit Katzen heikel');
+      }
+    }
+
+    // Allein-Zeit
+    final alone = answers.answers['alone_time']?.firstOrNull;
+    if (alone == 'few_hours') {
+      // Sehr menschenbezogene/aktive Rassen leiden eher beim Alleinsein.
+      if (breed.exerciseNeed >= 4 && breed.trainability >= 4) {
+        score -= 8;
+        cons.add('Bleibt nur ungern lange allein');
+      }
+    }
+
     return MatchResult(
       breed: breed,
       score: score.clamp(0, 100),

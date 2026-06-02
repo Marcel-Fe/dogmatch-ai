@@ -91,6 +91,32 @@ void main() {
         equals({'apartment-dog', 'active-dog', 'giant-dog'}),
       );
     });
+
+    test('Wenig-Haaren-Wunsch belohnt Rassen mit niedrigem shedding', () {
+      final answers =
+          const QuizAnswers().select('shedding_pref', ['low_shedding']);
+
+      final results = engine.compute(answers, [_apartmentDog, _giantDog]);
+
+      // _apartmentDog hat shedding 2 (Bonus), _giantDog shedding 4 (Malus).
+      expect(results.first.breed.id, 'apartment-dog');
+      expect(results.first.reasons, contains('Haart wenig'));
+      final giant = results.firstWhere((r) => r.breed.id == 'giant-dog');
+      expect(giant.cons, contains('Haart stark - nichts fuer Haar-Empfindliche'));
+    });
+
+    test('Pflegeleicht-Wunsch warnt bei hohem Pflegebedarf', () {
+      final answers =
+          const QuizAnswers().select('grooming_pref', ['low']);
+
+      final results = engine.compute(answers, [_giantDog]);
+
+      // _giantDog hat grooming 4 -> Malus + Warnung.
+      expect(
+        results.first.cons,
+        contains('Braucht regelmaessige, aufwendige Fellpflege'),
+      );
+    });
   });
 }
 

@@ -36,6 +36,13 @@ class MatchResultsScreen extends ConsumerWidget {
               icon: Icons.emoji_events_outlined,
             );
           }
+          // Eingrenzung (#24): nur die wirklich passenden Rassen zeigen.
+          // Bevorzugt alle mit >= 90%; gibt es zu wenige, die besten bis 10.
+          final strong =
+              matches.where((m) => m.score >= 90).toList(growable: false);
+          final shown = strong.length >= 3
+              ? strong.take(10).toList(growable: false)
+              : matches.take(10).toList(growable: false);
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
@@ -45,11 +52,15 @@ class MatchResultsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'Basierend auf deinen Antworten - die passendsten Rassen zuerst.',
+                strong.length >= 3
+                    ? 'Deine besten Treffer ab 90% Uebereinstimmung - '
+                        'tippe eine Rasse fuer alle Infos.'
+                    : 'Die ${shown.length} passendsten Rassen fuer dich - '
+                        'tippe eine Rasse fuer alle Infos.',
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: AppSpacing.xl),
-              for (final match in matches) ...[
+              for (final match in shown) ...[
                 MatchResultCard(
                   match: match,
                   onTap: () => context.push(

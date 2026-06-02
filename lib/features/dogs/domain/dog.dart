@@ -83,7 +83,20 @@ class Dog extends Equatable {
     this.notes,
     this.insurance,
     this.costs = const [],
+    this.masteredCommands = const [],
   });
+
+  /// Liste der Standard-Kommandos, die abgehakt werden koennen (#17).
+  static const List<String> trainableCommands = [
+    'Sitz',
+    'Platz',
+    'Bleib',
+    'Hier / Rueckruf',
+    'Bei Fuss',
+    'Aus / Nein',
+    'Pfote',
+    'Roll',
+  ];
 
   /// Stabile UUID-aehnliche Id; wird beim Anlegen vergeben.
   final String id;
@@ -104,6 +117,9 @@ class Dog extends Equatable {
 
   /// Kosten-Eintraege des Hundes (#13).
   final List<CostEntry> costs;
+
+  /// Bereits beherrschte Kommandos (#17), als Liste der Kommando-Namen.
+  final List<String> masteredCommands;
 
   /// Summe aller hinterlegten Kosten in EUR.
   double get totalCostsEur =>
@@ -131,6 +147,7 @@ class Dog extends Equatable {
     String? notes,
     DogInsurance? insurance,
     List<CostEntry>? costs,
+    List<String>? masteredCommands,
     bool clearBreed = false,
     bool clearBirthday = false,
     bool clearWeight = false,
@@ -148,6 +165,7 @@ class Dog extends Equatable {
       notes: clearNotes ? null : (notes ?? this.notes),
       insurance: clearInsurance ? null : (insurance ?? this.insurance),
       costs: costs ?? this.costs,
+      masteredCommands: masteredCommands ?? this.masteredCommands,
     );
   }
 
@@ -171,6 +189,8 @@ class Dog extends Equatable {
                   CostEntry.fromJson((e as Map).cast<String, dynamic>()))
               .toList() ??
           const [],
+      masteredCommands:
+          (json['masteredCommands'] as List?)?.cast<String>() ?? const [],
     );
   }
 
@@ -185,6 +205,7 @@ class Dog extends Equatable {
       'notes': notes,
       'insurance': insurance?.toJson(),
       'costs': costs.map((c) => c.toJson()).toList(),
+      'masteredCommands': masteredCommands,
     };
   }
 
@@ -199,5 +220,6 @@ class Dog extends Equatable {
         notes,
         insurance,
         costs,
+        masteredCommands,
       ];
 }

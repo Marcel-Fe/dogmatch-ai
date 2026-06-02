@@ -190,6 +190,38 @@ class _DogRecordScreenState extends ConsumerState<DogRecordScreen> {
           const SizedBox(height: AppSpacing.xl),
         ],
 
+        // Kommandos abhaken (#17)
+        _SectionHeader(
+          icon: Icons.check_circle_outline_rounded,
+          title: 'Kann ${dog.name} schon?',
+          actionLabel: '',
+          onAction: () {},
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.xs,
+          children: [
+            for (final cmd in Dog.trainableCommands)
+              FilterChip(
+                label: Text(cmd),
+                selected: dog.masteredCommands.contains(cmd),
+                onSelected: (sel) {
+                  final next = List<String>.of(dog.masteredCommands);
+                  if (sel) {
+                    if (!next.contains(cmd)) next.add(cmd);
+                  } else {
+                    next.remove(cmd);
+                  }
+                  ref
+                      .read(dogsProvider.notifier)
+                      .updateDog(dog.copyWith(masteredCommands: next));
+                },
+              ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.xl),
+
         // Gesundheit
         _SectionHeader(
           icon: Icons.health_and_safety_rounded,
@@ -335,7 +367,8 @@ class _SectionHeader extends StatelessWidget {
         Icon(icon, size: 20, color: theme.colorScheme.primary),
         const SizedBox(width: AppSpacing.sm),
         Expanded(child: Text(title, style: theme.textTheme.titleMedium)),
-        TextButton(onPressed: onAction, child: Text(actionLabel)),
+        if (actionLabel.isNotEmpty)
+          TextButton(onPressed: onAction, child: Text(actionLabel)),
       ],
     );
   }
