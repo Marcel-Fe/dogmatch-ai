@@ -147,6 +147,9 @@ class _DocumentImageView extends StatelessWidget {
         child: Image.network(
           doc.dataUrl,
           fit: BoxFit.contain,
+          // Grosse Scans im Speicher deckeln - sonst kann Safari/iPhone den
+          // Tab killen. 1400px reicht zum Lesen + moderaten Zoom.
+          cacheWidth: 1400,
           errorBuilder: (_, _, _) => const Center(
             child: Text(
               'Bild kann nicht geladen werden.',

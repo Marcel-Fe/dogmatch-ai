@@ -44,17 +44,18 @@ class WeatherCard extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              Icon(_icon(w), color: Colors.white, size: 44),
+              Icon(_icon(w), color: Colors.white, size: 60),
               const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           '${w.temperatureC.round()}°',
-                          style: theme.textTheme.headlineSmall?.copyWith(
+                          style: theme.textTheme.displaySmall?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
                           ),
@@ -63,26 +64,27 @@ class WeatherCard extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             w.description,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.9),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.95),
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                         if (w.maxTempC != null && w.minTempC != null)
                           Text(
                             '${w.maxTempC!.round()}° / ${w.minTempC!.round()}°',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.85),
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.sm),
                     Text(
                       tip,
-                      style: theme.textTheme.bodySmall?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         color: Colors.white,
-                        height: 1.3,
+                        height: 1.35,
                       ),
                     ),
                   ],

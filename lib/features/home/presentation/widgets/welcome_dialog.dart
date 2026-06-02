@@ -116,14 +116,23 @@ class _WelcomeDialog extends StatelessWidget {
                     child: Column(
                       children: [
                         const Icon(Icons.format_quote_rounded,
-                            color: AppColors.primary),
+                            color: AppColors.primary, size: 32),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          'Wichtig zu wissen',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: AppColors.primaryDark,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.4,
+                          ),
+                        ),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           quote.text,
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
+                          style: theme.textTheme.titleMedium?.copyWith(
                             fontStyle: FontStyle.italic,
-                            height: 1.35,
+                            height: 1.4,
                           ),
                         ),
                         if (quote.author != null) ...[

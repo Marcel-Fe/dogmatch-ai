@@ -124,13 +124,15 @@ class HomeScreen extends ConsumerWidget {
                 child: TodayCard(dog: activeDog),
               ),
               const SizedBox(height: AppSpacing.md),
-              // Wetter am Standort + Gassi-Tipp (nur wenn Standort erlaubt).
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: WeatherCard(dogName: activeDog.name),
-              ),
-              const SizedBox(height: AppSpacing.lg),
             ],
+
+            // 3b) Wetter am Standort + Gassi-Tipp - fuer alle (nicht nur mit
+            // Hund). Zeigt sich nur, wenn der Standort erlaubt wurde.
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: WeatherCard(dogName: activeDog?.name),
+            ),
+            const SizedBox(height: AppSpacing.lg),
 
             // 4) Hunde-Weisheit der Stunde (rotiert jede Stunde)
             const Padding(

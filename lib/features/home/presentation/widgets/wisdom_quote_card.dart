@@ -58,13 +58,13 @@ class WisdomQuoteCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.lightbulb_rounded,
-                      size: 14,
+                      size: 18,
                       color: AppColors.primaryDark,
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Hunde-Weisheit der Stunde',
-                      style: theme.textTheme.labelSmall?.copyWith(
+                      'Wichtig zu wissen',
+                      style: theme.textTheme.labelLarge?.copyWith(
                         color: AppColors.primaryDark,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.4,
@@ -72,12 +72,13 @@ class WisdomQuoteCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   quote.text,
-                  style: theme.textTheme.bodyLarge?.copyWith(
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontStyle: FontStyle.italic,
-                    height: 1.35,
+                    height: 1.4,
+                    fontWeight: FontWeight.w500,
                     color: theme.colorScheme.onSurface,
                   ),
                 ),
