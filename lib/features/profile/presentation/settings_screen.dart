@@ -119,6 +119,29 @@ class SettingsScreen extends ConsumerWidget {
                 prefsNotifier.save(prefs.copyWith(showAllBreedsOnHome: v)),
           ),
 
+          _SectionTitle('Dashboard-Design'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.xs,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            child: Wrap(
+              spacing: AppSpacing.md,
+              runSpacing: AppSpacing.md,
+              children: [
+                for (final style in DashboardStyle.values)
+                  _StyleSwatch(
+                    style: style,
+                    selected: prefs.dashboardStyle == style,
+                    onTap: () => prefsNotifier
+                        .save(prefs.copyWith(dashboardStyle: style)),
+                  ),
+              ],
+            ),
+          ),
+
           _SectionTitle('Darstellung'),
           SwitchListTile(
             secondary: const Icon(Icons.elderly_outlined),
@@ -180,6 +203,58 @@ class _SectionTitle extends StatelessWidget {
           fontWeight: FontWeight.w800,
           letterSpacing: 1.2,
           color: theme.colorScheme.primary,
+        ),
+      ),
+    );
+  }
+}
+
+class _StyleSwatch extends StatelessWidget {
+  const _StyleSwatch({
+    required this.style,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final DashboardStyle style;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      onTap: onTap,
+      child: SizedBox(
+        width: 92,
+        child: Column(
+          children: [
+            Container(
+              width: 92,
+              height: 56,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    style.seed,
+                    Color.lerp(style.seed, Colors.black, 0.25)!,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                border: Border.all(
+                  color: selected ? theme.colorScheme.onSurface : Colors.transparent,
+                  width: 2.5,
+                ),
+              ),
+              child: selected
+                  ? const Icon(Icons.check_rounded, color: Colors.white)
+                  : null,
+            ),
+            const SizedBox(height: 4),
+            Text(style.label, style: theme.textTheme.labelSmall),
+          ],
         ),
       ),
     );

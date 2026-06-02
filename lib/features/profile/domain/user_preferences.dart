@@ -1,6 +1,22 @@
 import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/features/breeds/domain/breed_enums.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+/// Auswaehlbare Dashboard-Designs (Akzentfarbe + Stimmung). Beeinflusst die
+/// Toenung der ganzen App. Bewusst 5 moderne Varianten zur Wahl.
+enum DashboardStyle {
+  violet('Lavendel', Color(0xFF7C6BF0)),
+  ocean('Ozean', Color(0xFF0288D1)),
+  forest('Wald', Color(0xFF2E9E6B)),
+  sunset('Sonnenuntergang', Color(0xFFEF6C45)),
+  graphite('Graphit', Color(0xFF455A64));
+
+  const DashboardStyle(this.label, this.seed);
+
+  final String label;
+  final Color seed;
+}
 
 /// Personalisierungs-Einstellungen des Nutzers. Lokal persistiert
 /// (`shared_preferences`); spaeter optional in Firestore synchronisiert.
@@ -16,6 +32,7 @@ class UserPreferences extends Equatable {
     this.showFeatureGridOnHome = true,
     this.showAllBreedsOnHome = true,
     this.seniorMode = false,
+    this.dashboardStyle = DashboardStyle.violet,
   });
 
   /// Anzeigename - wird in der Begruessung auf Home verwendet.
@@ -44,6 +61,9 @@ class UserPreferences extends Equatable {
   /// Senioren-Modus: groessere Schrift + hoehere Kontraste in der ganzen App.
   final bool seniorMode;
 
+  /// Gewaehltes Dashboard-Design (Akzentfarbe der App).
+  final DashboardStyle dashboardStyle;
+
   bool get hasName => displayName != null && displayName!.trim().isNotEmpty;
 
   UserPreferences copyWith({
@@ -57,6 +77,7 @@ class UserPreferences extends Equatable {
     bool? showFeatureGridOnHome,
     bool? showAllBreedsOnHome,
     bool? seniorMode,
+    DashboardStyle? dashboardStyle,
     bool clearPreferredSize = false,
     bool clearPreferredActivity = false,
   }) {
@@ -75,6 +96,7 @@ class UserPreferences extends Equatable {
           showFeatureGridOnHome ?? this.showFeatureGridOnHome,
       showAllBreedsOnHome: showAllBreedsOnHome ?? this.showAllBreedsOnHome,
       seniorMode: seniorMode ?? this.seniorMode,
+      dashboardStyle: dashboardStyle ?? this.dashboardStyle,
     );
   }
 
@@ -96,7 +118,16 @@ class UserPreferences extends Equatable {
           (json['showFeatureGridOnHome'] as bool?) ?? true,
       showAllBreedsOnHome: (json['showAllBreedsOnHome'] as bool?) ?? true,
       seniorMode: (json['seniorMode'] as bool?) ?? false,
+      dashboardStyle: _parseStyle(json['dashboardStyle'] as String?),
     );
+  }
+
+  static DashboardStyle _parseStyle(String? name) {
+    if (name == null) return DashboardStyle.violet;
+    for (final s in DashboardStyle.values) {
+      if (s.name == name) return s;
+    }
+    return DashboardStyle.violet;
   }
 
   Map<String, dynamic> toJson() {
@@ -111,6 +142,7 @@ class UserPreferences extends Equatable {
       'showFeatureGridOnHome': showFeatureGridOnHome,
       'showAllBreedsOnHome': showAllBreedsOnHome,
       'seniorMode': seniorMode,
+      'dashboardStyle': dashboardStyle.name,
     };
   }
 
@@ -126,5 +158,6 @@ class UserPreferences extends Equatable {
         showFeatureGridOnHome,
         showAllBreedsOnHome,
         seniorMode,
+        dashboardStyle,
       ];
 }

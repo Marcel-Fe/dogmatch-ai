@@ -17,12 +17,14 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.d
 import 'package:dogmatch_ai/features/home/presentation/widgets/main_drawer.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/my_dog_section.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
+import 'package:dogmatch_ai/features/products/presentation/product_recommendations.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/today_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/welcome_dialog.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/wisdom_quote_card.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
+import 'package:dogmatch_ai/features/weather/presentation/weather_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -121,6 +123,12 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: TodayCard(dog: activeDog),
               ),
+              const SizedBox(height: AppSpacing.md),
+              // Wetter am Standort + Gassi-Tipp (nur wenn Standort erlaubt).
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: WeatherCard(dogName: activeDog.name),
+              ),
               const SizedBox(height: AppSpacing.lg),
             ],
 
@@ -152,6 +160,15 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: MyDogSection(dog: activeDog, allBreeds: breeds),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+            ],
+
+            // 7b) Produkt-/Futter-Empfehlungen (nur wenn Rasse erkannt)
+            if (showMyDog && matched != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: ProductRecommendations(breed: matched),
               ),
               const SizedBox(height: AppSpacing.xl),
             ],

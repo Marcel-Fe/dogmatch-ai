@@ -9,18 +9,20 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get light => _build(
+  static ThemeData light({Color? seed}) => _build(
         brightness: Brightness.light,
         background: AppColors.lightBackground,
         textPrimary: AppColors.lightTextPrimary,
         textSecondary: AppColors.lightTextSecondary,
+        seed: seed,
       );
 
-  static ThemeData get dark => _build(
+  static ThemeData dark({Color? seed}) => _build(
         brightness: Brightness.dark,
         background: AppColors.darkBackground,
         textPrimary: AppColors.darkTextPrimary,
         textSecondary: AppColors.darkTextSecondary,
+        seed: seed,
       );
 
   static ThemeData _build({
@@ -28,12 +30,15 @@ class AppTheme {
     required Color background,
     required Color textPrimary,
     required Color textSecondary,
+    Color? seed,
   }) {
+    // Akzentfarbe: vom Nutzer gewaehltes Dashboard-Design, sonst Standard.
+    final accent = seed ?? AppColors.primary;
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
+      seedColor: accent,
       brightness: brightness,
     ).copyWith(
-      primary: AppColors.primary,
+      primary: accent,
       secondary: AppColors.accent,
       error: AppColors.error,
     );
@@ -46,7 +51,7 @@ class AppTheme {
       textTheme: AppTypography.textTheme(textPrimary, textSecondary),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: accent,
           foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(

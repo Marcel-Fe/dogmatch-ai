@@ -14,15 +14,17 @@ class DogMatchApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final prefs = ref.watch(userPreferencesProvider).value;
     // Senioren-Modus vergroessert die gesamte Schrift der App.
-    final seniorMode =
-        ref.watch(userPreferencesProvider).value?.seniorMode ?? false;
+    final seniorMode = prefs?.seniorMode ?? false;
+    // Gewaehltes Dashboard-Design bestimmt die Akzentfarbe der App.
+    final seed = prefs?.dashboardStyle.seed;
 
     return MaterialApp.router(
       title: Env.appName,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      theme: AppTheme.light(seed: seed),
+      darkTheme: AppTheme.dark(seed: seed),
       themeMode: themeMode,
       routerConfig: appRouter,
       builder: (context, child) {
