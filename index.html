@@ -88,23 +88,33 @@
     })();
   </script>
   <!--
-    Service-Worker-Auto-Update: bei jedem Page-Load auf neue Version pruefen
-    und sofort aktivieren. Vermeidet, dass Nutzer Strg+Shift+R brauchen,
-    nachdem ein neuer Build deployt wurde.
+    Cache-Reset: Diese App wird OHNE Service-Worker ausgeliefert
+    (--pwa-strategy=none), damit niemand mehr auf einer alten Version
+    haengenbleibt. Falls von frueher noch ein Service-Worker + Cache auf dem
+    Geraet liegt (z. B. iPhone-Home-Bildschirm-App), wird er hier entfernt und
+    die Seite EINMAL frisch geladen. So befreit sich ein festgefahrenes Geraet
+    selbst und bekommt immer die aktuelle Version.
   -->
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then(function (registration) {
-        try { registration.update(); } catch (e) { /* ignorieren */ }
-      }).catch(function () { /* SW noch nicht registriert - ok */ });
-
-      var reloaded = false;
-      navigator.serviceWorker.addEventListener('controllerchange', function () {
-        if (reloaded) return;
-        reloaded = true;
-        window.location.reload();
-      });
-    }
+    (function () {
+      if (!('serviceWorker' in navigator)) return;
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        if (!regs || regs.length === 0) return; // schon sauber
+        var jobs = regs.map(function (r) { return r.unregister(); });
+        if (window.caches && caches.keys) {
+          jobs.push(caches.keys().then(function (keys) {
+            return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          }));
+        }
+        Promise.all(jobs).then(function () {
+          // Nur einmal pro Sitzung neu laden -> keine Endlosschleife.
+          if (!sessionStorage.getItem('dm-sw-reset')) {
+            sessionStorage.setItem('dm-sw-reset', '1');
+            window.location.reload();
+          }
+        }).catch(function () { /* egal - App startet trotzdem */ });
+      }).catch(function () { /* egal */ });
+    })();
   </script>
 
   <script src="flutter_bootstrap.js" async></script>
