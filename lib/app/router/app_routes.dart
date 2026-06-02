@@ -64,6 +64,9 @@ class AppRoutes {
   // Urlaub
   static const String vacation = '/vacation';
 
+  // Antraege & Formulare (Hundesteuer, Sachkunde, Listenhund)
+  static const String forms = '/forms';
+
   // Rechtliches
   static const String legal = '/legal';
   static const String imprint = '/legal/imprint';

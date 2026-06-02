@@ -130,6 +130,11 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           route: AppRoutes.vacation,
         ),
         _DrawerItem(
+          icon: Icons.assignment_rounded,
+          label: 'Antraege & Formulare',
+          route: AppRoutes.forms,
+        ),
+        _DrawerItem(
           icon: Icons.menu_book_rounded,
           label: 'Wissensbibliothek',
           route: AppRoutes.knowledge,
