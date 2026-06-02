@@ -1,5 +1,6 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/features/dogs/data/photo_picker.dart' as picker;
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/domain/health_event.dart';
 import 'package:dogmatch_ai/features/health/presentation/health_controller.dart';
@@ -23,6 +24,23 @@ class _AddHealthEventScreenState extends ConsumerState<AddHealthEventScreen> {
   String? _dogId;
   HealthEventType _type = HealthEventType.vaccination;
   DateTime _date = DateTime.now().add(const Duration(days: 7));
+  String? _docName;
+  String? _docDataUrl;
+
+  Future<void> _pickDoc() async {
+    try {
+      final result = await picker.pickDocument();
+      if (result != null && mounted) {
+        setState(() {
+          _docName = result.name;
+          _docDataUrl = result.dataUrl;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+    }
+  }
 
   @override
   void dispose() {
@@ -57,6 +75,8 @@ class _AddHealthEventScreenState extends ConsumerState<AddHealthEventScreen> {
       date: _date,
       title: _titleCtrl.text.trim(),
       notes: _notesCtrl.text.trim().isEmpty ? null : _notesCtrl.text.trim(),
+      documentName: _docName,
+      documentDataUrl: _docDataUrl,
     );
     await ref.read(healthProvider.notifier).addEvent(event);
     if (mounted) context.pop();
@@ -153,6 +173,28 @@ class _AddHealthEventScreenState extends ConsumerState<AddHealthEventScreen> {
               decoration: const InputDecoration(labelText: 'Notiz (optional)'),
               maxLines: 3,
             ),
+            const SizedBox(height: AppSpacing.md),
+            // Dokument-Anhang (#18): PDF/Bild zum Termin (z. B. Befund, E-Mail).
+            if (_docDataUrl == null)
+              OutlinedButton.icon(
+                onPressed: _pickDoc,
+                icon: const Icon(Icons.attach_file_rounded),
+                label: const Text('Dokument anhaengen (PDF/Bild)'),
+              )
+            else
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.description_rounded),
+                title: Text(_docName ?? 'Dokument',
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                trailing: IconButton(
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => setState(() {
+                    _docName = null;
+                    _docDataUrl = null;
+                  }),
+                ),
+              ),
             const SizedBox(height: AppSpacing.xl),
             FilledButton.icon(
               onPressed: _save,

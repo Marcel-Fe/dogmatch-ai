@@ -24,8 +24,15 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
   final _breedCtrl = TextEditingController();
   final _weightCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
+  // Versicherung (#2)
+  final _insProviderCtrl = TextEditingController();
+  final _insPolicyCtrl = TextEditingController();
+  final _insTariffCtrl = TextEditingController();
+  final _insMonthlyCtrl = TextEditingController();
   DateTime? _birthday;
   String? _photoBase64;
+  // Kosten (#13)
+  List<CostEntry> _costs = const [];
   bool _initialized = false;
 
   @override
@@ -34,6 +41,10 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
     _breedCtrl.dispose();
     _weightCtrl.dispose();
     _notesCtrl.dispose();
+    _insProviderCtrl.dispose();
+    _insPolicyCtrl.dispose();
+    _insTariffCtrl.dispose();
+    _insMonthlyCtrl.dispose();
     super.dispose();
   }
 
@@ -45,7 +56,78 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
     _notesCtrl.text = dog.notes ?? '';
     _birthday = dog.birthday;
     _photoBase64 = dog.photoBase64;
+    final ins = dog.insurance;
+    if (ins != null) {
+      _insProviderCtrl.text = ins.provider ?? '';
+      _insPolicyCtrl.text = ins.policyNumber ?? '';
+      _insTariffCtrl.text = ins.tariff ?? '';
+      _insMonthlyCtrl.text = ins.monthlyEur?.toString() ?? '';
+    }
+    _costs = List.of(dog.costs);
     _initialized = true;
+  }
+
+  Future<void> _addCost() async {
+    final labelCtrl = TextEditingController();
+    final amountCtrl = TextEditingController();
+    final added = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Kosten hinzufuegen'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: labelCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Wofuer? (z. B. Futter, Tierarzt)',
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            TextField(
+              controller: amountCtrl,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Betrag in EUR'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Hinzufuegen'),
+          ),
+        ],
+      ),
+    );
+    if (added == true) {
+      final amount =
+          double.tryParse(amountCtrl.text.replaceAll(',', '.'));
+      final label = labelCtrl.text.trim();
+      if (amount != null && label.isNotEmpty) {
+        setState(() {
+          _costs = [
+            ..._costs,
+            CostEntry(
+              id: 'c-${DateTime.now().microsecondsSinceEpoch}',
+              label: label,
+              amountEur: amount,
+              date: DateTime.now(),
+            ),
+          ];
+        });
+      }
+    }
+    labelCtrl.dispose();
+    amountCtrl.dispose();
+  }
+
+  void _removeCost(String id) {
+    setState(() => _costs = _costs.where((c) => c.id != id).toList());
   }
 
   Future<void> _pickPhoto() async {
@@ -88,6 +170,18 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
             );
 
     final weight = double.tryParse(_weightCtrl.text.replaceAll(',', '.'));
+    final insurance = DogInsurance(
+      provider: _insProviderCtrl.text.trim().isEmpty
+          ? null
+          : _insProviderCtrl.text.trim(),
+      policyNumber: _insPolicyCtrl.text.trim().isEmpty
+          ? null
+          : _insPolicyCtrl.text.trim(),
+      tariff: _insTariffCtrl.text.trim().isEmpty
+          ? null
+          : _insTariffCtrl.text.trim(),
+      monthlyEur: double.tryParse(_insMonthlyCtrl.text.replaceAll(',', '.')),
+    );
     final dog = (existing ??
             Dog(
               id: 'dog-${DateTime.now().microsecondsSinceEpoch}',
@@ -105,6 +199,9 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
       clearPhoto: _photoBase64 == null,
       notes: _notesCtrl.text.trim().isEmpty ? null : _notesCtrl.text.trim(),
       clearNotes: _notesCtrl.text.trim().isEmpty,
+      insurance: insurance.isEmpty ? null : insurance,
+      clearInsurance: insurance.isEmpty,
+      costs: _costs,
     );
 
     if (existing == null) {
@@ -217,6 +314,85 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
                   ),
                   maxLines: 3,
                 ),
+
+                const SizedBox(height: AppSpacing.xl),
+                _SectionLabel('Versicherung (optional)', theme: theme),
+                const SizedBox(height: AppSpacing.sm),
+                TextFormField(
+                  controller: _insProviderCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Anbieter',
+                    hintText: 'z. B. Agila, Petplan',
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextFormField(
+                  controller: _insTariffCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Tarif',
+                    hintText: 'z. B. OP-Schutz, Vollschutz',
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextFormField(
+                  controller: _insPolicyCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Versicherungsnummer',
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextFormField(
+                  controller: _insMonthlyCtrl,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    labelText: 'Monatsbeitrag in EUR',
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.xl),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _SectionLabel('Kosten', theme: theme),
+                    ),
+                    TextButton.icon(
+                      onPressed: _addCost,
+                      icon: const Icon(Icons.add_rounded, size: 18),
+                      label: const Text('Hinzufuegen'),
+                    ),
+                  ],
+                ),
+                if (_costs.isEmpty)
+                  Text(
+                    'Noch keine Kosten erfasst.',
+                    style: theme.textTheme.bodySmall,
+                  )
+                else ...[
+                  for (final c in _costs)
+                    ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.payments_outlined),
+                      title: Text(c.label),
+                      subtitle: Text(
+                        '${c.amountEur.toStringAsFixed(2)} EUR · '
+                        '${DateFormat.yMd('de').format(c.date)}',
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete_outline_rounded),
+                        onPressed: () => _removeCost(c.id),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.xs),
+                    child: Text(
+                      'Summe: ${_costs.fold<double>(0, (s, c) => s + c.amountEur).toStringAsFixed(2)} EUR',
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  ),
+                ],
+
                 const SizedBox(height: AppSpacing.xl),
                 FilledButton.icon(
                   onPressed: _save,
@@ -227,6 +403,25 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel(this.label, {required this.theme});
+
+  final String label;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label.toUpperCase(),
+      style: theme.textTheme.labelSmall?.copyWith(
+        fontWeight: FontWeight.w800,
+        letterSpacing: 1.2,
+        color: theme.colorScheme.primary,
       ),
     );
   }

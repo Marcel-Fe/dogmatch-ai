@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/app_card.dart';
 import 'package:dogmatch_ai/core/widgets/empty_view.dart';
+import 'package:dogmatch_ai/features/dogs/data/photo_picker.dart' as picker;
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart' show DogsState, dogsProvider;
 import 'package:dogmatch_ai/features/health/domain/health_event.dart';
 import 'package:dogmatch_ai/features/health/presentation/health_controller.dart';
@@ -169,6 +170,19 @@ class _EventTile extends ConsumerWidget {
                       child: Text(
                         event.notes!,
                         style: theme.textTheme.bodySmall,
+                      ),
+                    ),
+                  if (event.hasDocument)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: ActionChip(
+                        avatar: const Icon(Icons.description_rounded, size: 16),
+                        label: Text(
+                          event.documentName ?? 'Dokument',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        onPressed: () =>
+                            picker.openDataUrl(event.documentDataUrl!),
                       ),
                     ),
                 ],

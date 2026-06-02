@@ -32,6 +32,8 @@ class HealthEvent extends Equatable {
     required this.title,
     this.notes,
     this.done = false,
+    this.documentName,
+    this.documentDataUrl,
   });
 
   final String id;
@@ -45,6 +47,13 @@ class HealthEvent extends Equatable {
   final String title;
   final String? notes;
   final bool done;
+
+  /// Optionaler Datei-Anhang (#18): Name + data-URL (PDF/Bild), lokal.
+  final String? documentName;
+  final String? documentDataUrl;
+
+  bool get hasDocument =>
+      documentDataUrl != null && documentDataUrl!.isNotEmpty;
 
   bool get isUpcoming {
     final now = DateTime.now();
@@ -60,7 +69,10 @@ class HealthEvent extends Equatable {
     String? title,
     String? notes,
     bool? done,
+    String? documentName,
+    String? documentDataUrl,
     bool clearNotes = false,
+    bool clearDocument = false,
   }) {
     return HealthEvent(
       id: id ?? this.id,
@@ -70,6 +82,10 @@ class HealthEvent extends Equatable {
       title: title ?? this.title,
       notes: clearNotes ? null : (notes ?? this.notes),
       done: done ?? this.done,
+      documentName:
+          clearDocument ? null : (documentName ?? this.documentName),
+      documentDataUrl:
+          clearDocument ? null : (documentDataUrl ?? this.documentDataUrl),
     );
   }
 
@@ -82,6 +98,8 @@ class HealthEvent extends Equatable {
       title: json['title'] as String,
       notes: json['notes'] as String?,
       done: (json['done'] as bool?) ?? false,
+      documentName: json['documentName'] as String?,
+      documentDataUrl: json['documentDataUrl'] as String?,
     );
   }
 
@@ -94,9 +112,12 @@ class HealthEvent extends Equatable {
       'title': title,
       'notes': notes,
       'done': done,
+      'documentName': documentName,
+      'documentDataUrl': documentDataUrl,
     };
   }
 
   @override
-  List<Object?> get props => [id, dogId, type, date, title, notes, done];
+  List<Object?> get props =>
+      [id, dogId, type, date, title, notes, done, documentName, documentDataUrl];
 }

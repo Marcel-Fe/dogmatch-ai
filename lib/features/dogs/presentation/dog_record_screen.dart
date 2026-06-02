@@ -120,6 +120,76 @@ class _DogRecordScreenState extends ConsumerState<DogRecordScreen> {
         ],
         const SizedBox(height: AppSpacing.xl),
 
+        // Versicherung (#2) - nur wenn hinterlegt
+        if (dog.insurance != null && !dog.insurance!.isEmpty) ...[
+          _SectionHeader(
+            icon: Icons.shield_rounded,
+            title: 'Versicherung',
+            actionLabel: 'Bearbeiten',
+            onAction: () => context.push('${AppRoutes.editDog}/${dog.id}'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest
+                  .withValues(alpha: 0.4),
+              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (dog.insurance!.provider != null)
+                  _kv('Anbieter', dog.insurance!.provider!, theme),
+                if (dog.insurance!.tariff != null)
+                  _kv('Tarif', dog.insurance!.tariff!, theme),
+                if (dog.insurance!.policyNumber != null)
+                  _kv('Nummer', dog.insurance!.policyNumber!, theme),
+                if (dog.insurance!.monthlyEur != null)
+                  _kv('Beitrag/Monat',
+                      '${dog.insurance!.monthlyEur!.toStringAsFixed(2)} EUR',
+                      theme),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+        ],
+
+        // Kosten (#13) - nur wenn erfasst
+        if (dog.costs.isNotEmpty) ...[
+          _SectionHeader(
+            icon: Icons.payments_rounded,
+            title: 'Kosten',
+            actionLabel: 'Bearbeiten',
+            onAction: () => context.push('${AppRoutes.editDog}/${dog.id}'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          for (final c in dog.costs)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                children: [
+                  Expanded(child: Text(c.label, style: theme.textTheme.bodyMedium)),
+                  Text('${c.amountEur.toStringAsFixed(2)} EUR',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+          const Divider(),
+          Row(
+            children: [
+              Expanded(
+                child: Text('Summe', style: theme.textTheme.titleSmall),
+              ),
+              Text('${dog.totalCostsEur.toStringAsFixed(2)} EUR',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                      color: theme.colorScheme.primary)),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xl),
+        ],
+
         // Gesundheit
         _SectionHeader(
           icon: Icons.health_and_safety_rounded,
@@ -193,6 +263,20 @@ class _DogRecordScreenState extends ConsumerState<DogRecordScreen> {
   static String _fmtDate(DateTime d) =>
       '${d.day.toString().padLeft(2, '0')}.'
       '${d.month.toString().padLeft(2, '0')}.${d.year}';
+
+  static Widget _kv(String label, String value, ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Expanded(child: Text(label, style: theme.textTheme.bodySmall)),
+          Text(value,
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
 }
 
 class _EmptyDogs extends StatelessWidget {
