@@ -31,8 +31,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _goNext() async {
     // Splash mind. so kurz, dass das Logo erkennbar ist.
     final stopwatch = Stopwatch()..start();
-    final prefs = await SharedPreferences.getInstance();
-    final done = prefs.getBool(kOnboardingDoneKey) ?? false;
+    // Speicher-Zugriff darf den Start nicht blockieren - faellt er aus
+    // (z. B. iPhone-Standalone-PWA mit eingeschraenktem localStorage),
+    // zeigen wir einfach das Onboarding.
+    var done = false;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      done = prefs.getBool(kOnboardingDoneKey) ?? false;
+    } catch (_) {
+      done = false;
+    }
     final remaining =
         AppConstants.splashDuration - stopwatch.elapsed;
     if (remaining > Duration.zero) {

@@ -264,8 +264,9 @@ class _DogPhotoOrFallback extends StatelessWidget {
         child: Image.network(
           breedImageUrl!,
           fit: BoxFit.contain,
-          // Grosses Bild fuer das Handy auf vernuenftige Breite begrenzen.
-          cacheWidth: 1000,
+          // Auf Handy-Breite begrenzen - spart Speicher (iPhone) und reicht
+          // optisch voellig.
+          cacheWidth: 640,
           errorBuilder: (_, _, _) => _photoFallback(),
         ),
       );

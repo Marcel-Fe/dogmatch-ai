@@ -13,8 +13,16 @@ class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   Future<void> _finish(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(kOnboardingDoneKey, true);
+    // WICHTIG: Die Navigation darf NICHT vom Speichern abhaengen. In einer
+    // iPhone-Home-Bildschirm-App (Standalone-PWA) kann der localStorage-
+    // Schreibzugriff fehlschlagen - dann wuerde der Knopf sonst "nichts tun"
+    // und man haengt ewig auf dem Willkommen-Screen fest.
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(kOnboardingDoneKey, true);
+    } catch (_) {
+      // Flag konnte nicht gespeichert werden - egal, trotzdem weiter.
+    }
     if (!context.mounted) return;
     context.go(AppRoutes.home);
   }
