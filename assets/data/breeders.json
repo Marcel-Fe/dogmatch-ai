@@ -13,7 +13,9 @@
     "website": "https://www.vdh.de/welpen/zuechter-suche",
     "description": "Offizielle Zuechtersuche des VDH. Ueber 30.000 eingetragene Zuechter - die zentrale Anlaufstelle fuer seriose Hundezucht in Deutschland.",
     "verificationNote": "Dachverband - listet nur Zuechter, die VDH-Standards erfuellen.",
-    "specialties": ["Alle FCI-Rassen"]
+    "specialties": [
+      "Alle FCI-Rassen"
+    ]
   },
   {
     "id": "kennelbund-at",
@@ -29,7 +31,9 @@
     "website": "https://oekv.at",
     "description": "FCI-Dachverband Oesterreichs - offizielle Zuechtersuche fuer alle anerkannten Rassen.",
     "verificationNote": "Dachverband - geprueft + zertifiziert.",
-    "specialties": ["Alle FCI-Rassen"]
+    "specialties": [
+      "Alle FCI-Rassen"
+    ]
   },
   {
     "id": "skg-ch",
@@ -45,7 +49,9 @@
     "website": "https://www.skg.ch",
     "description": "Schweizer FCI-Dachverband. Zuechtersuche, Rassendatenbank und Welpenvermittlung.",
     "verificationNote": "Dachverband - geprueft + zertifiziert.",
-    "specialties": ["Alle FCI-Rassen"]
+    "specialties": [
+      "Alle FCI-Rassen"
+    ]
   },
   {
     "id": "vdh-labrador",
@@ -54,14 +60,25 @@
     "country": "DE",
     "latitude": 51.665,
     "longitude": 9.378,
-    "breedIds": ["labrador-retriever", "golden-retriever", "chesapeake-bay-retriever", "flat-coated-retriever", "curly-coated-retriever", "nova-scotia-duck-tolling"],
+    "breedIds": [
+      "labrador-retriever",
+      "golden-retriever",
+      "chesapeake-bay-retriever",
+      "flat-coated-retriever",
+      "curly-coated-retriever",
+      "nova-scotia-duck-tolling"
+    ],
     "isVerified": true,
     "experienceYears": 60,
     "averageRating": 4.8,
     "website": "https://www.drc.de",
     "description": "Rassezuchtverein im VDH fuer alle Retriever-Rassen. Welpenvermittlung mit Zuchterlaubnis-Pruefung.",
     "verificationNote": "VDH/FCI-anerkannt, strenge Zuchtordnung.",
-    "specialties": ["Labrador", "Golden Retriever", "Andere Retriever"]
+    "specialties": [
+      "Labrador",
+      "Golden Retriever",
+      "Andere Retriever"
+    ]
   },
   {
     "id": "vdh-schaeferhund",
@@ -70,14 +87,18 @@
     "country": "DE",
     "latitude": 48.3705,
     "longitude": 10.8978,
-    "breedIds": ["deutscher-schaeferhund"],
+    "breedIds": [
+      "deutscher-schaeferhund"
+    ],
     "isVerified": true,
     "experienceYears": 125,
     "averageRating": 4.7,
     "website": "https://www.schaeferhund.de",
     "description": "Weltweit groesster Rassezuchtverein. HD/ED-Untersuchung Pflicht, Wesenstest Voraussetzung.",
     "verificationNote": "FCI-Mutterverein der Rasse.",
-    "specialties": ["Deutscher Schaeferhund"]
+    "specialties": [
+      "Deutscher Schaeferhund"
+    ]
   },
   {
     "id": "vdh-dackel",
@@ -86,14 +107,21 @@
     "country": "DE",
     "latitude": 51.434,
     "longitude": 6.7623,
-    "breedIds": ["dackel", "rauhaardackel", "langhaardackel", "zwergdackel"],
+    "breedIds": [
+      "dackel",
+      "rauhaardackel",
+      "langhaardackel",
+      "zwergdackel"
+    ],
     "isVerified": true,
     "experienceYears": 135,
     "averageRating": 4.7,
     "website": "https://www.dtk1888.de",
     "description": "Mutterverein aller Teckel/Dackel. Welpenvermittlung in allen Groessen und Haararten.",
     "verificationNote": "FCI-Mutterverein der Rasse.",
-    "specialties": ["Dackel - alle Varianten"]
+    "specialties": [
+      "Dackel - alle Varianten"
+    ]
   },
   {
     "id": "vdh-pudel",
@@ -102,14 +130,22 @@
     "country": "DE",
     "latitude": 50.1109,
     "longitude": 8.6821,
-    "breedIds": ["pudel", "grosspudel", "klein-pudel", "zwerg-pudel", "toy-pudel"],
+    "breedIds": [
+      "pudel",
+      "grosspudel",
+      "klein-pudel",
+      "zwerg-pudel",
+      "toy-pudel"
+    ],
     "isVerified": true,
     "experienceYears": 75,
     "averageRating": 4.6,
     "website": "https://www.vdp-pudel.de",
     "description": "FCI/VDH-Pudelclub mit ueberwachter Zucht. Vermittelt Welpen aller Groessen-Varianten.",
     "verificationNote": "FCI/VDH-Mitglied.",
-    "specialties": ["Pudel - alle Groessen"]
+    "specialties": [
+      "Pudel - alle Groessen"
+    ]
   },
   {
     "id": "vdh-berner",
@@ -118,14 +154,22 @@
     "country": "DE",
     "latitude": 48.7758,
     "longitude": 9.1829,
-    "breedIds": ["berner-sennenhund", "appenzeller-sennenhund", "entlebucher-sennenhund", "grosser-schweizer-sennenhund"],
+    "breedIds": [
+      "berner-sennenhund",
+      "appenzeller-sennenhund",
+      "entlebucher-sennenhund",
+      "grosser-schweizer-sennenhund"
+    ],
     "isVerified": true,
     "experienceYears": 50,
     "averageRating": 4.7,
     "website": "https://ssv-ev.de",
     "description": "Rassezuchtverein fuer die vier Schweizer Sennenhund-Rassen.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Berner Sennenhund", "Schweizer Sennenhunde"]
+    "specialties": [
+      "Berner Sennenhund",
+      "Schweizer Sennenhunde"
+    ]
   },
   {
     "id": "vdh-mops",
@@ -134,14 +178,18 @@
     "country": "DE",
     "latitude": 50.9375,
     "longitude": 6.9603,
-    "breedIds": ["mops"],
+    "breedIds": [
+      "mops"
+    ],
     "isVerified": true,
     "experienceYears": 100,
     "averageRating": 4.5,
     "website": "https://www.deutscher-mops-club.de",
     "description": "Setzt sich aktiv fuer gesundheitsbewusste Mops-Zucht ein (gegen Qualzucht-Merkmale).",
     "verificationNote": "VDH/FCI-Mitglied, fortschrittliche Zuchtordnung.",
-    "specialties": ["Mops (gesundheitsorientiert)"]
+    "specialties": [
+      "Mops (gesundheitsorientiert)"
+    ]
   },
   {
     "id": "vdh-french-bulldog",
@@ -150,14 +198,18 @@
     "country": "DE",
     "latitude": 52.3759,
     "longitude": 9.732,
-    "breedIds": ["franzoesische-bulldogge"],
+    "breedIds": [
+      "franzoesische-bulldogge"
+    ],
     "isVerified": true,
     "experienceYears": 50,
     "averageRating": 4.5,
     "website": "https://www.iff-fb.de",
     "description": "Engagiert sich fuer gesundheitsbewusste Zucht der Franzoesischen Bulldogge - inkl. Atemwegs-Tests.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Franzoesische Bulldogge"]
+    "specialties": [
+      "Franzoesische Bulldogge"
+    ]
   },
   {
     "id": "vdh-rottweiler",
@@ -166,14 +218,18 @@
     "country": "DE",
     "latitude": 51.2562,
     "longitude": 7.1508,
-    "breedIds": ["rottweiler"],
+    "breedIds": [
+      "rottweiler"
+    ],
     "isVerified": true,
     "experienceYears": 115,
     "averageRating": 4.7,
     "website": "https://www.adrk.de",
     "description": "FCI-Mutterverein des Rottweilers. Strenge Zuchtbestimmungen mit Wesensbeurteilung.",
     "verificationNote": "FCI-Mutterverein.",
-    "specialties": ["Rottweiler"]
+    "specialties": [
+      "Rottweiler"
+    ]
   },
   {
     "id": "vdh-border",
@@ -182,14 +238,25 @@
     "country": "DE",
     "latitude": 53.5511,
     "longitude": 9.9937,
-    "breedIds": ["border-collie", "bearded-collie", "langhaar-collie", "shetland-sheepdog", "welsh-corgi-pembroke", "welsh-corgi-cardigan"],
+    "breedIds": [
+      "border-collie",
+      "bearded-collie",
+      "langhaar-collie",
+      "shetland-sheepdog",
+      "welsh-corgi-pembroke",
+      "welsh-corgi-cardigan"
+    ],
     "isVerified": true,
     "experienceYears": 55,
     "averageRating": 4.6,
     "website": "https://www.cfbrh.de",
     "description": "VDH-Rassezuchtverein fuer Border Collie, Sheltie, Bearded Collie und weitere britische Huetehund-Rassen.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Border Collie", "Sheltie", "Collies"]
+    "specialties": [
+      "Border Collie",
+      "Sheltie",
+      "Collies"
+    ]
   },
   {
     "id": "vdh-australian",
@@ -198,14 +265,22 @@
     "country": "DE",
     "latitude": 53.0793,
     "longitude": 8.8017,
-    "breedIds": ["australian-shepherd", "australian-cattle-dog", "australian-kelpie"],
+    "breedIds": [
+      "australian-shepherd",
+      "australian-cattle-dog",
+      "australian-kelpie"
+    ],
     "isVerified": true,
     "experienceYears": 35,
     "averageRating": 4.6,
     "website": "https://www.casd-ev.de",
     "description": "VDH-Verein fuer Aussies und verwandte Rassen. HD/ED + MDR1-Gentest Pflicht.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Australian Shepherd", "Cattle Dog", "Kelpie"]
+    "specialties": [
+      "Australian Shepherd",
+      "Cattle Dog",
+      "Kelpie"
+    ]
   },
   {
     "id": "vdh-jagdhund",
@@ -214,14 +289,24 @@
     "country": "DE",
     "latitude": 49.4875,
     "longitude": 8.466,
-    "breedIds": ["deutsch-kurzhaar", "deutsch-drahthaar", "deutsch-langhaar", "weimaraner", "magyar-vizsla", "kleiner-muensterlaender"],
+    "breedIds": [
+      "deutsch-kurzhaar",
+      "deutsch-drahthaar",
+      "deutsch-langhaar",
+      "weimaraner",
+      "magyar-vizsla",
+      "kleiner-muensterlaender"
+    ],
     "isVerified": true,
     "experienceYears": 95,
     "averageRating": 4.7,
     "website": "https://www.jghv.de",
     "description": "Dachverband der jagdlich gefuehrten Hunderassen. Pruefungs- und Zuchtwesen mit hoeher Strenge.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Vorstehhunde", "Jagdhunde"]
+    "specialties": [
+      "Vorstehhunde",
+      "Jagdhunde"
+    ]
   },
   {
     "id": "vdh-husky",
@@ -230,13 +315,459 @@
     "country": "DE",
     "latitude": 48.1351,
     "longitude": 11.582,
-    "breedIds": ["siberian-husky", "alaskan-malamute", "samojede", "groenlandhund"],
+    "breedIds": [
+      "siberian-husky",
+      "alaskan-malamute",
+      "samojede",
+      "groenlandhund"
+    ],
     "isVerified": true,
     "experienceYears": 60,
     "averageRating": 4.5,
     "website": "https://www.dcnh.de",
     "description": "VDH-Rassezuchtverein fuer alle nordischen Schlittenhund-Rassen.",
     "verificationNote": "VDH/FCI-Mitglied.",
-    "specialties": ["Husky", "Malamute", "Samojede"]
+    "specialties": [
+      "Husky",
+      "Malamute",
+      "Samojede"
+    ]
+  },
+  {
+    "id": "lv-bw",
+    "name": "Landesverband Baden-Wuerttemberg im VDH",
+    "city": "Stuttgart",
+    "country": "DE",
+    "latitude": 48.7758,
+    "longitude": 9.1829,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Baden-Wuerttemberg. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Baden-Wuerttemberg"
+    ]
+  },
+  {
+    "id": "lv-by",
+    "name": "Landesverband Bayern im VDH",
+    "city": "Muenchen",
+    "country": "DE",
+    "latitude": 48.1351,
+    "longitude": 11.582,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Bayern. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Bayern"
+    ]
+  },
+  {
+    "id": "lv-be",
+    "name": "Landesverband Berlin im VDH",
+    "city": "Berlin",
+    "country": "DE",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Berlin. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Berlin"
+    ]
+  },
+  {
+    "id": "lv-bb",
+    "name": "Landesverband Brandenburg im VDH",
+    "city": "Potsdam",
+    "country": "DE",
+    "latitude": 52.3906,
+    "longitude": 13.0645,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Brandenburg. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Brandenburg"
+    ]
+  },
+  {
+    "id": "lv-hb",
+    "name": "Landesverband Bremen im VDH",
+    "city": "Bremen",
+    "country": "DE",
+    "latitude": 53.0793,
+    "longitude": 8.8017,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Bremen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Bremen"
+    ]
+  },
+  {
+    "id": "lv-hh",
+    "name": "Landesverband Hamburg im VDH",
+    "city": "Hamburg",
+    "country": "DE",
+    "latitude": 53.5511,
+    "longitude": 9.9937,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Hamburg. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Hamburg"
+    ]
+  },
+  {
+    "id": "lv-he",
+    "name": "Landesverband Hessen im VDH",
+    "city": "Frankfurt am Main",
+    "country": "DE",
+    "latitude": 50.1109,
+    "longitude": 8.6821,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Hessen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Hessen"
+    ]
+  },
+  {
+    "id": "lv-mv",
+    "name": "Landesverband Mecklenburg-Vorpommern im VDH",
+    "city": "Schwerin",
+    "country": "DE",
+    "latitude": 53.6355,
+    "longitude": 11.4012,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Mecklenburg-Vorpommern. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Mecklenburg-Vorpommern"
+    ]
+  },
+  {
+    "id": "lv-ni",
+    "name": "Landesverband Niedersachsen im VDH",
+    "city": "Hannover",
+    "country": "DE",
+    "latitude": 52.3759,
+    "longitude": 9.732,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Niedersachsen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Niedersachsen"
+    ]
+  },
+  {
+    "id": "lv-nw",
+    "name": "Landesverband Nordrhein-Westfalen im VDH",
+    "city": "Dortmund",
+    "country": "DE",
+    "latitude": 51.5136,
+    "longitude": 7.4653,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Nordrhein-Westfalen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Nordrhein-Westfalen"
+    ]
+  },
+  {
+    "id": "lv-rp",
+    "name": "Landesverband Rheinland-Pfalz im VDH",
+    "city": "Mainz",
+    "country": "DE",
+    "latitude": 49.9929,
+    "longitude": 8.2473,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Rheinland-Pfalz. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Rheinland-Pfalz"
+    ]
+  },
+  {
+    "id": "lv-sl",
+    "name": "Landesverband Saarland im VDH",
+    "city": "Saarbruecken",
+    "country": "DE",
+    "latitude": 49.2402,
+    "longitude": 6.9969,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Saarland. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Saarland"
+    ]
+  },
+  {
+    "id": "lv-sn",
+    "name": "Landesverband Sachsen im VDH",
+    "city": "Dresden",
+    "country": "DE",
+    "latitude": 51.0504,
+    "longitude": 13.7373,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Sachsen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Sachsen"
+    ]
+  },
+  {
+    "id": "lv-st",
+    "name": "Landesverband Sachsen-Anhalt im VDH",
+    "city": "Magdeburg",
+    "country": "DE",
+    "latitude": 52.1205,
+    "longitude": 11.6276,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Sachsen-Anhalt. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Sachsen-Anhalt"
+    ]
+  },
+  {
+    "id": "lv-sh",
+    "name": "Landesverband Schleswig-Holstein im VDH",
+    "city": "Kiel",
+    "country": "DE",
+    "latitude": 54.3233,
+    "longitude": 10.1228,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Schleswig-Holstein. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Schleswig-Holstein"
+    ]
+  },
+  {
+    "id": "lv-th",
+    "name": "Landesverband Thueringen im VDH",
+    "city": "Erfurt",
+    "country": "DE",
+    "latitude": 50.9848,
+    "longitude": 11.0299,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.vdh.de",
+    "description": "Regionale Anlaufstelle des VDH in Thueringen. Vermittelt seriose Zuechter und Welpen in deiner Naehe ueber die VDH-Welpenvermittlung.",
+    "verificationNote": "Offizieller Landesverband im VDH - regionale Zuechtervermittlung.",
+    "specialties": [
+      "Alle FCI-Rassen in Thueringen"
+    ]
+  },
+  {
+    "id": "club-drc",
+    "name": "DRC - Deutscher Retriever Club",
+    "city": "Bonn",
+    "country": "DE",
+    "latitude": 50.7374,
+    "longitude": 7.0982,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.drc.de",
+    "description": "Groesster Retriever-Zuchtverein in DE (Labrador, Golden, Flat Coated u.a.).",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Labrador Retriever",
+      "Golden Retriever",
+      "Flat Coated Retriever"
+    ]
+  },
+  {
+    "id": "club-svdh",
+    "name": "SV - Verein fuer Deutsche Schaeferhunde",
+    "city": "Augsburg",
+    "country": "DE",
+    "latitude": 48.3705,
+    "longitude": 10.8978,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.schaeferhunde.de",
+    "description": "Weltgroesster Rassehunde-Zuchtverein - Deutscher Schaeferhund.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Deutscher Schaeferhund"
+    ]
+  },
+  {
+    "id": "club-dtk",
+    "name": "DTK - Deutscher Teckelklub",
+    "city": "Duisburg",
+    "country": "DE",
+    "latitude": 51.4344,
+    "longitude": 6.7623,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.dackel.de",
+    "description": "Zuchtverein fuer Dackel/Teckel - alle Haararten und Groessen.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Dackel"
+    ]
+  },
+  {
+    "id": "club-vdh-pudel",
+    "name": "PZV - Pudelzuchtverband",
+    "city": "Frankfurt am Main",
+    "country": "DE",
+    "latitude": 50.1109,
+    "longitude": 8.6821,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.pudelzuchtverband.de",
+    "description": "Zuchtverband fuer Pudel - Toy, Zwerg, Klein und Gross.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Pudel"
+    ]
+  },
+  {
+    "id": "club-boxer",
+    "name": "BK - Boxer-Klub",
+    "city": "Muenchen",
+    "country": "DE",
+    "latitude": 48.1351,
+    "longitude": 11.582,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.bk-muenchen.de",
+    "description": "Stammverein fuer den Deutschen Boxer.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Boxer"
+    ]
+  },
+  {
+    "id": "club-drv",
+    "name": "Rauhaardackel & Jagdgebrauchshunde",
+    "city": "Hannover",
+    "country": "DE",
+    "latitude": 52.3759,
+    "longitude": 9.732,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.jagdgebrauchshundverband.de",
+    "description": "Dachverband der Jagdgebrauchshunde-Zuchtvereine (Vorstehhunde u.a.).",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Deutsch Drahthaar",
+      "Deutsch Kurzhaar",
+      "Weimaraner"
+    ]
+  },
+  {
+    "id": "club-spitz",
+    "name": "VDS - Verein fuer Deutsche Spitze",
+    "city": "Bochum",
+    "country": "DE",
+    "latitude": 51.4818,
+    "longitude": 7.2162,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.deutsche-spitze.de",
+    "description": "Zuchtverein fuer Deutsche Spitze inkl. Pomeranian/Zwergspitz.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Pomeranian",
+      "Deutscher Spitz"
+    ]
+  },
+  {
+    "id": "club-franz-bulldogge",
+    "name": "Club fuer Franzoesische Bulldoggen",
+    "city": "Koeln",
+    "country": "DE",
+    "latitude": 50.9375,
+    "longitude": 6.9603,
+    "breedIds": [],
+    "isVerified": true,
+    "experienceYears": 50,
+    "averageRating": 4.8,
+    "website": "https://www.franzoesische-bulldogge-club.de",
+    "description": "Rassezuchtverein fuer die Franzoesische Bulldogge.",
+    "verificationNote": "Rassespezifischer Zuchtverein im VDH - geprueft.",
+    "specialties": [
+      "Franzoesische Bulldogge"
+    ]
   }
 ]

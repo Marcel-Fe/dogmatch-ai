@@ -585,5 +585,136 @@ Schwere Entscheidung Einschlaefern: orientiere dich an Lebensqualitaet. Frag dic
 Ein guter Tierarzt unterstuetzt diese Entscheidung mit dir, ohne Druck in beide Richtungen.
 ''',
     ),
+    Article(
+      id: 'erste-hilfe',
+      title: 'Erste Hilfe beim Hund - die wichtigsten Notfaelle',
+      category: 'Gesundheit',
+      summary:
+          'Was du bei Hitzschlag, Vergiftung, Verletzung oder Atemnot sofort '
+          'tun musst - bevor der Tierarzt erreicht ist.',
+      readMinutes: 6,
+      content: '''
+Im Notfall zaehlt jede Minute. Diese Schritte ersetzen keinen Tierarzt, koennen aber Leben retten, bis du dort bist. Speichere dir JETZT die Nummer deines Tierarztes und der naechsten Tierklinik ein.
+
+HITZSCHLAG (Sommer, heisses Auto)
+- Symptome: starkes Hecheln, taumeln, dunkelrote Zunge, Erbrechen.
+- Sofort: in den Schatten, langsam mit lauwarmem (nicht eiskaltem!) Wasser kuehlen - Pfoten und Bauch zuerst. Wasser anbieten. Direkt zum Tierarzt.
+
+VERGIFTUNG (Schokolade, Xylit, Rattengift, Schnecken-Korn)
+- NICHT selbst Erbrechen ausloesen ohne Ruecksprache.
+- Verpackung/Reste mitnehmen, Tierarzt anrufen, Giftnotruf nennen.
+
+STARKE BLUTUNG
+- Druckverband mit sauberem Tuch, fest aber nicht abschnueren. Pfote/Wunde hochhalten. Sofort Klinik.
+
+ATEMNOT / ERSTICKEN
+- Maul vorsichtig oeffnen, sichtbaren Fremdkoerper entfernen. Kleinen Hund kopfueber halten und zwischen Schulterblaetter klopfen.
+
+NOTFALL-APOTHEKE FUER ZUHAUSE
+- Sterile Kompressen, selbsthaftende Bandage, Zeckenzange, digitales Fieberthermometer (normal: 37,5-39 Grad), Einmalhandschuhe, Tierarzt-Telefonnummer.
+''',
+    ),
+    Article(
+      id: 'zahnpflege',
+      title: 'Zahnpflege - Zahnstein und Mundgeruch vermeiden',
+      category: 'Pflege',
+      summary:
+          'Ueber 80% der Hunde ueber 3 Jahre haben Zahnprobleme. So haeltst '
+          'du die Zaehne deines Hundes gesund.',
+      readMinutes: 4,
+      content: '''
+Zahnstein ist nicht nur ein kosmetisches Problem - Bakterien koennen Herz, Leber und Nieren schaedigen. Vorbeugen ist viel guenstiger als eine Zahnsanierung in Narkose.
+
+SO PFLEGST DU DIE ZAEHNE
+1. Zaehneputzen: 2-3x pro Woche mit Hunde-Zahnpasta (niemals Menschen-Zahnpasta - giftig). Langsam herantasten, mit Lob verknuepfen.
+2. Kauartikel: getrocknete Rinderkopfhaut, Geweih, spezielle Dental-Sticks. Reduzieren Belag mechanisch.
+3. Richtiges Futter: Trockenfutter belastet die Zaehne weniger als reines Nassfutter.
+
+WARNZEICHEN ZUM TIERARZT
+- Starker Mundgeruch, braun-gelber Belag, Zahnfleischbluten, einseitiges Kauen, Futterverweigerung.
+
+Ein jaehrlicher Maulcheck beim Tierarzt gehoert zur Routine dazu.
+''',
+    ),
+    Article(
+      id: 'ernaehrung-grundlagen',
+      title: 'Hundeernaehrung - Trocken, Nass oder BARF?',
+      category: 'Ernaehrung',
+      summary:
+          'Die wichtigsten Fakten zur Fuetterung: Wie viel, wie oft, und '
+          'welche Methode zu euch passt.',
+      readMinutes: 5,
+      content: '''
+Es gibt nicht DIE eine richtige Fuetterung - aber ein paar klare Grundregeln.
+
+DIE DREI METHODEN
+- Trockenfutter: praktisch, lange haltbar, zahnfreundlicher. Auf hohen Fleischanteil + wenig Getreide achten.
+- Nassfutter: schmackhaft, hoher Wassergehalt (gut fuer die Nieren), aber teurer und kuerzer haltbar.
+- BARF (Rohfuetterung): natuerlich, aber nur mit Plan - falsch gebarft drohen Mangelerscheinungen. Beratung noetig.
+
+WIE VIEL?
+Die Packungsangabe ist ein Startwert. Richtig ist die Menge, bei der dein Hund schlank bleibt: Rippen fuehlbar, aber nicht sichtbar. Bei Uebergewicht 10% reduzieren.
+
+WIE OFT?
+- Welpen: 3-4x taeglich.
+- Erwachsene: 2x taeglich (besser als 1x - schont den Magen).
+
+ABSOLUT TABU (giftig)
+Schokolade, Weintrauben/Rosinen, Zwiebeln/Knoblauch, Xylit (Suessstoff), Avocado, Alkohol, roher Teig.
+''',
+    ),
+    Article(
+      id: 'reise-mit-hund',
+      title: 'Mit dem Hund im Auto und auf Reisen',
+      category: 'Alltag',
+      summary:
+          'Sicher unterwegs: Anschnallen, Pausen, Reiseuebelkeit und was bei '
+          'Auslandsreisen Pflicht ist.',
+      readMinutes: 5,
+      content: '''
+Hunde muessen im Auto gesichert sein - rechtlich gelten sie als Ladung. Ungesichert drohen Bussgeld und im Unfall Lebensgefahr fuer alle.
+
+SICHER IM AUTO
+- Transportbox (sicherste Variante, quer zur Fahrtrichtung) oder Sicherheitsgurt-Geschirr.
+- Niemals im Kofferraum ohne Trenngitter lose.
+- Nie allein im warmen Auto lassen - schon 22 Grad aussen werden innen lebensgefaehrlich.
+
+REISEUEBELKEIT
+- Junge Hunde sind oft betroffen. Leichter Magen vor Fahrt, kurze Gewoehnungsfahrten, frische Luft. Bei starker Uebelkeit Mittel vom Tierarzt.
+
+AUSLANDSREISEN (EU)
+- Pflicht: EU-Heimtierausweis, Mikrochip, gueltige Tollwutimpfung (mind. 21 Tage alt).
+- Manche Laender: Bandwurmbehandlung (z.B. UK, Irland, Malta, Norwegen, Finnland).
+- Vorab Einreiseregeln des Ziellandes pruefen - sie aendern sich.
+''',
+    ),
+    Article(
+      id: 'koerpersprache',
+      title: 'Koerpersprache des Hundes richtig lesen',
+      category: 'Verhalten',
+      summary:
+          'Was dein Hund dir mit Rute, Ohren und Koerperhaltung sagt - und '
+          'wie du Stress fruehzeitig erkennst.',
+      readMinutes: 5,
+      content: '''
+Hunde kommunizieren fast ausschliesslich ueber Koerpersprache. Wer sie liest, vermeidet Konflikte und versteht seinen Hund besser.
+
+BESCHWICHTIGUNGSSIGNALE (Stress / "bitte ruhig bleiben")
+- Gaehnen ohne Muedigkeit, Lecken ueber die Nase, Kopf wegdrehen, Pfote heben, langsames Bewegen, sich kratzen.
+Diese Signale heissen: dem Hund ist die Situation unangenehm. Gib ihm Raum.
+
+RUTE
+- Hoch + steif: Anspannung/Aufmerksamkeit (nicht zwingend Freude!).
+- Locker wedelnd auf mittlerer Hoehe: entspannt freundlich.
+- Eingeklemmt: Angst/Unsicherheit.
+- Wedeln nach rechts = eher positiv, nach links = eher unsicher.
+
+WARNSIGNALE (ernst nehmen!)
+Erstarren, fixieren, Zaehne zeigen, Knurren. Das ist KEINE Boesartigkeit, sondern eine Bitte um Abstand. Niemals bestrafen - sonst verlernt der Hund die Vorwarnung und schnappt ohne Ankuendigung.
+
+ENTSPANNTER HUND
+Weiche Augen, leicht geoeffnetes Maul, lockere Koerperhaltung, gleichmaessige Atmung.
+''',
+    ),
   ];
 }
