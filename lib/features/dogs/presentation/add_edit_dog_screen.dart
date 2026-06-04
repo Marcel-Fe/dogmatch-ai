@@ -1,5 +1,6 @@
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/features/dogs/data/photo_picker.dart' as picker;
+import 'package:dogmatch_ai/features/dogs/data/receipt_scan_service.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/widgets/dog_avatar.dart';
@@ -33,6 +34,7 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
   String? _photoBase64;
   // Kosten (#13)
   List<CostEntry> _costs = const [];
+  final _receiptScanner = ReceiptScanService();
   bool _initialized = false;
 
   @override
@@ -67,9 +69,18 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
     _initialized = true;
   }
 
-  Future<void> _addCost() async {
-    final labelCtrl = TextEditingController();
-    final amountCtrl = TextEditingController();
+  Future<void> _addCost({
+    String? initialLabel,
+    double? initialAmount,
+    DateTime? initialDate,
+  }) async {
+    final labelCtrl = TextEditingController(text: initialLabel ?? '');
+    final amountCtrl = TextEditingController(
+      text: initialAmount != null
+          ? initialAmount.toStringAsFixed(2).replaceAll('.', ',')
+          : '',
+    );
+    final date = initialDate ?? DateTime.now();
     final added = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -77,6 +88,23 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (initialLabel != null || initialAmount != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                child: Row(
+                  children: [
+                    Icon(Icons.auto_awesome_rounded,
+                        size: 16, color: Theme.of(ctx).colorScheme.primary),
+                    const SizedBox(width: AppSpacing.xs),
+                    Expanded(
+                      child: Text(
+                        'Aus dem Beleg gelesen - bitte kurz pruefen.',
+                        style: Theme.of(ctx).textTheme.bodySmall,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             TextField(
               controller: labelCtrl,
               decoration: const InputDecoration(
@@ -89,6 +117,14 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(labelText: 'Betrag in EUR'),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Datum: ${DateFormat.yMd('de').format(date)}',
+                style: Theme.of(ctx).textTheme.bodySmall,
+              ),
             ),
           ],
         ),
@@ -116,7 +152,7 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
               id: 'c-${DateTime.now().microsecondsSinceEpoch}',
               label: label,
               amountEur: amount,
-              date: DateTime.now(),
+              date: date,
             ),
           ];
         });
@@ -124,6 +160,54 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
     }
     labelCtrl.dispose();
     amountCtrl.dispose();
+  }
+
+  /// KI-Beleg-Scan: Foto eines Belegs aufnehmen/auswaehlen, an den
+  /// Gemini-Vision-Proxy schicken und das Kosten-Formular vorbefuellen.
+  Future<void> _scanReceipt() async {
+    String? dataUrl;
+    try {
+      dataUrl = await picker.pickImageAsDataUrl();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('$e')));
+      return;
+    }
+    if (dataUrl == null || !mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.showSnackBar(
+      const SnackBar(
+        content: Text('Beleg wird gelesen ...'),
+        duration: Duration(seconds: 30),
+      ),
+    );
+    try {
+      final result = await _receiptScanner.scan(dataUrl);
+      messenger.hideCurrentSnackBar();
+      if (!mounted) return;
+      if (!result.hasAnything) {
+        messenger.showSnackBar(const SnackBar(
+          content: Text(
+            'Konnte nichts Eindeutiges erkennen - bitte manuell eintragen.',
+          ),
+        ));
+        await _addCost();
+        return;
+      }
+      await _addCost(
+        initialLabel: result.label,
+        initialAmount: result.amountEur,
+        initialDate: result.date,
+      );
+    } catch (e) {
+      messenger.hideCurrentSnackBar();
+      if (!mounted) return;
+      messenger.showSnackBar(SnackBar(
+        content: Text('Beleg-Scan fehlgeschlagen: $e'),
+      ));
+    }
   }
 
   void _removeCost(String id) {
@@ -351,17 +435,26 @@ class _AddEditDogScreenState extends ConsumerState<AddEditDogScreen> {
                 ),
 
                 const SizedBox(height: AppSpacing.xl),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _SectionLabel('Kosten', theme: theme),
-                    ),
-                    TextButton.icon(
-                      onPressed: _addCost,
-                      icon: const Icon(Icons.add_rounded, size: 18),
-                      label: const Text('Hinzufuegen'),
-                    ),
-                  ],
+                _SectionLabel('Kosten', theme: theme),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: AppSpacing.sm,
+                    children: [
+                      if (ReceiptScanService.isAvailable)
+                        TextButton.icon(
+                          onPressed: _scanReceipt,
+                          icon:
+                              const Icon(Icons.auto_awesome_rounded, size: 18),
+                          label: const Text('Beleg scannen (KI)'),
+                        ),
+                      TextButton.icon(
+                        onPressed: () => _addCost(),
+                        icon: const Icon(Icons.add_rounded, size: 18),
+                        label: const Text('Hinzufuegen'),
+                      ),
+                    ],
+                  ),
                 ),
                 if (_costs.isEmpty)
                   Text(

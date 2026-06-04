@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/utils/external_link.dart';
 import 'package:dogmatch_ai/features/breeders/data/asset_breeder_repository.dart';
 import 'package:dogmatch_ai/features/breeders/domain/breeder.dart';
+import 'package:dogmatch_ai/features/breeders/domain/kennel_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,11 +93,20 @@ class _BreederFinderScreenState extends ConsumerState<BreederFinderScreen> {
   }
 }
 
-/// Prominenter, immer sichtbarer Block: die offizielle Zuechtersuche. Hier
-/// findet der Nutzer echte, geprüfte Zuechter fuer jede Rasse - die App selbst
-/// listet bewusst nur Verbaende/Vereine, kein vollstaendiges Zuechter-Register.
-class _OfficialSearchBox extends StatelessWidget {
+/// Prominenter, immer sichtbarer Block: die offiziellen Zuechter-Register.
+/// Die App buendelt bewusst KEINE eigene Zuechter-Datenbank - die kompletten,
+/// gepruften Listen aller eingetragenen Zuechter (samt Webseiten) liegen bei
+/// den nationalen Dachverbaenden. Von hier kommt der Nutzer lueckenlos dorthin:
+/// VDH prominent (DE), darunter ein ausklappbares Laender-Verzeichnis.
+class _OfficialSearchBox extends StatefulWidget {
   const _OfficialSearchBox();
+
+  @override
+  State<_OfficialSearchBox> createState() => _OfficialSearchBoxState();
+}
+
+class _OfficialSearchBoxState extends State<_OfficialSearchBox> {
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +136,7 @@ class _OfficialSearchBox extends StatelessWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
-                  'Echte Zuechter finden',
+                  'Alle eingetragenen Zuechter finden',
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -136,9 +146,10 @@ class _OfficialSearchBox extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Ueber die offizielle VDH-Zuechtersuche findest du geprüfte Welpen '
-            'deiner Wunschrasse in deiner Naehe (ueber 30.000 eingetragene '
-            'Zuechter).',
+            'Die vollstaendigen Listen aller gemeldeten Zuechter (mit Webseite) '
+            'fuehren die offiziellen Dachverbaende. Ueber die VDH-Suche findest '
+            'du allein in Deutschland ueber 30.000 eingetragene Zuechter - '
+            'gepruft, nach Rasse und Naehe filterbar.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: AppSpacing.md),
@@ -152,15 +163,94 @@ class _OfficialSearchBox extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => openExternalLink('https://www.fci.be/en/'),
-              icon: const Icon(Icons.public_rounded, size: 18),
-              label: const Text('FCI (international)'),
+          // iOS-sicher: InkWell + AnimatedSize statt ExpansionTile.
+          InkWell(
+            onTap: () => setState(() => _expanded = !_expanded),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+              child: Row(
+                children: [
+                  Icon(Icons.public_rounded,
+                      size: 18, color: theme.colorScheme.primary),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      'Weitere Laender (offizielle Verbaende)',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    _expanded
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    color: theme.colorScheme.primary,
+                  ),
+                ],
+              ),
             ),
           ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            child: _expanded
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: AppSpacing.xs),
+                      for (final r in kKennelRegistries)
+                        _RegistryRow(registry: r, theme: theme),
+                    ],
+                  )
+                : const SizedBox(width: double.infinity),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+/// Eine Zeile im Laender-Verzeichnis: Land + Verband -> offizielle Suche.
+class _RegistryRow extends StatelessWidget {
+  const _RegistryRow({required this.registry, required this.theme});
+
+  final KennelRegistry registry;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => openExternalLink(registry.url),
+      borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    registry.countryLabel,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    registry.org,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.open_in_new_rounded,
+                size: 18, color: theme.colorScheme.primary),
+          ],
+        ),
       ),
     );
   }

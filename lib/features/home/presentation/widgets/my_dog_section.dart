@@ -109,80 +109,12 @@ class MyDogSection extends ConsumerWidget {
         ),
         const SizedBox(height: AppSpacing.md),
 
-        // Kosten
-        _Card(
-          icon: Icons.payments_outlined,
-          title: 'Kosten',
-          theme: theme,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (breed.acquisitionCostEurMin != null &&
-                  breed.acquisitionCostEurMax != null)
-                _KeyValueLine(
-                  label: 'Anschaffung (Zuechter)',
-                  value: '${breed.acquisitionCostEurMin!.toInt()}-'
-                      '${breed.acquisitionCostEurMax!.toInt()} EUR',
-                ),
-              if (breed.dailyFoodCostEur != null)
-                _KeyValueLine(
-                  label: 'Futter pro Tag',
-                  value: '${breed.dailyFoodCostEur!.toStringAsFixed(2)} EUR',
-                ),
-              if (breed.vetCostPerYearEur != null)
-                _KeyValueLine(
-                  label: 'Tierarzt pro Jahr',
-                  value: '${breed.vetCostPerYearEur!.toInt()} EUR',
-                ),
-              _KeyValueLine(
-                label: 'Laufende Kosten pro Monat',
-                value: '~${breed.monthlyCostEur} EUR',
-              ),
-            ],
-          ),
-        ),
+        // Deine Hundeakte: echte, vom Nutzer erfasste Kosten + Versicherung.
+        // Bewusst KEINE rassen-typischen Schaetzwerte mehr hier - die leben
+        // im Rasse-Detail (Entscheidungsphase). Sobald ein Hund da ist, zaehlt
+        // nur, was der Nutzer in seiner Akte eintraegt.
+        _DogRecordCard(dog: dog, theme: theme),
         const SizedBox(height: AppSpacing.md),
-
-        // Versicherung (kompakt) - nur wenn Daten vorhanden
-        if (breed.insurance != null) ...[
-          _Card(
-            icon: Icons.shield_outlined,
-            title: 'Versicherung pro Monat',
-            theme: theme,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _KeyValueLine(
-                  label: 'Haftpflicht',
-                  value: '${breed.insurance!.liabilityMonthlyMin.toInt()}-'
-                      '${breed.insurance!.liabilityMonthlyMax.toInt()} EUR',
-                ),
-                _KeyValueLine(
-                  label: 'Krankenversicherung',
-                  value: '${breed.insurance!.healthMonthlyMin.toInt()}-'
-                      '${breed.insurance!.healthMonthlyMax.toInt()} EUR',
-                ),
-                _KeyValueLine(
-                  label: 'OP-Schutz',
-                  value: '${breed.insurance!.opMonthlyMin.toInt()}-'
-                      '${breed.insurance!.opMonthlyMax.toInt()} EUR',
-                ),
-                if (breed.insurance!.listenhundSurcharge)
-                  Padding(
-                    padding: const EdgeInsets.only(top: AppSpacing.xs),
-                    child: Text(
-                      'Hinweis: Diese Rasse kann als Listenhund eingestuft '
-                      'sein - Versicherer fragen.',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.orange.shade800,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-        ],
 
         // Training Fortschritt
         _Card(
@@ -197,10 +129,18 @@ class MyDogSection extends ConsumerWidget {
             ),
             data: (plans) {
               final progress = progressAsync.value ?? const {};
+              // Angefangene Plaene zuerst, dann der Rest - aber nur eine
+              // kurze Vorschau (max 5). Die volle Liste lebt im Training-Tab.
+              final sorted = [...plans]..sort((a, b) {
+                  final da = progress[a.id]?.completedStepIds.length ?? 0;
+                  final db = progress[b.id]?.completedStepIds.length ?? 0;
+                  return db.compareTo(da);
+                });
+              final preview = sorted.take(5).toList(growable: false);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (final p in plans)
+                  for (final p in preview)
                     _TrainingProgressLine(
                       plan: p,
                       doneCount:
@@ -211,7 +151,7 @@ class MyDogSection extends ConsumerWidget {
                     ),
                   const SizedBox(height: AppSpacing.xs),
                   _MoreLink(
-                    label: 'Alle Trainingsplaene oeffnen',
+                    label: 'Alle ${plans.length} Trainingsplaene oeffnen',
                     onTap: () => context.push(AppRoutes.training),
                   ),
                 ],
@@ -257,6 +197,81 @@ class MyDogSection extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Echte Hundeakte-Uebersicht fuer das Dashboard: zeigt die vom Nutzer
+/// erfassten Kosten (diesen Monat + gesamt) und die hinterlegte Versicherung.
+/// Sind noch keine Daten da, leitet ein Hinweis in die Hundeakte. So stehen
+/// im Dashboard nie generische Schaetz-Summen, sondern nur echte Zahlen.
+class _DogRecordCard extends StatelessWidget {
+  const _DogRecordCard({
+    required this.dog,
+    required this.theme,
+  });
+
+  final Dog dog;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final monthCosts = dog.costs
+        .where((c) => c.date.year == now.year && c.date.month == now.month)
+        .fold<double>(0, (sum, c) => sum + c.amountEur);
+    final hasCosts = dog.costs.isNotEmpty;
+    final hasInsurance = dog.insurance != null && !dog.insurance!.isEmpty;
+    final hasData = hasCosts || hasInsurance;
+
+    return _Card(
+      icon: Icons.folder_shared_outlined,
+      title: 'Hundeakte: ${dog.name}',
+      theme: theme,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!hasData)
+            Text(
+              'Trag deine echten Kosten und die Versicherung in der Akte ein - '
+              'dann zeigt dir das Dashboard hier deine eigenen Zahlen statt '
+              'allgemeiner Richtwerte. (Rassen-Richtwerte findest du weiter '
+              'in der Rasse-Ansicht.)',
+              style: theme.textTheme.bodySmall,
+            )
+          else ...[
+            if (hasCosts) ...[
+              _KeyValueLine(
+                label: 'Kosten diesen Monat',
+                value: '${monthCosts.toStringAsFixed(2)} EUR',
+              ),
+              _KeyValueLine(
+                label: 'Erfasst gesamt',
+                value: '${dog.totalCostsEur.toStringAsFixed(2)} EUR',
+              ),
+            ],
+            if (hasInsurance) ...[
+              _KeyValueLine(
+                label: 'Versicherung',
+                value: dog.insurance!.provider?.trim().isNotEmpty == true
+                    ? dog.insurance!.provider!
+                    : 'hinterlegt',
+              ),
+              if (dog.insurance!.monthlyEur != null)
+                _KeyValueLine(
+                  label: 'Beitrag/Monat',
+                  value:
+                      '${dog.insurance!.monthlyEur!.toStringAsFixed(2)} EUR',
+                ),
+            ],
+          ],
+          const SizedBox(height: AppSpacing.xs),
+          _MoreLink(
+            label: hasData ? 'Hundeakte oeffnen' : 'Jetzt in der Akte eintragen',
+            onTap: () => context.push(AppRoutes.dogRecord),
+          ),
+        ],
+      ),
     );
   }
 }
