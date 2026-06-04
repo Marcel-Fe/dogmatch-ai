@@ -43,11 +43,15 @@ class _BreederFinderScreenState extends ConsumerState<BreederFinderScreen> {
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
+              // Immer sichtbar: die offizielle Zuechtersuche - dort findest du
+              // echte, geprüfte Zuechter fuer JEDE Rasse (ueber 30.000 beim VDH).
+              const _OfficialSearchBox(),
+              const SizedBox(height: AppSpacing.lg),
               _IntroBox(theme: theme),
               const SizedBox(height: AppSpacing.lg),
               TextField(
                 decoration: const InputDecoration(
-                  labelText: 'Rasse oder Stadt suchen',
+                  labelText: 'Verein oder Stadt suchen',
                   prefixIcon: Icon(Icons.search_rounded),
                   border: OutlineInputBorder(),
                 ),
@@ -55,15 +59,108 @@ class _BreederFinderScreenState extends ConsumerState<BreederFinderScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
+                'Rassezuchtvereine & Verbaende: '
                 '${filtered.length} Eintrag${filtered.length == 1 ? '' : 'e'}',
                 style: theme.textTheme.labelLarge,
               ),
               const SizedBox(height: AppSpacing.sm),
-              for (final b in filtered)
-                _BreederTile(breeder: b, theme: theme),
+              if (filtered.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surfaceContainerHighest
+                        .withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                  ),
+                  child: Text(
+                    'Kein Verein zu "$q" gefunden. Nutze oben die offizielle '
+                    'Zuechtersuche - dort findest du geprüfte Zuechter fuer '
+                    'genau deine Rasse in deiner Naehe.',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                )
+              else
+                ...[
+                  for (final b in filtered)
+                    _BreederTile(breeder: b, theme: theme),
+                ],
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// Prominenter, immer sichtbarer Block: die offizielle Zuechtersuche. Hier
+/// findet der Nutzer echte, geprüfte Zuechter fuer jede Rasse - die App selbst
+/// listet bewusst nur Verbaende/Vereine, kein vollstaendiges Zuechter-Register.
+class _OfficialSearchBox extends StatelessWidget {
+  const _OfficialSearchBox();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.primary.withValues(alpha: 0.16),
+            theme.colorScheme.primary.withValues(alpha: 0.06),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.35),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.pets_rounded, color: theme.colorScheme.primary),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  'Echte Zuechter finden',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Ueber die offizielle VDH-Zuechtersuche findest du geprüfte Welpen '
+            'deiner Wunschrasse in deiner Naehe (ueber 30.000 eingetragene '
+            'Zuechter).',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () =>
+                  openExternalLink('https://www.vdh.de/welpen/zuechter-suche'),
+              icon: const Icon(Icons.open_in_new_rounded, size: 18),
+              label: const Text('VDH-Zuechtersuche oeffnen'),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => openExternalLink('https://www.fci.be/en/'),
+              icon: const Icon(Icons.public_rounded, size: 18),
+              label: const Text('FCI (international)'),
+            ),
+          ),
+        ],
       ),
     );
   }

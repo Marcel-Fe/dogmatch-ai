@@ -1,5 +1,6 @@
 import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/core/widgets/home_leading_button.dart';
 import 'package:dogmatch_ai/features/quiz/domain/quiz_questions.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/quiz_controller.dart';
 import 'package:dogmatch_ai/features/quiz/presentation/widgets/quiz_option_tile.dart';
@@ -25,7 +26,10 @@ class QuizScreen extends ConsumerWidget {
     final progress = (quiz.currentIndex + 1) / kQuizQuestions.length;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Matching-Quiz')),
+      appBar: AppBar(
+        leading: const HomeLeadingButton(),
+        title: const Text('Matching-Quiz'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

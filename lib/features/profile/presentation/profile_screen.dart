@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/app_card.dart';
+import 'package:dogmatch_ai/core/widgets/home_leading_button.dart';
 import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,10 @@ class ProfileScreen extends ConsumerWidget {
     final prefs = ref.watch(userPreferencesProvider).value;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profil')),
+      appBar: AppBar(
+        leading: const HomeLeadingButton(),
+        title: const Text('Profil'),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [

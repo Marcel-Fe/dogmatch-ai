@@ -2,6 +2,7 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/widgets/empty_view.dart';
 import 'package:dogmatch_ai/core/widgets/error_view.dart';
+import 'package:dogmatch_ai/core/widgets/home_leading_button.dart';
 import 'package:dogmatch_ai/core/widgets/loading_view.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/widgets/breed_card.dart';
@@ -21,7 +22,10 @@ class FavoritesScreen extends ConsumerWidget {
     final breedsAsync = ref.watch(breedsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Favoriten')),
+      appBar: AppBar(
+        leading: const HomeLeadingButton(),
+        title: const Text('Favoriten'),
+      ),
       body: favoritesAsync.when(
         loading: () => const LoadingView(),
         error: (_, _) => ErrorView(

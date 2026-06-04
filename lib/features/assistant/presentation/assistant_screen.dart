@@ -5,6 +5,7 @@ import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/constants/app_constants.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
+import 'package:dogmatch_ai/core/widgets/home_leading_button.dart';
 import 'package:dogmatch_ai/features/assistant/data/tts_service.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
@@ -166,7 +167,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                 icon: const Icon(Icons.arrow_back_rounded),
                 onPressed: () => context.go(_handoffOrigin!),
               )
-            : null,
+            : const HomeLeadingButton(),
         title: Text(mode == ChatMode.trainer ? 'Hundetrainer' : 'KI-Berater'),
         actions: [
           IconButton(
