@@ -88,33 +88,28 @@
     })();
   </script>
   <!--
-    Cache-Reset: Diese App wird OHNE Service-Worker ausgeliefert
-    (--pwa-strategy=none), damit niemand mehr auf einer alten Version
-    haengenbleibt. Falls von frueher noch ein Service-Worker + Cache auf dem
-    Geraet liegt (z. B. iPhone-Home-Bildschirm-App), wird er hier entfernt und
-    die Seite EINMAL frisch geladen. So befreit sich ein festgefahrenes Geraet
-    selbst und bekommt immer die aktuelle Version.
+    Service-Worker-Update: Die App nutzt wieder einen Cache fuer schnelles
+    Laden beim zweiten Mal. Bei einer NEUEN Version aktualisiert der Worker
+    automatisch und laedt EINMAL neu - aber nicht bei der Erst-Installation und
+    ohne Endlosschleife. So bleibt es schnell UND immer aktuell.
   -->
   <script>
-    (function () {
-      if (!('serviceWorker' in navigator)) return;
-      navigator.serviceWorker.getRegistrations().then(function (regs) {
-        if (!regs || regs.length === 0) return; // schon sauber
-        var jobs = regs.map(function (r) { return r.unregister(); });
-        if (window.caches && caches.keys) {
-          jobs.push(caches.keys().then(function (keys) {
-            return Promise.all(keys.map(function (k) { return caches.delete(k); }));
-          }));
-        }
-        Promise.all(jobs).then(function () {
-          // Nur einmal pro Sitzung neu laden -> keine Endlosschleife.
-          if (!sessionStorage.getItem('dm-sw-reset')) {
-            sessionStorage.setItem('dm-sw-reset', '1');
-            window.location.reload();
-          }
-        }).catch(function () { /* egal - App startet trotzdem */ });
-      }).catch(function () { /* egal */ });
-    })();
+    if ('serviceWorker' in navigator) {
+      // Beim Laden merken, ob schon ein Worker die Seite steuert.
+      window.__dmHadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        // Nur bei einem echten Update neu laden (nicht bei Erst-Installation).
+        if (!window.__dmHadController) return;
+        if (window.__dmReloaded) return;
+        window.__dmReloaded = true;
+        window.location.reload();
+      });
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+          if (reg) { try { reg.update(); } catch (e) { /* egal */ } }
+        }).catch(function () { /* egal */ });
+      });
+    }
   </script>
 
   <script src="flutter_bootstrap.js" async></script>
