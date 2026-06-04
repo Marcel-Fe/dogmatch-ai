@@ -87,13 +87,13 @@ class FormCatalog {
         title: 'Hundesteuer anmelden',
         purpose: 'Pflicht - beim Finanzamt Berlin (zentral).',
         fillHelp: _steuerHelp,
-        url: 'https://service.berlin.de/dienstleistung/305230/',
+        url: 'https://www.berlin.de/sen/finanzen/steuern/',
       ),
       DogForm(
         title: 'Hundefuehrerschein (Sachkunde)',
         purpose: 'In Berlin grundsaetzlich Pflicht (Hundegesetz).',
         fillHelp: _sachkundeHelp,
-        url: 'https://www.berlin.de/hundegesetz/',
+        url: 'https://www.berlin.de/sen/inneres/buerger-und-staat/',
       ),
     ]),
     BundeslandForms(name: 'Brandenburg', forms: [
@@ -105,8 +105,8 @@ class FormCatalog {
       DogForm(title: 'Sachkundenachweis', purpose: 'Je nach Hund nach BremHundeG.', fillHelp: _sachkundeHelp, url: 'https://www.service.bremen.de'),
     ]),
     BundeslandForms(name: 'Hamburg', forms: [
-      DogForm(title: 'Hundesteuer / Hunderegister', purpose: 'Anmeldung + verpflichtendes Hunderegister.', fillHelp: _steuerHelp, url: 'https://www.hamburg.de/hundereg/'),
-      DogForm(title: 'Hundefuehrerschein', purpose: 'Pflicht in Hamburg (Sachkunde).', fillHelp: _sachkundeHelp, url: 'https://www.hamburg.de'),
+      DogForm(title: 'Hundesteuer / Hunderegister', purpose: 'Anmeldung + verpflichtendes Hunderegister.', fillHelp: _steuerHelp, url: 'https://www.hamburg.de/suche?query=Hundesteuer'),
+      DogForm(title: 'Hundefuehrerschein', purpose: 'Pflicht in Hamburg (Sachkunde).', fillHelp: _sachkundeHelp, url: 'https://www.hamburg.de/suche?query=Hundef%C3%BChrerschein'),
     ]),
     BundeslandForms(name: 'Hessen', forms: [
       DogForm(title: 'Hundesteuer anmelden', purpose: 'Pflicht - bei der Kommune.', fillHelp: _steuerHelp, url: 'https://service.hessen.de'),
