@@ -495,6 +495,20 @@ IconData _iconFor(String key) {
       return Icons.trending_flat_rounded;
     case 'bed':
       return Icons.bed_rounded;
+    case 'autorenew':
+      return Icons.autorenew_rounded;
+    case 'home':
+      return Icons.home_rounded;
+    case 'hourglass':
+      return Icons.hourglass_bottom_rounded;
+    case 'masks':
+      return Icons.masks_rounded;
+    case 'directions_car':
+      return Icons.directions_car_rounded;
+    case 'medical':
+      return Icons.medical_services_rounded;
+    case 'groups':
+      return Icons.groups_rounded;
     default:
       return Icons.pets_rounded;
   }
