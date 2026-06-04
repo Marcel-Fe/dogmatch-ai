@@ -59,7 +59,7 @@ class OnboardingScreen extends StatelessWidget {
                 // Temporaerer Versions-Stempel: zeigt, ob das Geraet die NEUE
                 // Version geladen hat (gegen alten Service-Worker-Cache).
                 Text(
-                  'Version PFOTE-3',
+                  'Version PFOTE-4',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
