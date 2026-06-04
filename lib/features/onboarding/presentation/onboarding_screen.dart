@@ -56,6 +56,15 @@ class OnboardingScreen extends StatelessWidget {
                   onPressed: () => _finish(context),
                 ),
                 const SizedBox(height: AppSpacing.sm),
+                // Temporaerer Versions-Stempel: zeigt, ob das Geraet die NEUE
+                // Version geladen hat (gegen alten Service-Worker-Cache).
+                Text(
+                  'Version PFOTE-3',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
               ],
             ),
           ),
