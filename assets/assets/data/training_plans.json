@@ -454,5 +454,448 @@
         "videoSearch": "Hund Rückzugsort Box Sicherheit"
       }
     ]
+  },
+  {
+    "id": "paw",
+    "title": "Pfote geben",
+    "description": "Ein freundlicher Trick, der Vertrauen schafft und das Handling (Krallen, Pfoten checken) erleichtert.",
+    "difficulty": "beginner",
+    "estimatedDays": 4,
+    "isPremium": false,
+    "icon": "paw",
+    "steps": [
+      {
+        "id": "paw-1",
+        "order": 1,
+        "title": "Pfote abwarten",
+        "description": "Halt ein Leckerli in der geschlossenen Faust knapp ueber dem Boden. Die meisten Hunde schnueffeln erst und heben dann die Pfote, um an das Leckerli zu kommen.",
+        "tip": "Geduld - sobald die Pfote die Hand beruehrt, sofort belohnen.",
+        "videoSearch": "Hund Pfote geben beibringen Anfaenger"
+      },
+      {
+        "id": "paw-2",
+        "order": 2,
+        "title": "Markerwort koppeln",
+        "description": "Genau wenn die Pfote deine Hand beruehrt, sag 'Pfote' und gib das Leckerli aus der anderen Hand.",
+        "tip": "Immer dasselbe Wort, ruhige Stimme.",
+        "videoSearch": "Hund Pfote Markerwort Clicker"
+      },
+      {
+        "id": "paw-3",
+        "order": 3,
+        "title": "Hand oeffnen",
+        "description": "Wiederhole mit leicht geoeffneter, flacher Hand. Der Hund soll die Pfote aktiv hineinlegen.",
+        "tip": "Wenn er kratzt: Hand kurz wegnehmen, neu ansetzen.",
+        "videoSearch": "Hund Pfote in offene Hand legen"
+      },
+      {
+        "id": "paw-4",
+        "order": 4,
+        "title": "Auf Signal ohne Leckerli",
+        "description": "Sag nur noch 'Pfote' und halte die leere Hand hin. Belohnung kommt erst nach der Pfote.",
+        "tip": "Klappt es 8 von 10 Mal, ist der Trick sitzt.",
+        "videoSearch": "Hund Pfote auf Kommando ohne Leckerli"
+      }
+    ]
+  },
+  {
+    "id": "roll",
+    "title": "Roll / Rolle",
+    "description": "Ein Koerper-Trick fuer Beweglichkeit und Spass - gut fuer die Bindung und als Beschaeftigung.",
+    "difficulty": "intermediate",
+    "estimatedDays": 7,
+    "isPremium": false,
+    "icon": "autorenew",
+    "steps": [
+      {
+        "id": "roll-1",
+        "order": 1,
+        "title": "Aus dem Platz starten",
+        "description": "Der Hund liegt sicher im 'Platz'. Halt ein Leckerli an seine Nase.",
+        "tip": "Roll klappt nur, wenn 'Platz' schon sitzt.",
+        "videoSearch": "Hund Rolle beibringen Schritt fuer Schritt"
+      },
+      {
+        "id": "roll-2",
+        "order": 2,
+        "title": "Kopf zur Schulter fuehren",
+        "description": "Fuehre das Leckerli langsam von der Nase Richtung Schulter, sodass der Hund den Kopf dreht und sich auf die Seite legt.",
+        "tip": "Belohne schon das Auf-die-Seite-Legen.",
+        "videoSearch": "Hund auf die Seite legen Trick"
+      },
+      {
+        "id": "roll-3",
+        "order": 3,
+        "title": "Weiter ueber den Ruecken",
+        "description": "Fuehre das Leckerli weiter ueber den Ruecken - der Hund rollt der Bewegung nach auf die andere Seite.",
+        "tip": "Auf weichem Untergrund ueben (Teppich, Wiese).",
+        "videoSearch": "Hund Rolle Leckerli fuehren"
+      },
+      {
+        "id": "roll-4",
+        "order": 4,
+        "title": "Markerwort einbauen",
+        "description": "Sobald die ganze Rolle klappt, sag 'Roll' waehrend der Bewegung.",
+        "tip": "Erst das Wort dazugeben, wenn die Bewegung fluessig ist.",
+        "videoSearch": "Hund Roll Kommando aufbauen"
+      },
+      {
+        "id": "roll-5",
+        "order": 5,
+        "title": "Handzeichen verkleinern",
+        "description": "Mache die Hand-Bewegung immer kleiner, bis ein kleiner Kreis mit dem Finger reicht.",
+        "tip": "Kurze Einheiten, max. 5 Wiederholungen - sonst wird es zu viel.",
+        "videoSearch": "Hund Rolle Handzeichen Sichtsignal"
+      }
+    ]
+  },
+  {
+    "id": "housetraining",
+    "title": "Stubenreinheit",
+    "description": "Der wichtigste erste Schritt mit Welpe oder neuem Hund: zuverlaessig draussen loesen.",
+    "difficulty": "beginner",
+    "estimatedDays": 21,
+    "isPremium": false,
+    "icon": "home",
+    "steps": [
+      {
+        "id": "housetraining-1",
+        "order": 1,
+        "title": "Feste Gassi-Zeiten",
+        "description": "Bring den Hund nach jedem Schlafen, Fressen, Spielen und alle 1-2 Stunden nach draussen an denselben Platz.",
+        "tip": "Bei Welpen: Faustregel Lebensmonate + 1 = Stunden, die er max. aushalten kann.",
+        "videoSearch": "Welpe stubenrein bekommen Plan"
+      },
+      {
+        "id": "housetraining-2",
+        "order": 2,
+        "title": "Loesen belohnen",
+        "description": "Sobald er draussen macht, ruhig loben und ein Leckerli geben - noch an Ort und Stelle, nicht erst zuhause.",
+        "tip": "Belohne im richtigen Moment, sonst lernt er es nicht zu verknuepfen.",
+        "videoSearch": "Hund draussen loesen belohnen"
+      },
+      {
+        "id": "housetraining-3",
+        "order": 3,
+        "title": "Signalwort einfuehren",
+        "description": "Sag waehrend des Loesens ruhig ein Wort wie 'Mach schnell'. So lernt er, auf Signal zu loesen.",
+        "tip": "Immer dasselbe Wort - spaeter sehr praktisch.",
+        "videoSearch": "Hund auf Kommando loesen Signalwort"
+      },
+      {
+        "id": "housetraining-4",
+        "order": 4,
+        "title": "Anzeichen erkennen",
+        "description": "Achte auf Schnueffeln, Kreiseln, Unruhe - das sind Vorboten. Dann sofort raus.",
+        "tip": "Lieber einmal zu oft raus als einmal zu wenig.",
+        "videoSearch": "Welpe Anzeichen muss mal Stubenreinheit"
+      },
+      {
+        "id": "housetraining-5",
+        "order": 5,
+        "title": "Unfaelle richtig behandeln",
+        "description": "Passiert drinnen etwas: kommentarlos wegmachen, kein Schimpfen. Strafe macht nur heimlich und aengstlich.",
+        "tip": "Enzym-Reiniger nutzen, damit kein Eigengeruch zurueckbleibt.",
+        "videoSearch": "Welpe Pipi Unfall richtig reagieren"
+      }
+    ]
+  },
+  {
+    "id": "alone",
+    "title": "Allein bleiben",
+    "description": "Schritt fuer Schritt entspannt allein - beugt Trennungsstress und Bell-/Zerstoerungsproblemen vor.",
+    "difficulty": "intermediate",
+    "estimatedDays": 28,
+    "isPremium": false,
+    "icon": "hourglass",
+    "steps": [
+      {
+        "id": "alone-1",
+        "order": 1,
+        "title": "Entspannungsplatz aufbauen",
+        "description": "Etabliere eine gemuetliche Decke/Box, an der der Hund zur Ruhe kommt - erst in deiner Naehe.",
+        "tip": "Erst Ruhe im Raum, dann Distanz - nie umgekehrt.",
+        "videoSearch": "Hund Entspannungsplatz Decke aufbauen"
+      },
+      {
+        "id": "alone-2",
+        "order": 2,
+        "title": "Sekunden-Distanz",
+        "description": "Geh ein paar Schritte weg und sofort zurueck, bevor er unruhig wird. Kein Drama bei Kommen und Gehen.",
+        "tip": "Unter der Stress-Schwelle bleiben - das ist der ganze Trick.",
+        "videoSearch": "Hund allein bleiben Training Sekunden"
+      },
+      {
+        "id": "alone-3",
+        "order": 3,
+        "title": "Tuer dazwischen",
+        "description": "Geh kurz in einen anderen Raum und schliesse die Tuer fuer wenige Sekunden. Komm zurueck, bevor er jammert.",
+        "tip": "Dauer langsam steigern: 5s, 15s, 30s, 1min ...",
+        "videoSearch": "Hund Trennungsangst Tuer Training"
+      },
+      {
+        "id": "alone-4",
+        "order": 4,
+        "title": "Weggeh-Rituale entschaerfen",
+        "description": "Nimm zwischendurch Schluessel/Jacke, ohne zu gehen. So verlieren diese Reize ihren Stress-Trigger.",
+        "tip": "Mehrmals taeglich, ganz beilaeufig.",
+        "videoSearch": "Hund Weggehrituale Schluessel Jacke desensibilisieren"
+      },
+      {
+        "id": "alone-5",
+        "order": 5,
+        "title": "Minuten ausdehnen",
+        "description": "Steigere die Abwesenheit in kleinen Schritten auf 5, 10, 20, 45 Minuten. Beobachte per Kamera, ob er ruhig bleibt.",
+        "tip": "Bei Rueckschritt: eine Stufe zurueck, nicht draufhalten.",
+        "videoSearch": "Hund allein lassen steigern Kamera"
+      },
+      {
+        "id": "alone-6",
+        "order": 6,
+        "title": "Alltag normalisieren",
+        "description": "Verabschiede und begruesse ruhig und kurz. Allein bleiben wird so zur entspannten Normalitaet.",
+        "tip": "Auslastung vorher hilft: ein mueder Hund ruht leichter.",
+        "videoSearch": "Hund entspannt allein zuhause Alltag"
+      }
+    ]
+  },
+  {
+    "id": "muzzle",
+    "title": "Maulkorb-Training",
+    "description": "Ein positiv trainierter Maulkorb ist stressfrei und im Alltag (Bahn, Tierarzt, Ausland) oft Pflicht.",
+    "difficulty": "beginner",
+    "estimatedDays": 14,
+    "isPremium": false,
+    "icon": "masks",
+    "steps": [
+      {
+        "id": "muzzle-1",
+        "order": 1,
+        "title": "Maulkorb = gut",
+        "description": "Leg den Maulkorb hin und belohne jedes Interesse daran. Er soll etwas Positives bedeuten.",
+        "tip": "Korbmaulkorb waehlen - der Hund kann hecheln und trinken.",
+        "videoSearch": "Maulkorbtraining positiv aufbauen Hund"
+      },
+      {
+        "id": "muzzle-2",
+        "order": 2,
+        "title": "Schnauze hineinstecken",
+        "description": "Halt ein Leckerli hinten im Maulkorb, sodass der Hund die Schnauze selbst hineinsteckt. Noch nicht schliessen.",
+        "tip": "Er steckt freiwillig rein - du stuelpst nichts ueber.",
+        "videoSearch": "Hund Schnauze in Maulkorb stecken Leckerli"
+      },
+      {
+        "id": "muzzle-3",
+        "order": 3,
+        "title": "Sekunden halten",
+        "description": "Lass die Schnauze ein, zwei Sekunden drin und fuettere durch das Gitter. Dauer langsam steigern.",
+        "tip": "Durchfuettern haelt ihn entspannt drin.",
+        "videoSearch": "Maulkorb Hund laenger tragen Training"
+      },
+      {
+        "id": "muzzle-4",
+        "order": 4,
+        "title": "Verschluss schliessen",
+        "description": "Schliesse den Riemen kurz und oeffne sofort wieder. Belohne ruhig.",
+        "tip": "Erst schliessen, wenn das Reinstecken voellig locker ist.",
+        "videoSearch": "Maulkorb schliessen Hund gewoehnen"
+      },
+      {
+        "id": "muzzle-5",
+        "order": 5,
+        "title": "Tragedauer im Alltag",
+        "description": "Lass ihn den Maulkorb bei schoenen Aktivitaeten (Gassi, Spiel) kurz tragen und steigere die Zeit.",
+        "tip": "Maulkorb mit Spass koppeln, nie nur mit Tierarzt.",
+        "videoSearch": "Hund Maulkorb Alltag spazieren tragen"
+      }
+    ]
+  },
+  {
+    "id": "car",
+    "title": "Autofahren",
+    "description": "Entspannt und sicher mitfahren - gegen Uebelkeit, Unruhe und Angst im Auto.",
+    "difficulty": "beginner",
+    "estimatedDays": 14,
+    "isPremium": false,
+    "icon": "directions_car",
+    "steps": [
+      {
+        "id": "car-1",
+        "order": 1,
+        "title": "Stehendes Auto erkunden",
+        "description": "Lass den Hund ins stehende Auto steigen, fuettern, entspannen - Motor aus, Tueren offen.",
+        "tip": "Sicherung klaeren: Box oder angeschnallter Geschirr-Gurt.",
+        "videoSearch": "Hund ans Auto gewoehnen stehend"
+      },
+      {
+        "id": "car-2",
+        "order": 2,
+        "title": "Motor an, ohne Fahrt",
+        "description": "Steig ein, starte den Motor, belohne Ruhe, stell wieder ab. Noch keine Fahrt.",
+        "tip": "Kurze Einheiten - Ruhe ist das Ziel, nicht Strecke.",
+        "videoSearch": "Hund Auto Motor Geraeusch gewoehnen"
+      },
+      {
+        "id": "car-3",
+        "order": 3,
+        "title": "Erste Mini-Fahrten",
+        "description": "Fahre nur um den Block. Am besten zu einem schoenen Ziel (Wiese, Spaziergang), nicht zum Tierarzt.",
+        "tip": "Leichter Magen: 2-3 Stunden vorher nicht fuettern.",
+        "videoSearch": "Hund erste Autofahrt kurz ueben"
+      },
+      {
+        "id": "car-4",
+        "order": 4,
+        "title": "Strecke steigern",
+        "description": "Verlaengere die Fahrten langsam. Achte auf Anzeichen von Uebelkeit (Speicheln, Hecheln) und mach Pausen.",
+        "tip": "Ruhige, gleichmaessige Fahrweise hilft enorm.",
+        "videoSearch": "Hund Auto Uebelkeit Reiseuebelkeit Training"
+      }
+    ]
+  },
+  {
+    "id": "vet-handling",
+    "title": "Tierarzt & Handling",
+    "description": "Beruehrungen, Pfoten, Ohren, Maul - damit Pflege und Tierarztbesuch ohne Stress klappen.",
+    "difficulty": "beginner",
+    "estimatedDays": 14,
+    "isPremium": false,
+    "icon": "medical",
+    "steps": [
+      {
+        "id": "vet-handling-1",
+        "order": 1,
+        "title": "Beruehrung belohnen",
+        "description": "Beruehre kurz Pfote, Ohr oder Ruecken und gib sofort ein Leckerli. Beruehrung sagt: gleich kommt etwas Gutes.",
+        "tip": "Beginne dort, wo er es schon mag (Brust, Schulter).",
+        "videoSearch": "Hund an Beruehrung gewoehnen Handling"
+      },
+      {
+        "id": "vet-handling-2",
+        "order": 2,
+        "title": "Pfoten und Krallen",
+        "description": "Heb jede Pfote kurz an, halte sie eine Sekunde, belohne. Spaeter die Krallenschere nur zeigen und belohnen.",
+        "tip": "Erst Anfassen, dann Werkzeug zeigen - in Mini-Schritten.",
+        "videoSearch": "Hund Pfoten anfassen Krallen schneiden gewoehnen"
+      },
+      {
+        "id": "vet-handling-3",
+        "order": 3,
+        "title": "Ohren und Maul",
+        "description": "Schau kurz ins Ohr, heb sanft die Lefze, belohne. So wird die Untersuchung zur Routine.",
+        "tip": "Immer ruhig und kurz - kein Festhalten gegen Widerstand.",
+        "videoSearch": "Hund Maul Ohren kontrollieren Training"
+      },
+      {
+        "id": "vet-handling-4",
+        "order": 4,
+        "title": "Untersuchungs-Pose",
+        "description": "Uebe Stehenbleiben und Hochheben/Auf-den-Tisch, wie beim Tierarzt.",
+        "tip": "Rutschfeste Unterlage gibt Sicherheit.",
+        "videoSearch": "Hund Tierarzt Untersuchung ueben Tisch"
+      },
+      {
+        "id": "vet-handling-5",
+        "order": 5,
+        "title": "Probe-Besuch",
+        "description": "Geh mit ihm in die Praxis, nur zum Leckerli holen und wieder raus - ohne Behandlung.",
+        "tip": "Viele Praxen machen solche Gewoehnungsbesuche gern mit.",
+        "videoSearch": "Hund Tierarzt Angst Gewoehnungsbesuch"
+      }
+    ]
+  },
+  {
+    "id": "bite-inhibition",
+    "title": "Beisshemmung (Welpe)",
+    "description": "Welpen lernen, ihr Gebiss vorsichtig einzusetzen - wichtig fuer ein Leben ohne Zwischenfaelle.",
+    "difficulty": "beginner",
+    "estimatedDays": 21,
+    "isPremium": false,
+    "icon": "paw",
+    "steps": [
+      {
+        "id": "bite-inhibition-1",
+        "order": 1,
+        "title": "Spiel kurz beenden",
+        "description": "Zwickt der Welpe in die Hand, sag ruhig 'Aua' und beende das Spiel fuer 10-20 Sekunden.",
+        "tip": "Kein Geschrei, kein Wegreissen - das reizt nur mehr.",
+        "videoSearch": "Welpe Beisshemmung Hand beissen aufhoeren"
+      },
+      {
+        "id": "bite-inhibition-2",
+        "order": 2,
+        "title": "Alternative anbieten",
+        "description": "Lenk die Zaehne auf ein Spielzeug oder einen Kausnack um. Zaehne gehoeren an Spielzeug, nicht an Haut.",
+        "tip": "Immer ein Spielzeug griffbereit haben.",
+        "videoSearch": "Welpe beisst Spielzeug umlenken"
+      },
+      {
+        "id": "bite-inhibition-3",
+        "order": 3,
+        "title": "Sanftheit belohnen",
+        "description": "Nimmt er die Hand sanft oder leckt nur, ruhig weiterspielen. So lernt er: sanft = Spiel geht weiter.",
+        "tip": "Ruhe belohnen, nicht den Trubel.",
+        "videoSearch": "Welpe sanftes Maul belohnen"
+      },
+      {
+        "id": "bite-inhibition-4",
+        "order": 4,
+        "title": "Ruhe statt Ueberdrehen",
+        "description": "Beissen wird oft schlimmer, wenn der Welpe uebermuedet ist. Biete dann gezielt Ruhepausen an.",
+        "tip": "Ein uebermuedeter Welpe ist wie ein quengeliges Kleinkind.",
+        "videoSearch": "Welpe ueberdreht Ruhe Beissen"
+      }
+    ]
+  },
+  {
+    "id": "socialisation",
+    "title": "Sozialisierung (Welpe)",
+    "description": "Die praegende Phase nutzen: Reize, Menschen, Tiere und Umwelt positiv kennenlernen.",
+    "difficulty": "beginner",
+    "estimatedDays": 30,
+    "isPremium": false,
+    "icon": "groups",
+    "steps": [
+      {
+        "id": "socialisation-1",
+        "order": 1,
+        "title": "Positiv und dosiert",
+        "description": "Zeig dem Welpen taeglich Neues (Untergruende, Geraeusche, Menschen) - immer in kleiner Dosis und mit guter Laune.",
+        "tip": "Qualitaet vor Menge: ein gutes Erlebnis schlaegt zehn stressige.",
+        "videoSearch": "Welpe Sozialisierung Checkliste positiv"
+      },
+      {
+        "id": "socialisation-2",
+        "order": 2,
+        "title": "Geraeusche und Stadt",
+        "description": "Gewoehne ihn an Alltagsgeraeusche (Auto, Staubsauger, Stadt) aus sicherer Distanz, mit Leckerli.",
+        "tip": "Zeigt er Angst: Distanz vergroessern, nicht hineinzwingen.",
+        "videoSearch": "Welpe an Geraeusche gewoehnen Stadt"
+      },
+      {
+        "id": "socialisation-3",
+        "order": 3,
+        "title": "Gute Hundekontakte",
+        "description": "Lass ihn nur mit freundlichen, geimpften Hunden spielen, die gut kommunizieren. Schlechte Erlebnisse praegen lange.",
+        "tip": "Welpenspielstunde bei serioeser Leitung ist ideal.",
+        "videoSearch": "Welpe Hundekontakt Spielstunde sozialisieren"
+      },
+      {
+        "id": "socialisation-4",
+        "order": 4,
+        "title": "Menschen aller Art",
+        "description": "Kinder, Maenner mit Hut, Rollstuhl, Fahrrad - lass ihn vieles ruhig beobachten und belohne Gelassenheit.",
+        "tip": "Fremde nicht bedraengen lassen - er entscheidet das Tempo.",
+        "videoSearch": "Welpe an Menschen Kinder gewoehnen"
+      },
+      {
+        "id": "socialisation-5",
+        "order": 5,
+        "title": "Handling und Tierarzt",
+        "description": "Uebe Anfassen und kurze Praxis-Besuche (siehe Tierarzt-Plan), solange er noch unbefangen ist.",
+        "tip": "Fruehe Gewoehnung erspart spaeter viel Stress.",
+        "videoSearch": "Welpe Tierarzt Handling fruehe Gewoehnung"
+      }
+    ]
   }
 ]
