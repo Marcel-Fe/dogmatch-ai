@@ -4,13 +4,22 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 /// Auswaehlbare Dashboard-Designs (Akzentfarbe + Stimmung). Beeinflusst die
-/// Toenung der ganzen App. Bewusst 5 moderne Varianten zur Wahl.
+/// Toenung der ganzen App. Hundethematische, moderne Varianten zur Wahl.
+/// Die Enum-IDs (violet, ocean, ...) bleiben stabil, damit gespeicherte
+/// Einstellungen weiter passen - nur Label/Farben sind hundethematisch.
 enum DashboardStyle {
   violet('Lavendel', Color(0xFF7C6BF0)),
-  ocean('Ozean', Color(0xFF0288D1)),
-  forest('Wald', Color(0xFF2E9E6B)),
+  ocean('Husky', Color(0xFF2E8BC0)),
+  forest('Border Collie', Color(0xFF1F8A70)),
   sunset('Sonnenuntergang', Color(0xFFEF6C45)),
-  graphite('Graphit', Color(0xFF455A64));
+  graphite('Dobermann', Color(0xFF4A5A66)),
+  golden('Golden Retriever', Color(0xFFE0A02E)),
+  chocolate('Labrador', Color(0xFF7B4B2A)),
+  rose('Samojede', Color(0xFFE5739A)),
+  copper('Beagle', Color(0xFFC4622D)),
+  berry('Beere', Color(0xFFAD3777)),
+  sky('Weimaraner', Color(0xFF5C7C99)),
+  midnight('Mitternacht', Color(0xFF3D5AFE));
 
   const DashboardStyle(this.label, this.seed);
 

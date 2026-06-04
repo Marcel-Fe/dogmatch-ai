@@ -227,33 +227,66 @@ class _StyleSwatch extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
       onTap: onTap,
       child: SizedBox(
-        width: 92,
+        width: 100,
         child: Column(
           children: [
             Container(
-              width: 92,
-              height: 56,
+              width: 100,
+              height: 64,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
                     style.seed,
-                    Color.lerp(style.seed, Colors.black, 0.25)!,
+                    Color.lerp(style.seed, Colors.black, 0.28)!,
                   ],
                 ),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                 border: Border.all(
-                  color: selected ? theme.colorScheme.onSurface : Colors.transparent,
-                  width: 2.5,
+                  color: selected
+                      ? theme.colorScheme.onSurface
+                      : Colors.transparent,
+                  width: 3,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: style.seed.withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: selected
-                  ? const Icon(Icons.check_rounded, color: Colors.white)
-                  : null,
+              child: Stack(
+                children: [
+                  // Dezentes Pfoten-Motiv - macht den Stil-Picker hundethematisch.
+                  Positioned(
+                    right: 6,
+                    bottom: 4,
+                    child: Icon(
+                      Icons.pets_rounded,
+                      size: 26,
+                      color: Colors.white.withValues(alpha: 0.30),
+                    ),
+                  ),
+                  if (selected)
+                    const Center(
+                      child: Icon(Icons.check_rounded,
+                          color: Colors.white, size: 26),
+                    ),
+                ],
+              ),
             ),
-            const SizedBox(height: 4),
-            Text(style.label, style: theme.textTheme.labelSmall),
+            const SizedBox(height: 6),
+            Text(
+              style.label,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),

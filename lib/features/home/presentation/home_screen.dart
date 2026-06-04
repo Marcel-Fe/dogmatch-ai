@@ -12,6 +12,7 @@ import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/health/presentation/widgets/upcoming_events_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dashboard_ai_bar.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_hero_card.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/discover_more_section.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/dog_switcher_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/for_you_section.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/main_drawer.dart';
@@ -146,6 +147,10 @@ class HomeScreen extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: QuickActionGrid(),
             ),
+            const SizedBox(height: AppSpacing.xl),
+
+            // 5b) Entdecke mehr - Empfehlungs-Karten (horizontal)
+            const DiscoverMoreSection(),
             const SizedBox(height: AppSpacing.xl),
 
             // 6) Termine (kompakt) - nur wenn aktiver Hund da

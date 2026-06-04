@@ -47,6 +47,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Kuehlschrank 3-4 Tage, einfrieren moeglich.',
       tip: 'Perfekt als hochwertiges Trainings-Leckerli.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Tuna_steak%2C_salad%2C_seafood_chowder%2C_roasted_potatoes%2C_and_bread_-_Picton%2C_New_Zealand.jpg/960px-Tuna_steak%2C_salad%2C_seafood_chowder%2C_roasted_potatoes%2C_and_bread_-_Picton%2C_New_Zealand.jpg',
     ),
     TreatRecipe(
       id: 't3',
@@ -65,6 +67,8 @@ class TreatRecipesCatalog {
         '20 Minuten backen, bis sie knusprig sind.',
       ],
       storage: 'Trocken gelagert 1-2 Wochen.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Cucurbita_maxima_Stuffed_Red_Kuri_Squash.jpg/960px-Cucurbita_maxima_Stuffed_Red_Kuri_Squash.jpg',
     ),
     TreatRecipe(
       id: 't4',
@@ -203,6 +207,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Kuehlschrank 3 Tage, sonst portionsweise einfrieren.',
       tip: 'Sehr intensiv - nur kleine Mengen, sonst Durchfall.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kangaroo-kent-pumpkin-butternut-squash-dehydrated-dog-training-chips-883229.jpg/960px-Kangaroo-kent-pumpkin-butternut-squash-dehydrated-dog-training-chips-883229.jpg',
     ),
     TreatRecipe(
       id: 't11',
@@ -218,6 +224,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Im Kuehlschrank wie normaler Kaese.',
       tip: 'Nur kleine Mengen - Kaese ist fett- und kalorienreich.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Feta_cubes_at_home.jpg/960px-Feta_cubes_at_home.jpg',
     ),
     TreatRecipe(
       id: 't12',
@@ -234,6 +242,8 @@ class TreatRecipesCatalog {
       ],
       storage: 'Vollstaendig getrocknet 2-3 Wochen trocken gelagert.',
       tip: 'Komplett durchtrocknen, sonst schimmelt es.',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/1/1f/Beef-jerky.jpg',
     ),
   ];
 
