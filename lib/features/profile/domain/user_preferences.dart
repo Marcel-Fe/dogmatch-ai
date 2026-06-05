@@ -27,6 +27,38 @@ enum DashboardStyle {
   final Color seed;
 }
 
+/// Auswaehlbare Dashboard-Layouts (Anordnung & Look der Startseite). Anders
+/// als [DashboardStyle] (nur Farbe) aendert das Layout, welche Bereiche in
+/// welcher Reihenfolge und Dichte erscheinen. IDs bleiben stabil.
+enum DashboardLayout {
+  standard(
+    'Standard',
+    'Die klassische, vollstaendige Startseite mit allen Bereichen.',
+    Icons.dashboard_rounded,
+  ),
+  focus(
+    'Fokus',
+    'Aufgeraeumt: nur das Wichtigste fuer heute - Hund, KI und Termine.',
+    Icons.center_focus_strong_rounded,
+  ),
+  compact(
+    'Kompakt',
+    'Dichte Uebersicht mit Schnellaktionen ganz oben - alles auf einen Blick.',
+    Icons.view_agenda_rounded,
+  ),
+  magazine(
+    'Magazin',
+    'Bildstark: Rassen und Entdeckungen mit grossen Karten zuerst.',
+    Icons.auto_awesome_mosaic_rounded,
+  );
+
+  const DashboardLayout(this.label, this.description, this.icon);
+
+  final String label;
+  final String description;
+  final IconData icon;
+}
+
 /// Personalisierungs-Einstellungen des Nutzers. Lokal persistiert
 /// (`shared_preferences`); spaeter optional in Firestore synchronisiert.
 class UserPreferences extends Equatable {
@@ -42,6 +74,7 @@ class UserPreferences extends Equatable {
     this.showAllBreedsOnHome = true,
     this.seniorMode = false,
     this.dashboardStyle = DashboardStyle.violet,
+    this.dashboardLayout = DashboardLayout.standard,
   });
 
   /// Anzeigename - wird in der Begruessung auf Home verwendet.
@@ -73,6 +106,9 @@ class UserPreferences extends Equatable {
   /// Gewaehltes Dashboard-Design (Akzentfarbe der App).
   final DashboardStyle dashboardStyle;
 
+  /// Gewaehltes Dashboard-Layout (Anordnung der Startseite).
+  final DashboardLayout dashboardLayout;
+
   bool get hasName => displayName != null && displayName!.trim().isNotEmpty;
 
   UserPreferences copyWith({
@@ -87,6 +123,7 @@ class UserPreferences extends Equatable {
     bool? showAllBreedsOnHome,
     bool? seniorMode,
     DashboardStyle? dashboardStyle,
+    DashboardLayout? dashboardLayout,
     bool clearPreferredSize = false,
     bool clearPreferredActivity = false,
   }) {
@@ -106,6 +143,7 @@ class UserPreferences extends Equatable {
       showAllBreedsOnHome: showAllBreedsOnHome ?? this.showAllBreedsOnHome,
       seniorMode: seniorMode ?? this.seniorMode,
       dashboardStyle: dashboardStyle ?? this.dashboardStyle,
+      dashboardLayout: dashboardLayout ?? this.dashboardLayout,
     );
   }
 
@@ -128,6 +166,7 @@ class UserPreferences extends Equatable {
       showAllBreedsOnHome: (json['showAllBreedsOnHome'] as bool?) ?? true,
       seniorMode: (json['seniorMode'] as bool?) ?? false,
       dashboardStyle: _parseStyle(json['dashboardStyle'] as String?),
+      dashboardLayout: _parseLayout(json['dashboardLayout'] as String?),
     );
   }
 
@@ -137,6 +176,14 @@ class UserPreferences extends Equatable {
       if (s.name == name) return s;
     }
     return DashboardStyle.violet;
+  }
+
+  static DashboardLayout _parseLayout(String? name) {
+    if (name == null) return DashboardLayout.standard;
+    for (final l in DashboardLayout.values) {
+      if (l.name == name) return l;
+    }
+    return DashboardLayout.standard;
   }
 
   Map<String, dynamic> toJson() {
@@ -152,6 +199,7 @@ class UserPreferences extends Equatable {
       'showAllBreedsOnHome': showAllBreedsOnHome,
       'seniorMode': seniorMode,
       'dashboardStyle': dashboardStyle.name,
+      'dashboardLayout': dashboardLayout.name,
     };
   }
 
@@ -168,5 +216,6 @@ class UserPreferences extends Equatable {
         showAllBreedsOnHome,
         seniorMode,
         dashboardStyle,
+        dashboardLayout,
       ];
 }

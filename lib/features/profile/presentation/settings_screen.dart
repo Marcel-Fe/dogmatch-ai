@@ -119,6 +119,16 @@ class SettingsScreen extends ConsumerWidget {
                 prefsNotifier.save(prefs.copyWith(showAllBreedsOnHome: v)),
           ),
 
+          _SectionTitle('Dashboard-Layout'),
+          for (final l in DashboardLayout.values)
+            _LayoutTile(
+              layout: l,
+              selected: prefs.dashboardLayout == l,
+              onTap: () =>
+                  prefsNotifier.save(prefs.copyWith(dashboardLayout: l)),
+            ),
+          const SizedBox(height: AppSpacing.sm),
+
           _SectionTitle('Dashboard-Design'),
           Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -203,6 +213,87 @@ class _SectionTitle extends StatelessWidget {
           fontWeight: FontWeight.w800,
           letterSpacing: 1.2,
           color: theme.colorScheme.primary,
+        ),
+      ),
+    );
+  }
+}
+
+/// Auswahlkarte fuer ein [DashboardLayout]: Icon + Name + Kurzbeschreibung
+/// mit Haken bei der aktiven Wahl.
+class _LayoutTile extends StatelessWidget {
+  const _LayoutTile({
+    required this.layout,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final DashboardLayout layout;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          decoration: BoxDecoration(
+            color: selected
+                ? theme.colorScheme.primary.withValues(alpha: 0.10)
+                : theme.colorScheme.surfaceContainerHighest
+                    .withValues(alpha: 0.4),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+            border: Border.all(
+              color: selected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outline.withValues(alpha: 0.2),
+              width: selected ? 2 : 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                layout.icon,
+                color: selected
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      layout.label,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      layout.description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (selected)
+                Icon(Icons.check_circle_rounded,
+                    color: theme.colorScheme.primary),
+            ],
+          ),
         ),
       ),
     );

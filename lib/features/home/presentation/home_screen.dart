@@ -24,6 +24,7 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/today_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/welcome_dialog.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/wisdom_quote_card.dart';
+import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:dogmatch_ai/features/weather/presentation/weather_card.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,10 @@ bool _welcomeShown = false;
 
 /// Modernes Dashboard (Tab 1). Hero, Stats, personalisierte Empfehlungen,
 /// Tipp des Tages, Feature-Grid und vollstaendige Rassenliste.
+///
+/// Das [DashboardLayout] aus den Einstellungen bestimmt, welche Bausteine in
+/// welcher Reihenfolge und Dichte erscheinen (Standard, Fokus, Kompakt,
+/// Magazin). Die Section-Toggles des Nutzers bleiben zusaetzlich wirksam.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -46,7 +51,6 @@ class HomeScreen extends ConsumerWidget {
     final prefs = ref.watch(userPreferencesProvider).value;
     final dogsState = ref.watch(dogsProvider).value;
     final activeDog = dogsState?.activeDog;
-    final theme = Theme.of(context);
     final greetingName = prefs != null && prefs.hasName ? prefs.displayName : null;
 
     return Scaffold(
@@ -65,6 +69,7 @@ class HomeScreen extends ConsumerWidget {
           final String? breedImageUrl = matched?.imageUrl;
           final allDogs = dogsState?.dogs ?? const <Dog>[];
           final showMyDog = activeDog != null;
+          final layout = prefs?.dashboardLayout ?? DashboardLayout.standard;
 
           // Begruessungs-Popup einmal pro App-Start nach dem ersten Frame.
           if (!_welcomeShown) {
@@ -80,204 +85,102 @@ class HomeScreen extends ConsumerWidget {
             });
           }
 
-          // Dashboard-Sektionen als Liste von Bausteinen sammeln und ueber
-          // eine lazy SliverList rendern - so baut Flutter nur die sichtbaren
-          // Bereiche, was das Scrollen/Oeffnen auf dem iPhone spuerbar
-          // beschleunigt (frueher wurde alles auf einmal aufgebaut).
-          final sections = <Widget>[
-            // 1) Hund-Wechsler (nur wenn mind. 1 Hund da)
-            if (allDogs.isNotEmpty) ...[
-              const SizedBox(height: AppSpacing.md),
-              DogSwitcherRow(dogs: allDogs, activeDog: activeDog),
-              const SizedBox(height: AppSpacing.sm),
-            ],
-
-            // 2) Prominente KI-Leiste: sofort fragen (wie ChatGPT)
-            const Padding(
-              padding: EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.lg,
-                0,
-              ),
-              child: DashboardAiBar(),
+          // Benannte Bausteine - nur sichtbare (Toggles + Verfuegbarkeit)
+          // landen in der Map; das Layout entscheidet ueber die Reihenfolge.
+          const hPad = EdgeInsets.symmetric(horizontal: AppSpacing.lg);
+          final sec = <String, Widget>{};
+          if (allDogs.isNotEmpty) {
+            sec['dogSwitcher'] =
+                DogSwitcherRow(dogs: allDogs, activeDog: activeDog);
+          }
+          sec['aiBar'] =
+              const Padding(padding: hPad, child: DashboardAiBar());
+          sec['hero'] = Padding(
+            padding: hPad,
+            child: DogHeroCard(
+              dog: activeDog,
+              greetingName: greetingName,
+              breedImageUrl: breedImageUrl,
             ),
+          );
+          if (activeDog != null) {
+            sec['today'] =
+                Padding(padding: hPad, child: TodayCard(dog: activeDog));
+          }
+          sec['weather'] =
+              Padding(padding: hPad, child: WeatherCard(dogName: activeDog?.name));
+          sec['wisdom'] =
+              const Padding(padding: hPad, child: WisdomQuoteCard());
+          if (prefs?.showFeatureGridOnHome ?? true) {
+            sec['quick'] =
+                const Padding(padding: hPad, child: QuickActionGrid());
+          }
+          sec['discover'] = const DiscoverMoreSection();
+          if (showMyDog && (prefs?.showUpcomingOnHome ?? true)) {
+            sec['upcoming'] =
+                const Padding(padding: hPad, child: UpcomingEventsCard());
+          }
+          if (showMyDog) {
+            sec['myDog'] = Padding(
+              padding: hPad,
+              child: MyDogSection(dog: activeDog, allBreeds: breeds),
+            );
+          }
+          if (showMyDog && matched != null) {
+            sec['products'] = Padding(
+              padding: hPad,
+              child: ProductRecommendations(breed: matched),
+            );
+          }
+          sec['popular'] = PopularBreedsRow(
+            allBreeds: breeds,
+            activeBreedName: activeDog?.breed,
+          );
+          if (prefs?.showForYouOnHome ?? true) {
+            sec['forYou'] = Padding(
+              padding: hPad,
+              child: ForYouSection(allBreeds: breeds, prefs: prefs),
+            );
+          }
+          sec['stats'] = const Padding(padding: hPad, child: StatsRow());
+          if (prefs?.showAllBreedsOnHome ?? true) {
+            sec['breeds'] = const _BreedsPreviewSection();
+          }
 
-            // 3) Hero
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.lg,
-                AppSpacing.lg,
-              ),
-              child: DogHeroCard(
-                dog: activeDog,
-                greetingName: greetingName,
-                breedImageUrl: breedImageUrl,
-              ),
-            ),
-
-            // 3) Heute fuer <Hund> - personalisiertes Tagesbriefing
-            if (activeDog != null) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: TodayCard(dog: activeDog),
-              ),
-              const SizedBox(height: AppSpacing.md),
-            ],
-
-            // 3b) Wetter am Standort + Gassi-Tipp - fuer alle (nicht nur mit
-            // Hund). Zeigt sich nur, wenn der Standort erlaubt wurde.
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: WeatherCard(dogName: activeDog?.name),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // 4) Hunde-Weisheit der Stunde (rotiert jede Stunde)
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: WisdomQuoteCard(),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // 5) Schnellaktionen
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: QuickActionGrid(),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-
-            // 5b) Entdecke mehr - Empfehlungs-Karten (horizontal)
-            const DiscoverMoreSection(),
-            const SizedBox(height: AppSpacing.xl),
-
-            // 6) Termine (kompakt) - nur wenn aktiver Hund da
-            if (showMyDog && (prefs?.showUpcomingOnHome ?? true)) ...[
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: UpcomingEventsCard(),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-            ],
-
-            // 7) MyDogSection - der zentrale Punkt der Familien-App
-            if (showMyDog) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: MyDogSection(dog: activeDog, allBreeds: breeds),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-            ],
-
-            // 7b) Produkt-/Futter-Empfehlungen (nur wenn Rasse erkannt)
-            if (showMyDog && matched != null) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: ProductRecommendations(breed: matched),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-            ],
-
-            // 8) Beliebte Rassen (Inspiration)
-            PopularBreedsRow(
-              allBreeds: breeds,
-              activeBreedName: activeDog?.breed,
-            ),
-            const SizedBox(height: AppSpacing.xl),
-
-            // 9) Fuer dich (personalisiert)
-            if (prefs?.showForYouOnHome ?? true) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: ForYouSection(allBreeds: breeds, prefs: prefs),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-            ],
-
-            // 10) Statistik-Zeile
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: StatsRow(),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-
-            // 11) Entdecken: Suchleiste + VORSCHAU (max 8) statt aller ~360
-            // Rassen - die volle Liste lebt auf dem eigenen Rassen-Screen.
-            if (prefs?.showAllBreedsOnHome ?? true) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Entdecken: Rassen',
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => context.push(AppRoutes.breedList),
-                      child: const Text('Alle anzeigen'),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: BreedSearchBar(),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Consumer(builder: (context, ref, _) {
-                final filtered = ref.watch(filteredBreedsProvider);
-                if (filtered.isEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.all(AppSpacing.xl),
-                    child: Center(
-                      child: Text(
-                        'Keine Rasse passt zu deinen Filtern.',
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  );
-                }
-                final preview = filtered.take(8).toList(growable: false);
-                return Column(
-                  children: [
-                    for (final breed in preview) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.lg,
-                        ),
-                        child: BreedCard(
-                          breed: breed,
-                          onTap: () => context.push(
-                              '${AppRoutes.breedDetail}/${breed.id}'),
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                    ],
-                    if (filtered.length > preview.length)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.lg,
-                        ),
-                        child: OutlinedButton.icon(
-                          onPressed: () =>
-                              context.push(AppRoutes.breedList),
-                          icon: const Icon(Icons.grid_view_rounded),
-                          label: Text(
-                            'Alle ${filtered.length} Rassen ansehen',
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              }),
-            ],
-            const SizedBox(height: AppSpacing.xxl),
+          const standard = [
+            'dogSwitcher', 'aiBar', 'hero', 'today', 'weather', 'wisdom',
+            'quick', 'discover', 'upcoming', 'myDog', 'products', 'popular',
+            'forYou', 'stats', 'breeds',
           ];
+          const focus = [
+            'dogSwitcher', 'aiBar', 'hero', 'today', 'weather', 'upcoming',
+            'myDog',
+          ];
+          const compact = [
+            'dogSwitcher', 'aiBar', 'quick', 'hero', 'today', 'myDog',
+            'upcoming', 'stats', 'popular', 'breeds',
+          ];
+          const magazine = [
+            'dogSwitcher', 'hero', 'popular', 'discover', 'aiBar', 'today',
+            'myDog', 'products', 'forYou', 'wisdom', 'breeds', 'stats',
+          ];
+          final order = switch (layout) {
+            DashboardLayout.standard => standard,
+            DashboardLayout.focus => focus,
+            DashboardLayout.compact => compact,
+            DashboardLayout.magazine => magazine,
+          };
+          final gap =
+              layout == DashboardLayout.compact ? AppSpacing.lg : AppSpacing.xl;
+
+          final sections = <Widget>[const SizedBox(height: AppSpacing.md)];
+          for (final key in order) {
+            final w = sec[key];
+            if (w == null) continue;
+            sections.add(w);
+            sections.add(SizedBox(height: gap));
+          }
+          sections.add(const SizedBox(height: AppSpacing.xxl));
 
           return CustomScrollView(
             slivers: [
@@ -295,3 +198,75 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// "Entdecken: Rassen" - Suchleiste + Vorschau (max 8). Die volle Liste lebt
+/// auf dem eigenen Rassen-Screen. Eigenes Widget, damit nur dieser Block neu
+/// baut, wenn sich der Suchfilter aendert.
+class _BreedsPreviewSection extends ConsumerWidget {
+  const _BreedsPreviewSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final filtered = ref.watch(filteredBreedsProvider);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Entdecken: Rassen',
+                  style: theme.textTheme.titleLarge,
+                ),
+              ),
+              TextButton(
+                onPressed: () => context.push(AppRoutes.breedList),
+                child: const Text('Alle anzeigen'),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: BreedSearchBar(),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        if (filtered.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            child: Center(
+              child: Text(
+                'Keine Rasse passt zu deinen Filtern.',
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
+          )
+        else ...[
+          for (final breed in filtered.take(8)) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: BreedCard(
+                breed: breed,
+                onTap: () =>
+                    context.push('${AppRoutes.breedDetail}/${breed.id}'),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+          ],
+          if (filtered.length > 8)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: OutlinedButton.icon(
+                onPressed: () => context.push(AppRoutes.breedList),
+                icon: const Icon(Icons.grid_view_rounded),
+                label: Text('Alle ${filtered.length} Rassen ansehen'),
+              ),
+            ),
+        ],
+      ],
+    );
+  }
+}
