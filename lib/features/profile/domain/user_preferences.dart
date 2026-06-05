@@ -59,6 +59,38 @@ enum DashboardLayout {
   final IconData icon;
 }
 
+/// Auswaehlbare Hintergruende der Startseite. Kombiniert mit dem Seed des
+/// [DashboardStyle] faerbt sich der Dashboard-Hintergrund mit dem Design mit.
+/// Bewusst leichtgewichtig (kein Vollbild-Blur). IDs bleiben stabil.
+enum DashboardBackground {
+  plain(
+    'Schlicht',
+    'Ruhiger, neutraler Hintergrund ohne Toenung.',
+    Icons.crop_din_rounded,
+  ),
+  gradient(
+    'Verlauf',
+    'Weicher Farbverlauf in deiner Designfarbe.',
+    Icons.gradient_rounded,
+  ),
+  mesh(
+    'Farbflaechen',
+    'Weiche Farbkreise fuer einen modernen Look.',
+    Icons.blur_on_rounded,
+  ),
+  paws(
+    'Pfoten',
+    'Dezentes Pfoten-Muster in deiner Designfarbe.',
+    Icons.pets_rounded,
+  );
+
+  const DashboardBackground(this.label, this.description, this.icon);
+
+  final String label;
+  final String description;
+  final IconData icon;
+}
+
 /// Personalisierungs-Einstellungen des Nutzers. Lokal persistiert
 /// (`shared_preferences`); spaeter optional in Firestore synchronisiert.
 class UserPreferences extends Equatable {
@@ -75,6 +107,7 @@ class UserPreferences extends Equatable {
     this.seniorMode = false,
     this.dashboardStyle = DashboardStyle.violet,
     this.dashboardLayout = DashboardLayout.standard,
+    this.dashboardBackground = DashboardBackground.gradient,
   });
 
   /// Anzeigename - wird in der Begruessung auf Home verwendet.
@@ -109,6 +142,9 @@ class UserPreferences extends Equatable {
   /// Gewaehltes Dashboard-Layout (Anordnung der Startseite).
   final DashboardLayout dashboardLayout;
 
+  /// Gewaehlter Dashboard-Hintergrund (Toenung/Muster der Startseite).
+  final DashboardBackground dashboardBackground;
+
   bool get hasName => displayName != null && displayName!.trim().isNotEmpty;
 
   UserPreferences copyWith({
@@ -124,14 +160,16 @@ class UserPreferences extends Equatable {
     bool? seniorMode,
     DashboardStyle? dashboardStyle,
     DashboardLayout? dashboardLayout,
+    DashboardBackground? dashboardBackground,
     bool clearPreferredSize = false,
     bool clearPreferredActivity = false,
   }) {
     return UserPreferences(
       displayName: displayName ?? this.displayName,
       country: country ?? this.country,
-      preferredSize:
-          clearPreferredSize ? null : (preferredSize ?? this.preferredSize),
+      preferredSize: clearPreferredSize
+          ? null
+          : (preferredSize ?? this.preferredSize),
       preferredActivity: clearPreferredActivity
           ? null
           : (preferredActivity ?? this.preferredActivity),
@@ -144,6 +182,7 @@ class UserPreferences extends Equatable {
       seniorMode: seniorMode ?? this.seniorMode,
       dashboardStyle: dashboardStyle ?? this.dashboardStyle,
       dashboardLayout: dashboardLayout ?? this.dashboardLayout,
+      dashboardBackground: dashboardBackground ?? this.dashboardBackground,
     );
   }
 
@@ -153,20 +192,21 @@ class UserPreferences extends Equatable {
     return UserPreferences(
       displayName: json['displayName'] as String?,
       country: Country.fromCode(json['country'] as String?),
-      preferredSize:
-          sizeName == null ? null : DogSize.values.byName(sizeName),
+      preferredSize: sizeName == null ? null : DogSize.values.byName(sizeName),
       preferredActivity: activityName == null
           ? null
           : ActivityLevel.values.byName(activityName),
       ttsEnabled: (json['ttsEnabled'] as bool?) ?? true,
       showUpcomingOnHome: (json['showUpcomingOnHome'] as bool?) ?? true,
       showForYouOnHome: (json['showForYouOnHome'] as bool?) ?? true,
-      showFeatureGridOnHome:
-          (json['showFeatureGridOnHome'] as bool?) ?? true,
+      showFeatureGridOnHome: (json['showFeatureGridOnHome'] as bool?) ?? true,
       showAllBreedsOnHome: (json['showAllBreedsOnHome'] as bool?) ?? true,
       seniorMode: (json['seniorMode'] as bool?) ?? false,
       dashboardStyle: _parseStyle(json['dashboardStyle'] as String?),
       dashboardLayout: _parseLayout(json['dashboardLayout'] as String?),
+      dashboardBackground: _parseBackground(
+        json['dashboardBackground'] as String?,
+      ),
     );
   }
 
@@ -186,6 +226,14 @@ class UserPreferences extends Equatable {
     return DashboardLayout.standard;
   }
 
+  static DashboardBackground _parseBackground(String? name) {
+    if (name == null) return DashboardBackground.gradient;
+    for (final b in DashboardBackground.values) {
+      if (b.name == name) return b;
+    }
+    return DashboardBackground.gradient;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'displayName': displayName,
@@ -200,22 +248,24 @@ class UserPreferences extends Equatable {
       'seniorMode': seniorMode,
       'dashboardStyle': dashboardStyle.name,
       'dashboardLayout': dashboardLayout.name,
+      'dashboardBackground': dashboardBackground.name,
     };
   }
 
   @override
   List<Object?> get props => [
-        displayName,
-        country,
-        preferredSize,
-        preferredActivity,
-        ttsEnabled,
-        showUpcomingOnHome,
-        showForYouOnHome,
-        showFeatureGridOnHome,
-        showAllBreedsOnHome,
-        seniorMode,
-        dashboardStyle,
-        dashboardLayout,
-      ];
+    displayName,
+    country,
+    preferredSize,
+    preferredActivity,
+    ttsEnabled,
+    showUpcomingOnHome,
+    showForYouOnHome,
+    showFeatureGridOnHome,
+    showAllBreedsOnHome,
+    seniorMode,
+    dashboardStyle,
+    dashboardLayout,
+    dashboardBackground,
+  ];
 }
