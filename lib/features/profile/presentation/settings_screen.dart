@@ -18,8 +18,8 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mode = ref.watch(themeModeProvider);
     final themeNotifier = ref.read(themeModeProvider.notifier);
-    final prefs = ref.watch(userPreferencesProvider).value ??
-        const UserPreferences();
+    final prefs =
+        ref.watch(userPreferencesProvider).value ?? const UserPreferences();
     final prefsNotifier = ref.read(userPreferencesProvider.notifier);
 
     return Scaffold(
@@ -41,8 +41,7 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: Text(prefs.country.label),
             trailing: PopupMenuButton<Country>(
               icon: const Icon(Icons.expand_more),
-              onSelected: (c) =>
-                  prefsNotifier.save(prefs.copyWith(country: c)),
+              onSelected: (c) => prefsNotifier.save(prefs.copyWith(country: c)),
               itemBuilder: (_) => [
                 for (final c in Country.values)
                   PopupMenuItem(value: c, child: Text(c.label)),
@@ -81,8 +80,7 @@ class SettingsScreen extends ConsumerWidget {
               'Liest Antworten des KI-Beraters laut vor (Browser-Stimme).',
             ),
             value: prefs.ttsEnabled,
-            onChanged: (v) =>
-                prefsNotifier.save(prefs.copyWith(ttsEnabled: v)),
+            onChanged: (v) => prefsNotifier.save(prefs.copyWith(ttsEnabled: v)),
           ),
 
           _SectionTitle('Dashboard anpassen'),
@@ -145,12 +143,23 @@ class SettingsScreen extends ConsumerWidget {
                   _StyleSwatch(
                     style: style,
                     selected: prefs.dashboardStyle == style,
-                    onTap: () => prefsNotifier
-                        .save(prefs.copyWith(dashboardStyle: style)),
+                    onTap: () => prefsNotifier.save(
+                      prefs.copyWith(dashboardStyle: style),
+                    ),
                   ),
               ],
             ),
           ),
+
+          _SectionTitle('Dashboard-Hintergrund'),
+          for (final b in DashboardBackground.values)
+            _BackgroundTile(
+              background: b,
+              selected: prefs.dashboardBackground == b,
+              onTap: () =>
+                  prefsNotifier.save(prefs.copyWith(dashboardBackground: b)),
+            ),
+          const SizedBox(height: AppSpacing.sm),
 
           _SectionTitle('Darstellung'),
           SwitchListTile(
@@ -160,8 +169,7 @@ class SettingsScreen extends ConsumerWidget {
               'Groessere Schrift in der ganzen App - angenehmer zu lesen.',
             ),
             value: prefs.seniorMode,
-            onChanged: (v) =>
-                prefsNotifier.save(prefs.copyWith(seniorMode: v)),
+            onChanged: (v) => prefsNotifier.save(prefs.copyWith(seniorMode: v)),
           ),
           _ModeTile(
             label: 'System',
@@ -250,8 +258,9 @@ class _LayoutTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: selected
                 ? theme.colorScheme.primary.withValues(alpha: 0.10)
-                : theme.colorScheme.surfaceContainerHighest
-                    .withValues(alpha: 0.4),
+                : theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.4,
+                  ),
             borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
             border: Border.all(
               color: selected
@@ -290,8 +299,95 @@ class _LayoutTile extends StatelessWidget {
                 ),
               ),
               if (selected)
-                Icon(Icons.check_circle_rounded,
-                    color: theme.colorScheme.primary),
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: theme.colorScheme.primary,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Auswahlkarte fuer einen [DashboardBackground]: Icon + Name + Kurzbe-
+/// schreibung mit Haken bei der aktiven Wahl. Gleicher iOS-sicherer Aufbau
+/// (InkWell + Container) wie [_LayoutTile].
+class _BackgroundTile extends StatelessWidget {
+  const _BackgroundTile({
+    required this.background,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final DashboardBackground background;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xs,
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          decoration: BoxDecoration(
+            color: selected
+                ? theme.colorScheme.primary.withValues(alpha: 0.10)
+                : theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.4,
+                  ),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+            border: Border.all(
+              color: selected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outline.withValues(alpha: 0.2),
+              width: selected ? 2 : 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                background.icon,
+                color: selected
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      background.label,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      background.description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (selected)
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: theme.colorScheme.primary,
+                ),
             ],
           ),
         ),
@@ -362,8 +458,11 @@ class _StyleSwatch extends StatelessWidget {
                   ),
                   if (selected)
                     const Center(
-                      child: Icon(Icons.check_rounded,
-                          color: Colors.white, size: 26),
+                      child: Icon(
+                        Icons.check_rounded,
+                        color: Colors.white,
+                        size: 26,
+                      ),
                     ),
                 ],
               ),
