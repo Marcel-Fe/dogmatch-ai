@@ -162,6 +162,16 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           route: AppRoutes.breederFinder,
         ),
         _DrawerItem(
+          icon: Icons.school_rounded,
+          label: 'Zuechterwissen',
+          route: AppRoutes.breedingKnowledge,
+        ),
+        _DrawerItem(
+          icon: Icons.menu_book_rounded,
+          label: 'FCI-Standards',
+          route: AppRoutes.fciStandards,
+        ),
+        _DrawerItem(
           icon: Icons.quiz_rounded,
           label: 'Rassen-Matching-Quiz',
           route: AppRoutes.quiz,

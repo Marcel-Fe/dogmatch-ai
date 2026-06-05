@@ -26,6 +26,8 @@ class AppRoutes {
   static const String settings = '/settings';
   static const String breederFinder = '/breeders';
   static const String breederProfile = '/breeder'; // /breeder/:id
+  static const String fciStandards = '/fci-standards';
+  static const String breedingKnowledge = '/breeding-knowledge';
   static const String editProfile = '/edit-profile';
 
   // Hunde-Verwaltung

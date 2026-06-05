@@ -3,6 +3,8 @@ import 'package:dogmatch_ai/features/assistant/presentation/assistant_screen.dar
 import 'package:dogmatch_ai/features/auth/presentation/login_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_finder_screen.dart';
 import 'package:dogmatch_ai/features/breeders/presentation/breeder_profile_screen.dart';
+import 'package:dogmatch_ai/features/breeders/presentation/breeding_knowledge_screen.dart';
+import 'package:dogmatch_ai/features/breeders/presentation/fci_standards_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_detail_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_list_screen.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/mix_breed_screen.dart';
@@ -272,6 +274,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.breederFinder,
       builder: (context, state) => const BreederFinderScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.fciStandards,
+      builder: (context, state) => const FciStandardsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.breedingKnowledge,
+      builder: (context, state) => const BreedingKnowledgeScreen(),
     ),
     GoRoute(
       path: '${AppRoutes.breederProfile}/:id',
