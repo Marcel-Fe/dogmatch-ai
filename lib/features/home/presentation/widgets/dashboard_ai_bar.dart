@@ -39,7 +39,9 @@ class _DashboardAiBarState extends ConsumerState<DashboardAiBar> {
     }
     // Frage vormerken und zum KI-Berater springen - dort wird sie
     // automatisch abgeschickt (gleicher Mechanismus wie Verhalten-Check).
-    ref.read(assistantHandoffProvider.notifier).queue(
+    ref
+        .read(assistantHandoffProvider.notifier)
+        .queue(
           AssistantHandoff(
             prompt: text,
             mode: ChatMode.advisor,
@@ -59,9 +61,9 @@ class _DashboardAiBarState extends ConsumerState<DashboardAiBar> {
     if (!_stt.isAvailable) {
       final msg = _stt.isIosSafari
           ? 'Apple unterstuetzt Sprach-Eingabe im iPhone-Safari nicht. '
-              'Bitte tippe deine Frage - die KI-Antwort funktioniert trotzdem.'
+                'Bitte tippe deine Frage - die KI-Antwort funktioniert trotzdem.'
           : 'Sprach-Eingabe ist in diesem Browser nicht unterstuetzt '
-              '(Chrome / Edge nutzen).';
+                '(Chrome / Edge nutzen).';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(msg), duration: const Duration(seconds: 4)),
       );
@@ -95,90 +97,87 @@ class _DashboardAiBarState extends ConsumerState<DashboardAiBar> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final accent = theme.colorScheme.primary;
+    // Dezente, schlanke Eingabeleiste im Horizon-Stil: weisse Karte mit
+    // weichem Schatten, kleines Akzent-Badge, ein Eingabefeld - bewusst
+    // zurueckhaltend, damit das Hundebild darueber im Mittelpunkt bleibt.
     return Container(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.primaryDark],
-        ),
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        boxShadow: [
+        border: Border.all(color: theme.colorScheme.outlineVariant),
+        boxShadow: const [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.25),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+            color: AppColors.cardShadow,
+            blurRadius: 24,
+            offset: Offset(0, 10),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: 6,
+      ),
+      child: Row(
         children: [
-          Row(
-            children: [
-              const Icon(Icons.smart_toy_rounded, color: Colors.white, size: 20),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                'Frag die KI - sofort',
-                style: theme.textTheme.titleSmall?.copyWith(
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.auto_awesome_rounded, color: accent, size: 18),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              enabled: !_listening,
+              textInputAction: TextInputAction.send,
+              onSubmitted: (v) => _submit(v),
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                hintText: _listening ? 'Hoere zu ...' : 'Frag die KI ...',
+              ),
+            ),
+          ),
+          IconButton(
+            tooltip: 'Foto an die KI senden',
+            visualDensity: VisualDensity.compact,
+            onPressed: () => context.go(AppRoutes.assistant),
+            icon: Icon(
+              Icons.add_photo_alternate_outlined,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          IconButton(
+            tooltip: _listening ? 'Stoppen' : 'Sprechen',
+            visualDensity: VisualDensity.compact,
+            onPressed: _toggleMic,
+            icon: Icon(
+              _listening ? Icons.stop_circle_outlined : Icons.mic_rounded,
+              color: _listening
+                  ? Colors.redAccent
+                  : theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(width: 2),
+          Material(
+            color: accent,
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: () => _submit(),
+              child: const Padding(
+                padding: EdgeInsets.all(7),
+                child: Icon(
+                  Icons.arrow_forward_rounded,
                   color: Colors.white,
-                  fontWeight: FontWeight.w700,
+                  size: 18,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
-            ),
-            padding: const EdgeInsets.only(left: AppSpacing.md, right: 4),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    enabled: !_listening,
-                    textInputAction: TextInputAction.send,
-                    onSubmitted: (v) => _submit(v),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      border: InputBorder.none,
-                      hintText: _listening
-                          ? 'Hoere zu ...'
-                          : 'Was moechtest du wissen?',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  tooltip: 'Foto an die KI senden',
-                  onPressed: () => context.go(AppRoutes.assistant),
-                  icon: Icon(Icons.add_photo_alternate_outlined,
-                      color: theme.colorScheme.primary),
-                ),
-                IconButton(
-                  tooltip: _listening ? 'Stoppen' : 'Sprechen',
-                  onPressed: _toggleMic,
-                  icon: Icon(
-                    _listening ? Icons.stop_circle_outlined : Icons.mic_rounded,
-                    color: _listening ? Colors.redAccent : theme.colorScheme.primary,
-                  ),
-                ),
-                Material(
-                  color: theme.colorScheme.primary,
-                  shape: const CircleBorder(),
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () => _submit(),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.send_rounded, color: Colors.white, size: 20),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ],

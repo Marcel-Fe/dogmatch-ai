@@ -21,6 +21,7 @@ class SettingsScreen extends ConsumerWidget {
     final prefs =
         ref.watch(userPreferencesProvider).value ?? const UserPreferences();
     final prefsNotifier = ref.read(userPreferencesProvider.notifier);
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Einstellungen')),
@@ -117,6 +118,44 @@ class SettingsScreen extends ConsumerWidget {
                 prefsNotifier.save(prefs.copyWith(showAllBreedsOnHome: v)),
           ),
 
+          _SectionTitle('Dashboard-Design'),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              bottom: AppSpacing.xs,
+            ),
+            child: Text(
+              'Tippe ein Design - Farbe und Hintergrund werden zusammen gesetzt.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 116,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              children: [
+                for (final p in _dashboardPresets)
+                  _DesignPresetCard(
+                    preset: p,
+                    selected:
+                        prefs.dashboardStyle == p.style &&
+                        prefs.dashboardBackground == p.background,
+                    onTap: () => prefsNotifier.save(
+                      prefs.copyWith(
+                        dashboardStyle: p.style,
+                        dashboardBackground: p.background,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+
           _SectionTitle('Dashboard-Layout'),
           for (final l in DashboardLayout.values)
             _LayoutTile(
@@ -127,7 +166,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           const SizedBox(height: AppSpacing.sm),
 
-          _SectionTitle('Dashboard-Design'),
+          _SectionTitle('Akzentfarbe'),
           Padding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.lg,
@@ -303,6 +342,133 @@ class _LayoutTile extends StatelessWidget {
                   Icons.check_circle_rounded,
                   color: theme.colorScheme.primary,
                 ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Ein fertiges Dashboard-Design: setzt Akzentfarbe ([DashboardStyle]) und
+/// [DashboardBackground] mit einem Tipp zusammen. IDs der Enums bleiben stabil.
+class _DesignPreset {
+  const _DesignPreset(this.label, this.style, this.background);
+  final String label;
+  final DashboardStyle style;
+  final DashboardBackground background;
+}
+
+const _dashboardPresets = <_DesignPreset>[
+  _DesignPreset(
+    'Lavendel',
+    DashboardStyle.violet,
+    DashboardBackground.gradient,
+  ),
+  _DesignPreset('Husky-Ozean', DashboardStyle.ocean, DashboardBackground.mesh),
+  _DesignPreset(
+    'Border Collie',
+    DashboardStyle.forest,
+    DashboardBackground.paws,
+  ),
+  _DesignPreset(
+    'Sonnenuntergang',
+    DashboardStyle.sunset,
+    DashboardBackground.gradient,
+  ),
+  _DesignPreset(
+    'Mitternacht',
+    DashboardStyle.midnight,
+    DashboardBackground.mesh,
+  ),
+  _DesignPreset('Beere', DashboardStyle.berry, DashboardBackground.paws),
+  _DesignPreset('Schlicht', DashboardStyle.graphite, DashboardBackground.plain),
+];
+
+/// Vorschau-Karte fuer ein [_DesignPreset]: kleiner Farbverlauf in der
+/// Akzentfarbe mit Hintergrund-Symbol und Name; Rahmen + Haken bei Auswahl.
+class _DesignPresetCard extends StatelessWidget {
+  const _DesignPresetCard({
+    required this.preset,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final _DesignPreset preset;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final seed = preset.style.seed;
+    return Padding(
+      padding: const EdgeInsets.only(right: AppSpacing.md),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        onTap: onTap,
+        child: SizedBox(
+          width: 128,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [seed, Color.lerp(seed, Colors.black, 0.28)!],
+                  ),
+                  border: Border.all(
+                    color: selected
+                        ? theme.colorScheme.primary
+                        : Colors.transparent,
+                    width: 3,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: seed.withValues(alpha: 0.30),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 7,
+                      top: 7,
+                      child: Icon(
+                        preset.background.icon,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        size: 16,
+                      ),
+                    ),
+                    if (selected)
+                      const Positioned(
+                        left: 7,
+                        bottom: 7,
+                        child: Icon(
+                          Icons.check_circle_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                preset.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected ? theme.colorScheme.primary : null,
+                ),
+              ),
             ],
           ),
         ),

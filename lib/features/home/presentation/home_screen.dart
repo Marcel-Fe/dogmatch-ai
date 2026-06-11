@@ -177,8 +177,8 @@ class HomeScreen extends ConsumerWidget {
 
               const standard = [
                 'dogSwitcher',
-                'aiBar',
                 'hero',
+                'aiBar',
                 'today',
                 'weather',
                 'wisdom',
@@ -194,8 +194,8 @@ class HomeScreen extends ConsumerWidget {
               ];
               const focus = [
                 'dogSwitcher',
-                'aiBar',
                 'hero',
+                'aiBar',
                 'today',
                 'weather',
                 'upcoming',
@@ -203,9 +203,9 @@ class HomeScreen extends ConsumerWidget {
               ];
               const compact = [
                 'dogSwitcher',
+                'hero',
                 'aiBar',
                 'quick',
-                'hero',
                 'today',
                 'myDog',
                 'upcoming',

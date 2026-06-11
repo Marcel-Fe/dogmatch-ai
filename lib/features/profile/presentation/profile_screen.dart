@@ -10,8 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// Profil-Tab. Oben die persoenliche Profilkarte (Name, Land, Vorlieben),
-/// darunter Navigation zu Premium, Wissensbereich, Zuechter-Finder und
-/// Einstellungen.
+/// darunter Navigation zu Premium, Wissensbereich und Zuechter-Finder.
+/// Einstellungen liegen bewusst nur im Menue (Drawer -> Konto).
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -44,11 +44,6 @@ class ProfileScreen extends ConsumerWidget {
             label: 'Zuechter-Finder',
             onTap: () => context.push(AppRoutes.breederFinder),
           ),
-          _MenuTile(
-            icon: Icons.settings_outlined,
-            label: 'Einstellungen',
-            onTap: () => context.push(AppRoutes.settings),
-          ),
         ],
       ),
     );
@@ -63,8 +58,10 @@ class _ProfileHeader extends StatelessWidget {
   String _initials() {
     if (!prefs.hasName) return '?';
     final parts = prefs.displayName!.trim().split(RegExp(r'\s+'));
-    final letters =
-        parts.take(2).map((p) => p.isEmpty ? '' : p[0].toUpperCase()).join();
+    final letters = parts
+        .take(2)
+        .map((p) => p.isEmpty ? '' : p[0].toUpperCase())
+        .join();
     return letters.isEmpty ? '?' : letters;
   }
 
@@ -141,9 +138,7 @@ class _MenuTile extends StatelessWidget {
           children: [
             Icon(icon, color: theme.colorScheme.primary),
             const SizedBox(width: AppSpacing.lg),
-            Expanded(
-              child: Text(label, style: theme.textTheme.titleSmall),
-            ),
+            Expanded(child: Text(label, style: theme.textTheme.titleSmall)),
             Icon(Icons.chevron_right, color: theme.colorScheme.outline),
           ],
         ),
