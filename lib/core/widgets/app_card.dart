@@ -1,7 +1,9 @@
+import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
-/// Wiederverwendbare Karte mit weichem Rahmen und optionalem Tap-Verhalten.
+/// Wiederverwendbare Karte im Horizon-Stil: weisse Flaeche mit grossem Radius
+/// und sehr weichem Schatten (im Dark-Mode dezenter Rand statt Schatten).
 class AppCard extends StatelessWidget {
   const AppCard({
     super.key,
@@ -16,16 +18,35 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Material(
-      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
-      borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        child: Padding(
-          padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
-          child: child,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final radius = BorderRadius.circular(AppSpacing.radiusLg);
+    final surface = isDark ? AppColors.darkSurface : AppColors.lightSurface;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: surface,
+        borderRadius: radius,
+        border: isDark ? Border.all(color: AppColors.darkBorder) : null,
+        boxShadow: isDark
+            ? null
+            : const [
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 40,
+                  offset: Offset(0, 18),
+                ),
+              ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          child: Padding(
+            padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
+            child: child,
+          ),
         ),
       ),
     );

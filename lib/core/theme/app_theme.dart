@@ -63,6 +63,10 @@ class AppTheme {
   }) {
     // Akzentfarbe: vom Nutzer gewaehltes Dashboard-Design, sonst Standard.
     final accent = seed ?? AppColors.primary;
+    final isDark = brightness == Brightness.dark;
+    // Horizon: Seite blau-grau/Navy, Karten weiss/heller Navy.
+    final surface = isDark ? AppColors.darkSurface : AppColors.lightSurface;
+    final border = isDark ? AppColors.darkBorder : AppColors.lightBorder;
     final colorScheme = ColorScheme.fromSeed(
       seedColor: accent,
       brightness: brightness,
@@ -70,7 +74,13 @@ class AppTheme {
       primary: accent,
       secondary: AppColors.accent,
       error: AppColors.error,
+      surface: surface,
+      onSurface: textPrimary,
+      onSurfaceVariant: textSecondary,
+      outline: border,
+      outlineVariant: border,
     );
+    final textTheme = AppTypography.textTheme(textPrimary, textSecondary);
 
     return ThemeData(
       useMaterial3: true,
@@ -78,7 +88,54 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
       pageTransitionsTheme: _instantTransitions,
-      textTheme: AppTypography.textTheme(textPrimary, textSecondary),
+      textTheme: textTheme,
+      // Horizon: flache, transparente AppBar mit navy Titel.
+      appBarTheme: AppBarTheme(
+        backgroundColor: background,
+        foregroundColor: textPrimary,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: false,
+        titleTextStyle: textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w700,
+          color: textPrimary,
+        ),
+      ),
+      // Horizon: weisse Karten, grosser Radius, kein harter Schatten.
+      cardTheme: CardThemeData(
+        color: surface,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: AppColors.cardShadow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        ),
+      ),
+      // Horizon: helle Bottom-Nav mit Indigo-Aktivfarbe.
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: surface,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: accent.withValues(alpha: isDark ? 0.30 : 0.14),
+        elevation: 0,
+        height: 68,
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: states.contains(WidgetState.selected)
+                ? accent
+                : textSecondary,
+          ),
+        ),
+        iconTheme: WidgetStateProperty.resolveWith(
+          (states) => IconThemeData(
+            color: states.contains(WidgetState.selected)
+                ? accent
+                : textSecondary,
+          ),
+        ),
+      ),
+      dividerTheme: DividerThemeData(color: border, thickness: 1),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: accent,
