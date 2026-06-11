@@ -20,8 +20,9 @@ class AppColors {
   static const Color warning = Color(0xFFFFB547);
   static const Color error = Color(0xFFEE5D50);
 
-  // Light Theme - Seite blau-grau, Karten weiss
-  static const Color lightBackground = Color(0xFFF4F7FE);
+  // Light Theme - Seite kuehles Slate-Grau (etwas dunkler -> Karten "schweben"
+  // staerker, wirkt premium), Karten weiss.
+  static const Color lightBackground = Color(0xFFE3E9F4);
   static const Color lightSurface = Color(0xFFFFFFFF); // Kartenfarbe
   static const Color lightTextPrimary = Color(0xFF1B2559); // Navy
   static const Color lightTextSecondary = Color(0xFF707EAE); // gedaempftes Grau
