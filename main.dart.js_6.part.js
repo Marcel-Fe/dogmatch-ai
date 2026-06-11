@@ -41,7 +41,7 @@ n=u.d
 if(n==null){p=q.RG
 q=(p==null?q.k2:p).P(0.4)
 p=B.ah(16)
-o.push(B.ad(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ai(q,t,t,p,t,t,D.r),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oB(D.xy,D.vJ,"Maulkorb",n.c,t),new C.oB(A.a3I,D.pq,"Leinenpflicht",n.d,t),new C.oB(A.a4e,D.iA,"Tollwut & Impfungen",n.e,t),new C.oB(A.a38,A.WC,"Heimtierausweis",n.f,t),new C.oB(D.qJ,A.Wx,"Listenhunde-Regeln",n.r,t)],k)
+o.push(B.ad(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ai(q,t,t,p,t,t,D.r),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oB(D.xy,D.vJ,"Maulkorb",n.c,t),new C.oB(A.a3I,D.pq,"Leinenpflicht",n.d,t),new C.oB(A.a4e,D.iA,"Tollwut & Impfungen",n.e,t),new C.oB(A.a38,A.WD,"Heimtierausweis",n.f,t),new C.oB(D.qJ,A.Wy,"Listenhunde-Regeln",n.r,t)],k)
 n=u.d.w
 if(n!=null)q.push(new C.oB(A.a3r,D.vv,"Einreise / Transit",n,t))
 n=u.d.x
@@ -72,8 +72,8 @@ w(C.oB,B.O)})()
 B.aeT(b.typeUniverse,JSON.parse('{"ub":{"Q":[],"c":[]},"af1":{"a0":["ub"]},"oB":{"O":[],"c":[]}}'))
 var y={v:"EU-Standard: Tollwut-Impfung mind. 21 Tage alt.",n:"Keine landesweite Rasseliste - kommunale Regeln moeglich.",w:"Leinenpflicht in Staedten + Naturschutzgebieten.",f:"Leinenpflicht in Staedten + oeffentlichen Verkehrsmitteln.",D:"Mehrere Rassen sind von der Einfuhr ausgeschlossen.",A:"Tollwut-Impfung mind. 21 Tage alt + Bandwurm-Behandlung 1-5 Tage vor Einreise."}
 var x={c:B.a_("z<y>"),e:B.a_("z<c>"),a:B.a_("n?")};(function constants(){var w=a.makeConstList
-A.Wx=new B.y(1,0.36470588235294116,0.25098039215686274,0.21568627450980393,D.f)
-A.WC=new B.y(1,0.4823529411764706,0.12156862745098039,0.6352941176470588,D.f)
+A.Wy=new B.y(1,0.36470588235294116,0.25098039215686274,0.21568627450980393,D.f)
+A.WD=new B.y(1,0.4823529411764706,0.12156862745098039,0.6352941176470588,D.f)
 A.a38=new B.V(62885,"MaterialIcons",null,!1)
 A.a3r=new B.V(63151,"MaterialIcons",null,!1)
 A.a3F=new B.V(63510,"MaterialIcons",null,!1)
@@ -117,4 +117,4 @@ A.aii=w([A.a4E,D.K,A.azS],x.e)
 A.aqp=new B.Mn(D.aN,D.e,D.h,D.n,null,D.dK,null,0,A.aii,null)
 A.aze=new B.az("Urlaub mit Hund",null,null,null,null,null,null,null,null,null)
 A.aA6=new B.az("Reise-Checkliste oeffnen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["CL98F28S9Fi2QV9ncP+wKaRZ04I="]=a.current})($__dart_deferred_initializers__);
+(a=>{a["oWoega5WxIrBrghOQSwp9vFDB4k="]=a.current})($__dart_deferred_initializers__);
