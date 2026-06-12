@@ -45,6 +45,41 @@ export default {
       return json({ error: 'Ungueltiger Request-Body.' }, 400);
     }
 
+    // === TTS (additiv, fuer Gesundheits-App-Coach): natuerliche Stimme via
+    // Gemini-TTS. Request: { tts:true, text, voice? } -> { audio(base64 PCM), mime }
+    // Der bestehende Chat-Pfad darunter bleibt unveraendert.
+    if (body.tts) {
+      const ttsText = String(body.text || '').trim().slice(0, 300);
+      if (!ttsText) return json({ error: 'Kein Text.' }, 400);
+      const VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Leda', 'Orus', 'Zephyr'];
+      const voice = VOICES.indexOf(body.voice) >= 0 ? body.voice : 'Kore';
+      const ttsPayload = {
+        contents: [{ parts: [{ text: ttsText }] }],
+        generationConfig: {
+          responseModalities: ['AUDIO'],
+          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } },
+        },
+      };
+      let r;
+      try {
+        r = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + env.GEMINI_API_KEY,
+          { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ttsPayload) }
+        );
+      } catch (_) {
+        return json({ error: 'Gemini ist gerade nicht erreichbar.' }, 502);
+      }
+      let d;
+      try { d = await r.json(); } catch (_) { return json({ error: 'Gemini-Antwort unlesbar.' }, 502); }
+      if (!r.ok) {
+        return json({ error: (d && d.error && d.error.message) || ('HTTP ' + r.status) }, r.status);
+      }
+      const ttsParts = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+      const audioPart = ttsParts.find((p) => p.inlineData && p.inlineData.data);
+      if (!audioPart) return json({ error: 'Keine Audio-Antwort.' }, 502);
+      return json({ audio: audioPart.inlineData.data, mime: audioPart.inlineData.mimeType || 'audio/L16;rate=24000' });
+    }
+
     const model = body.model || 'gemini-2.5-flash';
     const messages = Array.isArray(body.messages) ? body.messages : [];
     const systemInstruction = body.systemInstruction || '';
