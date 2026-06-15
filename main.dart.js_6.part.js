@@ -9,13 +9,13 @@ _.f=i
 _.r=j
 _.w=k
 _.x=l},
-bxE(){return new C.ud(null)},
+bxG(){return new C.ud(null)},
 ud:function ud(d){this.a=d},
-af3:function af3(){this.c=this.a=this.d=null},
-b20:function b20(d){this.a=d},
-b21:function b21(d,e){this.a=d
+af4:function af4(){this.c=this.a=this.d=null},
+b23:function b23(d){this.a=d},
+b24:function b24(d,e){this.a=d
 this.b=e},
-b2_:function b2_(d,e){this.a=d
+b22:function b22(d,e){this.a=d
 this.b=e},
 oC:function oC(d,e,f,g,h){var _=this
 _.c=d
@@ -29,47 +29,47 @@ C=a.updateHolder(c[6],C)
 A=c[12]
 C.dM.prototype={}
 C.ud.prototype={
-W(){return new C.af3()}}
-C.af3.prototype={
-A(d){var w,v,u=this,t=null,s=B.p(d),r=B.cD(t,t,A.azl),q=s.ax,p=q.b,o=B.b([p.O(0.95),p.O(0.75)],x.c),n=B.ah(16),m=s.ok,l=m.Q,k=x.e
-o=B.ad(t,B.ar(B.b([A.aqw,D.r,B.m("Waehle dein Reiseziel - du bekommst die wichtigsten Regeln: Maulkorb, Leine, Tollwut, Pass, Listenhund-Status.",t,t,t,l==null?t:l.aC(D.k.O(0.92)),t,t,t),D.H,B.aoX(A.a4X,A.aAd,new C.b20(d),B.Jg(D.k.O(0.22),D.k,t,t,t,t))],k),D.o,D.e,D.h),D.i,t,t,new B.ai(t,t,t,n,t,new B.ez(D.bf,D.bR,D.aZ,o,t,t),D.q),t,t,t,D.z,t,t,t)
+W(){return new C.af4()}}
+C.af4.prototype={
+A(d){var w,v,u=this,t=null,s=B.p(d),r=B.cE(t,t,A.azl),q=s.ax,p=q.b,o=B.b([p.O(0.95),p.O(0.75)],x.c),n=B.ah(16),m=s.ok,l=m.Q,k=x.e
+o=B.ad(t,B.as(B.b([A.aqw,D.r,B.m("Waehle dein Reiseziel - du bekommst die wichtigsten Regeln: Maulkorb, Leine, Tollwut, Pass, Listenhund-Status.",t,t,t,l==null?t:l.aD(D.k.O(0.92)),t,t,t),D.H,B.aoY(A.a4X,A.aAd,new C.b23(d),B.Jg(D.k.O(0.22),D.k,t,t,t,t))],k),D.o,D.e,D.h),D.i,t,t,new B.ai(t,t,t,n,t,new B.ez(D.bf,D.bR,D.aZ,o,t,t),D.q),t,t,t,D.z,t,t,t)
 n=B.m("Reiseziel",t,t,t,m.w,t,t,t)
 l=B.b([],k)
 for(w=0;w<29;++w){v=A.a7E[w]
-l.push(B.ajZ(t,B.m(v.b+"  "+v.a,t,t,t,t,t,t,t),t,new C.b21(u,v),u.d===v,t))}o=B.b([o,D.S,n,D.r,B.h_(l,8,8),D.S],k)
+l.push(B.ak_(t,B.m(v.b+"  "+v.a,t,t,t,t,t,t,t),t,new C.b24(u,v),u.d===v,t))}o=B.b([o,D.S,n,D.r,B.h_(l,8,8),D.S],k)
 n=u.d
 if(n==null){p=q.RG
 q=(p==null?q.k2:p).O(0.4)
 p=B.ah(16)
-o.push(B.ad(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ai(q,t,t,p,t,t,D.q),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oC(D.xI,D.vO,"Maulkorb",n.c,t),new C.oC(A.a3J,D.ps,"Leinenpflicht",n.d,t),new C.oC(A.a4g,D.iA,"Tollwut & Impfungen",n.e,t),new C.oC(A.a39,A.WL,"Heimtierausweis",n.f,t),new C.oC(D.qO,A.WG,"Listenhunde-Regeln",n.r,t)],k)
+o.push(B.ad(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ai(q,t,t,p,t,t,D.q),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oC(D.xJ,D.vP,"Maulkorb",n.c,t),new C.oC(A.a3J,D.pt,"Leinenpflicht",n.d,t),new C.oC(A.a4g,D.iA,"Tollwut & Impfungen",n.e,t),new C.oC(A.a39,A.WL,"Heimtierausweis",n.f,t),new C.oC(D.qO,A.WG,"Listenhunde-Regeln",n.r,t)],k)
 n=u.d.w
-if(n!=null)q.push(new C.oC(A.a3s,D.vA,"Einreise / Transit",n,t))
+if(n!=null)q.push(new C.oC(A.a3s,D.vB,"Einreise / Transit",n,t))
 n=u.d.x
 if(n!=null)q.push(new C.oC(A.a3G,p,"Gut zu wissen",n,t))
 D.b.K(o,q)}return B.cv(r,t,B.dl(o,D.z,t,D.J,!1),t,t,t)}}
 C.oC.prototype={
-A(d){var w=this,v=null,u=B.p(d),t=w.d,s=t.O(0.06),r=B.ah(16),q=B.cn(t.O(0.3),1),p=B.as(w.c,t,v,18),o=u.ok,n=o.x
-t=n==null?v:n.cK(t,D.Y)
+A(d){var w=this,v=null,u=B.p(d),t=w.d,s=t.O(0.06),r=B.ah(16),q=B.cn(t.O(0.3),1),p=B.aq(w.c,t,v,18),o=u.ok,n=o.x
+t=n==null?v:n.cK(t,D.W)
 n=x.e
-return new B.a1(D.dW,B.ad(v,B.ar(B.b([B.aj(B.b([p,D.K,B.m(w.e,v,v,v,t,v,v,v)],n),D.n,D.e,D.h,0),D.W,B.m(w.f,v,v,v,o.Q,v,v,v)],n),D.o,D.e,D.h),D.i,v,v,new B.ai(s,v,q,r,v,v,D.q),v,v,v,D.b1,v,v,v),v)}}
+return new B.a1(D.dW,B.ad(v,B.as(B.b([B.aj(B.b([p,D.K,B.m(w.e,v,v,v,t,v,v,v)],n),D.n,D.e,D.h,0),D.X,B.m(w.f,v,v,v,o.Q,v,v,v)],n),D.o,D.e,D.h),D.i,v,v,new B.ai(s,v,q,r,v,v,D.q),v,v,v,D.b1,v,v,v),v)}}
 var z=a.updateTypes([])
-C.b20.prototype={
-$0(){return B.bV(this.a,"/checklists/travel",x.a)},
+C.b23.prototype={
+$0(){return B.bU(this.a,"/checklists/travel",x.a)},
 $S:0}
-C.b21.prototype={
+C.b24.prototype={
 $1(d){var w=this.a
-return w.M(new C.b2_(w,this.b))},
+return w.M(new C.b22(w,this.b))},
 $S:7}
-C.b2_.prototype={
+C.b22.prototype={
 $0(){return this.a.d=this.b},
 $S:0};(function inheritance(){var w=a.inherit,v=a.inheritMany
 w(C.dM,B.n)
 w(C.ud,B.Q)
-w(C.af3,B.a0)
-v(B.rh,[C.b20,C.b2_])
-w(C.b21,B.la)
+w(C.af4,B.a0)
+v(B.rh,[C.b23,C.b22])
+w(C.b24,B.la)
 w(C.oC,B.O)})()
-B.aeV(b.typeUniverse,JSON.parse('{"ud":{"Q":[],"c":[]},"af3":{"a0":["ud"]},"oC":{"O":[],"c":[]}}'))
+B.aeW(b.typeUniverse,JSON.parse('{"ud":{"Q":[],"c":[]},"af4":{"a0":["ud"]},"oC":{"O":[],"c":[]}}'))
 var y={v:"EU-Standard: Tollwut-Impfung mind. 21 Tage alt.",n:"Keine landesweite Rasseliste - kommunale Regeln moeglich.",w:"Leinenpflicht in Staedten + Naturschutzgebieten.",f:"Leinenpflicht in Staedten + oeffentlichen Verkehrsmitteln.",D:"Mehrere Rassen sind von der Einfuhr ausgeschlossen.",A:"Tollwut-Impfung mind. 21 Tage alt + Bandwurm-Behandlung 1-5 Tage vor Einreise."}
 var x={c:B.a_("z<y>"),e:B.a_("z<c>"),a:B.a_("n?")};(function constants(){var w=a.makeConstList
 A.WG=new B.y(1,0.36470588235294116,0.25098039215686274,0.21568627450980393,D.f)
@@ -79,7 +79,7 @@ A.a3s=new B.V(63151,"MaterialIcons",null,!1)
 A.a3G=new B.V(63510,"MaterialIcons",null,!1)
 A.a3J=new B.V(63578,"MaterialIcons",null,!1)
 A.a4g=new B.V(983978,"MaterialIcons",null,!1)
-A.a4X=new B.aX(D.xF,16,null,null,null)
+A.a4X=new B.aX(D.xG,16,null,null,null)
 A.aB9=new C.dM("Deutschland","\ud83c\udde9\ud83c\uddea","In oeffentlichen Verkehrsmitteln meist Pflicht. Listenhunde in fast allen Bundeslaendern Maulkorb-Pflicht.","Leinenpflicht regional verschieden - in Staedten in der Regel Pflicht, in Naturschutzgebieten ueberall.","Tollwut-Impfung im EU-Heimtierausweis, mind. 21 Tage vor Reise.","EU-Heimtierausweis + Chip-Nummer Pflicht.","Listenhund-Verordnungen je Bundesland verschieden - vor Einreise pruefen!",null,null)
 A.aBh=new C.dM("Oesterreich","\ud83c\udde6\ud83c\uddf9","Maulkorb-Pflicht in oeffentlichen Verkehrsmitteln, Restaurants, Skigebieten. In Wien zusaetzlich Beisskorb-Schein fuer Listenhunde.","Leinenpflicht in Staedten + Wanderwegen mit Weidevieh.","EU-Standard: Tollwut-Impfung, mind. 21 Tage alt.","EU-Heimtierausweis Pflicht.",'Wien hat besonders strenge Regeln - Hundefuehrerschein fuer "Listenhunde" notwendig.',null,null)
 A.aBa=new C.dM("Schweiz","\ud83c\udde8\ud83c\udded","Maulkorb in oeffentlichen Verkehrsmitteln vorgeschrieben. Listenhunde in einigen Kantonen mit Maulkorb-Pflicht.","Leinenpflicht in vielen Kantonen Pflicht - besonders Naturschutzgebiete + Wald.","Tollwut-Impfung mind. 21 Tage alt. EU-Heimtierausweis akzeptiert.","EU-Heimtierausweis + Chip-Nummer. Bei Einreise aus Drittlaendern Tierarzt-Attest.","Stark kantonal geregelt - Tessin, Wallis und Genf besonders streng.",null,null)
@@ -114,7 +114,7 @@ A.a4F=new B.aX(D.qS,null,D.k,null,null)
 A.av9=new B.L(!0,D.k,null,null,null,null,18,D.cb,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 A.azZ=new B.az("Reiseplaner",null,A.av9,null,null,null,null,null,null,null)
 A.aim=w([A.a4F,D.K,A.azZ],x.e)
-A.aqw=new B.Mo(D.aJ,D.e,D.h,D.n,null,D.dK,null,0,A.aim,null)
+A.aqw=new B.Mo(D.aL,D.e,D.h,D.n,null,D.dK,null,0,A.aim,null)
 A.azl=new B.az("Urlaub mit Hund",null,null,null,null,null,null,null,null,null)
 A.aAd=new B.az("Reise-Checkliste oeffnen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["qz6JEI6izFbunQ1ISP9r3YeUM8c="]=a.current})($__dart_deferred_initializers__);
+(a=>{a["RQOZ2PAIG0dO/DuqrW0fE90+SB8="]=a.current})($__dart_deferred_initializers__);
