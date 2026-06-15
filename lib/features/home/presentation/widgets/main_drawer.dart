@@ -2,6 +2,8 @@ import 'package:dogmatch_ai/app/router/app_routes.dart';
 import 'package:dogmatch_ai/core/theme/app_colors.dart';
 import 'package:dogmatch_ai/core/theme/app_spacing.dart';
 import 'package:dogmatch_ai/core/utils/share_app.dart';
+import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
+import 'package:dogmatch_ai/features/assistant/presentation/chat_controller.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,6 +98,7 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           icon: Icons.smart_toy_rounded,
           label: 'KI-Hundetrainer',
           route: AppRoutes.assistant,
+          assistantMode: ChatMode.trainer,
         ),
       ],
     ),
@@ -193,11 +196,6 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           label: 'Mein Profil',
           route: AppRoutes.profile,
         ),
-        _DrawerItem(
-          icon: Icons.settings_rounded,
-          label: 'Einstellungen',
-          route: AppRoutes.settings,
-        ),
       ],
     ),
   ];
@@ -229,7 +227,21 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                       expanded: _open.contains(s.title),
                       onToggle: () => _toggle(s.title),
                     ),
-                  const Divider(height: AppSpacing.xl, indent: AppSpacing.lg, endIndent: AppSpacing.lg),
+                  // Einstellungen als eigene Kategorie (direkt, ohne Aufklappen).
+                  _CategoryLink(
+                    icon: Icons.settings_rounded,
+                    title: 'Einstellungen',
+                    color: AppColors.primary,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.push(AppRoutes.settings);
+                    },
+                  ),
+                  const Divider(
+                    height: AppSpacing.xl,
+                    indent: AppSpacing.lg,
+                    endIndent: AppSpacing.lg,
+                  ),
                   _FooterTile(
                     icon: Icons.share_rounded,
                     label: 'App teilen',
@@ -244,7 +256,8 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
-                                'Link in die Zwischenablage kopiert / geteilt'),
+                              'Link in die Zwischenablage kopiert / geteilt',
+                            ),
                           ),
                         );
                       }
@@ -260,8 +273,9 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                    ),
                     child: Text(
                       '© DogMatch AI · v1.0',
                       style: theme.textTheme.labelSmall?.copyWith(
@@ -308,7 +322,11 @@ class _DrawerHeader extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
             ),
-            child: const Icon(Icons.pets_rounded, color: Colors.white, size: 28),
+            child: const Icon(
+              Icons.pets_rounded,
+              color: Colors.white,
+              size: 28,
+            ),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
@@ -359,10 +377,15 @@ class _DrawerItem {
     required this.icon,
     required this.label,
     required this.route,
+    this.assistantMode,
   });
   final IconData icon;
   final String label;
   final String route;
+
+  /// Wenn gesetzt, wird der KI-Berater beim Oeffnen in diesen Modus
+  /// geschaltet (z. B. "KI-Hundetrainer" -> Trainer statt Berater).
+  final ChatMode? assistantMode;
 }
 
 /// Aufklappbare Gruppe. Tipp auf die Kopfzeile klappt zuverlaessig auf/zu.
@@ -446,13 +469,13 @@ class _Section extends StatelessWidget {
   }
 }
 
-class _ItemTile extends StatelessWidget {
+class _ItemTile extends ConsumerWidget {
   const _ItemTile({required this.item, required this.color});
   final _DrawerItem item;
   final Color color;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       visualDensity: VisualDensity.compact,
@@ -460,6 +483,10 @@ class _ItemTile extends StatelessWidget {
       title: Text(item.label),
       onTap: () {
         Navigator.of(context).pop();
+        // Optional den KI-Modus setzen (z. B. direkt in den Trainer).
+        if (item.assistantMode != null) {
+          ref.read(chatModeProvider.notifier).setMode(item.assistantMode!);
+        }
         const tabs = {
           AppRoutes.home,
           AppRoutes.quiz,
@@ -473,6 +500,62 @@ class _ItemTile extends StatelessWidget {
           context.push(item.route);
         }
       },
+    );
+  }
+}
+
+/// Eigenstaendige Menue-Kategorie ohne Unterpunkte: sieht aus wie ein
+/// Sektionskopf (farbiges Icon-Badge + Titel), navigiert aber direkt.
+class _CategoryLink extends StatelessWidget {
+  const _CategoryLink({
+    required this.icon,
+    required this.title,
+    required this.color,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 20),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Text(
+                title,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dogmatch_ai/core/config/env.dart';
 import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
+import 'package:dogmatch_ai/features/assistant/data/chat_system_prompt.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/pollinations_chat_repository.dart';
@@ -9,6 +10,8 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/conversations_controller.dart';
+import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
+import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -24,8 +27,9 @@ class ChatModeNotifier extends Notifier<ChatMode> {
   void setMode(ChatMode mode) => state = mode;
 }
 
-final chatModeProvider =
-    NotifierProvider<ChatModeNotifier, ChatMode>(ChatModeNotifier.new);
+final chatModeProvider = NotifierProvider<ChatModeNotifier, ChatMode>(
+  ChatModeNotifier.new,
+);
 
 /// "Vorgemerkte" Eingabe fuer den Chat, die ein anderer Screen
 /// (Verhalten-Check, Symptom-Check) gesetzt hat. Der AssistantScreen
@@ -56,8 +60,8 @@ class AssistantHandoffNotifier extends Notifier<AssistantHandoff?> {
 
 final assistantHandoffProvider =
     NotifierProvider<AssistantHandoffNotifier, AssistantHandoff?>(
-  AssistantHandoffNotifier.new,
-);
+      AssistantHandoffNotifier.new,
+    );
 
 /// Stellt die konkrete Implementierung des [ChatRepository] bereit.
 /// Reihenfolge:
@@ -75,11 +79,17 @@ final supportsVisionProvider = Provider<bool>((ref) {
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   final prefs = ref.watch(userPreferencesProvider).value;
   final mode = ref.watch(chatModeProvider);
+  // Aktiven Hund + Rasseprofil aus der App-Datenbank in den Prompt einspeisen,
+  // damit Antworten rassetypisch und konkret werden.
+  final activeDog = ref.watch(dogsProvider).value?.activeDog;
+  final breeds = ref.watch(breedsProvider).value ?? const [];
+  final dogContext = buildDogContext(activeDog, breeds);
   if (Env.hasGeminiProxy) {
     return RemoteGeminiChatRepository(
       proxyUrl: Env.geminiProxyUrl,
       userPreferences: prefs,
       mode: mode,
+      dogContext: dogContext,
     );
   }
   if (Env.hasGeminiKey) {
@@ -87,12 +97,14 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
       apiKey: Env.geminiApiKey,
       userPreferences: prefs,
       mode: mode,
+      dogContext: dogContext,
     );
   }
   if (Env.hasPollinations) {
     return PollinationsChatRepository(
       userPreferences: prefs,
       mode: mode,
+      dogContext: dogContext,
     );
   }
   return const MockChatRepository();
@@ -117,8 +129,12 @@ class FailedAttempt extends Equatable {
   final String technicalDetail;
 
   @override
-  List<Object?> get props =>
-      [text, imageDataUrl, friendlyMessage, technicalDetail];
+  List<Object?> get props => [
+    text,
+    imageDataUrl,
+    friendlyMessage,
+    technicalDetail,
+  ];
 }
 
 /// Zustand der Chat-Session: alle bisherigen Nachrichten + Warte-Indikator.
@@ -333,5 +349,6 @@ String _humanize(Failure failure) {
   return 'Da ist etwas schiefgelaufen. Bitte erneut versuchen.';
 }
 
-final chatControllerProvider =
-    NotifierProvider<ChatController, ChatState>(ChatController.new);
+final chatControllerProvider = NotifierProvider<ChatController, ChatState>(
+  ChatController.new,
+);

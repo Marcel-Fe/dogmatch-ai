@@ -27,6 +27,8 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
   final _stt = SttService();
   bool _listening = false;
   bool _analyzed = false;
+  // Text im Notizfeld vor Diktat-Start - das Diktat wird angehaengt.
+  String _noteBase = '';
 
   @override
   void dispose() {
@@ -54,6 +56,16 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
     });
   }
 
+  /// Setzt das Notizfeld auf "Basis-Text + diktierter Text" und haelt den
+  /// Cursor am Ende. Wird live (onPartial) und am Ende (Final) genutzt.
+  void _setNote(String dictated) {
+    final combined = _noteBase.isEmpty ? dictated : '$_noteBase $dictated';
+    _noteController.text = combined;
+    _noteController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _noteController.text.length),
+    );
+  }
+
   /// Diktat fuer das Freitext-Feld (gleiche Web-Speech-API wie im Chat).
   Future<void> _toggleMic() async {
     if (_listening) {
@@ -64,25 +76,27 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
     if (!_stt.isAvailable) {
       final msg = _stt.isIosSafari
           ? 'Apple unterstuetzt Sprach-Eingabe im iPhone-Safari nicht. '
-              'Bitte tippe deine Beobachtung.'
+                'Bitte tippe deine Beobachtung.'
           : 'Sprach-Eingabe ist in diesem Browser nicht unterstuetzt '
-              '(Chrome / Edge nutzen).';
+                '(Chrome / Edge nutzen).';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(msg), duration: const Duration(seconds: 4)),
       );
       return;
     }
     setState(() => _listening = true);
+    _noteBase = _noteController.text.trim();
     try {
-      final text = await _stt.listenOnce();
+      // Live mitschreiben, damit man beim Sprechen sofort Text sieht.
+      final text = await _stt.listenOnce(
+        onPartial: (partial) {
+          if (!mounted) return;
+          _setNote(partial);
+        },
+      );
       if (!mounted) return;
       if (text != null && text.trim().isNotEmpty) {
-        final existing = _noteController.text.trim();
-        _noteController.text =
-            existing.isEmpty ? text.trim() : '$existing ${text.trim()}';
-        _noteController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _noteController.text.length),
-        );
+        _setNote(text.trim());
       }
     } catch (e) {
       if (!mounted) return;
@@ -100,8 +114,9 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
     for (final b in BehaviorCatalog.all) {
       if (_selected.contains(b.id)) labels.add(b.label);
     }
-    final topRecommendation =
-        results.isNotEmpty ? results.first.recommendation : null;
+    final topRecommendation = results.isNotEmpty
+        ? results.first.recommendation
+        : null;
 
     final prompt = StringBuffer()
       ..writeln('Mein Hund zeigt folgende Verhaltensweisen:')
@@ -123,7 +138,9 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
       'Schritte mit positiver Bestaerkung.',
     );
 
-    ref.read(assistantHandoffProvider.notifier).queue(
+    ref
+        .read(assistantHandoffProvider.notifier)
+        .queue(
           AssistantHandoff(
             prompt: prompt.toString(),
             mode: ChatMode.trainer,
@@ -140,8 +157,9 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
     for (final b in BehaviorCatalog.all) {
       byCategory.putIfAbsent(b.category, () => []).add(b);
     }
-    final results =
-        _analyzed ? BehaviorEngine.analyze(_selected) : <BehaviorAssessment>[];
+    final results = _analyzed
+        ? BehaviorEngine.analyze(_selected)
+        : <BehaviorAssessment>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -160,10 +178,7 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
         children: [
           _Disclaimer(theme: theme),
           const SizedBox(height: AppSpacing.lg),
-          Text(
-            'Was zeigt dein Hund?',
-            style: theme.textTheme.titleLarge,
-          ),
+          Text('Was zeigt dein Hund?', style: theme.textTheme.titleLarge),
           const SizedBox(height: AppSpacing.sm),
           Text(
             'Tippe alle Verhaltensweisen an, die du beobachtest. '
@@ -191,12 +206,15 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
             controller: _noteController,
             minLines: 2,
             maxLines: 4,
-            enabled: !_listening,
+            // Waehrend des Diktats nur lesen (kein Tippen), ABER nicht
+            // disabled - sonst wuerde der Stop-Button im suffixIcon
+            // mit-deaktiviert und die Aufnahme liesse sich nie beenden.
+            readOnly: _listening,
             decoration: InputDecoration(
               hintText: _listening
                   ? 'Hoere zu ...'
                   : 'Beschreibe das Verhalten in eigenen Worten - '
-                      'z.B. wann und wie oft es auftritt.',
+                        'z.B. wann und wie oft es auftritt.',
               filled: true,
               alignLabelWithHint: true,
               suffixIcon: IconButton(
@@ -204,7 +222,9 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
                 onPressed: _toggleMic,
                 icon: Icon(
                   _listening ? Icons.stop_circle_outlined : Icons.mic_rounded,
-                  color: _listening ? Colors.redAccent : theme.colorScheme.primary,
+                  color: _listening
+                      ? Colors.redAccent
+                      : theme.colorScheme.primary,
                 ),
               ),
               border: OutlineInputBorder(
@@ -213,23 +233,27 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          Builder(builder: (context) {
-            final hasInput =
-                _selected.isNotEmpty || _noteController.text.trim().isNotEmpty;
-            return FilledButton.icon(
-              onPressed:
-                  hasInput ? () => setState(() => _analyzed = true) : null,
-              icon: const Icon(Icons.psychology_alt_rounded),
-              label: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                child: Text(
-                  hasInput
-                      ? 'Auswertung starten'
-                      : 'Punkt waehlen oder Beobachtung schreiben',
+          Builder(
+            builder: (context) {
+              final hasInput =
+                  _selected.isNotEmpty ||
+                  _noteController.text.trim().isNotEmpty;
+              return FilledButton.icon(
+                onPressed: hasInput
+                    ? () => setState(() => _analyzed = true)
+                    : null,
+                icon: const Icon(Icons.psychology_alt_rounded),
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  child: Text(
+                    hasInput
+                        ? 'Auswertung starten'
+                        : 'Punkt waehlen oder Beobachtung schreiben',
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
           if (_analyzed) ...[
             const SizedBox(height: AppSpacing.xl),
             if (results.isNotEmpty) ...[
@@ -244,10 +268,7 @@ class _BehaviorCheckScreenState extends ConsumerState<BehaviorCheckScreen> {
                 style: theme.textTheme.bodyMedium,
               ),
             const SizedBox(height: AppSpacing.lg),
-            _AskAiCard(
-              onAskAi: () => _askAiTrainer(results),
-              theme: theme,
-            ),
+            _AskAiCard(onAskAi: () => _askAiTrainer(results), theme: theme),
           ],
           const SizedBox(height: AppSpacing.xxl),
         ],
@@ -318,17 +339,20 @@ class _CategoryBlock extends StatelessWidget {
           Wrap(
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
-            children: behaviors.map((b) {
-              final isSel = selected.contains(b.id);
-              return FilterChip(
-                label: Text(b.label),
-                selected: isSel,
-                onSelected: (_) => onToggle(b.id),
-                selectedColor:
-                    theme.colorScheme.primary.withValues(alpha: 0.18),
-                checkmarkColor: theme.colorScheme.primary,
-              );
-            }).toList(growable: false),
+            children: behaviors
+                .map((b) {
+                  final isSel = selected.contains(b.id);
+                  return FilterChip(
+                    label: Text(b.label),
+                    selected: isSel,
+                    onSelected: (_) => onToggle(b.id),
+                    selectedColor: theme.colorScheme.primary.withValues(
+                      alpha: 0.18,
+                    ),
+                    checkmarkColor: theme.colorScheme.primary,
+                  );
+                })
+                .toList(growable: false),
           ),
         ],
       ),
@@ -368,10 +392,7 @@ class _AskAiCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.smart_toy_rounded,
-                color: theme.colorScheme.primary,
-              ),
+              Icon(Icons.smart_toy_rounded, color: theme.colorScheme.primary),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(

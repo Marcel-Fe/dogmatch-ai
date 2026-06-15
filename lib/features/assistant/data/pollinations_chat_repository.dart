@@ -1,6 +1,6 @@
-import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
+import 'package:dogmatch_ai/features/assistant/data/chat_system_prompt.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
@@ -20,6 +20,7 @@ class PollinationsChatRepository implements ChatRepository {
   PollinationsChatRepository({
     required this.userPreferences,
     this.mode = ChatMode.advisor,
+    this.dogContext,
     this.model = 'openai',
     http.Client? client,
   }) : _client = client ?? http.Client();
@@ -28,6 +29,9 @@ class PollinationsChatRepository implements ChatRepository {
 
   final UserPreferences? userPreferences;
   final ChatMode mode;
+
+  /// Fakten zum aktiven Hund + Rasseprofil (App-Datenbank) fuer den Prompt.
+  final String? dogContext;
   final String model;
   final http.Client _client;
 
@@ -45,7 +49,11 @@ class PollinationsChatRepository implements ChatRepository {
       );
     }
 
-    final systemPrompt = _buildSystemPrompt(userPreferences, mode);
+    final systemPrompt = buildChatSystemPrompt(
+      userPreferences,
+      mode,
+      dogContext: dogContext,
+    );
 
     // Bild-Analyse ist im anonymen Pollinations-Tier nicht moeglich (nur
     // `openai-fast` ohne Vision). Wir liefern eine klare Meldung statt
@@ -68,25 +76,23 @@ class PollinationsChatRepository implements ChatRepository {
     // Fehler-Bubbles (id-Praefix 'e-') haben Inhalt wie "Verbindung
     // fehlgeschlagen ..." - die gehoeren NICHT in den Prompt, sonst
     // antwortet die KI auf die App-Fehlermeldung.
-    final clean =
-        history.where((m) => !m.id.startsWith('e-')).toList(growable: false);
+    final clean = history
+        .where((m) => !m.id.startsWith('e-'))
+        .toList(growable: false);
     if (clean.isEmpty) {
       return const FailureResult(
         UnexpectedFailure('Keine Nachricht zum Beantworten.'),
       );
     }
     // Letzte 6 Messages reichen - mehr ueberschreitet GET-URL-Limit.
-    final relevant = clean.length > 6
-        ? clean.sublist(clean.length - 6)
-        : clean;
+    final relevant = clean.length > 6 ? clean.sublist(clean.length - 6) : clean;
 
     // Conversation als laufender Text fuer den GET-Endpoint. System wird
     // separat als Query-Parameter uebergeben.
     final conversation = StringBuffer();
     for (var i = 0; i < relevant.length - 1; i++) {
       final m = relevant[i];
-      final speaker =
-          m.role == ChatRole.user ? 'Nutzer' : 'Berater';
+      final speaker = m.role == ChatRole.user ? 'Nutzer' : 'Berater';
       conversation
         ..writeln('$speaker: ${m.content}')
         ..writeln();
@@ -137,77 +143,5 @@ class PollinationsChatRepository implements ChatRepository {
         timestamp: DateTime.now(),
       ),
     );
-  }
-
-  static String _buildSystemPrompt(UserPreferences? prefs, ChatMode mode) {
-    final buf = StringBuffer();
-    switch (mode) {
-      case ChatMode.advisor:
-        buf
-          ..writeln(
-            'Du bist ein freundlicher, fachkundiger Hunde-Berater in der '
-            'App "DogMatch AI". Du hilfst Menschen, die passende Hunderasse '
-            'zu finden und beantwortest Fragen zu Haltung, Pflege, '
-            'Gesundheit und Anschaffung.',
-          )
-          ..writeln()
-          ..writeln('Regeln:')
-          ..writeln('- Antworte auf Deutsch, kurz und konkret (3-6 Saetze).')
-          ..writeln('- Komm sofort zur Sache, ohne Einleitungsfloskeln.')
-          ..writeln(
-            '- Sei praezise: konkrete Rassennamen, Zahlen und Beispiele '
-            'statt allgemeiner Aussagen.',
-          )
-          ..writeln('- Empfehle bei Bedarf maximal 2-3 Rassen mit Begruendung.')
-          ..writeln(
-            '- Wenn du etwas nicht sicher weisst, sag das kurz, statt zu raten.',
-          )
-          ..writeln('- Bei medizinischen Themen verweise auf einen Tierarzt.')
-          ..writeln('- Keine Phrasen wie "Als KI..." - bleib im Berater-Ton.');
-      case ChatMode.trainer:
-        buf
-          ..writeln(
-            'Du bist ein erfahrener Hundetrainer und Verhaltensberater in '
-            'der App "DogMatch AI". Du hilfst bei Erziehung, Verhaltens-'
-            'problemen, Sozialisierung und gezielten Trainings-Uebungen.',
-          )
-          ..writeln()
-          ..writeln('Regeln:')
-          ..writeln('- Antworte auf Deutsch, freundlich und sehr konkret.')
-          ..writeln('- Komm sofort zur Sache, ohne Einleitungsfloskeln.')
-          ..writeln(
-            '- Liefere Schritt-fuer-Schritt-Anleitungen, nummeriert (4-7 Schritte).',
-          )
-          ..writeln(
-            '- Setze auf positive Bestaerkung (Marker/Klick + Belohnung). '
-            'Aversive Methoden lehnst du ab und erklaerst kurz, warum.',
-          )
-          ..writeln(
-            '- Bei medizinischen Symptomen: verweise auf Tierarzt + '
-            'zertifizierten Trainer.',
-          );
-    }
-
-    if (prefs == null) return buf.toString();
-
-    final profile = <String>[];
-    if (prefs.hasName) profile.add('Name: ${prefs.displayName}');
-    if (prefs.country != Country.other) {
-      profile.add('Land: ${prefs.country.label}');
-    }
-    if (prefs.preferredSize != null) {
-      profile.add('Wunschgroesse: ${prefs.preferredSize!.label}');
-    }
-    if (prefs.preferredActivity != null) {
-      profile.add('Aktivitaetslevel: ${prefs.preferredActivity!.label}');
-    }
-
-    if (profile.isNotEmpty) {
-      buf
-        ..writeln()
-        ..writeln('Profil des Nutzers:')
-        ..writeln('- ${profile.join('\n- ')}');
-    }
-    return buf.toString();
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:dogmatch_ai/core/enums/country.dart';
 import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
+import 'package:dogmatch_ai/features/assistant/data/chat_system_prompt.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_message.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
@@ -19,6 +19,7 @@ class RemoteGeminiChatRepository implements ChatRepository {
     required this.proxyUrl,
     required this.userPreferences,
     this.mode = ChatMode.advisor,
+    this.dogContext,
     this.model = 'gemini-2.5-flash',
     http.Client? client,
   }) : _client = client ?? http.Client();
@@ -26,6 +27,10 @@ class RemoteGeminiChatRepository implements ChatRepository {
   final String proxyUrl;
   final UserPreferences? userPreferences;
   final ChatMode mode;
+
+  /// Fakten zum aktiven Hund + Rasseprofil (App-Datenbank), die in den
+  /// System-Prompt eingespeist werden. Null, wenn kein Hund angelegt ist.
+  final String? dogContext;
   final String model;
   final http.Client _client;
 
@@ -45,15 +50,21 @@ class RemoteGeminiChatRepository implements ChatRepository {
 
     final body = <String, dynamic>{
       'model': model,
-      'systemInstruction': _buildSystemPrompt(userPreferences, mode),
+      'systemInstruction': buildChatSystemPrompt(
+        userPreferences,
+        mode,
+        dogContext: dogContext,
+      ),
       'messages': history
-          .map((m) => {
-                'role': switch (m.role) {
-                  ChatRole.user => 'user',
-                  ChatRole.assistant => 'model',
-                },
-                'text': m.content,
-              })
+          .map(
+            (m) => {
+              'role': switch (m.role) {
+                ChatRole.user => 'user',
+                ChatRole.assistant => 'model',
+              },
+              'text': m.content,
+            },
+          )
           .toList(),
     };
     if (imageDataUrl != null && imageDataUrl.isNotEmpty) {
@@ -80,7 +91,9 @@ class RemoteGeminiChatRepository implements ChatRepository {
           NetworkFailure('KI-Fehler: ${err['error'] ?? res.statusCode}'),
         );
       } catch (_) {
-        return FailureResult(NetworkFailure('KI-Fehler: HTTP ${res.statusCode}'));
+        return FailureResult(
+          NetworkFailure('KI-Fehler: HTTP ${res.statusCode}'),
+        );
       }
     }
 
@@ -106,72 +119,5 @@ class RemoteGeminiChatRepository implements ChatRepository {
         timestamp: DateTime.now(),
       ),
     );
-  }
-
-  static String _buildSystemPrompt(UserPreferences? prefs, ChatMode mode) {
-    final buf = StringBuffer();
-    switch (mode) {
-      case ChatMode.advisor:
-        buf
-          ..writeln(
-            'Du bist ein freundlicher, fachkundiger Hunde-Berater in der '
-            'App "DogMatch AI". Du hilfst Menschen, die passende Hunderasse '
-            'zu finden und beantwortest Fragen zu Haltung, Pflege, '
-            'Gesundheit und Anschaffung.',
-          )
-          ..writeln()
-          ..writeln('Regeln:')
-          ..writeln('- Antworte auf Deutsch, kurz und konkret (3-6 Saetze).')
-          ..writeln('- Empfehle bei Bedarf maximal 2-3 Rassen mit Begruendung.')
-          ..writeln('- Bei medizinischen Themen verweise auf einen Tierarzt.')
-          ..writeln('- Keine Phrasen wie "Als KI..." - bleib im Berater-Ton.')
-          ..writeln(
-            '- Wenn ein Bild beigefuegt ist, beschreibe was du siehst und '
-            'gib eine konkrete Einschaetzung dazu.',
-          );
-      case ChatMode.trainer:
-        buf
-          ..writeln(
-            'Du bist ein erfahrener Hundetrainer und Verhaltensberater in '
-            'der App "DogMatch AI". Du hilfst bei Erziehung, Verhaltens-'
-            'problemen, Sozialisierung und gezielten Trainings-Uebungen.',
-          )
-          ..writeln()
-          ..writeln('Regeln:')
-          ..writeln('- Antworte auf Deutsch, freundlich und sehr konkret.')
-          ..writeln(
-            '- Liefere Schritt-fuer-Schritt-Anleitungen, nummeriert.',
-          )
-          ..writeln(
-            '- Setze auf positive Bestaerkung (Marker/Klick + Belohnung). '
-            'Aversive Methoden lehnst du ab und erklaerst kurz, warum.',
-          )
-          ..writeln(
-            '- Wenn ein Bild beigefuegt ist (Hund, Koerpersprache, '
-            'Situation), analysiere es und gib eine konkrete Empfehlung.',
-          );
-    }
-
-    if (prefs == null) return buf.toString();
-
-    final profile = <String>[];
-    if (prefs.hasName) profile.add('Name: ${prefs.displayName}');
-    if (prefs.country != Country.other) {
-      profile.add('Land: ${prefs.country.label}');
-    }
-    if (prefs.preferredSize != null) {
-      profile.add('Wunschgroesse: ${prefs.preferredSize!.label}');
-    }
-    if (prefs.preferredActivity != null) {
-      profile.add('Aktivitaetslevel: ${prefs.preferredActivity!.label}');
-    }
-
-    if (profile.isNotEmpty) {
-      buf
-        ..writeln()
-        ..writeln('Profil des Nutzers (nutze es fuer passendere Antworten):')
-        ..writeln('- ${profile.join('\n- ')}');
-    }
-    return buf.toString();
   }
 }
