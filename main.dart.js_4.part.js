@@ -1,7 +1,7 @@
 ((a,b)=>{a[b]=a[b]||{}})(self,"$__dart_deferred_initializers__")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var A,C,E,F,B={
-bpY(d){return new B.v9(d,null)},
-v9:function v9(d,e){this.c=d
+bq_(d){return new B.va(d,null)},
+va:function va(d,e){this.c=d
 this.a=e},
 ai6:function ai6(d){this.a=d},
 ai7:function ai7(){},
@@ -14,10 +14,10 @@ E=c[7]
 F=c[8]
 B=a.updateHolder(c[4],B)
 D=c[9]
-B.v9.prototype={
+B.va.prototype={
 A(d){var x,w=null,v=A.p(d),u=C.b.iX(F.mc,new B.ai6(this),new B.ai7()),t=u.c,s=A.cE(w,w,A.m(t,w,w,w,w,w,w,w)),r=v.ax.b,q=r.O(0.12),p=A.ah(999),o=v.ok,n=o.ax
 r=n==null?w:n.cK(r,C.W)
-p=A.ad(w,A.m(t+" \xb7 "+u.r+" Min",w,w,w,r,w,w,w),C.i,w,w,new A.ai(q,w,w,p,w,w,C.q),w,w,w,C.d0,w,w,w)
+p=A.ad(w,A.m(t+" \xb7 "+u.r+" Min",w,w,w,r,w,w,w),C.i,w,w,new A.ai(q,w,w,p,w,w,C.q),w,w,w,C.d1,w,w,w)
 q=A.m(u.b,w,w,w,o.f,w,w,w)
 o=o.y
 t=o==null?w:o.aGI(C.fg)
@@ -32,14 +32,14 @@ return x},
 azD(d,e){var x,w,v,u,t,s=null,r=C.b.ga8(e.split("\n"))
 if(r===r.toUpperCase()&&r.length<80&&!C.c.iB(r,".")&&e.split("\n").length===1){x=d.ok.w
 return A.m(e,s,s,s,x==null?s:x.cK(d.ax.b,C.cb),s,s,s)}if(C.b.dH(A.b(e.split("\n"),y.h),new B.ai3())){x=A.b([],y.e)
-for(w=e.split("\n"),v=w.length,u=d.ok.z,t=0;t<v;++t)x.push(new A.a1(C.pR,A.m(w[t],s,s,s,u,s,s,s),s))
+for(w=e.split("\n"),v=w.length,u=d.ok.z,t=0;t<v;++t)x.push(new A.a1(C.pS,A.m(w[t],s,s,s,u,s,s,s),s))
 return A.as(x,C.o,C.e,C.h)}return A.m(e,s,s,s,d.ok.z,s,s,s)}}
 var z=a.updateTypes(["E(dZ)","dZ()"])
 B.ai6.prototype={
 $1(d){return d.a===this.a.c},
 $S:z+0}
 B.ai7.prototype={
-$0(){return D.R5},
+$0(){return D.R6},
 $S:z+1}
 B.ai4.prototype={
 $1(d){return C.c.b2(d)},
@@ -53,9 +53,9 @@ if(!C.c.bB(d,"- ")){x=A.cJ("^\\d+\\.\\s",!0,!1)
 x=x.b.test(d)}else x=!0
 return x},
 $S:22};(function inheritance(){var x=a.inherit,w=a.inheritMany
-x(B.v9,A.O)
+x(B.va,A.O)
 w(A.la,[B.ai6,B.ai4,B.ai5,B.ai3])
-x(B.ai7,A.rh)})()
-A.aeW(b.typeUniverse,JSON.parse('{"v9":{"O":[],"c":[]}}'))
-var y={h:A.a_("z<i>"),e:A.a_("z<c>")};(function constants(){D.R5=new E.dZ("unknown","Artikel nicht gefunden","Unbekannt","","Dieser Artikel existiert nicht (mehr).",3)})()};
-(a=>{a["aYUg9XVzszVWJ7eg8xCM1l9UY3k="]=a.current})($__dart_deferred_initializers__);
+x(B.ai7,A.ri)})()
+A.aeW(b.typeUniverse,JSON.parse('{"va":{"O":[],"c":[]}}'))
+var y={h:A.a_("z<i>"),e:A.a_("z<c>")};(function constants(){D.R6=new E.dZ("unknown","Artikel nicht gefunden","Unbekannt","","Dieser Artikel existiert nicht (mehr).",3)})()};
+(a=>{a["ukGOD7AYk5OKu8XtyesDx9rm07Y="]=a.current})($__dart_deferred_initializers__);
