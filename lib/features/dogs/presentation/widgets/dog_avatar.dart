@@ -52,7 +52,45 @@ class DogAvatar extends StatelessWidget {
       decoration: decoration,
       clipBehavior: Clip.antiAlias,
       child: bytes != null
-          ? Image.memory(bytes, fit: BoxFit.cover, cacheWidth: cacheW)
+          ? Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.memory(bytes, fit: BoxFit.cover, cacheWidth: cacheW),
+                // Weicher Hell-Verlauf: hebt dunkles Fell (z. B. schwarzer
+                // Neufundlaender) an, ohne das Bild zu verzerren. Oben leicht
+                // aufgehellt, unten dezent abgesetzt fuer Tiefe.
+                const IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0x33FFFFFF),
+                          Color(0x00FFFFFF),
+                          Color(0x14000000),
+                        ],
+                        stops: [0.0, 0.45, 1.0],
+                      ),
+                    ),
+                  ),
+                ),
+                // Feiner heller Innenring, damit der Avatar auf hellem UND
+                // dunklem Hintergrund klar abgegrenzt ist.
+                IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.45),
+                        width: size * 0.012 + 0.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
           : Icon(
               Icons.pets_rounded,
               size: size * 0.55,
