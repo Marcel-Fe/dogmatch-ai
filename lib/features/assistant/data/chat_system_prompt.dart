@@ -3,6 +3,7 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_mode.dart';
 import 'package:dogmatch_ai/features/breeds/domain/breed_matcher.dart';
 import 'package:dogmatch_ai/features/breeds/domain/dog_breed.dart';
 import 'package:dogmatch_ai/features/dogs/domain/dog.dart';
+import 'package:dogmatch_ai/features/health/domain/health_event.dart';
 import 'package:dogmatch_ai/features/profile/domain/user_preferences.dart';
 
 /// Zentrale Stelle fuer den System-Prompt des KI-Beraters/-Trainers. Alle
@@ -126,7 +127,15 @@ String buildChatSystemPrompt(
 /// Baut aus dem aktiven Hund + passendem Rasseprofil einen kompakten
 /// Kontext-Block fuer den System-Prompt. Gibt null zurueck, wenn kein Hund
 /// angelegt ist.
-String? buildDogContext(Dog? dog, List<DogBreed> breeds) {
+///
+/// [upcomingEvents] sind die bevorstehenden Termine NUR des aktiven Hundes
+/// (bereits gefiltert + nach Datum sortiert); es werden nur die naechsten
+/// drei in den Kontext aufgenommen.
+String? buildDogContext(
+  Dog? dog,
+  List<DogBreed> breeds, {
+  List<HealthEvent> upcomingEvents = const [],
+}) {
   if (dog == null) return null;
   final buf = StringBuffer();
 
@@ -142,6 +151,32 @@ String? buildDogContext(Dog? dog, List<DogBreed> breeds) {
   final note = dog.notes?.trim();
   if (note != null && note.isNotEmpty) {
     buf.writeln('- Notiz des Halters: $note');
+  }
+
+  // Trainingsstand: bereits beherrschte Kommandos (#17).
+  if (dog.masteredCommands.isNotEmpty) {
+    buf.writeln(
+      '- Beherrscht bereits: ${dog.masteredCommands.join(', ')} '
+      '(baue darauf auf, wiederhole diese nicht als Anfaenger-Uebung).',
+    );
+  }
+
+  // Naechste offene Termine des aktiven Hundes (nur Datum + Titel).
+  if (upcomingEvents.isNotEmpty) {
+    final next = upcomingEvents.take(3).map((e) {
+      final d = e.date;
+      final dd = d.day.toString().padLeft(2, '0');
+      final mm = d.month.toString().padLeft(2, '0');
+      return '$dd.$mm.${d.year} ${e.title}';
+    });
+    buf.writeln('- Naechste Termine: ${next.join('; ')}');
+  }
+
+  // Erfasste Kosten (Summe aller Eintraege, #13).
+  if (dog.costs.isNotEmpty) {
+    buf.writeln(
+      '- Erfasste Kosten gesamt: ${dog.totalCostsEur.toStringAsFixed(0)} EUR.',
+    );
   }
 
   final breed = matchBreed(dog.breed, breeds);

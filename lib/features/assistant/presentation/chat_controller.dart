@@ -12,6 +12,8 @@ import 'package:dogmatch_ai/features/assistant/domain/chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/presentation/conversations_controller.dart';
 import 'package:dogmatch_ai/features/breeds/presentation/breed_providers.dart';
 import 'package:dogmatch_ai/features/dogs/presentation/dogs_controller.dart';
+import 'package:dogmatch_ai/features/health/domain/health_event.dart';
+import 'package:dogmatch_ai/features/health/presentation/health_controller.dart';
 import 'package:dogmatch_ai/features/profile/presentation/user_preferences_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -83,7 +85,18 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   // damit Antworten rassetypisch und konkret werden.
   final activeDog = ref.watch(dogsProvider).value?.activeDog;
   final breeds = ref.watch(breedsProvider).value ?? const [];
-  final dogContext = buildDogContext(activeDog, breeds);
+  // Bevorstehende Termine NUR des aktiven Hundes (sortiert nach Datum).
+  final upcomingEvents = activeDog == null
+      ? const <HealthEvent>[]
+      : ref
+            .watch(upcomingHealthEventsProvider)
+            .where((e) => e.dogId == activeDog.id)
+            .toList();
+  final dogContext = buildDogContext(
+    activeDog,
+    breeds,
+    upcomingEvents: upcomingEvents,
+  );
   if (Env.hasGeminiProxy) {
     return RemoteGeminiChatRepository(
       proxyUrl: Env.geminiProxyUrl,
