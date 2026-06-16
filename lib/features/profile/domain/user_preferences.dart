@@ -50,6 +50,11 @@ enum DashboardLayout {
     'Magazin',
     'Bildstark: Rassen und Entdeckungen mit grossen Karten zuerst.',
     Icons.auto_awesome_mosaic_rounded,
+  ),
+  playful(
+    'Bunt',
+    'Grosses Hundefoto mit runden, bunten Schnellzugriffen und Wetter-Tipp.',
+    Icons.bubble_chart_rounded,
   );
 
   const DashboardLayout(this.label, this.description, this.icon);

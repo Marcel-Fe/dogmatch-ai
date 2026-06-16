@@ -51,7 +51,15 @@ String buildChatSystemPrompt(
         )
         ..writeln()
         ..writeln('Regeln:')
-        ..writeln('- Antworte auf Deutsch, freundlich und sehr konkret.')
+        ..writeln(
+          '- Antworte auf Deutsch: professionell, freundlich und zuegig - '
+          'kurze, klare Antworten statt langer Monologe.',
+        )
+        ..writeln(
+          '- Bleib im Dialog: gib zuerst den wichtigsten Schritt, dann stell '
+          'bei Bedarf EINE gezielte Rueckfrage und arbeite mit dem Halter '
+          'Schritt fuer Schritt weiter - statt alles auf einmal abzuladen.',
+        )
         ..writeln(
           '- Bei einem Verhalten oder einer Uebung: liefere eine nummerierte '
           'Schritt-fuer-Schritt-Anleitung (4-7 Schritte). Nenne, was zu '

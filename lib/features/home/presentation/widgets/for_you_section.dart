@@ -14,10 +14,14 @@ class ForYouSection extends StatelessWidget {
     super.key,
     required this.allBreeds,
     required this.prefs,
+    this.showCost = true,
   });
 
   final List<DogBreed> allBreeds;
   final UserPreferences? prefs;
+
+  /// Kosten-Richtwerte nur zeigen, wenn (noch) kein eigener Hund gewaehlt ist.
+  final bool showCost;
 
   List<DogBreed> _picks() {
     var pool = List<DogBreed>.from(allBreeds);
@@ -58,6 +62,7 @@ class ForYouSection extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         BreedHeroCard(
           breed: hero,
+          showCost: showCost,
           onTap: () =>
               context.push('${AppRoutes.breedDetail}/${hero.id}'),
         ),
@@ -65,6 +70,7 @@ class ForYouSection extends StatelessWidget {
         for (final breed in rest) ...[
           BreedCard(
             breed: breed,
+            showCost: showCost,
             onTap: () =>
                 context.push('${AppRoutes.breedDetail}/${breed.id}'),
           ),

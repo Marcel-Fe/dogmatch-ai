@@ -22,6 +22,7 @@ import 'package:dogmatch_ai/features/home/presentation/widgets/my_dog_section.da
 import 'package:dogmatch_ai/features/home/presentation/widgets/popular_breeds_row.dart';
 import 'package:dogmatch_ai/features/products/presentation/product_recommendations.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/quick_action_grid.dart';
+import 'package:dogmatch_ai/features/home/presentation/widgets/round_action_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/stats_row.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/today_card.dart';
 import 'package:dogmatch_ai/features/home/presentation/widgets/welcome_dialog.dart';
@@ -83,6 +84,11 @@ class HomeScreen extends ConsumerWidget {
               final String? breedImageUrl = matched?.imageUrl;
               final allDogs = dogsState?.dogs ?? const <Dog>[];
               final showMyDog = activeDog != null;
+              // Kosten-Richtwerte der Rassen nur in der Entscheidungsphase
+              // (kein eigener Hund). Sobald ein Hund gewaehlt ist, verschwinden
+              // sie aus dem Dashboard - Kosten leben dann nur im Match und im
+              // Rasse-Detail.
+              final showBreedCosts = activeDog == null;
               final layout = prefs?.dashboardLayout ?? DashboardLayout.standard;
 
               // Begruessungs-Popup einmal pro App-Start nach dem ersten Frame.
@@ -141,6 +147,11 @@ class HomeScreen extends ConsumerWidget {
                   child: QuickActionGrid(),
                 );
               }
+              // Runde, bunte Schnellzugriffe (Layout "Bunt").
+              sec['rounds'] = const Padding(
+                padding: hPad,
+                child: RoundActionRow(),
+              );
               sec['discover'] = const DiscoverMoreSection();
               if (showMyDog && (prefs?.showUpcomingOnHome ?? true)) {
                 sec['upcoming'] = const Padding(
@@ -167,12 +178,16 @@ class HomeScreen extends ConsumerWidget {
               if (prefs?.showForYouOnHome ?? true) {
                 sec['forYou'] = Padding(
                   padding: hPad,
-                  child: ForYouSection(allBreeds: breeds, prefs: prefs),
+                  child: ForYouSection(
+                    allBreeds: breeds,
+                    prefs: prefs,
+                    showCost: showBreedCosts,
+                  ),
                 );
               }
               sec['stats'] = const Padding(padding: hPad, child: StatsRow());
               if (prefs?.showAllBreedsOnHome ?? true) {
-                sec['breeds'] = const _BreedsPreviewSection();
+                sec['breeds'] = _BreedsPreviewSection(showCost: showBreedCosts);
               }
 
               const standard = [
@@ -227,11 +242,26 @@ class HomeScreen extends ConsumerWidget {
                 'breeds',
                 'stats',
               ];
+              // "Bunt": grosses Foto oben, danach runde bunte Schnellzugriffe,
+              // Wetter-Tipp und KI - verspielt und uebersichtlich.
+              const playful = [
+                'dogSwitcher',
+                'hero',
+                'rounds',
+                'weather',
+                'aiBar',
+                'today',
+                'upcoming',
+                'myDog',
+                'popular',
+                'breeds',
+              ];
               final order = switch (layout) {
                 DashboardLayout.standard => standard,
                 DashboardLayout.focus => focus,
                 DashboardLayout.compact => compact,
                 DashboardLayout.magazine => magazine,
+                DashboardLayout.playful => playful,
               };
               final gap = layout == DashboardLayout.compact
                   ? AppSpacing.lg
@@ -268,7 +298,9 @@ class HomeScreen extends ConsumerWidget {
 /// auf dem eigenen Rassen-Screen. Eigenes Widget, damit nur dieser Block neu
 /// baut, wenn sich der Suchfilter aendert.
 class _BreedsPreviewSection extends ConsumerWidget {
-  const _BreedsPreviewSection();
+  const _BreedsPreviewSection({this.showCost = true});
+
+  final bool showCost;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -316,6 +348,7 @@ class _BreedsPreviewSection extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: BreedCard(
                 breed: breed,
+                showCost: showCost,
                 onTap: () =>
                     context.push('${AppRoutes.breedDetail}/${breed.id}'),
               ),

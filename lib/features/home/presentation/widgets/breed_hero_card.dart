@@ -11,11 +11,15 @@ class BreedHeroCard extends StatelessWidget {
     required this.breed,
     this.onTap,
     this.height = 220,
+    this.showCost = true,
   });
 
   final DogBreed breed;
   final VoidCallback? onTap;
   final double height;
+
+  /// Blendet den Monatskosten-Pill aus (Dashboard mit ausgewaehltem Hund).
+  final bool showCost;
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +81,13 @@ class BreedHeroCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.sm),
                     Row(
                       children: [
-                        _Pill(
-                          icon: Icons.euro_rounded,
-                          text: '~${breed.monthlyCostEur} EUR/Monat',
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
+                        if (showCost) ...[
+                          _Pill(
+                            icon: Icons.euro_rounded,
+                            text: '~${breed.monthlyCostEur} EUR/Monat',
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                        ],
                         _Pill(
                           icon: Icons.cake_outlined,
                           text: '${breed.lifeExpectancyYears} Jahre',

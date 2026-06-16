@@ -5,11 +5,21 @@ import 'package:dogmatch_ai/features/favorites/presentation/widgets/favorite_but
 import 'package:flutter/material.dart';
 
 /// Kompakte Vorschaukarte einer Rasse fuer Listen (Home, Match-Ergebnisse).
+///
+/// [showCost] blendet den Monatskosten-Richtwert aus. Auf dem Dashboard wird
+/// er ausgeblendet, sobald ein eigener Hund ausgewaehlt ist - Kosten sind dann
+/// nur noch im Match und im Rasse-Detail relevant.
 class BreedCard extends StatelessWidget {
-  const BreedCard({super.key, required this.breed, this.onTap});
+  const BreedCard({
+    super.key,
+    required this.breed,
+    this.onTap,
+    this.showCost = true,
+  });
 
   final DogBreed breed;
   final VoidCallback? onTap;
+  final bool showCost;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,8 @@ class BreedCard extends StatelessWidget {
                   runSpacing: AppSpacing.xs,
                   children: [
                     _Tag(text: 'Energie: ${breed.energyLevel.label}'),
-                    _Tag(text: '~${breed.monthlyCostEur} EUR/Monat'),
+                    if (showCost)
+                      _Tag(text: '~${breed.monthlyCostEur} EUR/Monat'),
                   ],
                 ),
               ],
