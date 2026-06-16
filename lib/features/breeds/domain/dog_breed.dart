@@ -121,7 +121,7 @@ class DogBreed extends Equatable {
   /// Tierarzt-Routine pro Jahr (Impfung, Check-Up, Wurmkur) - keine Notfall-OPs.
   final int? vetCostPerYearEur;
 
-  /// Konkrete Pflege- und Halterungs-Tipps fuer diese Rasse.
+  /// Konkrete Pflege- und Haltungs-Tipps fuer diese Rasse.
   final List<String> careTips;
 
   /// Erzeugt eine Rasse aus einer JSON-Map (gebuendelte Daten oder Firestore).

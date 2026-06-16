@@ -183,7 +183,7 @@ class _BreedDetailContent extends ConsumerWidget {
         ],
 
         if (breed.careTips.isNotEmpty) ...[
-          const _SectionTitle('Pflege & Halterung'),
+          const _SectionTitle('Pflege & Haltung'),
           const SizedBox(height: AppSpacing.sm),
           for (final tip in breed.careTips)
             Padding(

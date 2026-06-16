@@ -14,8 +14,9 @@ import 'package:go_router/go_router.dart';
 /// Aggregations-Widget fuer den aktiven Hund.
 ///
 /// Sucht die zugewiesene Rasse in `allBreeds` (case-insensitive auf Name+Id)
-/// und zeigt Pflege-Tipps, Kosten-Card, Versicherungs-Card,
-/// Trainings-Fortschritt fuer den Hund, sowie passende Zuechter-Verweise.
+/// und zeigt Pflege-Tipps, Trainings-Fortschritt fuer den Hund, sowie passende
+/// Zuechter-Verweise. Kosten und Versicherung leben bewusst nur in der
+/// Hundeakte (dog-record), nicht auf dem Dashboard.
 ///
 /// Wenn keine Rasse gematcht wird (Freitext-Eingabe), wird nur ein Hinweis
 /// mit Link auf die Hund-Bearbeitung angezeigt.
@@ -92,7 +93,7 @@ class MyDogSection extends ConsumerWidget {
         // Pflege-Tipps
         _Card(
           icon: Icons.spa_outlined,
-          title: 'Pflege & Halterung',
+          title: 'Pflege & Haltung',
           theme: theme,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,13 +108,6 @@ class MyDogSection extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
-
-        // Deine Hundeakte: echte, vom Nutzer erfasste Kosten + Versicherung.
-        // Bewusst KEINE rassen-typischen Schaetzwerte mehr hier - die leben
-        // im Rasse-Detail (Entscheidungsphase). Sobald ein Hund da ist, zaehlt
-        // nur, was der Nutzer in seiner Akte eintraegt.
-        _DogRecordCard(dog: dog, theme: theme),
         const SizedBox(height: AppSpacing.md),
 
         // Training Fortschritt
@@ -201,81 +195,6 @@ class MyDogSection extends ConsumerWidget {
   }
 }
 
-/// Echte Hundeakte-Uebersicht fuer das Dashboard: zeigt die vom Nutzer
-/// erfassten Kosten (diesen Monat + gesamt) und die hinterlegte Versicherung.
-/// Sind noch keine Daten da, leitet ein Hinweis in die Hundeakte. So stehen
-/// im Dashboard nie generische Schaetz-Summen, sondern nur echte Zahlen.
-class _DogRecordCard extends StatelessWidget {
-  const _DogRecordCard({
-    required this.dog,
-    required this.theme,
-  });
-
-  final Dog dog;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final monthCosts = dog.costs
-        .where((c) => c.date.year == now.year && c.date.month == now.month)
-        .fold<double>(0, (sum, c) => sum + c.amountEur);
-    final hasCosts = dog.costs.isNotEmpty;
-    final hasInsurance = dog.insurance != null && !dog.insurance!.isEmpty;
-    final hasData = hasCosts || hasInsurance;
-
-    return _Card(
-      icon: Icons.folder_shared_outlined,
-      title: 'Hundeakte: ${dog.name}',
-      theme: theme,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!hasData)
-            Text(
-              'Trag deine echten Kosten und die Versicherung in der Akte ein - '
-              'dann zeigt dir das Dashboard hier deine eigenen Zahlen statt '
-              'allgemeiner Richtwerte. (Rassen-Richtwerte findest du weiter '
-              'in der Rasse-Ansicht.)',
-              style: theme.textTheme.bodySmall,
-            )
-          else ...[
-            if (hasCosts) ...[
-              _KeyValueLine(
-                label: 'Kosten diesen Monat',
-                value: '${monthCosts.toStringAsFixed(2)} EUR',
-              ),
-              _KeyValueLine(
-                label: 'Erfasst gesamt',
-                value: '${dog.totalCostsEur.toStringAsFixed(2)} EUR',
-              ),
-            ],
-            if (hasInsurance) ...[
-              _KeyValueLine(
-                label: 'Versicherung',
-                value: dog.insurance!.provider?.trim().isNotEmpty == true
-                    ? dog.insurance!.provider!
-                    : 'hinterlegt',
-              ),
-              if (dog.insurance!.monthlyEur != null)
-                _KeyValueLine(
-                  label: 'Beitrag/Monat',
-                  value:
-                      '${dog.insurance!.monthlyEur!.toStringAsFixed(2)} EUR',
-                ),
-            ],
-          ],
-          const SizedBox(height: AppSpacing.xs),
-          _MoreLink(
-            label: hasData ? 'Hundeakte oeffnen' : 'Jetzt in der Akte eintragen',
-            onTap: () => context.push(AppRoutes.dogRecord),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _Card extends StatelessWidget {
   const _Card({
     required this.icon,
@@ -345,34 +264,6 @@ class _BulletLine extends StatelessWidget {
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(child: Text(text, style: theme.textTheme.bodySmall)),
-        ],
-      ),
-    );
-  }
-}
-
-class _KeyValueLine extends StatelessWidget {
-  const _KeyValueLine({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(label, style: theme.textTheme.bodySmall),
-          ),
-          Text(
-            value,
-            style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
         ],
       ),
     );
