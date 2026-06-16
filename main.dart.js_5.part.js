@@ -1,12 +1,12 @@
 ((a,b)=>{a[b]=a[b]||{}})(self,"$__dart_deferred_initializers__")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var C,D,B={
-bxi(d){var x
+bxd(d){var x
 if(d==null)return A.Ei
 x=y.f
-x=C.S(new C.aH(A.Ei,new B.aJd(d),x),x.i("C.E"))
+x=C.S(new C.aH(A.Ei,new B.aJb(d),x),x.i("C.E"))
 x.$flags=1
 return x},
-aJd:function aJd(d){this.a=d},
+aJb:function aJb(d){this.a=d},
 lN:function lN(d,e,f,g,h){var _=this
 _.c=d
 _.d=e
@@ -16,24 +16,24 @@ _.b=h},
 b7:function b7(d,e,f){this.b=d
 this.c=e
 this.d=f},
-bxj(){return new B.u6(null)},
+bxe(){return new B.u6(null)},
 u6:function u6(d){this.a=d},
-aek:function aek(){this.c=this.a=this.d=null},
-b1p:function b1p(d){this.a=d},
-b1o:function b1o(d){this.a=d},
-b1q:function b1q(d,e){this.a=d
+aei:function aei(){this.c=this.a=this.d=null},
+b1k:function b1k(d){this.a=d},
+b1j:function b1j(d){this.a=d},
+b1l:function b1l(d,e){this.a=d
 this.b=e},
-b1n:function b1n(d,e){this.a=d
+b1i:function b1i(d,e){this.a=d
 this.b=e},
-b1r:function b1r(d){this.a=d},
-Pe:function Pe(d,e,f,g,h,i){var _=this
+b1m:function b1m(d){this.a=d},
+Pd:function Pd(d,e,f,g,h,i){var _=this
 _.c=d
 _.d=e
 _.e=f
 _.f=g
 _.r=h
 _.a=i},
-Gk:function Gk(d,e){this.c=d
+Gj:function Gj(d,e){this.c=d
 this.a=e}},A
 C=c[0]
 D=c[2]
@@ -43,67 +43,67 @@ B.lN.prototype={
 I(){return"TipCategory."+this.b}}
 B.b7.prototype={}
 B.u6.prototype={
-W(){return new B.aek()}}
-B.aek.prototype={
-A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxi(v.d),r=C.cE(u,u,A.azF),q=y.e,p=C.b([new B.Pe("Alle",A.a38,t.ax.b,v.d==null,new B.b1p(v),u)],q)
-for(x=0;x<9;++x){w=A.ac2[x]
-D.b.K(p,C.b([D.K,new B.Pe(w.c,w.d,w.e,v.d===w,new B.b1q(v,w),u)],q))}return C.cv(r,u,C.as(C.b([C.c2(C.dl(p,D.ao,u,D.aL,!1),56,u),C.aI(C.atZ(u,new B.b1r(s),s.length,D.z,!1),1)],q),D.n,D.e,D.h),u,u,u)}}
-B.Pe.prototype={
+W(){return new B.aei()}}
+B.aei.prototype={
+A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxd(v.d),r=C.cE(u,u,A.azE),q=y.e,p=C.b([new B.Pd("Alle",A.a37,t.ax.b,v.d==null,new B.b1k(v),u)],q)
+for(x=0;x<9;++x){w=A.ac1[x]
+D.b.K(p,C.b([D.K,new B.Pd(w.c,w.d,w.e,v.d===w,new B.b1l(v,w),u)],q))}return C.cv(r,u,C.at(C.b([C.c2(C.dl(p,D.ao,u,D.aL,!1),56,u),C.aI(C.atX(u,new B.b1m(s),s.length,D.z,!1),1)],q),D.n,D.e,D.h),u,u,u)}}
+B.Pd.prototype={
 A(d){var x=this,w=null,v=C.ah(999),u=x.f,t=x.e,s=u?t:t.O(0.12),r=C.ah(999),q=C.cj(t.O(0.4),1),p=u?D.k:t
 p=C.aq(x.d,p,w,16)
 return C.cU(C.cB(!1,v,!0,C.ad(w,C.aj(C.b([p,D.nR,C.m(x.c,w,w,w,C.ja(w,w,u?D.k:t,w,w,w,w,w,w,w,w,13,w,w,D.W,w,w,!0,w,w,w,w,w,w,w,w),w,w,w)],y.e),D.n,D.e,D.aN,0),D.i,w,w,new C.ai(s,w,q,r,w,w,D.q),w,w,w,D.wU,w,w,w),w,!0,w,w,w,w,w,w,w,w,w,w,x.r,w,w,w,w,w,w,w),w,w)}}
-B.Gk.prototype={
+B.Gj.prototype={
 A(d){var x=null,w=C.p(d),v=this.c,u=v.b,t=u.e,s=t.O(0.06),r=C.ah(16),q=C.cj(t.O(0.25),1),p=C.ad(x,C.aq(u.d,D.k,x,16),D.i,x,x,new C.ai(t,x,x,x,x,x,D.ay),x,x,x,D.bq,x,x,x),o=w.ok,n=o.ax
 t=n==null?x:n.zY(t,D.W,0.3)
 n=y.e
 t=C.aj(C.b([p,D.K,C.m(u.c,x,x,x,t,x,x,x)],n),D.n,D.e,D.h,0)
 u=o.w
-u=u==null?x:u.ds(D.W)
-return new C.a1(D.bT,C.ad(x,C.as(C.b([t,D.r,C.m(v.c,x,x,x,u,x,x,x),D.X,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ai(s,x,q,r,x,x,D.q),x,x,x,D.z,x,x,x),x)}}
-var z=a.updateTypes(["E(b7)","Gk(y,o)"])
-B.aJd.prototype={
+u=u==null?x:u.dv(D.W)
+return new C.a1(D.bT,C.ad(x,C.at(C.b([t,D.r,C.m(v.c,x,x,x,u,x,x,x),D.Y,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ai(s,x,q,r,x,x,D.q),x,x,x,D.z,x,x,x),x)}}
+var z=a.updateTypes(["E(b7)","Gj(y,o)"])
+B.aJb.prototype={
 $1(d){return d.b===this.a},
 $S:z+0}
-B.b1p.prototype={
+B.b1k.prototype={
 $0(){var x=this.a
-return x.M(new B.b1o(x))},
+return x.M(new B.b1j(x))},
 $S:0}
-B.b1o.prototype={
+B.b1j.prototype={
 $0(){return this.a.d=null},
 $S:0}
-B.b1q.prototype={
+B.b1l.prototype={
 $0(){var x=this.a
-return x.M(new B.b1n(x,this.b))},
+return x.M(new B.b1i(x,this.b))},
 $S:0}
-B.b1n.prototype={
+B.b1i.prototype={
 $0(){return this.a.d=this.b},
 $S:0}
-B.b1r.prototype={
-$2(d,e){return new B.Gk(this.a[e],null)},
+B.b1m.prototype={
+$2(d,e){return new B.Gj(this.a[e],null)},
 $S:z+1};(function inheritance(){var x=a.inherit,w=a.inheritMany
-x(B.aJd,C.la)
-x(B.lN,C.a7H)
+x(B.aJb,C.la)
+x(B.lN,C.a7F)
 x(B.b7,C.n)
 x(B.u6,C.Q)
-x(B.aek,C.a0)
-w(C.ri,[B.b1p,B.b1o,B.b1q,B.b1n])
-x(B.b1r,C.Ia)
-w(C.O,[B.Pe,B.Gk])})()
-C.aeW(b.typeUniverse,JSON.parse('{"Gk":{"O":[],"c":[]},"u6":{"Q":[],"c":[]},"aek":{"a0":["u6"]},"Pe":{"O":[],"c":[]}}'))
+x(B.aei,C.a0)
+w(C.ri,[B.b1k,B.b1j,B.b1l,B.b1i])
+x(B.b1m,C.I9)
+w(C.O,[B.Pd,B.Gj])})()
+C.aeU(b.typeUniverse,JSON.parse('{"Gj":{"O":[],"c":[]},"u6":{"Q":[],"c":[]},"aei":{"a0":["u6"]},"Pd":{"O":[],"c":[]}}'))
 var y={e:C.a_("z<c>"),f:C.a_("aH<b7>")};(function constants(){var x=a.makeConstList
-A.a38=new C.V(62829,"MaterialIcons",null,!1)
-A.a48=new C.V(983615,"MaterialIcons",null,!1)
-A.dJ=new B.lN("Alltag",A.a48,D.h0,0,"daily")
+A.a37=new C.V(62829,"MaterialIcons",null,!1)
+A.a47=new C.V(983615,"MaterialIcons",null,!1)
+A.dJ=new B.lN("Alltag",A.a47,D.h0,0,"daily")
 A.dG=new B.lN("Gesundheit",D.lG,D.iK,1,"health")
 A.dF=new B.lN("Ernaehrung",D.qX,D.ej,2,"nutrition")
-A.dI=new B.lN("Verhalten",D.lN,D.kW,3,"behavior")
-A.a42=new C.V(983469,"MaterialIcons",null,!1)
-A.dD=new B.lN("Pflege",A.a42,D.vT,4,"care")
+A.dI=new B.lN("Verhalten",D.lN,D.kV,3,"behavior")
+A.a41=new C.V(983469,"MaterialIcons",null,!1)
+A.dD=new B.lN("Pflege",A.a41,D.vT,4,"care")
 A.dC=new B.lN("Sommer",D.lO,D.iH,5,"summer")
-A.e9=new B.lN("Winter",D.lC,D.kO,6,"winter")
+A.e9=new B.lN("Winter",D.lC,D.kN,6,"winter")
 A.dH=new B.lN("Sicherheit",D.xP,D.iN,7,"safety")
 A.dE=new B.lN("Sozialisierung",D.lH,D.pl,8,"socialization")
-A.ac2=x([A.dJ,A.dG,A.dF,A.dI,A.dD,A.dC,A.e9,A.dH,A.dE],C.a_("z<lN>"))
+A.ac1=x([A.dJ,A.dG,A.dF,A.dI,A.dD,A.dC,A.e9,A.dH,A.dE],C.a_("z<lN>"))
 A.a0i=new B.b7(A.dJ,"Feste Routinen geben Halt","Hunde sind Gewohnheitstiere. Gleiche Spaziergeh- und Fuetterungs-Zeiten reduzieren Stress und Trennungsangst. Schon 15-20 Minuten Verschiebung koennen sensible Hunde irritieren.")
 A.a_R=new B.b7(A.dJ,"Nasenarbeit ermuedet schneller als Rennen","10 Minuten Schnueffel-Spiel = 60 Minuten Joggen, was die mentale Auslastung angeht. Leckerli in Decken verstecken oder eine Schnueffel-Wiese im Garten reicht schon.")
 A.a_T=new B.b7(A.dJ,"Ruhepausen sind kein Faulsein",'Gesunde Hunde schlafen 17-20 Stunden pro Tag. Wenn dein Hund in der Wohnung aktiv "abhaengt", ist das gesund. Erzwinge keine Bespassung - du wuerdest ihn sonst nervlich ueberlasten.')
@@ -185,5 +185,5 @@ A.a0a=new B.b7(A.dE,"Maulkorb VOR dem Ernstfall ueben","Ob fuer Bus, Bahn oder T
 A.a_E=new B.b7(A.dE,"Katzen und Kleintiere behutsam","Erste Begegnungen mit gesichertem Abstand und Rueckzugsmoeglichkeit fuer die Katze. Ruhe belohnen, Hetzen sofort unterbinden - Geduld ueber Wochen zahlt sich aus.")
 A.a_s=new B.b7(A.dE,"Qualitaet vor Quantitaet","Wenige gute Erfahrungen sind mehr wert als viele stressige. Ein ueberfordeter Welpe lernt nicht, dass die Welt sicher ist - er lernt, dass sie zu viel ist.")
 A.Ei=x([A.a0i,A.a_R,A.a_T,A.a_D,A.a_W,A.a_o,A.a_B,A.a_a,A.a_k,A.a_y,A.a01,A.a0k,A.a0q,A.a_g,A.a_f,A.a_I,A.a_c,A.a_r,A.a_z,A.a_i,A.a_X,A.a0l,A.a_L,A.a_Q,A.a_w,A.a0b,A.a_p,A.a_S,A.a_P,A.a0_,A.a_b,A.a0f,A.a08,A.a_t,A.a_Z,A.a_m,A.a0p,A.a04,A.a0e,A.a_O,A.a05,A.a_Y,A.a_N,A.a0j,A.a03,A.a_j,A.a_F,A.a_J,A.a_v,A.a_n,A.a_K,A.a_C,A.a_V,A.a_M,A.a00,A.a_d,A.a_l,A.a0d,A.a_e,A.a_h,A.a_q,A.a0c,A.a_x,A.a0m,A.a07,A.a09,A.a06,A.a0g,A.a_U,A.a_A,A.a0h,A.a_H,A.a_G,A.a0n,A.a02,A.a0o,A.a_u,A.a0a,A.a_E,A.a_s],C.a_("z<b7>"))
-A.azF=new C.az("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["LfD4m6mwLsc6aG8kJ2AP1pc+Ap0="]=a.current})($__dart_deferred_initializers__);
+A.azE=new C.az("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
+(a=>{a["W+AqlMVDdLg53jIuhZqSThCOk+4="]=a.current})($__dart_deferred_initializers__);
