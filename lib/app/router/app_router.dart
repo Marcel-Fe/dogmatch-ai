@@ -31,6 +31,7 @@ import 'package:dogmatch_ai/features/premium/presentation/premium_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/edit_profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/profile_screen.dart';
 import 'package:dogmatch_ai/features/profile/presentation/settings_screen.dart';
+import 'package:dogmatch_ai/features/anatomy/presentation/anatomy_screen.dart';
 import 'package:dogmatch_ai/features/behavior_check/presentation/behavior_check_screen.dart';
 import 'package:dogmatch_ai/features/checklists/presentation/checklist_detail_screen.dart';
 import 'package:dogmatch_ai/features/checklists/presentation/checklists_screen.dart';
@@ -194,6 +195,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.symptomCheck,
       builder: (context, state) => const SymptomCheckScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.anatomy,
+      builder: (context, state) => const AnatomyScreen(),
     ),
     GoRoute(
       path: AppRoutes.nearby,

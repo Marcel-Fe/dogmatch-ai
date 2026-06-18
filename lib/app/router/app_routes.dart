@@ -48,6 +48,9 @@ class AppRoutes {
   // Symptom-Check
   static const String symptomCheck = '/symptom-check';
 
+  // Hunde-Anatomie (Begriffe verstehen, die der Tierarzt nutzt)
+  static const String anatomy = '/anatomy';
+
   // Umgebung (Tieraerzte, Kliniken, Kotbeutel in der Naehe)
   static const String nearby = '/nearby';
 

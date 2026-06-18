@@ -73,6 +73,11 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           route: AppRoutes.symptomCheck,
         ),
         _DrawerItem(
+          icon: Icons.pets_rounded,
+          label: 'Hunde-Anatomie',
+          route: AppRoutes.anatomy,
+        ),
+        _DrawerItem(
           icon: Icons.near_me_rounded,
           label: 'Tieraerzte in der Naehe',
           route: AppRoutes.nearby,
