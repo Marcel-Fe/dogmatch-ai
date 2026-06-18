@@ -88,26 +88,18 @@
     })();
   </script>
   <!--
-    Service-Worker-Update: Die App nutzt wieder einen Cache fuer schnelles
-    Laden beim zweiten Mal. Bei einer NEUEN Version aktualisiert der Worker
-    automatisch und laedt EINMAL neu - aber nicht bei der Erst-Installation und
-    ohne Endlosschleife. So bleibt es schnell UND immer aktuell.
+    Auto-Update: Der eigene Service-Worker (sw_swr.js, beim Deploy ueber
+    flutter_service_worker.js kopiert) erkennt einen neuen Deploy und schickt
+    "dm-reload". Dann laedt die App genau EINMAL automatisch neu - frisch und
+    ohne manuelles Cache-Leeren. Eine Guard verhindert Endlosschleifen.
   -->
   <script>
     if ('serviceWorker' in navigator) {
-      // Beim Laden merken, ob schon ein Worker die Seite steuert.
-      window.__dmHadController = !!navigator.serviceWorker.controller;
-      navigator.serviceWorker.addEventListener('controllerchange', function () {
-        // Nur bei einem echten Update neu laden (nicht bei Erst-Installation).
-        if (!window.__dmHadController) return;
-        if (window.__dmReloaded) return;
-        window.__dmReloaded = true;
-        window.location.reload();
-      });
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.getRegistration().then(function (reg) {
-          if (reg) { try { reg.update(); } catch (e) { /* egal */ } }
-        }).catch(function () { /* egal */ });
+      navigator.serviceWorker.addEventListener('message', function (ev) {
+        if (ev.data === 'dm-reload' && !window.__dmReloaded) {
+          window.__dmReloaded = true;
+          window.location.reload();
+        }
       });
     }
   </script>
