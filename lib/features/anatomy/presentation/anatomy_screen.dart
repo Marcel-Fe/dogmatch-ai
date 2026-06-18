@@ -75,9 +75,9 @@ class _IntroCard extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              'Damit du beim Tierarzt sofort weisst, was gemeint ist: Tippe '
-              'die Zahlen im Bild in der Liste darunter nach. So findest du '
-              'jeden Begriff am Hund wieder.',
+              'Die Begriffe stehen direkt am Hund. Zum Vergroessern das Bild '
+              'mit zwei Fingern zoomen. Was jeder Begriff bedeutet, steht in '
+              'der Liste darunter.',
               style: theme.textTheme.bodyMedium,
             ),
           ),
@@ -87,13 +87,27 @@ class _IntroCard extends StatelessWidget {
   }
 }
 
+/// Auf welcher Seite des Bildes die Beschriftung sitzt.
+enum _Side { left, top, right, bottom }
+
+/// Ordnet jeden Begriff (per Nummer) einer Beschriftungsseite zu - so sitzen
+/// die Labels rund ums Bild wie auf einem Anatomie-Poster.
+const Map<int, _Side> _sideOf = {
+  1: _Side.left, 2: _Side.left, 3: _Side.left, 4: _Side.left, 6: _Side.left,
+  5: _Side.top, 10: _Side.top, 14: _Side.top, 15: _Side.top,
+  12: _Side.right, 16: _Side.right, 17: _Side.right, 18: _Side.right,
+  19: _Side.right,
+  7: _Side.bottom, 8: _Side.bottom, 9: _Side.bottom, 11: _Side.bottom,
+  13: _Side.bottom,
+};
+
 class _DiagramCard extends StatelessWidget {
   const _DiagramCard({required this.parts});
 
   final List<AnatomyPart> parts;
 
-  // Seitenverhaeltnis des Fotos (560 x 462).
-  static const double _ratio = 560 / 462;
+  // Gesamt-Seitenverhaeltnis der Tafel (Foto in der Mitte + Label-Raender).
+  static const double _ratio = 1.45;
 
   @override
   Widget build(BuildContext context) {
@@ -117,44 +131,73 @@ class _DiagramCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-            child: AspectRatio(
-              aspectRatio: _ratio,
+          AspectRatio(
+            aspectRatio: _ratio,
+            child: InteractiveViewer(
+              minScale: 1,
+              maxScale: 4,
+              boundaryMargin: const EdgeInsets.all(24),
               child: LayoutBuilder(
                 builder: (context, c) {
                   final w = c.maxWidth;
                   final h = c.maxHeight;
                   final dpr = MediaQuery.devicePixelRatioOf(context);
-                  return Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.asset(
-                        'assets/anatomy/dog_side.jpg',
-                        fit: BoxFit.cover,
-                        cacheWidth: (w * dpr).round(),
-                      ),
-                      for (final p in parts)
+                  // Foto-Bereich zentral, Raender bleiben fuer Labels frei.
+                  final pl = 0.225 * w, pt = 0.12 * h;
+                  final pw = 0.55 * w, ph = 0.68 * h;
+                  return SizedBox(
+                    width: w,
+                    height: h,
+                    child: Stack(
+                      children: [
                         Positioned(
-                          left: p.pos.dx * w - _kMarker / 2,
-                          top: p.pos.dy * h - _kMarker / 2,
-                          child: _Marker(number: p.number),
+                          left: pl,
+                          top: pt,
+                          width: pw,
+                          height: ph,
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(AppSpacing.radiusSm),
+                            child: Image.asset(
+                              'assets/anatomy/dog_side.jpg',
+                              fit: BoxFit.cover,
+                              cacheWidth: (pw * dpr).round(),
+                            ),
+                          ),
                         ),
-                    ],
+                        Positioned.fill(
+                          child: CustomPaint(
+                            painter: _LabelPainter(
+                              parts: parts,
+                              textColor: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'Foto: Wikimedia Commons',
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Zum Vergroessern mit zwei Fingern zoomen',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
               ),
-            ),
+              Text(
+                'Foto: Wikimedia Commons',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -162,44 +205,116 @@ class _DiagramCard extends StatelessWidget {
   }
 }
 
-const double _kMarker = 26;
+/// Zeichnet die Verbindungslinien, Punkte und Begriffs-Beschriftungen rund um
+/// das Foto - die Begriffe stehen am Rand und zeigen mit einer Linie auf die
+/// jeweilige Stelle am Hund.
+class _LabelPainter extends CustomPainter {
+  _LabelPainter({required this.parts, required this.textColor});
 
-/// Nummerierter Marker auf dem Foto - kraeftiges Indigo mit weisser Ziffer
-/// und weissem Ring, damit er auf jedem Fell-/Hintergrund gut lesbar ist.
-class _Marker extends StatelessWidget {
-  const _Marker({required this.number});
+  final List<AnatomyPart> parts;
+  final Color textColor;
 
-  final int number;
+  // Kurzform fuers Bild (volle Erklaerung steht in der Liste).
+  static const Map<String, String> _shortMap = {'Rippenbogen': 'Rippen'};
+  String _short(String n) {
+    final base = n.split(' (').first.split(' & ').first;
+    return _shortMap[base] ?? base;
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: _kMarker,
-      height: _kMarker,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+  void paint(Canvas canvas, Size size) {
+    final w = size.width, h = size.height;
+    final pl = 0.225 * w, pt = 0.12 * h, pw = 0.55 * w, ph = 0.68 * h;
+    final pr = pl + pw, pb = pt + ph;
+    Offset target(AnatomyPart p) =>
+        Offset(pl + p.pos.dx * pw, pt + p.pos.dy * ph);
+
+    final fontSize = (w * 0.030).clamp(8.5, 14.0);
+    final line = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.85)
+      ..strokeWidth = (w * 0.004).clamp(1.0, 2.0)
+      ..isAntiAlias = true;
+    final dotFill = Paint()..color = AppColors.primary;
+    final dotRing = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = (w * 0.005).clamp(1.0, 2.0);
+    final dotR = (w * 0.009).clamp(2.5, 5.0);
+
+    void label(String text, Offset anchor, _Align align, double maxW) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: text,
+          style: TextStyle(
+            color: textColor,
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
+            height: 1.05,
           ),
-        ],
-      ),
-      child: Text(
-        '$number',
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontSize: 13,
         ),
-      ),
-    );
+        textAlign: align == _Align.right ? TextAlign.right : TextAlign.left,
+        textDirection: TextDirection.ltr,
+        maxLines: 3,
+      )..layout(maxWidth: maxW);
+      double dx;
+      switch (align) {
+        case _Align.left:
+          dx = anchor.dx;
+        case _Align.right:
+          dx = anchor.dx - tp.width;
+        case _Align.center:
+          dx = anchor.dx - tp.width / 2;
+      }
+      tp.paint(canvas, Offset(dx, anchor.dy - tp.height / 2));
+    }
+
+    void drawLine(Offset from, AnatomyPart p) {
+      final t = target(p);
+      canvas.drawLine(from, t, line);
+      canvas.drawCircle(t, dotR, dotFill);
+      canvas.drawCircle(t, dotR, dotRing);
+    }
+
+    List<AnatomyPart> on(_Side s) =>
+        parts.where((p) => _sideOf[p.number] == s).toList();
+
+    // LEFT (nach dy sortiert)
+    final left = on(_Side.left)..sort((a, b) => target(a).dy.compareTo(target(b).dy));
+    for (var i = 0; i < left.length; i++) {
+      final y = pt + (i + 0.5) / left.length * ph;
+      drawLine(Offset(pl - 6, y), left[i]);
+      label(_short(left[i].name), Offset(pl - 10, y), _Align.right, pl - 16);
+    }
+    // RIGHT
+    final right = on(_Side.right)..sort((a, b) => target(a).dy.compareTo(target(b).dy));
+    for (var i = 0; i < right.length; i++) {
+      final y = pt + (i + 0.5) / right.length * ph;
+      drawLine(Offset(pr + 6, y), right[i]);
+      label(_short(right[i].name), Offset(pr + 10, y), _Align.left, w - pr - 16);
+    }
+    // TOP
+    final top = on(_Side.top)..sort((a, b) => target(a).dx.compareTo(target(b).dx));
+    for (var i = 0; i < top.length; i++) {
+      final x = pl + (i + 0.5) / top.length * pw;
+      drawLine(Offset(x, pt - 6), top[i]);
+      label(_short(top[i].name), Offset(x, pt * 0.5), _Align.center, pw / top.length - 4);
+    }
+    // BOTTOM
+    final bottom = on(_Side.bottom)..sort((a, b) => target(a).dx.compareTo(target(b).dx));
+    for (var i = 0; i < bottom.length; i++) {
+      final x = pl + (i + 0.5) / bottom.length * pw;
+      drawLine(Offset(x, pb + 6), bottom[i]);
+      label(_short(bottom[i].name), Offset(x, pb + (h - pb) * 0.5), _Align.center,
+          pw / bottom.length - 4);
+    }
   }
+
+  @override
+  bool shouldRepaint(covariant _LabelPainter old) =>
+      old.parts != parts || old.textColor != textColor;
 }
+
+enum _Align { left, right, center }
 
 class _PartCard extends StatelessWidget {
   const _PartCard({required this.part, required this.theme});
