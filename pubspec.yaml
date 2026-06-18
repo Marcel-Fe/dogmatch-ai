@@ -74,6 +74,7 @@ flutter:
     - assets/data/breeds.json
     - assets/data/training_plans.json
     - assets/data/breeders.json
+    - assets/anatomy/dog_side.jpg
 
   # Schrift lokal gebundelt (Variable Font) - kein Laufzeit-Download von
   # Google mehr, das beschleunigt den App-Start spuerbar auf dem Handy.

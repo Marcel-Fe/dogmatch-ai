@@ -15,7 +15,8 @@ enum AnatomyRegion {
 /// wo das am Hund liegt und was beim Tierarzt damit gemeint ist.
 ///
 /// [number] ist die Ziffer im Schaubild, [pos] die normierte Position
-/// (x,y in 0..1) des Markers auf der seitlichen Hunde-Zeichnung.
+/// (x,y in 0..1) des Markers auf dem seitlichen Hunde-Foto (Hund schaut
+/// nach links).
 class AnatomyPart {
   const AnatomyPart({
     required this.number,
@@ -36,6 +37,8 @@ class AnatomyPart {
 
 /// Statischer Katalog der wichtigsten Begriffe, die beim Tierarzt fallen.
 /// Bewusst alltagsnah erklaert - kein Lehrbuch, sondern "was ist gemeint".
+/// Die [pos]-Werte sind auf das seitliche Hunde-Foto (assets/anatomy/
+/// dog_side.jpg, Labrador im Profil nach links) abgestimmt.
 class AnatomyCatalog {
   AnatomyCatalog._();
 
@@ -48,7 +51,7 @@ class AnatomyCatalog {
       where: 'Die Schnauze mit den haengenden Lippen.',
       vetNote: 'Meint Maul, Lippen und Schnauzenbereich - z.B. bei '
           'Zahnstein, Entzuendungen oder Verletzungen.',
-      pos: Offset(0.09, 0.55),
+      pos: Offset(0.215, 0.350),
     ),
     AnatomyPart(
       number: 2,
@@ -57,7 +60,7 @@ class AnatomyCatalog {
       where: 'Die Stufe zwischen Stirn und Nasenruecken.',
       vetNote: 'Orientierungspunkt am Kopf - hilft bei der Beschreibung von '
           'Schwellungen oder der Augenpartie.',
-      pos: Offset(0.17, 0.36),
+      pos: Offset(0.245, 0.210),
     ),
     AnatomyPart(
       number: 3,
@@ -66,16 +69,16 @@ class AnatomyCatalog {
       where: 'Die Ohrmuscheln.',
       vetNote: 'Haeufig gemeint bei Ohrentzuendung, Milben oder Juckreiz - '
           '"Behang" ist das Fachwort fuer die Ohren.',
-      pos: Offset(0.26, 0.26),
+      pos: Offset(0.105, 0.255),
     ),
     AnatomyPart(
       number: 4,
-      name: 'Fang-/Nasenspiegel',
+      name: 'Nasenspiegel',
       region: AnatomyRegion.head,
       where: 'Die feuchte Nasenspitze.',
       vetNote: 'Der Tierarzt achtet auf Farbe und Feuchtigkeit - Hinweise '
           'auf Allgemeinbefinden.',
-      pos: Offset(0.05, 0.50),
+      pos: Offset(0.180, 0.300),
     ),
 
     // --- Vorderkoerper ---
@@ -86,7 +89,7 @@ class AnatomyCatalog {
       where: 'Der hoechste Punkt am Uebergang Hals/Ruecken.',
       vetNote: 'Hier wird die Schulterhoehe gemessen ("Widerristhoehe") und '
           'oft die Spritze gesetzt.',
-      pos: Offset(0.34, 0.30),
+      pos: Offset(0.375, 0.205),
     ),
     AnatomyPart(
       number: 6,
@@ -95,7 +98,7 @@ class AnatomyCatalog {
       where: 'Der Bereich zwischen Hals und Vorderbein.',
       vetNote: 'Relevant bei Lahmheit vorne - der Arzt prueft das '
           'Schultergelenk.',
-      pos: Offset(0.37, 0.42),
+      pos: Offset(0.345, 0.420),
     ),
     AnatomyPart(
       number: 7,
@@ -104,7 +107,7 @@ class AnatomyCatalog {
       where: 'Der vordere, untere Rumpf - umschliesst Herz und Lunge.',
       vetNote: 'Wird beim Abhoeren (Herz/Lunge) abgetastet; auch fuer den '
           'Brustumfang (Geschirr-Groesse) wichtig.',
-      pos: Offset(0.31, 0.52),
+      pos: Offset(0.290, 0.560),
     ),
     AnatomyPart(
       number: 8,
@@ -113,7 +116,7 @@ class AnatomyCatalog {
       where: 'Das Gelenk oben am Vorderbein, nah am Brustkorb.',
       vetNote: 'Wichtiger Punkt bei Lahmheit und Arthrose - "Ellbogen-'
           'Dysplasie (ED)" betrifft genau dieses Gelenk.',
-      pos: Offset(0.37, 0.60),
+      pos: Offset(0.355, 0.640),
     ),
     AnatomyPart(
       number: 9,
@@ -122,7 +125,7 @@ class AnatomyCatalog {
       where: 'Die vordere Pfote mit den Ballen.',
       vetNote: 'Der Arzt prueft Krallen, Ballen und Zwischenzehenbereich - '
           'haeufig bei Lahmheit oder Schnittverletzungen.',
-      pos: Offset(0.37, 0.74),
+      pos: Offset(0.300, 0.930),
     ),
 
     // --- Rumpf ---
@@ -132,7 +135,7 @@ class AnatomyCatalog {
       region: AnatomyRegion.body,
       where: 'Die obere Linie vom Widerrist bis zur Kruppe.',
       vetNote: 'Bei Ruecken-/Wirbelsaeulen-Themen (z.B. Bandscheibe) gemeint.',
-      pos: Offset(0.52, 0.28),
+      pos: Offset(0.545, 0.290),
     ),
     AnatomyPart(
       number: 11,
@@ -141,7 +144,7 @@ class AnatomyCatalog {
       where: 'Die seitliche Brustwand mit den Rippen.',
       vetNote: 'Ueber die fuehlbaren Rippen beurteilt der Arzt das '
           'Idealgewicht (Body Condition Score).',
-      pos: Offset(0.47, 0.46),
+      pos: Offset(0.460, 0.520),
     ),
     AnatomyPart(
       number: 12,
@@ -150,7 +153,7 @@ class AnatomyCatalog {
       where: 'Die Weichteile zwischen letzter Rippe und Huefte.',
       vetNote: 'Hier liegen Bauchorgane dicht unter der Haut - wird beim '
           'Abtasten des Bauchs untersucht.',
-      pos: Offset(0.62, 0.40),
+      pos: Offset(0.630, 0.405),
     ),
     AnatomyPart(
       number: 13,
@@ -159,7 +162,7 @@ class AnatomyCatalog {
       where: 'Die untere Rumpflinie hinter dem Brustkorb.',
       vetNote: 'Wird abgetastet (Magen, Darm, Blase); harter Bauch kann ein '
           'Warnzeichen sein.',
-      pos: Offset(0.54, 0.58),
+      pos: Offset(0.520, 0.640),
     ),
 
     // --- Hinterkoerper ---
@@ -170,7 +173,7 @@ class AnatomyCatalog {
       where: 'Der abfallende Bereich ueber dem Becken, vor der Rute.',
       vetNote: 'Orientierung fuer Huefte und Becken - z.B. bei '
           'Hueftproblemen.',
-      pos: Offset(0.74, 0.30),
+      pos: Offset(0.735, 0.305),
     ),
     AnatomyPart(
       number: 15,
@@ -179,7 +182,7 @@ class AnatomyCatalog {
       where: 'Der Schwanz.',
       vetNote: '"Rute" ist das Fachwort fuer den Schwanz - relevant bei '
           'Verletzungen oder der beliebten "Wasserrute".',
-      pos: Offset(0.90, 0.26),
+      pos: Offset(0.915, 0.235),
     ),
     AnatomyPart(
       number: 16,
@@ -188,7 +191,7 @@ class AnatomyCatalog {
       where: 'Die kraeftige Muskelpartie am Hinterbein.',
       vetNote: 'Wird zur Muskelbeurteilung abgetastet; haeufiger Ort fuer '
           'Spritzen in den Muskel.',
-      pos: Offset(0.70, 0.50),
+      pos: Offset(0.760, 0.520),
     ),
     AnatomyPart(
       number: 17,
@@ -197,7 +200,7 @@ class AnatomyCatalog {
       where: 'Das Gelenk vorne am Hinterbein, etwa auf Bauchhoehe.',
       vetNote: 'Sehr haeufig: "Patellaluxation" (springende Kniescheibe) und '
           'Kreuzbandriss betreffen dieses Gelenk.',
-      pos: Offset(0.65, 0.62),
+      pos: Offset(0.680, 0.660),
     ),
     AnatomyPart(
       number: 18,
@@ -207,7 +210,7 @@ class AnatomyCatalog {
           'dem Knie verwechselt.',
       vetNote: 'Entspricht unserem Fussknoechel. Wichtig bei Lahmheit hinten '
           'und Verletzungen der Achillessehne.',
-      pos: Offset(0.71, 0.70),
+      pos: Offset(0.825, 0.760),
     ),
     AnatomyPart(
       number: 19,
@@ -215,7 +218,7 @@ class AnatomyCatalog {
       region: AnatomyRegion.hind,
       where: 'Die hintere Pfote.',
       vetNote: 'Wie vorne: Krallen, Ballen und Zehen werden geprueft.',
-      pos: Offset(0.71, 0.78),
+      pos: Offset(0.800, 0.930),
     ),
   ];
 }
