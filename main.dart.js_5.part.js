@@ -1,13 +1,13 @@
 ((a,b)=>{a[b]=a[b]||{}})(self,"$__dart_deferred_initializers__")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var C,D,B={
-bxh(d){var x
-if(d==null)return A.Em
+bxv(d){var x
+if(d==null)return A.Es
 x=y.f
-x=C.S(new C.aH(A.Em,new B.aJe(d),x),x.i("C.E"))
+x=C.S(new C.aI(A.Es,new B.aJq(d),x),x.i("C.E"))
 x.$flags=1
 return x},
-aJe:function aJe(d){this.a=d},
-lN:function lN(d,e,f,g,h){var _=this
+aJq:function aJq(d){this.a=d},
+lQ:function lQ(d,e,f,g,h){var _=this
 _.c=d
 _.d=e
 _.e=f
@@ -16,174 +16,174 @@ _.b=h},
 b7:function b7(d,e,f){this.b=d
 this.c=e
 this.d=f},
-bxi(){return new B.u7(null)},
-u7:function u7(d){this.a=d},
-ael:function ael(){this.c=this.a=this.d=null},
-b1o:function b1o(d){this.a=d},
-b1n:function b1n(d){this.a=d},
-b1p:function b1p(d,e){this.a=d
+bxw(){return new B.u8(null)},
+u8:function u8(d){this.a=d},
+aeu:function aeu(){this.c=this.a=this.d=null},
+b1C:function b1C(d){this.a=d},
+b1B:function b1B(d){this.a=d},
+b1D:function b1D(d,e){this.a=d
 this.b=e},
-b1m:function b1m(d,e){this.a=d
+b1A:function b1A(d,e){this.a=d
 this.b=e},
-b1q:function b1q(d){this.a=d},
-Pe:function Pe(d,e,f,g,h,i){var _=this
+b1E:function b1E(d){this.a=d},
+Pj:function Pj(d,e,f,g,h,i){var _=this
 _.c=d
 _.d=e
 _.e=f
 _.f=g
 _.r=h
 _.a=i},
-Gk:function Gk(d,e){this.c=d
+Gp:function Gp(d,e){this.c=d
 this.a=e}},A
 C=c[0]
 D=c[2]
 B=a.updateHolder(c[5],B)
 A=c[11]
-B.lN.prototype={
+B.lQ.prototype={
 I(){return"TipCategory."+this.b}}
 B.b7.prototype={}
-B.u7.prototype={
-W(){return new B.ael()}}
-B.ael.prototype={
-A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxh(v.d),r=C.cE(u,u,A.azN),q=y.e,p=C.b([new B.Pe("Alle",A.a3c,t.ax.b,v.d==null,new B.b1o(v),u)],q)
-for(x=0;x<9;++x){w=A.ac7[x]
-D.b.K(p,C.b([D.K,new B.Pe(w.c,w.d,w.e,v.d===w,new B.b1p(v,w),u)],q))}return C.cv(r,u,C.as(C.b([C.c2(C.dl(p,D.am,u,D.aM,!1),56,u),C.aI(C.au_(u,new B.b1q(s),s.length,D.z,!1),1)],q),D.m,D.e,D.h),u,u,u)}}
-B.Pe.prototype={
-A(d){var x=this,w=null,v=C.ah(999),u=x.f,t=x.e,s=u?t:t.O(0.12),r=C.ah(999),q=C.cj(t.O(0.4),1),p=u?D.k:t
-p=C.ap(x.d,p,w,16)
-return C.cU(C.cy(!1,v,!0,C.ac(w,C.aj(C.b([p,D.nS,C.m(x.c,w,w,w,C.ja(w,w,u?D.k:t,w,w,w,w,w,w,w,w,13,w,w,D.V,w,w,!0,w,w,w,w,w,w,w,w),w,w,w)],y.e),D.m,D.e,D.aK,0),D.i,w,w,new C.ai(s,w,q,r,w,w,D.r),w,w,w,D.wX,w,w,w),w,!0,w,w,w,w,w,w,w,w,w,w,x.r,w,w,w,w,w,w,w),w,w)}}
-B.Gk.prototype={
-A(d){var x=null,w=C.p(d),v=this.c,u=v.b,t=u.e,s=t.O(0.06),r=C.ah(16),q=C.cj(t.O(0.25),1),p=C.ac(x,C.ap(u.d,D.k,x,16),D.i,x,x,new C.ai(t,x,x,x,x,x,D.au),x,x,x,D.bq,x,x,x),o=w.ok,n=o.ax
-t=n==null?x:n.zY(t,D.V,0.3)
+B.u8.prototype={
+W(){return new B.aeu()}}
+B.aeu.prototype={
+A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxv(v.d),r=C.cB(u,u,A.aAy),q=y.e,p=C.b([new B.Pj("Alle",A.a3D,t.ax.b,v.d==null,new B.b1C(v),u)],q)
+for(x=0;x<9;++x){w=A.acv[x]
+D.b.K(p,C.b([D.K,new B.Pj(w.c,w.d,w.e,v.d===w,new B.b1D(v,w),u)],q))}return C.cs(r,u,C.ar(C.b([C.c2(C.di(p,D.am,u,D.aN,!1),56,u),C.aH(C.aua(u,new B.b1E(s),s.length,D.z,!1),1)],q),D.m,D.e,D.h),u,u,u)}}
+B.Pj.prototype={
+A(d){var x=this,w=null,v=C.ag(999),u=x.f,t=x.e,s=u?t:t.O(0.12),r=C.ag(999),q=C.cd(t.O(0.4),1),p=u?D.k:t
+p=C.ao(x.d,p,w,16)
+return C.cV(C.cy(!1,v,!0,C.aa(w,C.aj(C.b([p,D.nZ,C.m(x.c,w,w,w,C.je(w,w,u?D.k:t,w,w,w,w,w,w,w,w,13,w,w,D.V,w,w,!0,w,w,w,w,w,w,w,w),w,w,w)],y.e),D.m,D.e,D.aL,0),D.i,w,w,new C.ah(s,w,q,r,w,w,D.q),w,w,w,D.x0,w,w,w),w,!0,w,w,w,w,w,w,w,w,w,w,x.r,w,w,w,w,w,w,w),w,w)}}
+B.Gp.prototype={
+A(d){var x=null,w=C.p(d),v=this.c,u=v.b,t=u.e,s=t.O(0.06),r=C.ag(16),q=C.cd(t.O(0.25),1),p=C.aa(x,C.ao(u.d,D.k,x,16),D.i,x,x,new C.ah(t,x,x,x,x,x,D.aw),x,x,x,D.br,x,x,x),o=w.ok,n=o.ax
+t=n==null?x:n.zZ(t,D.V,0.3)
 n=y.e
 t=C.aj(C.b([p,D.K,C.m(u.c,x,x,x,t,x,x,x)],n),D.m,D.e,D.h,0)
 u=o.w
-u=u==null?x:u.ds(D.V)
-return new C.a1(D.bT,C.ac(x,C.as(C.b([t,D.q,C.m(v.c,x,x,x,u,x,x,x),D.Y,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ai(s,x,q,r,x,x,D.r),x,x,x,D.z,x,x,x),x)}}
-var z=a.updateTypes(["E(b7)","Gk(y,o)"])
-B.aJe.prototype={
+u=u==null?x:u.dt(D.V)
+return new C.a1(D.bU,C.aa(x,C.ar(C.b([t,D.r,C.m(v.c,x,x,x,u,x,x,x),D.X,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ah(s,x,q,r,x,x,D.q),x,x,x,D.z,x,x,x),x)}}
+var z=a.updateTypes(["D(b7)","Gp(y,o)"])
+B.aJq.prototype={
 $1(d){return d.b===this.a},
 $S:z+0}
-B.b1o.prototype={
+B.b1C.prototype={
 $0(){var x=this.a
-return x.M(new B.b1n(x))},
+return x.M(new B.b1B(x))},
 $S:0}
-B.b1n.prototype={
+B.b1B.prototype={
 $0(){return this.a.d=null},
 $S:0}
-B.b1p.prototype={
+B.b1D.prototype={
 $0(){var x=this.a
-return x.M(new B.b1m(x,this.b))},
+return x.M(new B.b1A(x,this.b))},
 $S:0}
-B.b1m.prototype={
+B.b1A.prototype={
 $0(){return this.a.d=this.b},
 $S:0}
-B.b1q.prototype={
-$2(d,e){return new B.Gk(this.a[e],null)},
+B.b1E.prototype={
+$2(d,e){return new B.Gp(this.a[e],null)},
 $S:z+1};(function inheritance(){var x=a.inherit,w=a.inheritMany
-x(B.aJe,C.la)
-x(B.lN,C.a7H)
+x(B.aJq,C.ld)
+x(B.lQ,C.a7O)
 x(B.b7,C.n)
-x(B.u7,C.Q)
-x(B.ael,C.a0)
-w(C.ri,[B.b1o,B.b1n,B.b1p,B.b1m])
-x(B.b1q,C.Ia)
-w(C.O,[B.Pe,B.Gk])})()
-C.aeX(b.typeUniverse,JSON.parse('{"Gk":{"O":[],"c":[]},"u7":{"Q":[],"c":[]},"ael":{"a0":["u7"]},"Pe":{"O":[],"c":[]}}'))
-var y={e:C.a_("z<c>"),f:C.a_("aH<b7>")};(function constants(){var x=a.makeConstList
-A.a3c=new C.V(62829,"MaterialIcons",null,!1)
-A.a4c=new C.V(983615,"MaterialIcons",null,!1)
-A.dJ=new B.lN("Alltag",A.a4c,D.h0,0,"daily")
-A.dG=new B.lN("Gesundheit",D.lH,D.iK,1,"health")
-A.dF=new B.lN("Ernaehrung",D.qY,D.ej,2,"nutrition")
-A.dI=new B.lN("Verhalten",D.jb,D.kX,3,"behavior")
-A.a46=new C.V(983469,"MaterialIcons",null,!1)
-A.dD=new B.lN("Pflege",A.a46,D.vV,4,"care")
-A.dC=new B.lN("Sommer",D.lO,D.iH,5,"summer")
-A.e9=new B.lN("Winter",D.lE,D.kP,6,"winter")
-A.dH=new B.lN("Sicherheit",D.xT,D.iN,7,"safety")
-A.dE=new B.lN("Sozialisierung",D.lI,D.pm,8,"socialization")
-A.ac7=x([A.dJ,A.dG,A.dF,A.dI,A.dD,A.dC,A.e9,A.dH,A.dE],C.a_("z<lN>"))
-A.a0n=new B.b7(A.dJ,"Feste Routinen geben Halt","Hunde sind Gewohnheitstiere. Gleiche Spaziergeh- und Fuetterungs-Zeiten reduzieren Stress und Trennungsangst. Schon 15-20 Minuten Verschiebung koennen sensible Hunde irritieren.")
-A.a_W=new B.b7(A.dJ,"Nasenarbeit ermuedet schneller als Rennen","10 Minuten Schnueffel-Spiel = 60 Minuten Joggen, was die mentale Auslastung angeht. Leckerli in Decken verstecken oder eine Schnueffel-Wiese im Garten reicht schon.")
-A.a_Y=new B.b7(A.dJ,"Ruhepausen sind kein Faulsein",'Gesunde Hunde schlafen 17-20 Stunden pro Tag. Wenn dein Hund in der Wohnung aktiv "abhaengt", ist das gesund. Erzwinge keine Bespassung - du wuerdest ihn sonst nervlich ueberlasten.')
-A.a_I=new B.b7(A.dJ,"Trinkschale immer frisch","Wasser mindestens einmal pro Tag wechseln. Im Sommer 2-3 mal. Steinzeug- oder Edelstahl-Naepfe sind keimfreier als Plastik.")
-A.a00=new B.b7(A.dJ,"Schnueffeln lassen statt durchmarschieren","Der Spaziergang ist fuer den Hund kein Sport, sondern Zeitung lesen. Lass ihn an interessanten Stellen ausgiebig schnueffeln - das lastet mehr aus als reines Strecke-Machen.")
-A.a_t=new B.b7(A.dJ,"Leinenfuehrigkeit kurz und taeglich ueben","5 Minuten konzentriertes Ueben pro Tag bringen mehr als eine Stunde am Wochenende. Bleib stehen, sobald die Leine straff wird, und geh erst weiter, wenn sie wieder locker durchhaengt.")
-A.a_G=new B.b7(A.dJ,"Kauen baut Stress ab","Ein laenger anhaltender Kausnack (Kaffeeholz, getrocknete Sehne) hilft aufgedrehten Hunden beim Runterkommen. Kauen senkt nachweislich den Puls.")
-A.a_f=new B.b7(A.dJ,"Futter zur Beschaeftigung machen","Statt aus dem Napf: einen Teil der Tagesration in einen Schnueffelteppich oder ein Schleckmatten-Spiel geben. Das macht aus dem Fressen 10 Minuten Kopfarbeit.")
-A.a_p=new B.b7(A.dJ,"Abendritual zum Abschalten","Eine ruhige letzte Runde ohne Action, dann Kuscheln oder ein Kausnack. Toben kurz vor dem Schlafen macht viele Hunde nur noch aufgedrehter.")
-A.a_D=new B.b7(A.dG,"Zahnstein vorbeugen, nicht behandeln","Taegliches Kauen (Kauknochen, getrocknete Rindersehnen) reduziert Zahnstein massiv. Hunde, die nur Weichfutter kriegen, brauchen oft schon mit 4-5 Jahren eine Zahnreinigung in Narkose.")
-A.a06=new B.b7(A.dG,"Krallenpflege - der Klick-Test","Wenn du Krallen-Klicken beim Gehen auf Hartboden hoerst, sind sie zu lang. Zu lange Krallen drehen die Pfotenstellung und schaedigen die Gelenke langfristig.")
-A.a0p=new B.b7(A.dG,"Zecken nach jedem Spaziergang","Besonders an Ohren, Halsband-Bereich, Achseln und zwischen den Zehen. Zecken-Zange greift direkt an der Haut, langsam gerade rausziehen - nicht drehen.")
-A.a0v=new B.b7(A.dG,"Erbrechen + Durchfall > 24h = Tierarzt","Einmaliges Erbrechen ist meist harmlos. Mehrfach + Apathie + kein Trinken = sofort Tierarzt, besonders bei Welpen und aelteren Hunden (Dehydrierung).")
-A.a_l=new B.b7(A.dG,'Impfungen nicht "wegen Alter" weglassen',"Auch alte Hunde brauchen Tollwut + Staupe-Auffrischung. Frag deinen Tierarzt nach Titer-Bestimmung, falls du seltener impfen willst - die Antwort liegt im Blut.")
-A.a_k=new B.b7(A.dG,"Regelmaessig wiegen statt schaetzen","Kleine Hunde auf der Personenwaage (du mit Hund, minus dein Gewicht), grosse beim Tierarzt. Eine schleichende Gewichtszunahme faellt sonst erst auf, wenn der Hund schon zu dick ist.")
-A.a_N=new B.b7(A.dG,"Analdruesen im Blick behalten","Rutscht der Hund mit dem Po ueber den Boden (Schlittenfahren) oder leckt staendig daran, koennen die Analdruesen verstopft sein. Nicht selbst ausdruecken - das macht der Tierarzt.")
-A.a_h=new B.b7(A.dG,"Augen taeglich kurz anschauen","Klarer, wacher Blick ist gesund. Truebung, starkes Traenen, gelb-gruener Ausfluss oder Zukneifen sind Warnzeichen. Augenprobleme koennen schnell schmerzhaft werden.")
-A.a_w=new B.b7(A.dG,"Wurmkur und Floh-Schutz im Rhythmus","Je nach Lebensweise alle 3 Monate entwurmen (oder Kotprobe untersuchen lassen). Floh- und Zeckenschutz vor allem von Fruehjahr bis Herbst nicht vergessen.")
-A.a_E=new B.b7(A.dF,"Schoko, Trauben, Zwiebeln = LEBENSGEFAHR","Schon kleine Mengen koennen toedlich sein. Xylit (Birkenzucker in Kaugummi), Macadamia-Nuesse und Avocado ebenfalls vermeiden. Notfall-Nummer Tiergiftnotruf ans Telefon haengen.")
-A.a_n=new B.b7(A.dF,"Knochen nur ROH geben","Gekochte Knochen splittern und koennen den Darm verletzen. Rohe markhaltige Knochen passend zur Hundgroesse - immer unter Aufsicht.")
-A.a01=new B.b7(A.dF,"Naturjoghurt bei empfindlichem Magen","Probiotika aus Naturjoghurt (ohne Zucker) helfen bei leichter Verdauungsstoerung. 1 Teeloeffel pro 10 kg Koerpergewicht. Bei akuter Krankheit nicht selbst doktorn.")
-A.a0q=new B.b7(A.dF,"Gewicht: Rippen tasten, nicht sehen","Du sollst die Rippen mit leichtem Druck spueren koennen, aber sie nicht sehen. Wenn du sie deutlich siehst, ist der Hund zu duenn; wenn du sie nur mit starkem Druck findest, zu dick.")
-A.a_Q=new B.b7(A.dF,"Futter langsam umstellen","Neues Futter ueber 7 Tage einschleichen: erst 1/4 neu zu 3/4 alt, dann langsam mehr. Ein abrupter Wechsel fuehrt fast immer zu Durchfall.")
-A.a_V=new B.b7(A.dF,"Leckerli von der Tagesration abziehen","Trainings-Leckerli zaehlen mit. Wer grosszuegig belohnt, sollte die Hauptmahlzeit etwas kuerzen - sonst wird aus dem braven Hund ein dicker Hund.")
-A.a_B=new B.b7(A.dF,"Ruhe nach dem Fressen","Nach der Mahlzeit eine Stunde keine wilden Spiele, besonders bei grossen Rassen. Toben mit vollem Magen erhoeht das Risiko einer lebensgefaehrlichen Magendrehung.")
-A.a0g=new B.b7(A.dF,"Tischreste sind keine Belohnung","Gewuerztes, Salziges und Fettiges vom Teller belastet den Hundemagen. Wer beim Essen bettelt, wurde meist heimlich gefuettert - bleib konsequent.")
-A.a_u=new B.b7(A.dF,"Gesundes Gemuese als Snack","Karotte, Gurke oder ein Stueck Apfel (ohne Kerngehaeuse) sind kalorienarme Leckerli. Roh und in mundgerechten Stuecken - so bleibt das Naschen figurfreundlich.")
-A.a_X=new B.b7(A.dI,"Bellen hat IMMER einen Grund",'Langeweile, Angst, Schutz, Spielaufforderung oder Schmerz. Den Grund finden statt nur "Aus" zu schreien - sonst loest du das Symptom, nicht die Ursache.')
-A.a_U=new B.b7(A.dI,"Bauch zeigen = Vertrauen",'Bei entspanntem Koerper. Wenn der Hund hingegen steif liegt, die Augen aufreisst und die Lefzen zurueckzieht - das ist Beschwichtigung, kein "kraul mich".')
-A.a04=new B.b7(A.dI,'Abgewandter Blick = "Lass mich"',"Wenn dein Hund den Kopf wegdreht, ist das ein hoefliches Stopp-Signal. Akzeptiere es. Erzwingst du Kontakt, lernt er, dass nur deutliches Knurren wirklich gehoert wird.")
-A.a_g=new B.b7(A.dI,"Anspringen ignorieren, nicht knien","Wende dich kommentarlos ab. Wenn alle Pfoten am Boden sind: ruhig loben. Kein Schubsen - das ist fuer den Hund Aufmerksamkeit und verstaerkt das Verhalten.")
-A.a0k=new B.b7(A.dI,"Timing schlaegt Haerte","Lob oder Leckerli muessen innerhalb von 1-2 Sekunden nach dem richtigen Verhalten kommen. Spaeter weiss der Hund nicht mehr, wofuer - er lernt dann gar nichts.")
-A.a0d=new B.b7(A.dI,"Konsequenz statt Strenge","Wichtiger als laut zu sein ist, dass eine Regel immer gilt. Wenn der Hund mal aufs Sofa darf und mal nicht, versteht er das nicht - er testet dann jedes Mal neu.")
-A.a_y=new B.b7(A.dI,"Futter-Verteidigung nicht bestrafen","Knurren am Napf ist Kommunikation, kein Angriff. Bestrafst du es weg, schnappt der Hund irgendwann ohne Vorwarnung. Besser: Abstand halten und das Teilen positiv ueben.")
-A.a03=new B.b7(A.dI,"Beschwichtigungssignale lesen","Gaehnen, ueber die Nase lecken, Wegschauen oder Pfote heben zeigen leichten Stress. Wer diese feinen Signale erkennt, kann eingreifen, bevor der Hund wirklich ueberfordert ist.")
-A.a_r=new B.b7(A.dI,"Alleinbleiben in Mini-Schritten","Erst Sekunden, dann Minuten, ganz langsam steigern - und immer zurueckkommen, bevor der Hund in Panik geraet. Trennungsangst entsteht durch zu grosse Spruenge am Anfang.")
-A.a0u=new B.b7(A.dD,"Buersten - lang vs. kurz","Langhaarige Rassen mindestens 2-3 Mal pro Woche, kurzhaarige einmal pro Woche reicht. Im Fellwechsel taeglich - sonst gibt es im Wohnzimmer Teppiche aus Haaren.")
-A.a09=new B.b7(A.dD,"Ohren regelmaessig checken","Riech-Test: muffiger oder hefiger Geruch deutet auf Infektion hin. Nicht mit Wattestaebchen tief ins Ohr - nur sichtbaren Bereich mit weichem Tuch reinigen.")
-A.a0j=new B.b7(A.dD,"Baden nur bei Bedarf","Maximal 1x pro Monat, sonst leidet die Schutzschicht der Haut. Hunde-Shampoo (pH-neutral fuer Hund), kein Menschen-Produkt verwenden.")
-A.a_T=new B.b7(A.dD,"Pfoten nach jedem Gang abwischen","Im Winter wegen Streusalz, sonst wegen Bakterien. Kontrolliere die Pfotenballen auf Risse - Pfotenbalsam (z.B. mit Sheabutter) beugt vor.")
-A.a0a=new B.b7(A.dD,"Zaehne mit Hundezahnpasta putzen","Spezielle Hunde-Zahnpasta (niemals Menschen-Zahnpasta - das enthaltene Fluorid ist giftig) und eine Fingerbuerste. Langsam gewoehnen, ein paar Mal pro Woche reicht.")
-A.a02=new B.b7(A.dD,"Augenwinkel sanft saeubern","Verklebte Augenwinkel mit einem feuchten, weichen Tuch von aussen nach innen abwischen - fuer jedes Auge ein frisches Stueck, damit keine Keime wandern.")
-A.a_S=new B.b7(A.dD,"Knoten ausbuersten, nicht reissen","Verfilzungen mit den Fingern vorsichtig teilen und von der Spitze her ausbuersten. Festes Durchziehen tut weh und der Hund verbindet das Buersten dann mit Schmerz.")
-A.a0o=new B.b7(A.dD,"Pfotenfell zwischen den Ballen kuerzen","Bei langhaarigen Rassen wuchert dort Fell, das verfilzt und Schnee oder Schmutz sammelt. Mit abgerundeter Schere vorsichtig stutzen - das verbessert auch den Halt auf glattem Boden.")
-A.a08=new B.b7(A.dD,"Doppeltes Fell nicht scheren","Hunde mit Unterwolle (z.B. Spitz, Schaeferhund) niemals kahl scheren - das Fell isoliert gegen Hitze UND Kaelte. Ausbuersten der losen Unterwolle ist der richtige Weg.")
-A.a_o=new B.b7(A.dC,"Asphalt-Pfotentest","5 Sekunden Handflaeche auf dem Boden: schmerzt es dir, verbrennt es die Pfoten. Bei ueber 25 Grad C lieber Schatten-wege und morgens / spaet abends spazieren.")
-A.a_K=new B.b7(A.dC,"NIEMALS im Auto lassen",'Auch nicht "nur 5 Minuten" mit Fenster auf Spalt. Bei 25 Grad C draussen sind es im Auto nach 10 Minuten 45 Grad C - lebensgefaehrlich fuer Hunde.')
-A.a_O=new B.b7(A.dC,"Wasserstellen unterwegs","Faltbarer Napf + Wasserflasche immer dabei. Hunde duerfen nicht aus Pfuetzen trinken (Bakterien, Leptospirose) und nicht eiskalt - Magen-Verstimmung droht.")
-A.a_A=new B.b7(A.dC,"Schwimmen + Salzwasser","Nach dem Baden im Meer mit Suesswasser abspuelen. Salz reizt Haut und kann zu Magenbeschwerden fuehren, wenn beim Schuetteln Wasser geschluckt wird.")
-A.a_s=new B.b7(A.dC,"Hitzschlag erkennen und handeln","Hechelt der Hund stark, taumelt, hat dunkelrote Zunge oder erbricht - sofort in den Schatten, mit lauwarmem (nicht eiskaltem) Wasser kuehlen und zum Tierarzt. Hitzschlag ist lebensbedrohlich.")
-A.a_P=new B.b7(A.dC,"Kuehle Rueckzugsorte anbieten","Eine Kuehlmatte, ein schattiger Fliesenboden oder ein feuchtes Handtuch zum Drauflegen helfen an heissen Tagen. Wichtig: der Hund muss selbst entscheiden koennen, wann er sich abkuehlt.")
-A.a_H=new B.b7(A.dC,"Gassi in die kuehlen Stunden legen","Frueh morgens und spaet abends ist es fuer Pfoten und Kreislauf ertraeglich. Die Mittagshitze gehoert der Siesta - lieber drinnen ein Schnueffelspiel als ein Marsch in der prallen Sonne.")
-A.a0_=new B.b7(A.dC,"Insektenstich im Maul = Notfall","Schnappt der Hund nach Wespen, kann ein Stich im Rachen zuschwellen und die Atmung blockieren. Bei Schwellung im Maulbereich sofort zum Tierarzt - nicht abwarten.")
-A.a_R=new B.b7(A.dC,"Grannen nach dem Feld kontrollieren","Im Sommer bohren sich Getreide-Grannen in Pfotenzwischenraeume, Ohren und Nase. Nach Spaziergaengen durch hohes Gras absuchen - eine eingewanderte Granne kann boese Entzuendungen machen.")
-A.a05=new B.b7(A.e9,"Streusalz schadet Pfoten","Nach jedem Winter-Spaziergang Pfoten mit lauwarmem Wasser abspuelen. Pfotenwachs (z.B. Musher's Secret) als Schutz vor dem Gang auftragen.")
-A.a_i=new B.b7(A.e9,"Mantel bei Mini-Hunden + Senioren","Kleine Rassen, Senioren und kranke Hunde frieren schnell. Wenn er zittert oder die Rute einklemmt: rein. Bei dichtem Fell (Husky, Bernhardiner) sind Mantel und Hund unnoetig.")
-A.a_q=new B.b7(A.e9,"Frostschutzmittel ist GIFTIG","Schmeckt suess, ist toedlich. Verschuettete Garagen-Reste sofort wegwischen. Im Auto-Bereich Ueberwachung.")
-A.a0i=new B.b7(A.e9,"Schneeklumpen zwischen den Ballen","Bei langhaarigen Pfoten sammeln sich harte Eisklumpen, die wehtun. Fell zwischen den Ballen kurz halten und nach dem Gang die Pfoten warm abspuelen und trocknen.")
-A.a_j=new B.b7(A.e9,"Lieber kurz und oft","Bei strengem Frost mehrere kurze Runden statt einer langen. Vor allem kurzhaarige Hunde, Welpen und Senioren kuehlen schnell aus - Bewegung haelt sie warm.")
-A.a_m=new B.b7(A.e9,"Kein Schnee fressen","Schnee reizt die Magenschleimhaut und kann Streusalz oder Splitt enthalten. Wenn dein Hund gern schnappt, lenk ihn mit einem Spiel ab statt ihn fressen zu lassen.")
-A.a_v=new B.b7(A.e9,"Sichtbar im Dunkeln","In der dunklen Jahreszeit ein Leuchthalsband oder reflektierendes Geschirr. So sehen Autofahrer den Hund - und du ihn, wenn er ohne Leine unterwegs ist.")
-A.a0h=new B.b7(A.e9,"Nach der Runde aufwaermen","Nasse Hunde nach dem Spaziergang trockenrubbeln und einen warmen, zugfreien Platz anbieten. Ausgekuehlte Hunde sind anfaelliger fuer Blasenentzuendungen.")
-A.a_C=new B.b7(A.dH,"Chip-Daten aktuell halten","Umzug oder neue Handynummer? Sofort bei TASSO / Animaldata / IFTA aktualisieren. Sonst hilft auch der beste Chip nicht, wenn der Hund verloren geht.")
-A.a0r=new B.b7(A.dH,"Notfall-Nummer in der Brieftasche","Tierarzt-Notdienst + Tiergiftnotruf + Adresse der naechsten Tierklinik. Im Panik-Moment willst du nicht erst googeln.")
-A.a0c=new B.b7(A.dH,"Halsband mit Telefonnummer",'Markenanhaenger mit deiner Mobilnummer + "Chipnr. registriert". Wer den Hund findet, ruft sofort an, statt in den Tierheim-Pfad zu rutschen.')
-A.a0e=new B.b7(A.dH,"Schleppleine waehrend des Rueckruf-Trainings","10-15 m als Sicherung. Lass sie NIE haengen wenn der Hund rennt - Verfangungs-Gefahr. Trainings-Werkzeug, kein Dauer-Ersatz fuer Leine.")
-A.a0b=new B.b7(A.dH,"Geschirr schont den Hals","Hunde, die an der Leine ziehen, sollten ein gut sitzendes Brustgeschirr tragen. Dauerzug am Halsband kann Kehlkopf und Halswirbel schaedigen.")
-A.a0l=new B.b7(A.dH,"Im Auto immer gesichert","Transportbox, Trenngitter oder ein gepruefter Sicherheitsgurt fuers Geschirr. Ein ungesicherter Hund wird bei einer Vollbremsung zum Geschoss - fuer sich und alle Insassen.")
-A.a_Z=new B.b7(A.dH,"Giftkoeder-Gefahr ernst nehmen",'In manchen Gegenden liegen praeparierte Koeder. Bring deinem Hund ein sicheres "Aus" und "Lass es" bei und beobachte beim Schnueffeln, was er aufnehmen will.')
-A.a_F=new B.b7(A.dH,"Gekippte Fenster sind toedlich","Springt ein Hund in ein gekipptes Fenster, rutscht er nach unten und klemmt fest - Lebensgefahr. Spezielle Kipp-Schutzgitter verhindern das.")
-A.a0m=new B.b7(A.dH,"Silvester vorbereiten","Frueh ausfuehren, bevor es knallt, Fenster und Rollos zu, ein sicherer Rueckzugsort und ruhige Begleitung. Bei grosser Angst rechtzeitig mit dem Tierarzt sprechen.")
-A.a_M=new B.b7(A.dE,"Welpen: alles vor der 16. Lebenswoche","Was er in dieser Zeit kennenlernt (Kinder, Autos, Treppen, andere Tiere), bleibt entspannt. Was er erst spaeter sieht, kann ein Leben lang Stress machen.")
-A.a_L=new B.b7(A.dE,"Hundebegegnungen ohne Direkt-Frontal","Bogen laufen statt direkt aufeinander zu. Direkter Blickkontakt aus naechster Naehe = bei Hunden Provokation. Mit etwas Distanz ist alles ruhig.")
-A.a0s=new B.b7(A.dE,"Kinder lernen Hunde-Sprache","Erklaere Kindern: Bauch streicheln, nicht ueber den Kopf fassen, niemals waehrend er frisst stoeren. So bleiben beide Seiten sicher.")
-A.a07=new B.b7(A.dE,"Gleichgesinnte Hunde-Freunde suchen","Ein ruhiger Senior-Hund ist die beste Schule fuer junge Wilde. Hundeplaetze ohne Filter koennen das Gegenteil bringen.")
-A.a0t=new B.b7(A.dE,"Tierarzt-Besuch positiv ueben","Gewoehne den Hund schon als Welpe ans Angefasstwerden: Pfoten, Ohren, Maul - immer mit Leckerli verbinden. Dann ist die Untersuchung spaeter kein Drama.")
-A.a_z=new B.b7(A.dE,"Geraeusche und Stadt langsam einfuehren","Verkehr, Menschenmengen, Baustellenlaerm - in kleinen Dosen und mit Abstand kennenlernen. Ueberforderst du den Hund, entsteht Angst statt Gelassenheit.")
-A.a0f=new B.b7(A.dE,"Maulkorb VOR dem Ernstfall ueben","Ob fuer Bus, Bahn oder Tierarzt - ein Maulkorb gehoert positiv antrainiert, lange bevor er gebraucht wird. Fuettere durch den Korb, dann wird er zur guten Sache.")
-A.a_J=new B.b7(A.dE,"Katzen und Kleintiere behutsam","Erste Begegnungen mit gesichertem Abstand und Rueckzugsmoeglichkeit fuer die Katze. Ruhe belohnen, Hetzen sofort unterbinden - Geduld ueber Wochen zahlt sich aus.")
-A.a_x=new B.b7(A.dE,"Qualitaet vor Quantitaet","Wenige gute Erfahrungen sind mehr wert als viele stressige. Ein ueberfordeter Welpe lernt nicht, dass die Welt sicher ist - er lernt, dass sie zu viel ist.")
-A.Em=x([A.a0n,A.a_W,A.a_Y,A.a_I,A.a00,A.a_t,A.a_G,A.a_f,A.a_p,A.a_D,A.a06,A.a0p,A.a0v,A.a_l,A.a_k,A.a_N,A.a_h,A.a_w,A.a_E,A.a_n,A.a01,A.a0q,A.a_Q,A.a_V,A.a_B,A.a0g,A.a_u,A.a_X,A.a_U,A.a04,A.a_g,A.a0k,A.a0d,A.a_y,A.a03,A.a_r,A.a0u,A.a09,A.a0j,A.a_T,A.a0a,A.a02,A.a_S,A.a0o,A.a08,A.a_o,A.a_K,A.a_O,A.a_A,A.a_s,A.a_P,A.a_H,A.a0_,A.a_R,A.a05,A.a_i,A.a_q,A.a0i,A.a_j,A.a_m,A.a_v,A.a0h,A.a_C,A.a0r,A.a0c,A.a0e,A.a0b,A.a0l,A.a_Z,A.a_F,A.a0m,A.a_M,A.a_L,A.a0s,A.a07,A.a0t,A.a_z,A.a0f,A.a_J,A.a_x],C.a_("z<b7>"))
-A.azN=new C.az("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["WekUoQUd3eX/R5ty1XmpanOfRvk="]=a.current})($__dart_deferred_initializers__);
+x(B.u8,C.Q)
+x(B.aeu,C.a0)
+w(C.rj,[B.b1C,B.b1B,B.b1D,B.b1A])
+x(B.b1E,C.Ig)
+w(C.O,[B.Pj,B.Gp])})()
+C.af5(b.typeUniverse,JSON.parse('{"Gp":{"O":[],"c":[]},"u8":{"Q":[],"c":[]},"aeu":{"a0":["u8"]},"Pj":{"O":[],"c":[]}}'))
+var y={e:C.Z("z<c>"),f:C.Z("aI<b7>")};(function constants(){var x=a.makeConstList
+A.a3D=new C.V(62829,"MaterialIcons",null,!1)
+A.a4D=new C.V(983615,"MaterialIcons",null,!1)
+A.dK=new B.lQ("Alltag",A.a4D,D.h4,0,"daily")
+A.dH=new B.lQ("Gesundheit",D.lO,D.iR,1,"health")
+A.dG=new B.lQ("Ernaehrung",D.r4,D.ej,2,"nutrition")
+A.dJ=new B.lQ("Verhalten",D.ji,D.l3,3,"behavior")
+A.a4x=new C.V(983469,"MaterialIcons",null,!1)
+A.dE=new B.lQ("Pflege",A.a4x,D.w_,4,"care")
+A.dD=new B.lQ("Sommer",D.lV,D.iO,5,"summer")
+A.e9=new B.lQ("Winter",D.lL,D.kV,6,"winter")
+A.dI=new B.lQ("Sicherheit",D.xX,D.iU,7,"safety")
+A.dF=new B.lQ("Sozialisierung",D.lP,D.pv,8,"socialization")
+A.acv=x([A.dK,A.dH,A.dG,A.dJ,A.dE,A.dD,A.e9,A.dI,A.dF],C.Z("z<lQ>"))
+A.a0N=new B.b7(A.dK,"Feste Routinen geben Halt","Hunde sind Gewohnheitstiere. Gleiche Spaziergeh- und Fuetterungs-Zeiten reduzieren Stress und Trennungsangst. Schon 15-20 Minuten Verschiebung koennen sensible Hunde irritieren.")
+A.a0l=new B.b7(A.dK,"Nasenarbeit ermuedet schneller als Rennen","10 Minuten Schnueffel-Spiel = 60 Minuten Joggen, was die mentale Auslastung angeht. Leckerli in Decken verstecken oder eine Schnueffel-Wiese im Garten reicht schon.")
+A.a0n=new B.b7(A.dK,"Ruhepausen sind kein Faulsein",'Gesunde Hunde schlafen 17-20 Stunden pro Tag. Wenn dein Hund in der Wohnung aktiv "abhaengt", ist das gesund. Erzwinge keine Bespassung - du wuerdest ihn sonst nervlich ueberlasten.')
+A.a07=new B.b7(A.dK,"Trinkschale immer frisch","Wasser mindestens einmal pro Tag wechseln. Im Sommer 2-3 mal. Steinzeug- oder Edelstahl-Naepfe sind keimfreier als Plastik.")
+A.a0q=new B.b7(A.dK,"Schnueffeln lassen statt durchmarschieren","Der Spaziergang ist fuer den Hund kein Sport, sondern Zeitung lesen. Lass ihn an interessanten Stellen ausgiebig schnueffeln - das lastet mehr aus als reines Strecke-Machen.")
+A.a_T=new B.b7(A.dK,"Leinenfuehrigkeit kurz und taeglich ueben","5 Minuten konzentriertes Ueben pro Tag bringen mehr als eine Stunde am Wochenende. Bleib stehen, sobald die Leine straff wird, und geh erst weiter, wenn sie wieder locker durchhaengt.")
+A.a05=new B.b7(A.dK,"Kauen baut Stress ab","Ein laenger anhaltender Kausnack (Kaffeeholz, getrocknete Sehne) hilft aufgedrehten Hunden beim Runterkommen. Kauen senkt nachweislich den Puls.")
+A.a_F=new B.b7(A.dK,"Futter zur Beschaeftigung machen","Statt aus dem Napf: einen Teil der Tagesration in einen Schnueffelteppich oder ein Schleckmatten-Spiel geben. Das macht aus dem Fressen 10 Minuten Kopfarbeit.")
+A.a_P=new B.b7(A.dK,"Abendritual zum Abschalten","Eine ruhige letzte Runde ohne Action, dann Kuscheln oder ein Kausnack. Toben kurz vor dem Schlafen macht viele Hunde nur noch aufgedrehter.")
+A.a02=new B.b7(A.dH,"Zahnstein vorbeugen, nicht behandeln","Taegliches Kauen (Kauknochen, getrocknete Rindersehnen) reduziert Zahnstein massiv. Hunde, die nur Weichfutter kriegen, brauchen oft schon mit 4-5 Jahren eine Zahnreinigung in Narkose.")
+A.a0w=new B.b7(A.dH,"Krallenpflege - der Klick-Test","Wenn du Krallen-Klicken beim Gehen auf Hartboden hoerst, sind sie zu lang. Zu lange Krallen drehen die Pfotenstellung und schaedigen die Gelenke langfristig.")
+A.a0P=new B.b7(A.dH,"Zecken nach jedem Spaziergang","Besonders an Ohren, Halsband-Bereich, Achseln und zwischen den Zehen. Zecken-Zange greift direkt an der Haut, langsam gerade rausziehen - nicht drehen.")
+A.a0V=new B.b7(A.dH,"Erbrechen + Durchfall > 24h = Tierarzt","Einmaliges Erbrechen ist meist harmlos. Mehrfach + Apathie + kein Trinken = sofort Tierarzt, besonders bei Welpen und aelteren Hunden (Dehydrierung).")
+A.a_L=new B.b7(A.dH,'Impfungen nicht "wegen Alter" weglassen',"Auch alte Hunde brauchen Tollwut + Staupe-Auffrischung. Frag deinen Tierarzt nach Titer-Bestimmung, falls du seltener impfen willst - die Antwort liegt im Blut.")
+A.a_K=new B.b7(A.dH,"Regelmaessig wiegen statt schaetzen","Kleine Hunde auf der Personenwaage (du mit Hund, minus dein Gewicht), grosse beim Tierarzt. Eine schleichende Gewichtszunahme faellt sonst erst auf, wenn der Hund schon zu dick ist.")
+A.a0c=new B.b7(A.dH,"Analdruesen im Blick behalten","Rutscht der Hund mit dem Po ueber den Boden (Schlittenfahren) oder leckt staendig daran, koennen die Analdruesen verstopft sein. Nicht selbst ausdruecken - das macht der Tierarzt.")
+A.a_H=new B.b7(A.dH,"Augen taeglich kurz anschauen","Klarer, wacher Blick ist gesund. Truebung, starkes Traenen, gelb-gruener Ausfluss oder Zukneifen sind Warnzeichen. Augenprobleme koennen schnell schmerzhaft werden.")
+A.a_W=new B.b7(A.dH,"Wurmkur und Floh-Schutz im Rhythmus","Je nach Lebensweise alle 3 Monate entwurmen (oder Kotprobe untersuchen lassen). Floh- und Zeckenschutz vor allem von Fruehjahr bis Herbst nicht vergessen.")
+A.a03=new B.b7(A.dG,"Schoko, Trauben, Zwiebeln = LEBENSGEFAHR","Schon kleine Mengen koennen toedlich sein. Xylit (Birkenzucker in Kaugummi), Macadamia-Nuesse und Avocado ebenfalls vermeiden. Notfall-Nummer Tiergiftnotruf ans Telefon haengen.")
+A.a_N=new B.b7(A.dG,"Knochen nur ROH geben","Gekochte Knochen splittern und koennen den Darm verletzen. Rohe markhaltige Knochen passend zur Hundgroesse - immer unter Aufsicht.")
+A.a0r=new B.b7(A.dG,"Naturjoghurt bei empfindlichem Magen","Probiotika aus Naturjoghurt (ohne Zucker) helfen bei leichter Verdauungsstoerung. 1 Teeloeffel pro 10 kg Koerpergewicht. Bei akuter Krankheit nicht selbst doktorn.")
+A.a0Q=new B.b7(A.dG,"Gewicht: Rippen tasten, nicht sehen","Du sollst die Rippen mit leichtem Druck spueren koennen, aber sie nicht sehen. Wenn du sie deutlich siehst, ist der Hund zu duenn; wenn du sie nur mit starkem Druck findest, zu dick.")
+A.a0f=new B.b7(A.dG,"Futter langsam umstellen","Neues Futter ueber 7 Tage einschleichen: erst 1/4 neu zu 3/4 alt, dann langsam mehr. Ein abrupter Wechsel fuehrt fast immer zu Durchfall.")
+A.a0k=new B.b7(A.dG,"Leckerli von der Tagesration abziehen","Trainings-Leckerli zaehlen mit. Wer grosszuegig belohnt, sollte die Hauptmahlzeit etwas kuerzen - sonst wird aus dem braven Hund ein dicker Hund.")
+A.a00=new B.b7(A.dG,"Ruhe nach dem Fressen","Nach der Mahlzeit eine Stunde keine wilden Spiele, besonders bei grossen Rassen. Toben mit vollem Magen erhoeht das Risiko einer lebensgefaehrlichen Magendrehung.")
+A.a0G=new B.b7(A.dG,"Tischreste sind keine Belohnung","Gewuerztes, Salziges und Fettiges vom Teller belastet den Hundemagen. Wer beim Essen bettelt, wurde meist heimlich gefuettert - bleib konsequent.")
+A.a_U=new B.b7(A.dG,"Gesundes Gemuese als Snack","Karotte, Gurke oder ein Stueck Apfel (ohne Kerngehaeuse) sind kalorienarme Leckerli. Roh und in mundgerechten Stuecken - so bleibt das Naschen figurfreundlich.")
+A.a0m=new B.b7(A.dJ,"Bellen hat IMMER einen Grund",'Langeweile, Angst, Schutz, Spielaufforderung oder Schmerz. Den Grund finden statt nur "Aus" zu schreien - sonst loest du das Symptom, nicht die Ursache.')
+A.a0j=new B.b7(A.dJ,"Bauch zeigen = Vertrauen",'Bei entspanntem Koerper. Wenn der Hund hingegen steif liegt, die Augen aufreisst und die Lefzen zurueckzieht - das ist Beschwichtigung, kein "kraul mich".')
+A.a0u=new B.b7(A.dJ,'Abgewandter Blick = "Lass mich"',"Wenn dein Hund den Kopf wegdreht, ist das ein hoefliches Stopp-Signal. Akzeptiere es. Erzwingst du Kontakt, lernt er, dass nur deutliches Knurren wirklich gehoert wird.")
+A.a_G=new B.b7(A.dJ,"Anspringen ignorieren, nicht knien","Wende dich kommentarlos ab. Wenn alle Pfoten am Boden sind: ruhig loben. Kein Schubsen - das ist fuer den Hund Aufmerksamkeit und verstaerkt das Verhalten.")
+A.a0K=new B.b7(A.dJ,"Timing schlaegt Haerte","Lob oder Leckerli muessen innerhalb von 1-2 Sekunden nach dem richtigen Verhalten kommen. Spaeter weiss der Hund nicht mehr, wofuer - er lernt dann gar nichts.")
+A.a0D=new B.b7(A.dJ,"Konsequenz statt Strenge","Wichtiger als laut zu sein ist, dass eine Regel immer gilt. Wenn der Hund mal aufs Sofa darf und mal nicht, versteht er das nicht - er testet dann jedes Mal neu.")
+A.a_Y=new B.b7(A.dJ,"Futter-Verteidigung nicht bestrafen","Knurren am Napf ist Kommunikation, kein Angriff. Bestrafst du es weg, schnappt der Hund irgendwann ohne Vorwarnung. Besser: Abstand halten und das Teilen positiv ueben.")
+A.a0t=new B.b7(A.dJ,"Beschwichtigungssignale lesen","Gaehnen, ueber die Nase lecken, Wegschauen oder Pfote heben zeigen leichten Stress. Wer diese feinen Signale erkennt, kann eingreifen, bevor der Hund wirklich ueberfordert ist.")
+A.a_R=new B.b7(A.dJ,"Alleinbleiben in Mini-Schritten","Erst Sekunden, dann Minuten, ganz langsam steigern - und immer zurueckkommen, bevor der Hund in Panik geraet. Trennungsangst entsteht durch zu grosse Spruenge am Anfang.")
+A.a0U=new B.b7(A.dE,"Buersten - lang vs. kurz","Langhaarige Rassen mindestens 2-3 Mal pro Woche, kurzhaarige einmal pro Woche reicht. Im Fellwechsel taeglich - sonst gibt es im Wohnzimmer Teppiche aus Haaren.")
+A.a0z=new B.b7(A.dE,"Ohren regelmaessig checken","Riech-Test: muffiger oder hefiger Geruch deutet auf Infektion hin. Nicht mit Wattestaebchen tief ins Ohr - nur sichtbaren Bereich mit weichem Tuch reinigen.")
+A.a0J=new B.b7(A.dE,"Baden nur bei Bedarf","Maximal 1x pro Monat, sonst leidet die Schutzschicht der Haut. Hunde-Shampoo (pH-neutral fuer Hund), kein Menschen-Produkt verwenden.")
+A.a0i=new B.b7(A.dE,"Pfoten nach jedem Gang abwischen","Im Winter wegen Streusalz, sonst wegen Bakterien. Kontrolliere die Pfotenballen auf Risse - Pfotenbalsam (z.B. mit Sheabutter) beugt vor.")
+A.a0A=new B.b7(A.dE,"Zaehne mit Hundezahnpasta putzen","Spezielle Hunde-Zahnpasta (niemals Menschen-Zahnpasta - das enthaltene Fluorid ist giftig) und eine Fingerbuerste. Langsam gewoehnen, ein paar Mal pro Woche reicht.")
+A.a0s=new B.b7(A.dE,"Augenwinkel sanft saeubern","Verklebte Augenwinkel mit einem feuchten, weichen Tuch von aussen nach innen abwischen - fuer jedes Auge ein frisches Stueck, damit keine Keime wandern.")
+A.a0h=new B.b7(A.dE,"Knoten ausbuersten, nicht reissen","Verfilzungen mit den Fingern vorsichtig teilen und von der Spitze her ausbuersten. Festes Durchziehen tut weh und der Hund verbindet das Buersten dann mit Schmerz.")
+A.a0O=new B.b7(A.dE,"Pfotenfell zwischen den Ballen kuerzen","Bei langhaarigen Rassen wuchert dort Fell, das verfilzt und Schnee oder Schmutz sammelt. Mit abgerundeter Schere vorsichtig stutzen - das verbessert auch den Halt auf glattem Boden.")
+A.a0y=new B.b7(A.dE,"Doppeltes Fell nicht scheren","Hunde mit Unterwolle (z.B. Spitz, Schaeferhund) niemals kahl scheren - das Fell isoliert gegen Hitze UND Kaelte. Ausbuersten der losen Unterwolle ist der richtige Weg.")
+A.a_O=new B.b7(A.dD,"Asphalt-Pfotentest","5 Sekunden Handflaeche auf dem Boden: schmerzt es dir, verbrennt es die Pfoten. Bei ueber 25 Grad C lieber Schatten-wege und morgens / spaet abends spazieren.")
+A.a09=new B.b7(A.dD,"NIEMALS im Auto lassen",'Auch nicht "nur 5 Minuten" mit Fenster auf Spalt. Bei 25 Grad C draussen sind es im Auto nach 10 Minuten 45 Grad C - lebensgefaehrlich fuer Hunde.')
+A.a0d=new B.b7(A.dD,"Wasserstellen unterwegs","Faltbarer Napf + Wasserflasche immer dabei. Hunde duerfen nicht aus Pfuetzen trinken (Bakterien, Leptospirose) und nicht eiskalt - Magen-Verstimmung droht.")
+A.a0_=new B.b7(A.dD,"Schwimmen + Salzwasser","Nach dem Baden im Meer mit Suesswasser abspuelen. Salz reizt Haut und kann zu Magenbeschwerden fuehren, wenn beim Schuetteln Wasser geschluckt wird.")
+A.a_S=new B.b7(A.dD,"Hitzschlag erkennen und handeln","Hechelt der Hund stark, taumelt, hat dunkelrote Zunge oder erbricht - sofort in den Schatten, mit lauwarmem (nicht eiskaltem) Wasser kuehlen und zum Tierarzt. Hitzschlag ist lebensbedrohlich.")
+A.a0e=new B.b7(A.dD,"Kuehle Rueckzugsorte anbieten","Eine Kuehlmatte, ein schattiger Fliesenboden oder ein feuchtes Handtuch zum Drauflegen helfen an heissen Tagen. Wichtig: der Hund muss selbst entscheiden koennen, wann er sich abkuehlt.")
+A.a06=new B.b7(A.dD,"Gassi in die kuehlen Stunden legen","Frueh morgens und spaet abends ist es fuer Pfoten und Kreislauf ertraeglich. Die Mittagshitze gehoert der Siesta - lieber drinnen ein Schnueffelspiel als ein Marsch in der prallen Sonne.")
+A.a0p=new B.b7(A.dD,"Insektenstich im Maul = Notfall","Schnappt der Hund nach Wespen, kann ein Stich im Rachen zuschwellen und die Atmung blockieren. Bei Schwellung im Maulbereich sofort zum Tierarzt - nicht abwarten.")
+A.a0g=new B.b7(A.dD,"Grannen nach dem Feld kontrollieren","Im Sommer bohren sich Getreide-Grannen in Pfotenzwischenraeume, Ohren und Nase. Nach Spaziergaengen durch hohes Gras absuchen - eine eingewanderte Granne kann boese Entzuendungen machen.")
+A.a0v=new B.b7(A.e9,"Streusalz schadet Pfoten","Nach jedem Winter-Spaziergang Pfoten mit lauwarmem Wasser abspuelen. Pfotenwachs (z.B. Musher's Secret) als Schutz vor dem Gang auftragen.")
+A.a_I=new B.b7(A.e9,"Mantel bei Mini-Hunden + Senioren","Kleine Rassen, Senioren und kranke Hunde frieren schnell. Wenn er zittert oder die Rute einklemmt: rein. Bei dichtem Fell (Husky, Bernhardiner) sind Mantel und Hund unnoetig.")
+A.a_Q=new B.b7(A.e9,"Frostschutzmittel ist GIFTIG","Schmeckt suess, ist toedlich. Verschuettete Garagen-Reste sofort wegwischen. Im Auto-Bereich Ueberwachung.")
+A.a0I=new B.b7(A.e9,"Schneeklumpen zwischen den Ballen","Bei langhaarigen Pfoten sammeln sich harte Eisklumpen, die wehtun. Fell zwischen den Ballen kurz halten und nach dem Gang die Pfoten warm abspuelen und trocknen.")
+A.a_J=new B.b7(A.e9,"Lieber kurz und oft","Bei strengem Frost mehrere kurze Runden statt einer langen. Vor allem kurzhaarige Hunde, Welpen und Senioren kuehlen schnell aus - Bewegung haelt sie warm.")
+A.a_M=new B.b7(A.e9,"Kein Schnee fressen","Schnee reizt die Magenschleimhaut und kann Streusalz oder Splitt enthalten. Wenn dein Hund gern schnappt, lenk ihn mit einem Spiel ab statt ihn fressen zu lassen.")
+A.a_V=new B.b7(A.e9,"Sichtbar im Dunkeln","In der dunklen Jahreszeit ein Leuchthalsband oder reflektierendes Geschirr. So sehen Autofahrer den Hund - und du ihn, wenn er ohne Leine unterwegs ist.")
+A.a0H=new B.b7(A.e9,"Nach der Runde aufwaermen","Nasse Hunde nach dem Spaziergang trockenrubbeln und einen warmen, zugfreien Platz anbieten. Ausgekuehlte Hunde sind anfaelliger fuer Blasenentzuendungen.")
+A.a01=new B.b7(A.dI,"Chip-Daten aktuell halten","Umzug oder neue Handynummer? Sofort bei TASSO / Animaldata / IFTA aktualisieren. Sonst hilft auch der beste Chip nicht, wenn der Hund verloren geht.")
+A.a0R=new B.b7(A.dI,"Notfall-Nummer in der Brieftasche","Tierarzt-Notdienst + Tiergiftnotruf + Adresse der naechsten Tierklinik. Im Panik-Moment willst du nicht erst googeln.")
+A.a0C=new B.b7(A.dI,"Halsband mit Telefonnummer",'Markenanhaenger mit deiner Mobilnummer + "Chipnr. registriert". Wer den Hund findet, ruft sofort an, statt in den Tierheim-Pfad zu rutschen.')
+A.a0E=new B.b7(A.dI,"Schleppleine waehrend des Rueckruf-Trainings","10-15 m als Sicherung. Lass sie NIE haengen wenn der Hund rennt - Verfangungs-Gefahr. Trainings-Werkzeug, kein Dauer-Ersatz fuer Leine.")
+A.a0B=new B.b7(A.dI,"Geschirr schont den Hals","Hunde, die an der Leine ziehen, sollten ein gut sitzendes Brustgeschirr tragen. Dauerzug am Halsband kann Kehlkopf und Halswirbel schaedigen.")
+A.a0L=new B.b7(A.dI,"Im Auto immer gesichert","Transportbox, Trenngitter oder ein gepruefter Sicherheitsgurt fuers Geschirr. Ein ungesicherter Hund wird bei einer Vollbremsung zum Geschoss - fuer sich und alle Insassen.")
+A.a0o=new B.b7(A.dI,"Giftkoeder-Gefahr ernst nehmen",'In manchen Gegenden liegen praeparierte Koeder. Bring deinem Hund ein sicheres "Aus" und "Lass es" bei und beobachte beim Schnueffeln, was er aufnehmen will.')
+A.a04=new B.b7(A.dI,"Gekippte Fenster sind toedlich","Springt ein Hund in ein gekipptes Fenster, rutscht er nach unten und klemmt fest - Lebensgefahr. Spezielle Kipp-Schutzgitter verhindern das.")
+A.a0M=new B.b7(A.dI,"Silvester vorbereiten","Frueh ausfuehren, bevor es knallt, Fenster und Rollos zu, ein sicherer Rueckzugsort und ruhige Begleitung. Bei grosser Angst rechtzeitig mit dem Tierarzt sprechen.")
+A.a0b=new B.b7(A.dF,"Welpen: alles vor der 16. Lebenswoche","Was er in dieser Zeit kennenlernt (Kinder, Autos, Treppen, andere Tiere), bleibt entspannt. Was er erst spaeter sieht, kann ein Leben lang Stress machen.")
+A.a0a=new B.b7(A.dF,"Hundebegegnungen ohne Direkt-Frontal","Bogen laufen statt direkt aufeinander zu. Direkter Blickkontakt aus naechster Naehe = bei Hunden Provokation. Mit etwas Distanz ist alles ruhig.")
+A.a0S=new B.b7(A.dF,"Kinder lernen Hunde-Sprache","Erklaere Kindern: Bauch streicheln, nicht ueber den Kopf fassen, niemals waehrend er frisst stoeren. So bleiben beide Seiten sicher.")
+A.a0x=new B.b7(A.dF,"Gleichgesinnte Hunde-Freunde suchen","Ein ruhiger Senior-Hund ist die beste Schule fuer junge Wilde. Hundeplaetze ohne Filter koennen das Gegenteil bringen.")
+A.a0T=new B.b7(A.dF,"Tierarzt-Besuch positiv ueben","Gewoehne den Hund schon als Welpe ans Angefasstwerden: Pfoten, Ohren, Maul - immer mit Leckerli verbinden. Dann ist die Untersuchung spaeter kein Drama.")
+A.a_Z=new B.b7(A.dF,"Geraeusche und Stadt langsam einfuehren","Verkehr, Menschenmengen, Baustellenlaerm - in kleinen Dosen und mit Abstand kennenlernen. Ueberforderst du den Hund, entsteht Angst statt Gelassenheit.")
+A.a0F=new B.b7(A.dF,"Maulkorb VOR dem Ernstfall ueben","Ob fuer Bus, Bahn oder Tierarzt - ein Maulkorb gehoert positiv antrainiert, lange bevor er gebraucht wird. Fuettere durch den Korb, dann wird er zur guten Sache.")
+A.a08=new B.b7(A.dF,"Katzen und Kleintiere behutsam","Erste Begegnungen mit gesichertem Abstand und Rueckzugsmoeglichkeit fuer die Katze. Ruhe belohnen, Hetzen sofort unterbinden - Geduld ueber Wochen zahlt sich aus.")
+A.a_X=new B.b7(A.dF,"Qualitaet vor Quantitaet","Wenige gute Erfahrungen sind mehr wert als viele stressige. Ein ueberfordeter Welpe lernt nicht, dass die Welt sicher ist - er lernt, dass sie zu viel ist.")
+A.Es=x([A.a0N,A.a0l,A.a0n,A.a07,A.a0q,A.a_T,A.a05,A.a_F,A.a_P,A.a02,A.a0w,A.a0P,A.a0V,A.a_L,A.a_K,A.a0c,A.a_H,A.a_W,A.a03,A.a_N,A.a0r,A.a0Q,A.a0f,A.a0k,A.a00,A.a0G,A.a_U,A.a0m,A.a0j,A.a0u,A.a_G,A.a0K,A.a0D,A.a_Y,A.a0t,A.a_R,A.a0U,A.a0z,A.a0J,A.a0i,A.a0A,A.a0s,A.a0h,A.a0O,A.a0y,A.a_O,A.a09,A.a0d,A.a0_,A.a_S,A.a0e,A.a06,A.a0p,A.a0g,A.a0v,A.a_I,A.a_Q,A.a0I,A.a_J,A.a_M,A.a_V,A.a0H,A.a01,A.a0R,A.a0C,A.a0E,A.a0B,A.a0L,A.a0o,A.a04,A.a0M,A.a0b,A.a0a,A.a0S,A.a0x,A.a0T,A.a_Z,A.a0F,A.a08,A.a_X],C.Z("z<b7>"))
+A.aAy=new C.az("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
+(a=>{a["axWUSSGjERDbk/VNwk1vkN/0gdc="]=a.current})($__dart_deferred_initializers__);
