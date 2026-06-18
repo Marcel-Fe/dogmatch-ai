@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 
 /// Grobe Koerperregion - dient nur der Gruppierung in der Liste.
 enum AnatomyRegion {
-  head('Kopf'),
-  front('Vorderkoerper'),
-  body('Rumpf'),
-  hind('Hinterkoerper');
+  head('Kopf & Wirbelsaeule'),
+  front('Vorderbein'),
+  body('Brustkorb'),
+  hind('Becken & Hinterbein');
 
   const AnatomyRegion(this.label);
   final String label;
 }
 
-/// Ein Anatomie-Begriff: der Fachbegriff (so wie ihn der Tierarzt sagt),
-/// wo das am Hund liegt und was beim Tierarzt damit gemeint ist.
+/// Ein Anatomie-/Knochen-Begriff: der Fachbegriff (so wie ihn der Tierarzt
+/// sagt), wo der Knochen liegt und was beim Tierarzt damit gemeint ist.
 ///
 /// [number] ist die Ziffer im Schaubild, [pos] die normierte Position
-/// (x,y in 0..1) des Markers auf dem seitlichen Hunde-Foto (Hund schaut
-/// nach links).
+/// (x,y in 0..1) auf der seitlichen Skelett-Zeichnung (Hund schaut nach links).
 class AnatomyPart {
   const AnatomyPart({
     required this.number,
@@ -35,190 +34,188 @@ class AnatomyPart {
   final Offset pos;
 }
 
-/// Statischer Katalog der wichtigsten Begriffe, die beim Tierarzt fallen.
-/// Bewusst alltagsnah erklaert - kein Lehrbuch, sondern "was ist gemeint".
-/// Die [pos]-Werte sind auf das seitliche Hunde-Foto (assets/anatomy/
-/// dog_side.jpg, Labrador im Profil nach links) abgestimmt.
+/// Statischer Katalog der wichtigsten Knochen/Gelenke, die beim Tierarzt
+/// fallen. Alltagsnah erklaert - kein Lehrbuch, sondern "was ist gemeint".
+/// Die [pos]-Werte sind auf die Skelett-Tafel (assets/anatomy/dog_skeleton.jpg,
+/// gemeinfrei, Ellenberger & Baum) abgestimmt.
 class AnatomyCatalog {
   AnatomyCatalog._();
 
   static const List<AnatomyPart> all = [
-    // --- Kopf ---
+    // --- Kopf & Wirbelsaeule ---
     AnatomyPart(
       number: 1,
-      name: 'Fang & Lefzen',
+      name: 'Schaedel',
       region: AnatomyRegion.head,
-      where: 'Die Schnauze mit den haengenden Lippen.',
-      vetNote: 'Meint Maul, Lippen und Schnauzenbereich - z.B. bei '
-          'Zahnstein, Entzuendungen oder Verletzungen.',
-      pos: Offset(0.215, 0.350),
+      where: 'Der Kopf-Knochen ganz vorne.',
+      vetNote: 'Knoecherne Huelle fuer Gehirn, Augen, Kiefer und Zaehne.',
+      pos: Offset(0.085, 0.090),
     ),
     AnatomyPart(
       number: 2,
-      name: 'Stop',
+      name: 'Halswirbel',
       region: AnatomyRegion.head,
-      where: 'Die Stufe zwischen Stirn und Nasenruecken.',
-      vetNote: 'Orientierungspunkt am Kopf - hilft bei der Beschreibung von '
-          'Schwellungen oder der Augenpartie.',
-      pos: Offset(0.245, 0.210),
+      where: 'Die Wirbelkette im Hals (Kopf bis Schulter).',
+      vetNote: 'Die sieben Halswirbel tragen den Kopf und sind sehr '
+          'beweglich.',
+      pos: Offset(0.195, 0.250),
     ),
     AnatomyPart(
       number: 3,
-      name: 'Behang (Ohren)',
+      name: 'Brustwirbel',
       region: AnatomyRegion.head,
-      where: 'Die Ohrmuscheln.',
-      vetNote: 'Haeufig gemeint bei Ohrentzuendung, Milben oder Juckreiz - '
-          '"Behang" ist das Fachwort fuer die Ohren.',
-      pos: Offset(0.105, 0.255),
+      where: 'Die Wirbel oben ueber dem Brustkorb.',
+      vetNote: 'An ihnen haengen die Rippen - der Bereich zwischen Widerrist '
+          'und Lende.',
+      pos: Offset(0.460, 0.180),
     ),
     AnatomyPart(
       number: 4,
-      name: 'Nasenspiegel',
+      name: 'Lendenwirbel',
       region: AnatomyRegion.head,
-      where: 'Die feuchte Nasenspitze.',
-      vetNote: 'Der Tierarzt achtet auf Farbe und Feuchtigkeit - Hinweise '
-          'auf Allgemeinbefinden.',
-      pos: Offset(0.180, 0.300),
+      where: 'Die kraeftigen Wirbel im unteren Ruecken.',
+      vetNote: 'Zwischen letzter Rippe und Becken - haeufig bei Ruecken-/'
+          'Bandscheibenthemen gemeint.',
+      pos: Offset(0.620, 0.170),
     ),
-
-    // --- Vorderkoerper ---
     AnatomyPart(
       number: 5,
-      name: 'Widerrist',
-      region: AnatomyRegion.front,
-      where: 'Der hoechste Punkt am Uebergang Hals/Ruecken.',
-      vetNote: 'Hier wird die Schulterhoehe gemessen ("Widerristhoehe") und '
-          'oft die Spritze gesetzt.',
-      pos: Offset(0.375, 0.205),
+      name: 'Kreuzbein',
+      region: AnatomyRegion.head,
+      where: 'Verschmolzene Wirbel ueber dem Becken.',
+      vetNote: 'Verbindet die Wirbelsaeule fest mit dem Becken.',
+      pos: Offset(0.710, 0.180),
     ),
     AnatomyPart(
       number: 6,
-      name: 'Schulter',
-      region: AnatomyRegion.front,
-      where: 'Der Bereich zwischen Hals und Vorderbein.',
-      vetNote: 'Relevant bei Lahmheit vorne - der Arzt prueft das '
-          'Schultergelenk.',
-      pos: Offset(0.345, 0.420),
+      name: 'Schwanzwirbel',
+      region: AnatomyRegion.head,
+      where: 'Die kleinen Wirbel im Schwanz (Rute).',
+      vetNote: '"Rute" ist das Fachwort fuer den Schwanz - relevant bei '
+          'Verletzungen oder der "Wasserrute".',
+      pos: Offset(0.870, 0.460),
     ),
+
+    // --- Vorderbein ---
     AnatomyPart(
       number: 7,
-      name: 'Brustkorb',
+      name: 'Schulterblatt',
       region: AnatomyRegion.front,
-      where: 'Der vordere, untere Rumpf - umschliesst Herz und Lunge.',
-      vetNote: 'Wird beim Abhoeren (Herz/Lunge) abgetastet; auch fuer den '
-          'Brustumfang (Geschirr-Groesse) wichtig.',
-      pos: Offset(0.290, 0.560),
+      where: 'Der flache Knochen ueber dem Brustkorb vorne.',
+      vetNote: 'Verbindet das Vorderbein mit dem Rumpf - Hunde haben kein '
+          'Schluesselbein.',
+      pos: Offset(0.255, 0.300),
     ),
     AnatomyPart(
       number: 8,
-      name: 'Ellbogen',
+      name: 'Schultergelenk',
       region: AnatomyRegion.front,
-      where: 'Das Gelenk oben am Vorderbein, nah am Brustkorb.',
-      vetNote: 'Wichtiger Punkt bei Lahmheit und Arthrose - "Ellbogen-'
-          'Dysplasie (ED)" betrifft genau dieses Gelenk.',
-      pos: Offset(0.355, 0.640),
+      where: 'Gelenk zwischen Schulterblatt und Oberarm.',
+      vetNote: 'Relevant bei Lahmheit vorne.',
+      pos: Offset(0.225, 0.405),
     ),
     AnatomyPart(
       number: 9,
-      name: 'Vorderpfote & Ballen',
+      name: 'Oberarmbein',
       region: AnatomyRegion.front,
-      where: 'Die vordere Pfote mit den Ballen.',
-      vetNote: 'Der Arzt prueft Krallen, Ballen und Zwischenzehenbereich - '
-          'haeufig bei Lahmheit oder Schnittverletzungen.',
-      pos: Offset(0.300, 0.930),
+      where: 'Der Oberarmknochen zwischen Schulter und Ellbogen.',
+      vetNote: 'Der grosse Knochen des oberen Vorderbeins.',
+      pos: Offset(0.260, 0.470),
     ),
-
-    // --- Rumpf ---
     AnatomyPart(
       number: 10,
-      name: 'Ruecken',
-      region: AnatomyRegion.body,
-      where: 'Die obere Linie vom Widerrist bis zur Kruppe.',
-      vetNote: 'Bei Ruecken-/Wirbelsaeulen-Themen (z.B. Bandscheibe) gemeint.',
-      pos: Offset(0.545, 0.290),
+      name: 'Ellbogen',
+      region: AnatomyRegion.front,
+      where: 'Gelenk zwischen Oberarm und Unterarm.',
+      vetNote: 'Ort der "Ellbogen-Dysplasie (ED)" und von Arthrose.',
+      pos: Offset(0.300, 0.500),
     ),
     AnatomyPart(
       number: 11,
-      name: 'Rippenbogen',
-      region: AnatomyRegion.body,
-      where: 'Die seitliche Brustwand mit den Rippen.',
-      vetNote: 'Ueber die fuehlbaren Rippen beurteilt der Arzt das '
-          'Idealgewicht (Body Condition Score).',
-      pos: Offset(0.460, 0.520),
+      name: 'Unterarm (Elle & Speiche)',
+      region: AnatomyRegion.front,
+      where: 'Die zwei Knochen zwischen Ellbogen und Vorderfuss.',
+      vetNote: 'Elle und Speiche - haeufige Stelle fuer Brueche.',
+      pos: Offset(0.270, 0.640),
     ),
     AnatomyPart(
       number: 12,
-      name: 'Flanke & Lende',
-      region: AnatomyRegion.body,
-      where: 'Die Weichteile zwischen letzter Rippe und Huefte.',
-      vetNote: 'Hier liegen Bauchorgane dicht unter der Haut - wird beim '
-          'Abtasten des Bauchs untersucht.',
-      pos: Offset(0.630, 0.405),
-    ),
-    AnatomyPart(
-      number: 13,
-      name: 'Bauch',
-      region: AnatomyRegion.body,
-      where: 'Die untere Rumpflinie hinter dem Brustkorb.',
-      vetNote: 'Wird abgetastet (Magen, Darm, Blase); harter Bauch kann ein '
-          'Warnzeichen sein.',
-      pos: Offset(0.520, 0.640),
+      name: 'Vorderfusswurzel',
+      region: AnatomyRegion.front,
+      where: 'Das "Handgelenk" ueber der Vorderpfote.',
+      vetNote: 'Entspricht unserem Handwurzel-/Handgelenk.',
+      pos: Offset(0.270, 0.780),
     ),
 
-    // --- Hinterkoerper ---
+    // --- Brustkorb ---
+    AnatomyPart(
+      number: 13,
+      name: 'Rippen',
+      region: AnatomyRegion.body,
+      where: 'Die Knochenboegen des Brustkorbs.',
+      vetNote: 'Schuetzen Herz und Lunge; ueber die fuehlbaren Rippen '
+          'beurteilt der Arzt das Idealgewicht.',
+      pos: Offset(0.420, 0.460),
+    ),
+
+    // --- Becken & Hinterbein ---
     AnatomyPart(
       number: 14,
-      name: 'Kruppe',
+      name: 'Becken',
       region: AnatomyRegion.hind,
-      where: 'Der abfallende Bereich ueber dem Becken, vor der Rute.',
-      vetNote: 'Orientierung fuer Huefte und Becken - z.B. bei '
-          'Hueftproblemen.',
-      pos: Offset(0.735, 0.305),
+      where: 'Der Hueftknochen ueber dem Hinterbein.',
+      vetNote: 'Verbindet Hinterbeine und Wirbelsaeule.',
+      pos: Offset(0.740, 0.250),
     ),
     AnatomyPart(
       number: 15,
-      name: 'Rute',
+      name: 'Hueftgelenk',
       region: AnatomyRegion.hind,
-      where: 'Der Schwanz.',
-      vetNote: '"Rute" ist das Fachwort fuer den Schwanz - relevant bei '
-          'Verletzungen oder der beliebten "Wasserrute".',
-      pos: Offset(0.915, 0.235),
+      where: 'Kugelgelenk zwischen Becken und Oberschenkel.',
+      vetNote: 'Betroffen bei "Hueftdysplasie (HD)".',
+      pos: Offset(0.725, 0.320),
     ),
     AnatomyPart(
       number: 16,
-      name: 'Keule (Oberschenkel)',
+      name: 'Oberschenkel (Femur)',
       region: AnatomyRegion.hind,
-      where: 'Die kraeftige Muskelpartie am Hinterbein.',
-      vetNote: 'Wird zur Muskelbeurteilung abgetastet; haeufiger Ort fuer '
-          'Spritzen in den Muskel.',
-      pos: Offset(0.760, 0.520),
+      where: 'Der kraeftige Knochen zwischen Huefte und Knie.',
+      vetNote: 'Der groesste Roehrenknochen des Hundes.',
+      pos: Offset(0.720, 0.450),
     ),
     AnatomyPart(
       number: 17,
-      name: 'Knie (Kniescheibe)',
+      name: 'Kniegelenk',
       region: AnatomyRegion.hind,
-      where: 'Das Gelenk vorne am Hinterbein, etwa auf Bauchhoehe.',
-      vetNote: 'Sehr haeufig: "Patellaluxation" (springende Kniescheibe) und '
-          'Kreuzbandriss betreffen dieses Gelenk.',
-      pos: Offset(0.680, 0.660),
+      where: 'Gelenk mit Kniescheibe, vorne am Hinterbein.',
+      vetNote: 'Hier passieren Kreuzbandriss und "Patellaluxation" '
+          '(springende Kniescheibe).',
+      pos: Offset(0.745, 0.575),
     ),
     AnatomyPart(
       number: 18,
-      name: 'Sprunggelenk',
+      name: 'Schienbein & Wadenbein',
       region: AnatomyRegion.hind,
-      where: 'Das stark abgewinkelte Gelenk tief am Hinterbein - oft mit '
-          'dem Knie verwechselt.',
-      vetNote: 'Entspricht unserem Fussknoechel. Wichtig bei Lahmheit hinten '
-          'und Verletzungen der Achillessehne.',
-      pos: Offset(0.825, 0.760),
+      where: 'Die zwei Unterschenkel-Knochen.',
+      vetNote: 'Zwischen Knie und Sprunggelenk.',
+      pos: Offset(0.765, 0.690),
     ),
     AnatomyPart(
       number: 19,
-      name: 'Hinterpfote',
+      name: 'Sprunggelenk',
       region: AnatomyRegion.hind,
-      where: 'Die hintere Pfote.',
-      vetNote: 'Wie vorne: Krallen, Ballen und Zehen werden geprueft.',
-      pos: Offset(0.800, 0.930),
+      where: 'Das stark gewinkelte Gelenk tief am Hinterbein.',
+      vetNote: 'Entspricht unserem Fussknoechel - oft mit dem Knie '
+          'verwechselt.',
+      pos: Offset(0.740, 0.820),
+    ),
+    AnatomyPart(
+      number: 20,
+      name: 'Mittelfussknochen',
+      region: AnatomyRegion.hind,
+      where: 'Die langen Knochen der Hinterpfote vor den Zehen.',
+      vetNote: 'Tragen das Gewicht beim Stehen und Laufen.',
+      pos: Offset(0.730, 0.920),
     ),
   ];
 }

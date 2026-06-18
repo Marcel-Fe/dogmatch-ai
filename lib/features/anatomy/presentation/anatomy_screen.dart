@@ -75,9 +75,9 @@ class _IntroCard extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              'Die Begriffe stehen direkt am Hund. Zum Vergroessern das Bild '
-              'mit zwei Fingern zoomen. Was jeder Begriff bedeutet, steht in '
-              'der Liste darunter.',
+              'Die Knochen-Begriffe stehen direkt am Skelett. Zum Vergroessern '
+              'das Bild mit zwei Fingern zoomen. Was jeder Begriff bedeutet, '
+              'steht in der Liste darunter.',
               style: theme.textTheme.bodyMedium,
             ),
           ),
@@ -93,12 +93,12 @@ enum _Side { left, top, right, bottom }
 /// Ordnet jeden Begriff (per Nummer) einer Beschriftungsseite zu - so sitzen
 /// die Labels rund ums Bild wie auf einem Anatomie-Poster.
 const Map<int, _Side> _sideOf = {
-  1: _Side.left, 2: _Side.left, 3: _Side.left, 4: _Side.left, 6: _Side.left,
-  5: _Side.top, 10: _Side.top, 14: _Side.top, 15: _Side.top,
-  12: _Side.right, 16: _Side.right, 17: _Side.right, 18: _Side.right,
-  19: _Side.right,
-  7: _Side.bottom, 8: _Side.bottom, 9: _Side.bottom, 11: _Side.bottom,
-  13: _Side.bottom,
+  1: _Side.left, 2: _Side.left, 7: _Side.left, 8: _Side.left, 9: _Side.left,
+  3: _Side.top, 4: _Side.top, 5: _Side.top, 14: _Side.top,
+  6: _Side.right, 15: _Side.right, 16: _Side.right, 17: _Side.right,
+  18: _Side.right, 19: _Side.right,
+  10: _Side.bottom, 11: _Side.bottom, 12: _Side.bottom, 13: _Side.bottom,
+  20: _Side.bottom,
 };
 
 class _DiagramCard extends StatelessWidget {
@@ -106,8 +106,10 @@ class _DiagramCard extends StatelessWidget {
 
   final List<AnatomyPart> parts;
 
-  // Gesamt-Seitenverhaeltnis der Tafel (Foto in der Mitte + Label-Raender).
-  static const double _ratio = 1.45;
+  // Gesamt-Seitenverhaeltnis der Tafel (Skelett in der Mitte + Label-Raender).
+  // So gewaehlt, dass der Bildbereich exakt das Skelett-Seitenverhaeltnis
+  // (1.384) trifft: (0.60/0.74)*1.707 = 1.384.
+  static const double _ratio = 1.707;
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +144,9 @@ class _DiagramCard extends StatelessWidget {
                   final w = c.maxWidth;
                   final h = c.maxHeight;
                   final dpr = MediaQuery.devicePixelRatioOf(context);
-                  // Foto-Bereich zentral, Raender bleiben fuer Labels frei.
-                  final pl = 0.225 * w, pt = 0.12 * h;
-                  final pw = 0.55 * w, ph = 0.68 * h;
+                  // Bildbereich zentral, Raender bleiben fuer Labels frei.
+                  final pl = 0.20 * w, pt = 0.12 * h;
+                  final pw = 0.60 * w, ph = 0.74 * h;
                   return SizedBox(
                     width: w,
                     height: h,
@@ -159,7 +161,7 @@ class _DiagramCard extends StatelessWidget {
                             borderRadius:
                                 BorderRadius.circular(AppSpacing.radiusSm),
                             child: Image.asset(
-                              'assets/anatomy/dog_side.jpg',
+                              'assets/anatomy/dog_skeleton.jpg',
                               fit: BoxFit.cover,
                               cacheWidth: (pw * dpr).round(),
                             ),
@@ -215,7 +217,13 @@ class _LabelPainter extends CustomPainter {
   final Color textColor;
 
   // Kurzform fuers Bild (volle Erklaerung steht in der Liste).
-  static const Map<String, String> _shortMap = {'Rippenbogen': 'Rippen'};
+  static const Map<String, String> _shortMap = {
+    'Vorderfusswurzel': 'Fusswurzel',
+    'Mittelfussknochen': 'Mittelfuss',
+    'Schwanzwirbel': 'Schwanz',
+    'Schultergelenk': 'Schulterg.',
+    'Oberschenkel': 'Oberschenkel',
+  };
   String _short(String n) {
     final base = n.split(' (').first.split(' & ').first;
     return _shortMap[base] ?? base;
@@ -224,7 +232,7 @@ class _LabelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final w = size.width, h = size.height;
-    final pl = 0.225 * w, pt = 0.12 * h, pw = 0.55 * w, ph = 0.68 * h;
+    final pl = 0.20 * w, pt = 0.12 * h, pw = 0.60 * w, ph = 0.74 * h;
     final pr = pl + pw, pb = pt + ph;
     Offset target(AnatomyPart p) =>
         Offset(pl + p.pos.dx * pw, pt + p.pos.dy * ph);
