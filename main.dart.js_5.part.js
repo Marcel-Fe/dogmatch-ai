@@ -1,9 +1,9 @@
 ((a,b)=>{a[b]=a[b]||{}})(self,"$__dart_deferred_initializers__")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var C,D,B={
-bxS(d){var x
-if(d==null)return A.Ey
+bxY(d){var x
+if(d==null)return A.Ex
 x=y.f
-x=C.S(new C.aH(A.Ey,new B.aJy(d),x),x.i("C.E"))
+x=C.S(new C.aH(A.Ex,new B.aJy(d),x),x.i("C.E"))
 x.$flags=1
 return x},
 aJy:function aJy(d){this.a=d},
@@ -16,24 +16,24 @@ _.b=h},
 b7:function b7(d,e,f){this.b=d
 this.c=e
 this.d=f},
-bxT(){return new B.uc(null)},
+bxZ(){return new B.uc(null)},
 uc:function uc(d){this.a=d},
-aeA:function aeA(){this.c=this.a=this.d=null},
+aeC:function aeC(){this.c=this.a=this.d=null},
+b1T:function b1T(d){this.a=d},
+b1S:function b1S(d){this.a=d},
+b1U:function b1U(d,e){this.a=d
+this.b=e},
+b1R:function b1R(d,e){this.a=d
+this.b=e},
 b1V:function b1V(d){this.a=d},
-b1U:function b1U(d){this.a=d},
-b1W:function b1W(d,e){this.a=d
-this.b=e},
-b1T:function b1T(d,e){this.a=d
-this.b=e},
-b1X:function b1X(d){this.a=d},
-Pp:function Pp(d,e,f,g,h,i){var _=this
+Ps:function Ps(d,e,f,g,h,i){var _=this
 _.c=d
 _.d=e
 _.e=f
 _.f=g
 _.r=h
 _.a=i},
-Gq:function Gq(d,e){this.c=d
+Gs:function Gs(d,e){this.c=d
 this.a=e}},A
 C=c[0]
 D=c[2]
@@ -43,67 +43,67 @@ B.lP.prototype={
 I(){return"TipCategory."+this.b}}
 B.b7.prototype={}
 B.uc.prototype={
-W(){return new B.aeA()}}
-B.aeA.prototype={
-A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxS(v.d),r=C.cC(u,u,A.aAS),q=y.e,p=C.b([new B.Pp("Alle",A.a3R,t.ax.b,v.d==null,new B.b1V(v),u)],q)
-for(x=0;x<9;++x){w=A.acK[x]
-D.b.K(p,C.b([D.K,new B.Pp(w.c,w.d,w.e,v.d===w,new B.b1W(v,w),u)],q))}return C.ct(r,u,C.ap(C.b([C.bZ(C.dj(p,D.an,u,D.aN,!1),56,u),C.aI(C.auj(u,new B.b1X(s),s.length,D.z,!1),1)],q),D.m,D.e,D.h),u,u,u)}}
-B.Pp.prototype={
+W(){return new B.aeC()}}
+B.aeC.prototype={
+A(d){var x,w,v=this,u=null,t=C.p(d),s=B.bxY(v.d),r=C.cC(u,u,A.aAT),q=y.e,p=C.b([new B.Ps("Alle",A.a3R,t.ax.b,v.d==null,new B.b1T(v),u)],q)
+for(x=0;x<9;++x){w=A.acL[x]
+D.b.K(p,C.b([D.K,new B.Ps(w.c,w.d,w.e,v.d===w,new B.b1U(v,w),u)],q))}return C.ct(r,u,C.ap(C.b([C.bZ(C.di(p,u,D.an,u,u,D.aN,!1),56,u),C.aI(C.auj(u,new B.b1V(s),s.length,D.z,!1),1)],q),D.m,D.e,D.h),u,u,u)}}
+B.Ps.prototype={
 A(d){var x=this,w=null,v=C.ae(999),u=x.f,t=x.e,s=u?t:t.O(0.12),r=C.ae(999),q=C.cd(t.O(0.4),1),p=u?D.k:t
 p=C.an(x.d,p,w,16)
-return C.cU(C.cz(!1,v,!0,C.a9(w,C.aj(C.b([p,D.o2,C.m(x.c,w,w,w,C.iF(w,w,u?D.k:t,w,w,w,w,w,w,w,w,13,w,w,D.V,w,w,!0,w,w,w,w,w,w,w,w),w,w,w)],y.e),D.m,D.e,D.aE,0),D.i,w,w,new C.ah(s,w,q,r,w,w,D.q),w,w,w,D.x6,w,w,w),w,!0,w,w,w,w,w,w,w,w,w,w,x.r,w,w,w,w,w,w,w),w,w)}}
-B.Gq.prototype={
-A(d){var x=null,w=C.p(d),v=this.c,u=v.b,t=u.e,s=t.O(0.06),r=C.ae(16),q=C.cd(t.O(0.25),1),p=C.a9(x,C.an(u.d,D.k,x,16),D.i,x,x,new C.ah(t,x,x,x,x,x,D.av),x,x,x,D.bk,x,x,x),o=w.ok,n=o.ax
+return C.cU(C.cz(!1,v,!0,C.ab(w,C.aj(C.b([p,D.o1,C.m(x.c,w,w,w,C.iG(w,w,u?D.k:t,w,w,w,w,w,w,w,w,13,w,w,D.V,w,w,!0,w,w,w,w,w,w,w,w),w,w,w)],y.e),D.m,D.e,D.aE,0),D.i,w,w,new C.ah(s,w,q,r,w,w,D.q),w,w,w,D.x5,w,w,w),w,!0,w,w,w,w,w,w,w,w,w,w,x.r,w,w,w,w,w,w,w),w,w)}}
+B.Gs.prototype={
+A(d){var x=null,w=C.p(d),v=this.c,u=v.b,t=u.e,s=t.O(0.06),r=C.ae(16),q=C.cd(t.O(0.25),1),p=C.ab(x,C.an(u.d,D.k,x,16),D.i,x,x,new C.ah(t,x,x,x,x,x,D.av),x,x,x,D.bk,x,x,x),o=w.ok,n=o.ax
 t=n==null?x:n.A1(t,D.V,0.3)
 n=y.e
 t=C.aj(C.b([p,D.K,C.m(u.c,x,x,x,t,x,x,x)],n),D.m,D.e,D.h,0)
 u=o.w
 u=u==null?x:u.ds(D.V)
-return new C.a1(D.bT,C.a9(x,C.ap(C.b([t,D.r,C.m(v.c,x,x,x,u,x,x,x),D.W,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ah(s,x,q,r,x,x,D.q),x,x,x,D.z,x,x,x),x)}}
-var z=a.updateTypes(["D(b7)","Gq(y,o)"])
+return new C.a1(D.bT,C.ab(x,C.ap(C.b([t,D.r,C.m(v.c,x,x,x,u,x,x,x),D.W,C.m(v.d,x,x,x,o.z,x,x,x)],n),D.o,D.e,D.h),D.i,x,x,new C.ah(s,x,q,r,x,x,D.q),x,x,x,D.z,x,x,x),x)}}
+var z=a.updateTypes(["D(b7)","Gs(y,o)"])
 B.aJy.prototype={
 $1(d){return d.b===this.a},
 $S:z+0}
-B.b1V.prototype={
+B.b1T.prototype={
 $0(){var x=this.a
-return x.M(new B.b1U(x))},
+return x.M(new B.b1S(x))},
 $S:0}
-B.b1U.prototype={
+B.b1S.prototype={
 $0(){return this.a.d=null},
 $S:0}
-B.b1W.prototype={
+B.b1U.prototype={
 $0(){var x=this.a
-return x.M(new B.b1T(x,this.b))},
+return x.M(new B.b1R(x,this.b))},
 $S:0}
-B.b1T.prototype={
+B.b1R.prototype={
 $0(){return this.a.d=this.b},
 $S:0}
-B.b1X.prototype={
-$2(d,e){return new B.Gq(this.a[e],null)},
+B.b1V.prototype={
+$2(d,e){return new B.Gs(this.a[e],null)},
 $S:z+1};(function inheritance(){var x=a.inherit,w=a.inheritMany
 x(B.aJy,C.le)
-x(B.lP,C.a7S)
+x(B.lP,C.a7U)
 x(B.b7,C.n)
 x(B.uc,C.Q)
-x(B.aeA,C.a0)
-w(C.ro,[B.b1V,B.b1U,B.b1W,B.b1T])
-x(B.b1X,C.Ij)
-w(C.O,[B.Pp,B.Gq])})()
-C.afb(b.typeUniverse,JSON.parse('{"Gq":{"O":[],"c":[]},"uc":{"Q":[],"c":[]},"aeA":{"a0":["uc"]},"Pp":{"O":[],"c":[]}}'))
+x(B.aeC,C.a0)
+w(C.ro,[B.b1T,B.b1S,B.b1U,B.b1R])
+x(B.b1V,C.Il)
+w(C.O,[B.Ps,B.Gs])})()
+C.afd(b.typeUniverse,JSON.parse('{"Gs":{"O":[],"c":[]},"uc":{"Q":[],"c":[]},"aeC":{"a0":["uc"]},"Ps":{"O":[],"c":[]}}'))
 var y={e:C.Z("z<c>"),f:C.Z("aH<b7>")};(function constants(){var x=a.makeConstList
 A.a3R=new C.V(62829,"MaterialIcons",null,!1)
 A.a4R=new C.V(983615,"MaterialIcons",null,!1)
 A.dL=new B.lP("Alltag",A.a4R,D.h8,0,"daily")
-A.dI=new B.lP("Gesundheit",D.lR,D.iV,1,"health")
-A.dH=new B.lP("Ernaehrung",D.r7,D.eq,2,"nutrition")
+A.dI=new B.lP("Gesundheit",D.lR,D.iW,1,"health")
+A.dH=new B.lP("Ernaehrung",D.r7,D.er,2,"nutrition")
 A.dK=new B.lP("Verhalten",D.jl,D.l6,3,"behavior")
 A.a4L=new C.V(983469,"MaterialIcons",null,!1)
 A.dF=new B.lP("Pflege",A.a4L,D.w5,4,"care")
-A.dE=new B.lP("Sommer",D.lY,D.iR,5,"summer")
-A.eb=new B.lP("Winter",D.lO,D.kY,6,"winter")
-A.dJ=new B.lP("Sicherheit",D.y2,D.iY,7,"safety")
-A.dG=new B.lP("Sozialisierung",D.lS,D.py,8,"socialization")
-A.acK=x([A.dL,A.dI,A.dH,A.dK,A.dF,A.dE,A.eb,A.dJ,A.dG],C.Z("z<lP>"))
+A.dE=new B.lP("Sommer",D.lY,D.iT,5,"summer")
+A.ec=new B.lP("Winter",D.lO,D.kY,6,"winter")
+A.dJ=new B.lP("Sicherheit",D.y1,D.iZ,7,"safety")
+A.dG=new B.lP("Sozialisierung",D.lS,D.px,8,"socialization")
+A.acL=x([A.dL,A.dI,A.dH,A.dK,A.dF,A.dE,A.ec,A.dJ,A.dG],C.Z("z<lP>"))
 A.a0W=new B.b7(A.dL,"Feste Routinen geben Halt","Hunde sind Gewohnheitstiere. Gleiche Spaziergeh- und Fuetterungs-Zeiten reduzieren Stress und Trennungsangst. Schon 15-20 Minuten Verschiebung koennen sensible Hunde irritieren.")
 A.a0u=new B.b7(A.dL,"Nasenarbeit ermuedet schneller als Rennen","10 Minuten Schnueffel-Spiel = 60 Minuten Joggen, was die mentale Auslastung angeht. Leckerli in Decken verstecken oder eine Schnueffel-Wiese im Garten reicht schon.")
 A.a0w=new B.b7(A.dL,"Ruhepausen sind kein Faulsein",'Gesunde Hunde schlafen 17-20 Stunden pro Tag. Wenn dein Hund in der Wohnung aktiv "abhaengt", ist das gesund. Erzwinge keine Bespassung - du wuerdest ihn sonst nervlich ueberlasten.')
@@ -158,14 +158,14 @@ A.a0n=new B.b7(A.dE,"Kuehle Rueckzugsorte anbieten","Eine Kuehlmatte, ein schatt
 A.a0f=new B.b7(A.dE,"Gassi in die kuehlen Stunden legen","Frueh morgens und spaet abends ist es fuer Pfoten und Kreislauf ertraeglich. Die Mittagshitze gehoert der Siesta - lieber drinnen ein Schnueffelspiel als ein Marsch in der prallen Sonne.")
 A.a0y=new B.b7(A.dE,"Insektenstich im Maul = Notfall","Schnappt der Hund nach Wespen, kann ein Stich im Rachen zuschwellen und die Atmung blockieren. Bei Schwellung im Maulbereich sofort zum Tierarzt - nicht abwarten.")
 A.a0p=new B.b7(A.dE,"Grannen nach dem Feld kontrollieren","Im Sommer bohren sich Getreide-Grannen in Pfotenzwischenraeume, Ohren und Nase. Nach Spaziergaengen durch hohes Gras absuchen - eine eingewanderte Granne kann boese Entzuendungen machen.")
-A.a0E=new B.b7(A.eb,"Streusalz schadet Pfoten","Nach jedem Winter-Spaziergang Pfoten mit lauwarmem Wasser abspuelen. Pfotenwachs (z.B. Musher's Secret) als Schutz vor dem Gang auftragen.")
-A.a_R=new B.b7(A.eb,"Mantel bei Mini-Hunden + Senioren","Kleine Rassen, Senioren und kranke Hunde frieren schnell. Wenn er zittert oder die Rute einklemmt: rein. Bei dichtem Fell (Husky, Bernhardiner) sind Mantel und Hund unnoetig.")
-A.a_Z=new B.b7(A.eb,"Frostschutzmittel ist GIFTIG","Schmeckt suess, ist toedlich. Verschuettete Garagen-Reste sofort wegwischen. Im Auto-Bereich Ueberwachung.")
-A.a0R=new B.b7(A.eb,"Schneeklumpen zwischen den Ballen","Bei langhaarigen Pfoten sammeln sich harte Eisklumpen, die wehtun. Fell zwischen den Ballen kurz halten und nach dem Gang die Pfoten warm abspuelen und trocknen.")
-A.a_S=new B.b7(A.eb,"Lieber kurz und oft","Bei strengem Frost mehrere kurze Runden statt einer langen. Vor allem kurzhaarige Hunde, Welpen und Senioren kuehlen schnell aus - Bewegung haelt sie warm.")
-A.a_V=new B.b7(A.eb,"Kein Schnee fressen","Schnee reizt die Magenschleimhaut und kann Streusalz oder Splitt enthalten. Wenn dein Hund gern schnappt, lenk ihn mit einem Spiel ab statt ihn fressen zu lassen.")
-A.a03=new B.b7(A.eb,"Sichtbar im Dunkeln","In der dunklen Jahreszeit ein Leuchthalsband oder reflektierendes Geschirr. So sehen Autofahrer den Hund - und du ihn, wenn er ohne Leine unterwegs ist.")
-A.a0Q=new B.b7(A.eb,"Nach der Runde aufwaermen","Nasse Hunde nach dem Spaziergang trockenrubbeln und einen warmen, zugfreien Platz anbieten. Ausgekuehlte Hunde sind anfaelliger fuer Blasenentzuendungen.")
+A.a0E=new B.b7(A.ec,"Streusalz schadet Pfoten","Nach jedem Winter-Spaziergang Pfoten mit lauwarmem Wasser abspuelen. Pfotenwachs (z.B. Musher's Secret) als Schutz vor dem Gang auftragen.")
+A.a_R=new B.b7(A.ec,"Mantel bei Mini-Hunden + Senioren","Kleine Rassen, Senioren und kranke Hunde frieren schnell. Wenn er zittert oder die Rute einklemmt: rein. Bei dichtem Fell (Husky, Bernhardiner) sind Mantel und Hund unnoetig.")
+A.a_Z=new B.b7(A.ec,"Frostschutzmittel ist GIFTIG","Schmeckt suess, ist toedlich. Verschuettete Garagen-Reste sofort wegwischen. Im Auto-Bereich Ueberwachung.")
+A.a0R=new B.b7(A.ec,"Schneeklumpen zwischen den Ballen","Bei langhaarigen Pfoten sammeln sich harte Eisklumpen, die wehtun. Fell zwischen den Ballen kurz halten und nach dem Gang die Pfoten warm abspuelen und trocknen.")
+A.a_S=new B.b7(A.ec,"Lieber kurz und oft","Bei strengem Frost mehrere kurze Runden statt einer langen. Vor allem kurzhaarige Hunde, Welpen und Senioren kuehlen schnell aus - Bewegung haelt sie warm.")
+A.a_V=new B.b7(A.ec,"Kein Schnee fressen","Schnee reizt die Magenschleimhaut und kann Streusalz oder Splitt enthalten. Wenn dein Hund gern schnappt, lenk ihn mit einem Spiel ab statt ihn fressen zu lassen.")
+A.a03=new B.b7(A.ec,"Sichtbar im Dunkeln","In der dunklen Jahreszeit ein Leuchthalsband oder reflektierendes Geschirr. So sehen Autofahrer den Hund - und du ihn, wenn er ohne Leine unterwegs ist.")
+A.a0Q=new B.b7(A.ec,"Nach der Runde aufwaermen","Nasse Hunde nach dem Spaziergang trockenrubbeln und einen warmen, zugfreien Platz anbieten. Ausgekuehlte Hunde sind anfaelliger fuer Blasenentzuendungen.")
 A.a0a=new B.b7(A.dJ,"Chip-Daten aktuell halten","Umzug oder neue Handynummer? Sofort bei TASSO / Animaldata / IFTA aktualisieren. Sonst hilft auch der beste Chip nicht, wenn der Hund verloren geht.")
 A.a1_=new B.b7(A.dJ,"Notfall-Nummer in der Brieftasche","Tierarzt-Notdienst + Tiergiftnotruf + Adresse der naechsten Tierklinik. Im Panik-Moment willst du nicht erst googeln.")
 A.a0L=new B.b7(A.dJ,"Halsband mit Telefonnummer",'Markenanhaenger mit deiner Mobilnummer + "Chipnr. registriert". Wer den Hund findet, ruft sofort an, statt in den Tierheim-Pfad zu rutschen.')
@@ -184,6 +184,6 @@ A.a07=new B.b7(A.dG,"Geraeusche und Stadt langsam einfuehren","Verkehr, Menschen
 A.a0O=new B.b7(A.dG,"Maulkorb VOR dem Ernstfall ueben","Ob fuer Bus, Bahn oder Tierarzt - ein Maulkorb gehoert positiv antrainiert, lange bevor er gebraucht wird. Fuettere durch den Korb, dann wird er zur guten Sache.")
 A.a0h=new B.b7(A.dG,"Katzen und Kleintiere behutsam","Erste Begegnungen mit gesichertem Abstand und Rueckzugsmoeglichkeit fuer die Katze. Ruhe belohnen, Hetzen sofort unterbinden - Geduld ueber Wochen zahlt sich aus.")
 A.a05=new B.b7(A.dG,"Qualitaet vor Quantitaet","Wenige gute Erfahrungen sind mehr wert als viele stressige. Ein ueberfordeter Welpe lernt nicht, dass die Welt sicher ist - er lernt, dass sie zu viel ist.")
-A.Ey=x([A.a0W,A.a0u,A.a0w,A.a0g,A.a0z,A.a01,A.a0e,A.a_O,A.a_Y,A.a0b,A.a0F,A.a0Y,A.a13,A.a_U,A.a_T,A.a0l,A.a_Q,A.a04,A.a0c,A.a_W,A.a0A,A.a0Z,A.a0o,A.a0t,A.a09,A.a0P,A.a02,A.a0v,A.a0s,A.a0D,A.a_P,A.a0T,A.a0M,A.a06,A.a0C,A.a0_,A.a12,A.a0I,A.a0S,A.a0r,A.a0J,A.a0B,A.a0q,A.a0X,A.a0H,A.a_X,A.a0i,A.a0m,A.a08,A.a00,A.a0n,A.a0f,A.a0y,A.a0p,A.a0E,A.a_R,A.a_Z,A.a0R,A.a_S,A.a_V,A.a03,A.a0Q,A.a0a,A.a1_,A.a0L,A.a0N,A.a0K,A.a0U,A.a0x,A.a0d,A.a0V,A.a0k,A.a0j,A.a10,A.a0G,A.a11,A.a07,A.a0O,A.a0h,A.a05],C.Z("z<b7>"))
-A.aAS=new C.ay("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["u+fl9HHlE2EJyUeduFFcGZPUgao="]=a.current})($__dart_deferred_initializers__);
+A.Ex=x([A.a0W,A.a0u,A.a0w,A.a0g,A.a0z,A.a01,A.a0e,A.a_O,A.a_Y,A.a0b,A.a0F,A.a0Y,A.a13,A.a_U,A.a_T,A.a0l,A.a_Q,A.a04,A.a0c,A.a_W,A.a0A,A.a0Z,A.a0o,A.a0t,A.a09,A.a0P,A.a02,A.a0v,A.a0s,A.a0D,A.a_P,A.a0T,A.a0M,A.a06,A.a0C,A.a0_,A.a12,A.a0I,A.a0S,A.a0r,A.a0J,A.a0B,A.a0q,A.a0X,A.a0H,A.a_X,A.a0i,A.a0m,A.a08,A.a00,A.a0n,A.a0f,A.a0y,A.a0p,A.a0E,A.a_R,A.a_Z,A.a0R,A.a_S,A.a_V,A.a03,A.a0Q,A.a0a,A.a1_,A.a0L,A.a0N,A.a0K,A.a0U,A.a0x,A.a0d,A.a0V,A.a0k,A.a0j,A.a10,A.a0G,A.a11,A.a07,A.a0O,A.a0h,A.a05],C.Z("z<b7>"))
+A.aAT=new C.ay("Tipps & Wissen",null,null,null,null,null,null,null,null,null)})()};
+(a=>{a["e5I0wHCR0/PdS3hXAbj8jKtqW7s="]=a.current})($__dart_deferred_initializers__);

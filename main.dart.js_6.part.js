@@ -9,13 +9,13 @@ _.f=i
 _.r=j
 _.w=k
 _.x=l},
-byh(){return new C.uk(null)},
+byn(){return new C.uk(null)},
 uk:function uk(d){this.a=d},
-afk:function afk(){this.c=this.a=this.d=null},
-b2z:function b2z(d){this.a=d},
-b2A:function b2A(d,e){this.a=d
-this.b=e},
+afm:function afm(){this.c=this.a=this.d=null},
+b2x:function b2x(d){this.a=d},
 b2y:function b2y(d,e){this.a=d
+this.b=e},
+b2w:function b2w(d,e){this.a=d
 this.b=e},
 oG:function oG(d,e,f,g,h){var _=this
 _.c=d
@@ -29,47 +29,47 @@ C=a.updateHolder(c[6],C)
 A=c[12]
 C.dN.prototype={}
 C.uk.prototype={
-W(){return new C.afk()}}
-C.afk.prototype={
-A(d){var w,v,u=this,t=null,s=B.p(d),r=B.cC(t,t,A.aAG),q=s.ax,p=q.b,o=B.b([p.O(0.95),p.O(0.75)],x.c),n=B.ae(16),m=s.ok,l=m.Q,k=x.e
-o=B.a9(t,B.ap(B.b([A.arO,D.r,B.m("Waehle dein Reiseziel - du bekommst die wichtigsten Regeln: Maulkorb, Leine, Tollwut, Pass, Listenhund-Status.",t,t,t,l==null?t:l.aC(D.k.O(0.92)),t,t,t),D.H,B.apg(A.a5K,A.aBy,new C.b2z(d),B.Jp(D.k.O(0.22),D.k,t,t,t,t))],k),D.o,D.e,D.h),D.i,t,t,new B.ah(t,t,t,n,t,new B.eh(D.bb,D.bM,D.aR,o,t,t),D.q),t,t,t,D.z,t,t,t)
+W(){return new C.afm()}}
+C.afm.prototype={
+A(d){var w,v,u=this,t=null,s=B.p(d),r=B.cC(t,t,A.aAH),q=s.ax,p=q.b,o=B.b([p.O(0.95),p.O(0.75)],x.c),n=B.ae(16),m=s.ok,l=m.Q,k=x.e
+o=B.ab(t,B.ap(B.b([A.arQ,D.r,B.m("Waehle dein Reiseziel - du bekommst die wichtigsten Regeln: Maulkorb, Leine, Tollwut, Pass, Listenhund-Status.",t,t,t,l==null?t:l.aC(D.k.O(0.92)),t,t,t),D.H,B.apg(A.a5L,A.aBz,new C.b2x(d),B.Jr(D.k.O(0.22),D.k,t,t,t,t))],k),D.o,D.e,D.h),D.i,t,t,new B.ah(t,t,t,n,t,new B.eh(D.bb,D.bM,D.aR,o,t,t),D.q),t,t,t,D.z,t,t,t)
 n=B.m("Reiseziel",t,t,t,m.w,t,t,t)
 l=B.b([],k)
-for(w=0;w<29;++w){v=A.a8t[w]
-l.push(B.aki(t,B.m(v.b+"  "+v.a,t,t,t,t,t,t,t),t,new C.b2A(u,v),u.d===v,t))}o=B.b([o,D.R,n,D.r,B.h4(l,8,8),D.R],k)
+for(w=0;w<29;++w){v=A.a8u[w]
+l.push(B.aki(t,B.m(v.b+"  "+v.a,t,t,t,t,t,t,t),t,new C.b2y(u,v),u.d===v,t))}o=B.b([o,D.R,n,D.r,B.h4(l,8,8),D.R],k)
 n=u.d
 if(n==null){p=q.RG
 q=(p==null?q.k2:p).O(0.4)
 p=B.ae(16)
-o.push(B.a9(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ah(q,t,t,p,t,t,D.q),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oG(D.xX,D.w0,"Maulkorb",n.c,t),new C.oG(A.a4w,D.pF,"Leinenpflicht",n.d,t),new C.oG(A.a53,D.iK,"Tollwut & Impfungen",n.e,t),new C.oG(A.a3X,A.Xq,"Heimtierausweis",n.f,t),new C.oG(D.r_,A.Xk,"Listenhunde-Regeln",n.r,t)],k)
+o.push(B.ab(t,B.cU(B.m("Land waehlen, um die Regeln zu sehen.",t,t,t,m.z,t,t,t),t,t),D.i,t,t,new B.ah(q,t,t,p,t,t,D.q),t,t,t,D.z,t,t,t))}else{q=B.b([new C.oG(D.xW,D.w0,"Maulkorb",n.c,t),new C.oG(A.a4w,D.pE,"Leinenpflicht",n.d,t),new C.oG(A.a54,D.iM,"Tollwut & Impfungen",n.e,t),new C.oG(A.a3X,A.Xq,"Heimtierausweis",n.f,t),new C.oG(D.r_,A.Xk,"Listenhunde-Regeln",n.r,t)],k)
 n=u.d.w
 if(n!=null)q.push(new C.oG(A.a4g,D.vO,"Einreise / Transit",n,t))
 n=u.d.x
 if(n!=null)q.push(new C.oG(A.a4t,p,"Gut zu wissen",n,t))
-D.b.K(o,q)}return B.ct(r,t,B.dj(o,D.z,t,D.J,!1),t,t,t)}}
+D.b.K(o,q)}return B.ct(r,t,B.di(o,t,D.z,t,t,D.J,!1),t,t,t)}}
 C.oG.prototype={
 A(d){var w=this,v=null,u=B.p(d),t=w.d,s=t.O(0.06),r=B.ae(16),q=B.cd(t.O(0.3),1),p=B.an(w.c,t,v,18),o=u.ok,n=o.x
 t=n==null?v:n.cB(t,D.V)
 n=x.e
-return new B.a1(D.dl,B.a9(v,B.ap(B.b([B.aj(B.b([p,D.K,B.m(w.e,v,v,v,t,v,v,v)],n),D.m,D.e,D.h,0),D.W,B.m(w.f,v,v,v,o.Q,v,v,v)],n),D.o,D.e,D.h),D.i,v,v,new B.ah(s,v,q,r,v,v,D.q),v,v,v,D.aU,v,v,v),v)}}
+return new B.a1(D.dl,B.ab(v,B.ap(B.b([B.aj(B.b([p,D.K,B.m(w.e,v,v,v,t,v,v,v)],n),D.m,D.e,D.h,0),D.W,B.m(w.f,v,v,v,o.Q,v,v,v)],n),D.o,D.e,D.h),D.i,v,v,new B.ah(s,v,q,r,v,v,D.q),v,v,v,D.aU,v,v,v),v)}}
 var z=a.updateTypes([])
-C.b2z.prototype={
+C.b2x.prototype={
 $0(){return B.bU(this.a,"/checklists/travel",x.a)},
 $S:0}
-C.b2A.prototype={
-$1(d){var w=this.a
-return w.M(new C.b2y(w,this.b))},
-$S:7}
 C.b2y.prototype={
+$1(d){var w=this.a
+return w.M(new C.b2w(w,this.b))},
+$S:7}
+C.b2w.prototype={
 $0(){return this.a.d=this.b},
 $S:0};(function inheritance(){var w=a.inherit,v=a.inheritMany
 w(C.dN,B.n)
 w(C.uk,B.Q)
-w(C.afk,B.a0)
-v(B.ro,[C.b2z,C.b2y])
-w(C.b2A,B.le)
+w(C.afm,B.a0)
+v(B.ro,[C.b2x,C.b2w])
+w(C.b2y,B.le)
 w(C.oG,B.O)})()
-B.afb(b.typeUniverse,JSON.parse('{"uk":{"Q":[],"c":[]},"afk":{"a0":["uk"]},"oG":{"O":[],"c":[]}}'))
+B.afd(b.typeUniverse,JSON.parse('{"uk":{"Q":[],"c":[]},"afm":{"a0":["uk"]},"oG":{"O":[],"c":[]}}'))
 var y={v:"EU-Standard: Tollwut-Impfung mind. 21 Tage alt.",n:"Keine landesweite Rasseliste - kommunale Regeln moeglich.",w:"Leinenpflicht in Staedten + Naturschutzgebieten.",f:"Leinenpflicht in Staedten + oeffentlichen Verkehrsmitteln.",D:"Mehrere Rassen sind von der Einfuhr ausgeschlossen.",A:"Tollwut-Impfung mind. 21 Tage alt + Bandwurm-Behandlung 1-5 Tage vor Einreise."}
 var x={c:B.Z("z<x>"),e:B.Z("z<c>"),a:B.Z("n?")};(function constants(){var w=a.makeConstList
 A.Xk=new B.x(1,0.36470588235294116,0.25098039215686274,0.21568627450980393,D.f)
@@ -78,43 +78,43 @@ A.a3X=new B.V(62885,"MaterialIcons",null,!1)
 A.a4g=new B.V(63151,"MaterialIcons",null,!1)
 A.a4t=new B.V(63510,"MaterialIcons",null,!1)
 A.a4w=new B.V(63578,"MaterialIcons",null,!1)
-A.a53=new B.V(983978,"MaterialIcons",null,!1)
-A.a5K=new B.aY(D.xT,16,null,null,null)
-A.aCu=new C.dN("Deutschland","\ud83c\udde9\ud83c\uddea","In oeffentlichen Verkehrsmitteln meist Pflicht. Listenhunde in fast allen Bundeslaendern Maulkorb-Pflicht.","Leinenpflicht regional verschieden - in Staedten in der Regel Pflicht, in Naturschutzgebieten ueberall.","Tollwut-Impfung im EU-Heimtierausweis, mind. 21 Tage vor Reise.","EU-Heimtierausweis + Chip-Nummer Pflicht.","Listenhund-Verordnungen je Bundesland verschieden - vor Einreise pruefen!",null,null)
-A.aCC=new C.dN("Oesterreich","\ud83c\udde6\ud83c\uddf9","Maulkorb-Pflicht in oeffentlichen Verkehrsmitteln, Restaurants, Skigebieten. In Wien zusaetzlich Beisskorb-Schein fuer Listenhunde.","Leinenpflicht in Staedten + Wanderwegen mit Weidevieh.","EU-Standard: Tollwut-Impfung, mind. 21 Tage alt.","EU-Heimtierausweis Pflicht.",'Wien hat besonders strenge Regeln - Hundefuehrerschein fuer "Listenhunde" notwendig.',null,null)
-A.aCv=new C.dN("Schweiz","\ud83c\udde8\ud83c\udded","Maulkorb in oeffentlichen Verkehrsmitteln vorgeschrieben. Listenhunde in einigen Kantonen mit Maulkorb-Pflicht.","Leinenpflicht in vielen Kantonen Pflicht - besonders Naturschutzgebiete + Wald.","Tollwut-Impfung mind. 21 Tage alt. EU-Heimtierausweis akzeptiert.","EU-Heimtierausweis + Chip-Nummer. Bei Einreise aus Drittlaendern Tierarzt-Attest.","Stark kantonal geregelt - Tessin, Wallis und Genf besonders streng.",null,null)
-A.aCm=new C.dN("Frankreich","\ud83c\uddeb\ud83c\uddf7","Categorie 1 + 2 Hunde (Listenhunde) MUSS Maulkorb tragen, in OePNV auch andere Hunde.","Leinenpflicht in Staedten, Parks und am Strand.",y.v,"EU-Heimtierausweis Pflicht. Hunde unter 3 Monaten Einreise verboten.","Kategorie-1-Hunde (z.B. Pitbull-Typ) DARF Frankreich NICHT betreten.",null,"Auf Korsika ist Hund am Strand zwischen Juni - September meist verboten.")
-A.aCd=new C.dN("Italien","\ud83c\uddee\ud83c\uddf9","Maulkorb + Leine MUSS in oeffentlichen Orten mitgefuehrt werden - auch wenn nicht aktiv getragen.","Leinenpflicht 1,5 m in Staedten + oeffentlichen Verkehrsmitteln.","Tollwut-Impfung mind. 21 Tage alt.","EU-Heimtierausweis Pflicht.","Keine offizielle Rasseliste - aber regionale Maulkorb-Auflagen moeglich.",null,'Hunde am Strand: regional sehr verschieden - meist nur in eigenen "dog beach"-Bereichen.')
-A.aCB=new C.dN("Niederlande","\ud83c\uddf3\ud83c\uddf1","Kein generelles Gebot - oeffentl. Verkehr meist ohne.","Leinenpflicht in Staedten, in Naturschutzgebieten ebenfalls.","EU-Standard: 21 Tage alt.","EU-Heimtierausweis Pflicht.","Hat KEINE generelle Rasseliste - Beissigkeits-Verordnung individuell.",null,null)
-A.aCz=new C.dN("Spanien","\ud83c\uddea\ud83c\uddf8","Listenhunde MUSS Maulkorb tragen, dazu Sondergenehmigung + Versicherung mit hoeherer Deckung.","Leinenpflicht 2 m in Staedten + Wanderwegen.",y.v,"EU-Heimtierausweis Pflicht.","Listenhunde-Auflagen je Region - in Katalonien strenger als in Andalusien.",null,"Strandsaison: viele Straende untersagen Hunde von Juni - September.")
-A.aCg=new C.dN("Daenemark","\ud83c\udde9\ud83c\uddf0","Listenhunde MUSS draussen Maulkorb tragen.","Leinenpflicht ueberall, ausser ausgewiesenen Hundewaeldern.","EU-Standard.","EU-Heimtierausweis Pflicht.","STRENGE Listenhund-Verordnung - 13 Rassen VERBOTEN (Pitbull, Tosa, etc.). Bei Verstoss: Beschlagnahme.",null,null)
-A.aCn=new C.dN("Schweden","\ud83c\uddf8\ud83c\uddea","Kein generelles Gebot.","Leinenpflicht 1. Maerz - 20. August (Brutzeit der Wildtiere).","Tollwut-Impfung mind. 21 Tage alt. Bei Einreise per Flug: Anmeldung beim Schwedischen Tieramt.","EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,null)
-A.aCp=new C.dN("Norwegen","\ud83c\uddf3\ud83c\uddf4","Kein generelles Gebot.","Leinenpflicht 1. April - 20. August. In National-Parks ganzjaehrig.","Tollwut-Impfung + Bandwurm-Behandlung 24-120 h vor Einreise.","EU-Heimtierausweis + ausgefuelltes Norwegen-Formular.","Strenge Listenhund-Verordnung - mehrere Rassen verboten (Pitbull, Tosa, American Bulldog).","Bei Einreise per Faehre: vorab beim norwegischen Zoll anmelden.",null)
-A.aCt=new C.dN("Vereinigtes Koenigreich","\ud83c\uddec\ud83c\udde7","Pitbull-Typ + 3 weitere Rassen MUESSEN Maulkorb + Leine tragen.",y.w,y.A,"EU-Heimtierausweis seit Brexit nicht mehr ausreichend - Animal Health Certificate (AHC) noetig.","Dangerous Dogs Act 1991 verbietet u.a. Pitbull, Japanese Tosa, Dogo Argentino - bei Einreise BESCHLAGNAHME.","Anmeldung bei DEFRA vor Reise. Fliegen oft nur als Fracht moeglich.",null)
-A.aCy=new C.dN("Belgien","\ud83c\udde7\ud83c\uddea","Kein generelles Gebot. In oeffentlichen Verkehrsmitteln regional empfohlen.","Leinenpflicht in Staedten + Parks, regional verschieden.",y.v,"EU-Heimtierausweis + Chip Pflicht.","Rasselisten je Region (Flandern/Wallonien/Bruessel) - vorab pruefen.",null,null)
-A.aCi=new C.dN("Irland","\ud83c\uddee\ud83c\uddea",'Mehrere "restricted breeds" MUESSEN in der Oeffentlichkeit Maulkorb + Leine tragen (z.B. Rottweiler, Dobermann, Bullterrier).',"Leinenpflicht fuer gelistete Rassen, sonst regional.",y.A,"EU-Heimtierausweis Pflicht.",'11 "restricted breeds" mit Maulkorb-/Leinen- und Fuehrer-Auflagen (ab 16 Jahren).',"Bei Anreise oft ueber Grossbritannien - dortige Regeln zusaetzlich beachten.",null)
-A.aCr=new C.dN("Luxemburg","\ud83c\uddf1\ud83c\uddfa","Maulkorb-Pflicht fuer gelistete Hunde in der Oeffentlichkeit.",y.f,y.v,"EU-Heimtierausweis Pflicht.","Gelistete Rassen brauchen Genehmigung, Haftpflicht und Wesenstest.",null,null)
-A.aCq=new C.dN("Portugal","\ud83c\uddf5\ud83c\uddf9","Gefaehrlich eingestufte Rassen MUESSEN Maulkorb + Leine tragen.","Leinenpflicht in Staedten, am Strand oft Verbot in der Saison.",y.v,"EU-Heimtierausweis Pflicht.","7 gelistete Rassen mit Pflichtversicherung, Maulkorb und Registrierung.",null,"Viele Straende verbieten Hunde von Juni - September.")
-A.aCx=new C.dN("Finnland","\ud83c\uddeb\ud83c\uddee","Kein generelles Gebot.","Leinenpflicht 1. Maerz - 19. August (Brutzeit), in Staedten ganzjaehrig.",y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,null)
-A.aCl=new C.dN("Island","\ud83c\uddee\ud83c\uddf8","Kein generelles Gebot - aber Hundehaltung stark reguliert.","Leinenpflicht in fast allen Gemeinden.","Island ist tollwutfrei und hat SEHR strenge Einfuhrregeln: lange Vorlauf-Tests + Quarantaene.","Einfuhrgenehmigung + Quarantaene Pflicht - Monate Vorlauf einplanen.",y.D,null,"Tourismus mit eigenem Hund ist praktisch nicht moeglich - nur dauerhafte Einfuhr mit Quarantaene.")
-A.aCA=new C.dN("Tschechien","\ud83c\udde8\ud83c\uddff","Maulkorb in oeffentlichen Verkehrsmitteln oft Pflicht, regional auch in Staedten.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.",y.n,null,null)
-A.aCc=new C.dN("Ungarn","\ud83c\udded\ud83c\uddfa","Maulkorb in oeffentlichen Verkehrsmitteln Pflicht.",y.f,y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Verbotsliste, aber strenge Halter-Pflichten fuer auffaellige Hunde.",null,null)
-A.aCD=new C.dN("Polen","\ud83c\uddf5\ud83c\uddf1","Maulkorb in oeffentlichen Verkehrsmitteln und fuer gelistete Rassen Pflicht.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.","11 Rassen brauchen eine Haltegenehmigung der Gemeinde.",null,null)
-A.aCb=new C.dN("Slowakei","\ud83c\uddf8\ud83c\uddf0","Maulkorb in oeffentlichen Verkehrsmitteln meist Pflicht.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.",y.n,null,null)
-A.aCs=new C.dN("Slowenien","\ud83c\uddf8\ud83c\uddee","Maulkorb in oeffentlichen Verkehrsmitteln oft verlangt.",y.w,y.v,"EU-Heimtierausweis Pflicht.","Gelistete Rassen brauchen Wesenstest und besondere Halter-Auflagen.",null,null)
-A.aCk=new C.dN("Kroatien","\ud83c\udded\ud83c\uddf7","Maulkorb fuer gefaehrlich eingestufte Hunde, in OePNV oft generell.","Leinenpflicht in Staedten, am Strand teils Verbot in der Saison.",y.v,"EU-Heimtierausweis Pflicht.","Listenhunde (u.a. Pitbull-Typ) mit Maulkorb-, Leinen- und Versicherungspflicht.",null,"Viele Adria-Straende verbieten Hunde - es gibt aber ausgewiesene Hundestraende.")
-A.aCf=new C.dN("Griechenland","\ud83c\uddec\ud83c\uddf7","Kein generelles Gebot - fuer auffaellige Hunde verlangt.","Leinenpflicht in Staedten. Streunerhunde sind verbreitet.",y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,"Hohe Sommerhitze - Reisen mit Hund eher im Fruehjahr/Herbst planen.")
-A.aCj=new C.dN("Australien","\ud83c\udde6\ud83c\uddfa",'Maulkorb-Auflagen je Bundesstaat fuer "restricted breeds".',y.w,"Sehr strenge Einfuhr: Import-Permit, Tests und mehrwoechige Quarantaene Pflicht.","EU-Heimtierausweis reicht NICHT - offizielles Import-Permit + Gesundheitszeugnis noetig.","Mehrere Rassen sind von der Einfuhr ganz ausgeschlossen.",null,"Urlaubsreise mit eigenem Hund ist kaum praktikabel - monatelanger Vorlauf.")
-A.aCo=new C.dN("Brasilien","\ud83c\udde7\ud83c\uddf7","Maulkorb-Auflagen je Stadt fuer grosse/auffaellige Hunde.","Leinenpflicht in Staedten + Parks.","Tollwut-Impfung Pflicht + internationales Gesundheitszeugnis (CVI).","EU-Heimtierausweis reicht nicht - Veterinaerzeugnis + Vorab-Genehmigung (VIGIAGRO) noetig.","Keine landesweite Verbotsliste - kommunale Regeln moeglich.",null,null)
-A.aCe=new C.dN("Kanada","\ud83c\udde8\ud83c\udde6","Maulkorb-Auflagen je Provinz/Stadt (z.B. Ontario fuer Pitbull-Typ).","Leinenpflicht in Staedten + Parks.","Tollwut-Impfnachweis Pflicht (ab 3 Monate). Aus tollwutfreien Laendern Zusatznachweise.","EU-Heimtierausweis reicht nicht - aktueller Tollwut-Nachweis + Gesundheitszeugnis.","Ontario verbietet Pitbull-Typen; Regeln stark provinz-/stadtabhaengig.",null,null)
-A.aCw=new C.dN("Neuseeland","\ud83c\uddf3\ud83c\uddff","Maulkorb-Auflagen fuer gelistete Hunde in der Oeffentlichkeit.",y.w,"Sehr strenge Einfuhr: Import-Permit, Tests und Quarantaene noetig.","EU-Heimtierausweis reicht nicht - offizielles Import-Permit Pflicht.",y.D,null,"Urlaubsreise mit eigenem Hund kaum praktikabel - langer Vorlauf.")
-A.aCh=new C.dN("Vereinigte Staaten","\ud83c\uddfa\ud83c\uddf8","Maulkorb-/Rasse-Auflagen je Bundesstaat und Stadt sehr unterschiedlich.","Leinenpflicht in Staedten + den meisten Parks.","Tollwut-Impfnachweis Pflicht. Einreiseregeln der CDC je Herkunftsland beachten.","EU-Heimtierausweis reicht nicht - Tollwut-Zeugnis + ggf. CDC-Formular.","Breed-Specific-Legislation je Stadt/County - manche verbieten Pitbull-Typen.","Fluglinien haben eigene strenge Vorgaben fuer Hunde in Kabine/Fracht.",null)
-A.a8t=w([A.aCu,A.aCC,A.aCv,A.aCm,A.aCd,A.aCB,A.aCz,A.aCg,A.aCn,A.aCp,A.aCt,A.aCy,A.aCi,A.aCr,A.aCq,A.aCx,A.aCl,A.aCA,A.aCc,A.aCD,A.aCb,A.aCs,A.aCk,A.aCf,A.aCj,A.aCo,A.aCe,A.aCw,A.aCh],B.Z("z<dN>"))
-A.a5s=new B.aY(D.r3,null,D.k,null,null)
-A.aws=new B.K(!0,D.k,null,null,null,null,18,D.bV,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-A.aBj=new B.ay("Reiseplaner",null,A.aws,null,null,null,null,null,null,null)
-A.ajf=w([A.a5s,D.K,A.aBj],x.e)
-A.arO=new B.My(D.aN,D.e,D.h,D.m,null,D.dN,null,0,A.ajf,null)
-A.aAG=new B.ay("Urlaub mit Hund",null,null,null,null,null,null,null,null,null)
-A.aBy=new B.ay("Reise-Checkliste oeffnen",null,null,null,null,null,null,null,null,null)})()};
-(a=>{a["3ldN6sgTkbJWzpa8Qu3t3lh7nSI="]=a.current})($__dart_deferred_initializers__);
+A.a54=new B.V(983978,"MaterialIcons",null,!1)
+A.a5L=new B.aZ(D.xS,16,null,null,null)
+A.aCv=new C.dN("Deutschland","\ud83c\udde9\ud83c\uddea","In oeffentlichen Verkehrsmitteln meist Pflicht. Listenhunde in fast allen Bundeslaendern Maulkorb-Pflicht.","Leinenpflicht regional verschieden - in Staedten in der Regel Pflicht, in Naturschutzgebieten ueberall.","Tollwut-Impfung im EU-Heimtierausweis, mind. 21 Tage vor Reise.","EU-Heimtierausweis + Chip-Nummer Pflicht.","Listenhund-Verordnungen je Bundesland verschieden - vor Einreise pruefen!",null,null)
+A.aCD=new C.dN("Oesterreich","\ud83c\udde6\ud83c\uddf9","Maulkorb-Pflicht in oeffentlichen Verkehrsmitteln, Restaurants, Skigebieten. In Wien zusaetzlich Beisskorb-Schein fuer Listenhunde.","Leinenpflicht in Staedten + Wanderwegen mit Weidevieh.","EU-Standard: Tollwut-Impfung, mind. 21 Tage alt.","EU-Heimtierausweis Pflicht.",'Wien hat besonders strenge Regeln - Hundefuehrerschein fuer "Listenhunde" notwendig.',null,null)
+A.aCw=new C.dN("Schweiz","\ud83c\udde8\ud83c\udded","Maulkorb in oeffentlichen Verkehrsmitteln vorgeschrieben. Listenhunde in einigen Kantonen mit Maulkorb-Pflicht.","Leinenpflicht in vielen Kantonen Pflicht - besonders Naturschutzgebiete + Wald.","Tollwut-Impfung mind. 21 Tage alt. EU-Heimtierausweis akzeptiert.","EU-Heimtierausweis + Chip-Nummer. Bei Einreise aus Drittlaendern Tierarzt-Attest.","Stark kantonal geregelt - Tessin, Wallis und Genf besonders streng.",null,null)
+A.aCn=new C.dN("Frankreich","\ud83c\uddeb\ud83c\uddf7","Categorie 1 + 2 Hunde (Listenhunde) MUSS Maulkorb tragen, in OePNV auch andere Hunde.","Leinenpflicht in Staedten, Parks und am Strand.",y.v,"EU-Heimtierausweis Pflicht. Hunde unter 3 Monaten Einreise verboten.","Kategorie-1-Hunde (z.B. Pitbull-Typ) DARF Frankreich NICHT betreten.",null,"Auf Korsika ist Hund am Strand zwischen Juni - September meist verboten.")
+A.aCe=new C.dN("Italien","\ud83c\uddee\ud83c\uddf9","Maulkorb + Leine MUSS in oeffentlichen Orten mitgefuehrt werden - auch wenn nicht aktiv getragen.","Leinenpflicht 1,5 m in Staedten + oeffentlichen Verkehrsmitteln.","Tollwut-Impfung mind. 21 Tage alt.","EU-Heimtierausweis Pflicht.","Keine offizielle Rasseliste - aber regionale Maulkorb-Auflagen moeglich.",null,'Hunde am Strand: regional sehr verschieden - meist nur in eigenen "dog beach"-Bereichen.')
+A.aCC=new C.dN("Niederlande","\ud83c\uddf3\ud83c\uddf1","Kein generelles Gebot - oeffentl. Verkehr meist ohne.","Leinenpflicht in Staedten, in Naturschutzgebieten ebenfalls.","EU-Standard: 21 Tage alt.","EU-Heimtierausweis Pflicht.","Hat KEINE generelle Rasseliste - Beissigkeits-Verordnung individuell.",null,null)
+A.aCA=new C.dN("Spanien","\ud83c\uddea\ud83c\uddf8","Listenhunde MUSS Maulkorb tragen, dazu Sondergenehmigung + Versicherung mit hoeherer Deckung.","Leinenpflicht 2 m in Staedten + Wanderwegen.",y.v,"EU-Heimtierausweis Pflicht.","Listenhunde-Auflagen je Region - in Katalonien strenger als in Andalusien.",null,"Strandsaison: viele Straende untersagen Hunde von Juni - September.")
+A.aCh=new C.dN("Daenemark","\ud83c\udde9\ud83c\uddf0","Listenhunde MUSS draussen Maulkorb tragen.","Leinenpflicht ueberall, ausser ausgewiesenen Hundewaeldern.","EU-Standard.","EU-Heimtierausweis Pflicht.","STRENGE Listenhund-Verordnung - 13 Rassen VERBOTEN (Pitbull, Tosa, etc.). Bei Verstoss: Beschlagnahme.",null,null)
+A.aCo=new C.dN("Schweden","\ud83c\uddf8\ud83c\uddea","Kein generelles Gebot.","Leinenpflicht 1. Maerz - 20. August (Brutzeit der Wildtiere).","Tollwut-Impfung mind. 21 Tage alt. Bei Einreise per Flug: Anmeldung beim Schwedischen Tieramt.","EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,null)
+A.aCq=new C.dN("Norwegen","\ud83c\uddf3\ud83c\uddf4","Kein generelles Gebot.","Leinenpflicht 1. April - 20. August. In National-Parks ganzjaehrig.","Tollwut-Impfung + Bandwurm-Behandlung 24-120 h vor Einreise.","EU-Heimtierausweis + ausgefuelltes Norwegen-Formular.","Strenge Listenhund-Verordnung - mehrere Rassen verboten (Pitbull, Tosa, American Bulldog).","Bei Einreise per Faehre: vorab beim norwegischen Zoll anmelden.",null)
+A.aCu=new C.dN("Vereinigtes Koenigreich","\ud83c\uddec\ud83c\udde7","Pitbull-Typ + 3 weitere Rassen MUESSEN Maulkorb + Leine tragen.",y.w,y.A,"EU-Heimtierausweis seit Brexit nicht mehr ausreichend - Animal Health Certificate (AHC) noetig.","Dangerous Dogs Act 1991 verbietet u.a. Pitbull, Japanese Tosa, Dogo Argentino - bei Einreise BESCHLAGNAHME.","Anmeldung bei DEFRA vor Reise. Fliegen oft nur als Fracht moeglich.",null)
+A.aCz=new C.dN("Belgien","\ud83c\udde7\ud83c\uddea","Kein generelles Gebot. In oeffentlichen Verkehrsmitteln regional empfohlen.","Leinenpflicht in Staedten + Parks, regional verschieden.",y.v,"EU-Heimtierausweis + Chip Pflicht.","Rasselisten je Region (Flandern/Wallonien/Bruessel) - vorab pruefen.",null,null)
+A.aCj=new C.dN("Irland","\ud83c\uddee\ud83c\uddea",'Mehrere "restricted breeds" MUESSEN in der Oeffentlichkeit Maulkorb + Leine tragen (z.B. Rottweiler, Dobermann, Bullterrier).',"Leinenpflicht fuer gelistete Rassen, sonst regional.",y.A,"EU-Heimtierausweis Pflicht.",'11 "restricted breeds" mit Maulkorb-/Leinen- und Fuehrer-Auflagen (ab 16 Jahren).',"Bei Anreise oft ueber Grossbritannien - dortige Regeln zusaetzlich beachten.",null)
+A.aCs=new C.dN("Luxemburg","\ud83c\uddf1\ud83c\uddfa","Maulkorb-Pflicht fuer gelistete Hunde in der Oeffentlichkeit.",y.f,y.v,"EU-Heimtierausweis Pflicht.","Gelistete Rassen brauchen Genehmigung, Haftpflicht und Wesenstest.",null,null)
+A.aCr=new C.dN("Portugal","\ud83c\uddf5\ud83c\uddf9","Gefaehrlich eingestufte Rassen MUESSEN Maulkorb + Leine tragen.","Leinenpflicht in Staedten, am Strand oft Verbot in der Saison.",y.v,"EU-Heimtierausweis Pflicht.","7 gelistete Rassen mit Pflichtversicherung, Maulkorb und Registrierung.",null,"Viele Straende verbieten Hunde von Juni - September.")
+A.aCy=new C.dN("Finnland","\ud83c\uddeb\ud83c\uddee","Kein generelles Gebot.","Leinenpflicht 1. Maerz - 19. August (Brutzeit), in Staedten ganzjaehrig.",y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,null)
+A.aCm=new C.dN("Island","\ud83c\uddee\ud83c\uddf8","Kein generelles Gebot - aber Hundehaltung stark reguliert.","Leinenpflicht in fast allen Gemeinden.","Island ist tollwutfrei und hat SEHR strenge Einfuhrregeln: lange Vorlauf-Tests + Quarantaene.","Einfuhrgenehmigung + Quarantaene Pflicht - Monate Vorlauf einplanen.",y.D,null,"Tourismus mit eigenem Hund ist praktisch nicht moeglich - nur dauerhafte Einfuhr mit Quarantaene.")
+A.aCB=new C.dN("Tschechien","\ud83c\udde8\ud83c\uddff","Maulkorb in oeffentlichen Verkehrsmitteln oft Pflicht, regional auch in Staedten.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.",y.n,null,null)
+A.aCd=new C.dN("Ungarn","\ud83c\udded\ud83c\uddfa","Maulkorb in oeffentlichen Verkehrsmitteln Pflicht.",y.f,y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Verbotsliste, aber strenge Halter-Pflichten fuer auffaellige Hunde.",null,null)
+A.aCE=new C.dN("Polen","\ud83c\uddf5\ud83c\uddf1","Maulkorb in oeffentlichen Verkehrsmitteln und fuer gelistete Rassen Pflicht.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.","11 Rassen brauchen eine Haltegenehmigung der Gemeinde.",null,null)
+A.aCc=new C.dN("Slowakei","\ud83c\uddf8\ud83c\uddf0","Maulkorb in oeffentlichen Verkehrsmitteln meist Pflicht.","Leinenpflicht in Staedten + Parks.",y.v,"EU-Heimtierausweis Pflicht.",y.n,null,null)
+A.aCt=new C.dN("Slowenien","\ud83c\uddf8\ud83c\uddee","Maulkorb in oeffentlichen Verkehrsmitteln oft verlangt.",y.w,y.v,"EU-Heimtierausweis Pflicht.","Gelistete Rassen brauchen Wesenstest und besondere Halter-Auflagen.",null,null)
+A.aCl=new C.dN("Kroatien","\ud83c\udded\ud83c\uddf7","Maulkorb fuer gefaehrlich eingestufte Hunde, in OePNV oft generell.","Leinenpflicht in Staedten, am Strand teils Verbot in der Saison.",y.v,"EU-Heimtierausweis Pflicht.","Listenhunde (u.a. Pitbull-Typ) mit Maulkorb-, Leinen- und Versicherungspflicht.",null,"Viele Adria-Straende verbieten Hunde - es gibt aber ausgewiesene Hundestraende.")
+A.aCg=new C.dN("Griechenland","\ud83c\uddec\ud83c\uddf7","Kein generelles Gebot - fuer auffaellige Hunde verlangt.","Leinenpflicht in Staedten. Streunerhunde sind verbreitet.",y.v,"EU-Heimtierausweis Pflicht.","Keine generelle Rasseliste.",null,"Hohe Sommerhitze - Reisen mit Hund eher im Fruehjahr/Herbst planen.")
+A.aCk=new C.dN("Australien","\ud83c\udde6\ud83c\uddfa",'Maulkorb-Auflagen je Bundesstaat fuer "restricted breeds".',y.w,"Sehr strenge Einfuhr: Import-Permit, Tests und mehrwoechige Quarantaene Pflicht.","EU-Heimtierausweis reicht NICHT - offizielles Import-Permit + Gesundheitszeugnis noetig.","Mehrere Rassen sind von der Einfuhr ganz ausgeschlossen.",null,"Urlaubsreise mit eigenem Hund ist kaum praktikabel - monatelanger Vorlauf.")
+A.aCp=new C.dN("Brasilien","\ud83c\udde7\ud83c\uddf7","Maulkorb-Auflagen je Stadt fuer grosse/auffaellige Hunde.","Leinenpflicht in Staedten + Parks.","Tollwut-Impfung Pflicht + internationales Gesundheitszeugnis (CVI).","EU-Heimtierausweis reicht nicht - Veterinaerzeugnis + Vorab-Genehmigung (VIGIAGRO) noetig.","Keine landesweite Verbotsliste - kommunale Regeln moeglich.",null,null)
+A.aCf=new C.dN("Kanada","\ud83c\udde8\ud83c\udde6","Maulkorb-Auflagen je Provinz/Stadt (z.B. Ontario fuer Pitbull-Typ).","Leinenpflicht in Staedten + Parks.","Tollwut-Impfnachweis Pflicht (ab 3 Monate). Aus tollwutfreien Laendern Zusatznachweise.","EU-Heimtierausweis reicht nicht - aktueller Tollwut-Nachweis + Gesundheitszeugnis.","Ontario verbietet Pitbull-Typen; Regeln stark provinz-/stadtabhaengig.",null,null)
+A.aCx=new C.dN("Neuseeland","\ud83c\uddf3\ud83c\uddff","Maulkorb-Auflagen fuer gelistete Hunde in der Oeffentlichkeit.",y.w,"Sehr strenge Einfuhr: Import-Permit, Tests und Quarantaene noetig.","EU-Heimtierausweis reicht nicht - offizielles Import-Permit Pflicht.",y.D,null,"Urlaubsreise mit eigenem Hund kaum praktikabel - langer Vorlauf.")
+A.aCi=new C.dN("Vereinigte Staaten","\ud83c\uddfa\ud83c\uddf8","Maulkorb-/Rasse-Auflagen je Bundesstaat und Stadt sehr unterschiedlich.","Leinenpflicht in Staedten + den meisten Parks.","Tollwut-Impfnachweis Pflicht. Einreiseregeln der CDC je Herkunftsland beachten.","EU-Heimtierausweis reicht nicht - Tollwut-Zeugnis + ggf. CDC-Formular.","Breed-Specific-Legislation je Stadt/County - manche verbieten Pitbull-Typen.","Fluglinien haben eigene strenge Vorgaben fuer Hunde in Kabine/Fracht.",null)
+A.a8u=w([A.aCv,A.aCD,A.aCw,A.aCn,A.aCe,A.aCC,A.aCA,A.aCh,A.aCo,A.aCq,A.aCu,A.aCz,A.aCj,A.aCs,A.aCr,A.aCy,A.aCm,A.aCB,A.aCd,A.aCE,A.aCc,A.aCt,A.aCl,A.aCg,A.aCk,A.aCp,A.aCf,A.aCx,A.aCi],B.Z("z<dN>"))
+A.a5t=new B.aZ(D.r3,null,D.k,null,null)
+A.awt=new B.L(!0,D.k,null,null,null,null,18,D.bV,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
+A.aBk=new B.ay("Reiseplaner",null,A.awt,null,null,null,null,null,null,null)
+A.ajg=w([A.a5t,D.K,A.aBk],x.e)
+A.arQ=new B.MA(D.aN,D.e,D.h,D.m,null,D.dN,null,0,A.ajg,null)
+A.aAH=new B.ay("Urlaub mit Hund",null,null,null,null,null,null,null,null,null)
+A.aBz=new B.ay("Reise-Checkliste oeffnen",null,null,null,null,null,null,null,null,null)})()};
+(a=>{a["uPtHuLAyNqyXOKBJWW872I4lXfM="]=a.current})($__dart_deferred_initializers__);
