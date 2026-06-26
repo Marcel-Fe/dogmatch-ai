@@ -9,6 +9,7 @@ class ChatInputBar extends StatefulWidget {
     super.key,
     required this.onSend,
     this.onPickImage,
+    this.onGenerateImage,
     this.hasPendingImage = false,
     this.isEnabled = true,
     this.hintText = 'Frag den KI-Berater ...',
@@ -19,6 +20,10 @@ class ChatInputBar extends StatefulWidget {
   /// Wird gerufen, wenn der Plus-Button gedrueckt wird (Bild auswaehlen).
   /// Wenn null, wird der Plus-Button nicht angezeigt.
   final VoidCallback? onPickImage;
+
+  /// Wird mit dem aktuellen Eingabetext gerufen, um daraus ein Bild zu
+  /// erzeugen. Wenn null, wird der Bild-erstellen-Button nicht angezeigt.
+  final void Function(String text)? onGenerateImage;
 
   /// True, wenn aktuell ein Bild zum Versand ausgewaehlt ist - Plus-Button
   /// wird hervorgehoben.
@@ -40,6 +45,23 @@ class _ChatInputBarState extends State<ChatInputBar> {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
     widget.onSend(text);
+    _controller.clear();
+  }
+
+  void _generateImage() {
+    final text = _controller.text.trim();
+    if (text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Schreib kurz ins Feld, was ich malen soll - z. B. '
+            '"ein Golden Retriever Welpe im Garten".',
+          ),
+        ),
+      );
+      return;
+    }
+    widget.onGenerateImage!(text);
     _controller.clear();
   }
 
@@ -123,6 +145,17 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 color: widget.hasPendingImage
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+          ],
+          if (widget.onGenerateImage != null) ...[
+            IconButton(
+              tooltip: 'Bild erstellen (aus deinem Text)',
+              onPressed: widget.isEnabled ? _generateImage : null,
+              icon: Icon(
+                Icons.auto_awesome_rounded,
+                color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(width: AppSpacing.xs),

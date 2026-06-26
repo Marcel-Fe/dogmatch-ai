@@ -3,6 +3,7 @@ import 'package:dogmatch_ai/core/error/failures.dart';
 import 'package:dogmatch_ai/core/utils/result.dart';
 import 'package:dogmatch_ai/features/assistant/data/chat_system_prompt.dart';
 import 'package:dogmatch_ai/features/assistant/data/gemini_chat_repository.dart';
+import 'package:dogmatch_ai/features/assistant/data/image_gen_service.dart';
 import 'package:dogmatch_ai/features/assistant/data/mock_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/pollinations_chat_repository.dart';
 import 'package:dogmatch_ai/features/assistant/data/remote_gemini_chat_repository.dart';
@@ -76,6 +77,19 @@ final assistantHandoffProvider =
 /// den Foto-Button auszublenden, wenn keine echte Vision verfuegbar ist.
 final supportsVisionProvider = Provider<bool>((ref) {
   return ref.watch(chatRepositoryProvider).supportsVision;
+});
+
+/// True, wenn Bild-Erzeugung moeglich ist (nur ueber den Worker-Proxy, weil
+/// das Gemini-Bildmodell serverseitig laeuft). UI zeigt den Bild-Knopf nur
+/// dann an.
+final supportsImageGenProvider = Provider<bool>((ref) {
+  return Env.hasGeminiProxy;
+});
+
+/// Service fuer die Bild-Erzeugung. Null, wenn kein Worker-Proxy gesetzt ist.
+final imageGenServiceProvider = Provider<ImageGenService?>((ref) {
+  if (!Env.hasGeminiProxy) return null;
+  return ImageGenService(proxyUrl: Env.geminiProxyUrl);
 });
 
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
@@ -226,8 +240,17 @@ class ChatController extends Notifier<ChatState> {
 
     switch (result) {
       case Success(:final value):
+        // Markdown-Zeichen entfernen - die Sprechblase zeigt reinen Text,
+        // sonst erscheinen ** und * als rohe Sonderzeichen.
+        final clean = ChatMessage(
+          id: value.id,
+          role: value.role,
+          content: _stripMarkdown(value.content),
+          timestamp: value.timestamp,
+          imageUrl: value.imageUrl,
+        );
         state = state.copyWith(
-          messages: [...state.messages, value],
+          messages: [...state.messages, clean],
           isWaiting: false,
           clearFailure: true,
         );
@@ -261,6 +284,69 @@ class ChatController extends Notifier<ChatState> {
     await _persistActive();
   }
 
+  /// Erzeugt aus [prompt] ein Bild und zeigt es im Chat. Laeuft ueber den
+  /// Cloudflare-Worker (Gemini-Bildmodell) - der Key bleibt serverseitig.
+  /// Die Antwort ist eine data-URL, die in der Sprechblase via
+  /// [ChatMessage.imageUrl] angezeigt wird.
+  Future<void> generateImage(String prompt) async {
+    final trimmed = prompt.trim();
+    if (trimmed.isEmpty || state.isWaiting) return;
+
+    final service = ref.read(imageGenServiceProvider);
+    if (service == null) return; // Knopf ist ohne Worker ohnehin ausgeblendet.
+
+    final stamp = DateTime.now().microsecondsSinceEpoch;
+    final userMessage = ChatMessage(
+      id: 'u-$stamp',
+      role: ChatRole.user,
+      content: '🎨 Bild: $trimmed',
+      timestamp: DateTime.now(),
+    );
+    state = state.copyWith(
+      messages: [...state.messages, userMessage],
+      isWaiting: true,
+      clearFailure: true,
+    );
+
+    final result = await service.generate(trimmed);
+    switch (result) {
+      case Success(:final value):
+        state = state.copyWith(
+          messages: [
+            ...state.messages,
+            ChatMessage(
+              id: 'a-$stamp',
+              role: ChatRole.assistant,
+              content: 'Hier ist dein Bild zu „$trimmed".',
+              timestamp: DateTime.now(),
+              imageUrl: value,
+            ),
+          ],
+          isWaiting: false,
+          clearFailure: true,
+        );
+      case FailureResult(:final failure):
+        if (kDebugMode || kIsWeb) {
+          // ignore: avoid_print
+          print('[Bild-Fehler] ${failure.runtimeType}: ${failure.message}');
+        }
+        state = state.copyWith(
+          messages: [
+            ...state.messages,
+            ChatMessage(
+              id: 'e-$stamp',
+              role: ChatRole.assistant,
+              content: 'Das Bild hat gerade nicht geklappt. Bitte tippe noch '
+                  'einmal aufs ✨-Symbol - meist klappt es dann.',
+              timestamp: DateTime.now(),
+            ),
+          ],
+          isWaiting: false,
+        );
+    }
+    await _persistActive();
+  }
+
   /// Speichert den aktuellen Chat in der lokalen Konversations-Liste.
   /// Erzeugt eine neue Konversation, wenn noch keine aktive ID gesetzt
   /// war.
@@ -273,7 +359,24 @@ class ChatController extends Notifier<ChatState> {
     }
     await ref
         .read(conversationsListProvider.notifier)
-        .updateMessages(activeId, state.messages, mode);
+        .updateMessages(activeId, _slimForStorage(state.messages), mode);
+  }
+
+  /// Entfernt grosse base64-Bild-Daten (data-URLs) vor dem Speichern - sie
+  /// wuerden den lokalen Speicher (localStorage im Web) sprengen. Im laufenden
+  /// Chat bleibt das Bild sichtbar; nach App-Neustart ist es nicht mehr im
+  /// Verlauf (bewusst, wie in vergleichbaren Apps).
+  List<ChatMessage> _slimForStorage(List<ChatMessage> messages) {
+    return messages.map((m) {
+      final url = m.imageUrl;
+      if (url == null || !url.startsWith('data:')) return m;
+      return ChatMessage(
+        id: m.id,
+        role: m.role,
+        content: m.content,
+        timestamp: m.timestamp,
+      );
+    }).toList();
   }
 
   /// Wiederholt den letzten fehlgeschlagenen Versuch.
@@ -329,6 +432,27 @@ class ChatController extends Notifier<ChatState> {
 
   /// Veralteter Alias - intern wie newChat.
   void clear() => newChat();
+}
+
+/// Entfernt Markdown-Formatierung aus einer KI-Antwort, damit sie in der
+/// reinen Text-Sprechblase sauber aussieht (keine rohen ** oder #).
+/// Aufzaehlungs-Sternchen am Zeilenanfang werden zu Bindestrichen.
+String _stripMarkdown(String input) {
+  final buffer = StringBuffer();
+  for (final raw in input.split('\n')) {
+    var line = raw.replaceFirst(RegExp(r'^\s*#{1,6}\s+'), '');
+    line = line.replaceFirstMapped(
+      RegExp(r'^(\s*)[*•]\s+'),
+      (m) => '${m[1]}- ',
+    );
+    buffer.writeln(line);
+  }
+  return buffer
+      .toString()
+      .replaceAll('**', '')
+      .replaceAll('__', '')
+      .replaceAll('*', '')
+      .trim();
 }
 
 /// Mappt einen [Failure] auf einen kurzen, freundlichen Deutsch-Text.

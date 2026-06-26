@@ -117,6 +117,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     _scrollToBottom();
   }
 
+  void _generateImage(String text) {
+    ref.read(chatControllerProvider.notifier).generateImage(text);
+    _scrollToBottom();
+  }
+
   Future<void> _openChatHistory(BuildContext context) async {
     _tts.stop();
     await showModalBottomSheet<void>(
@@ -139,6 +144,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     final theme = Theme.of(context);
 
     final supportsVision = ref.watch(supportsVisionProvider);
+    final supportsImageGen = ref.watch(supportsImageGenProvider);
     final isPremium = ref.watch(isPremiumProvider);
     // Free-Limit nur im reinen Mock-Modus relevant. Sobald ein echter
     // KI-Pfad (Pollinations / Gemini / Worker) aktiv ist, ist die App
@@ -222,6 +228,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                       mode: mode,
                       onPromptSelected: _send,
                       supportsVision: supportsVision,
+                      supportsImageGen: supportsImageGen,
                     )
                   : ListView.builder(
                       controller: _scrollController,
@@ -257,6 +264,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
               isEnabled: !state.isWaiting && !limitReached,
               onSend: _send,
               onPickImage: _pickImage,
+              onGenerateImage: supportsImageGen ? _generateImage : null,
               hasPendingImage: _pendingImageDataUrl != null,
               hintText: limitReached
                   ? 'Free-Limit erreicht - Premium schaltet alles frei'
@@ -274,16 +282,21 @@ class _EmptyState extends StatelessWidget {
     required this.mode,
     required this.onPromptSelected,
     required this.supportsVision,
+    required this.supportsImageGen,
   });
 
   final ChatMode mode;
   final void Function(String) onPromptSelected;
   final bool supportsVision;
+  final bool supportsImageGen;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isTrainer = mode == ChatMode.trainer;
+    final imageHint = supportsImageGen
+        ? ' Mit dem ✨-Symbol erstellt die KI ein Bild aus deinem Text.'
+        : '';
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -325,10 +338,10 @@ class _EmptyState extends StatelessWidget {
                       supportsVision
                           ? 'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe oder '
                               'aufs Foto-Symbol, um ein Bild deines Hundes '
-                              'zur Erkennung hochzuladen.'
+                              'zur Erkennung hochzuladen.$imageHint'
                           : 'Tipp: Tipp aufs Mikro fuer Sprach-Eingabe. '
                               'Beschreibe deinen Hund einfach in Worten - der '
-                              'Berater hilft dir gerne weiter.',
+                              'Berater hilft dir gerne weiter.$imageHint',
                       style: theme.textTheme.bodySmall,
                     ),
                   ),

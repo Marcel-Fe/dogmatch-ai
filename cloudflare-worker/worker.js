@@ -80,6 +80,49 @@ export default {
       return json({ audio: audioPart.inlineData.data, mime: audioPart.inlineData.mimeType || 'audio/L16;rate=24000' });
     }
 
+    // === BILD-ERZEUGUNG (additiv): aus einem Text-Prompt ein Bild erzeugen.
+    // Request: { bildModus:true, prompt:"…" } -> { image:"data:image/png;base64,…" }
+    // Kostet mehr als Text - daher eigener Pfad mit Bild-Modellen + Fallback.
+    if (body.bildModus) {
+      const prompt = String(body.prompt || '').trim().slice(0, 500);
+      if (!prompt) return json({ error: 'Kein Bild-Text.' }, 400);
+      const BILD_MODELLE = [
+        'gemini-2.5-flash-image',
+        'gemini-2.0-flash-preview-image-generation',
+      ];
+      const imgPayload = {
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { responseModalities: ['TEXT', 'IMAGE'] },
+      };
+      let lastErr = { status: 502, msg: 'Bild-Erzeugung fehlgeschlagen.' };
+      for (const m of BILD_MODELLE) {
+        let r, d;
+        try {
+          r = await fetch(
+            'https://generativelanguage.googleapis.com/v1beta/models/' + m +
+              ':generateContent?key=' + env.GEMINI_API_KEY,
+            { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(imgPayload) }
+          );
+        } catch (_) {
+          lastErr = { status: 502, msg: 'Gemini ist gerade nicht erreichbar.' };
+          continue;
+        }
+        try { d = await r.json(); } catch (_) { lastErr = { status: 502, msg: 'Gemini-Antwort unlesbar.' }; continue; }
+        // 404 = Modell nicht verfuegbar -> naechstes Modell probieren.
+        if (r.status === 404) { lastErr = { status: 404, msg: (d && d.error && d.error.message) || 'Modell nicht verfuegbar.' }; continue; }
+        if (!r.ok) { lastErr = { status: r.status, msg: (d && d.error && d.error.message) || ('HTTP ' + r.status) }; continue; }
+        const imgParts = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+        for (const p of imgParts) {
+          const inl = p.inlineData || p.inline_data;
+          if (inl && inl.data) {
+            return json({ image: 'data:' + (inl.mimeType || inl.mime_type || 'image/png') + ';base64,' + inl.data });
+          }
+        }
+        lastErr = { status: 502, msg: 'Keine Bild-Daten erhalten.' };
+      }
+      return json({ error: lastErr.msg }, lastErr.status);
+    }
+
     const model = body.model || 'gemini-2.5-flash';
     const messages = Array.isArray(body.messages) ? body.messages : [];
     const systemInstruction = body.systemInstruction || '';
